@@ -351,9 +351,24 @@ of block width at phone size. Six of the eight retro-print effects took that dea
 `G = max(g, bleed.t, bleed.b)` removes the need for it. Effects that declared a phantom
 top bleed should drop it.
 
-### R14 — `drop-shadow()` reaches about 1.5x its radius
+### R14 — a blurred shadow reaches about 1.0x its radius
 
-`filter: drop-shadow(x y r c)` uses r as a Gaussian *diameter* hint, with sigma = r/2, and
-a Gaussian is visible to roughly 3 sigma. The painted tail therefore reaches about 1.5r
-beyond the offset, not r. Budget bleed accordingly: at the 4-pass cap a chain budgeted at
-1x clips its own outer edge.
+`text-shadow` and `drop-shadow()` both take the blur radius as a Gaussian *diameter* hint,
+sigma = radius / 2. A Gaussian is often quoted as visible to 3 sigma, which suggested 1.5r,
+and that is what this resolution first said. It is wrong in practice, and WP-13 measured it
+rather than arguing it.
+
+Reading the computed `text-shadow` back off the page and solving for the multiplier m where
+`max(offset + m * blur)` equals the measured painted edge gives **0.89-1.05** at the loosest
+threshold a PNG can express (delta > 2/255), 0.47-0.93 at delta > 8, and at most 0.76 at
+delta > 25. The maximum anywhere was 1.05. The analytic profile agrees: at 1.0r the layer
+alpha is 2.3%, and at 1.5r it is 0.17%, which on black-on-white is a channel delta of 0.43 --
+below what a PNG can even represent.
+
+**Budget 1.0r, or 1.1r with a safety factor.** 1.5r is not conservative, it is wasteful: it
+throws away 2.1u of a 100u block for `glow-neon-outline` at its widest blur.
+
+Two things a static audit of shadow lists cannot see, so do not trust one alone:
+a `-webkit-text-stroke` composed with blurred shadows (half the stroke lies outside the
+contour and adds to every layer's reach), and shape-B geometry, where the ink comes from a
+translated pseudo-element and no shadow list mentions it at all.
