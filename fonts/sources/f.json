@@ -172,8 +172,7 @@
     ],
     "traits": [
       "serif",
-      "deco",
-      "unicase"
+      "deco"
     ],
     "odds": 8,
     "stops": [
@@ -237,7 +236,6 @@
     ],
     "traits": [
       "serif",
-      "unicase",
       "deco"
     ],
     "odds": 7,
@@ -443,8 +441,7 @@
     ],
     "traits": [
       "serif",
-      "deco",
-      "hairline"
+      "deco"
     ],
     "odds": 7
   },
@@ -531,8 +528,7 @@
     ],
     "traits": [
       "serif",
-      "deco",
-      "hairline"
+      "deco"
     ],
     "odds": 10
   },
@@ -745,7 +741,6 @@
     ],
     "traits": [
       "sans",
-      "unicase",
       "deco"
     ],
     "odds": 7,

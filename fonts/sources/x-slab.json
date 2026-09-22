@@ -300,8 +300,7 @@
     "traits": [
       "serif",
       "slab",
-      "fat",
-      "unicase"
+      "fat"
     ],
     "odds": 8
   },

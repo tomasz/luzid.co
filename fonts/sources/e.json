@@ -41,8 +41,7 @@
       "F"
     ],
     "traits": [
-      "serif",
-      "unicase"
+      "serif"
     ],
     "odds": 8,
     "features": [
@@ -263,8 +262,7 @@
     ],
     "traits": [
       "sans",
-      "rounded",
-      "unicase"
+      "rounded"
     ],
     "odds": 10
   },
@@ -399,8 +397,7 @@
     ],
     "traits": [
       "sans",
-      "rounded",
-      "unicase"
+      "rounded"
     ],
     "odds": 9,
     "stops": [
@@ -458,9 +455,7 @@
       "E"
     ],
     "traits": [
-      "sans",
-      "hairline",
-      "unicase"
+      "sans"
     ],
     "odds": 9,
     "features": [
