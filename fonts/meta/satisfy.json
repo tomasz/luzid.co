@@ -1,0 +1,77 @@
+{
+ "id": "satisfy",
+ "family": "Satisfy",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/satisfy/Satisfy-Regular.ttf",
+  "sha256": "55bb141a0a23a32278d5fa7fd2e853824faa173b94774660ebeddb106be07c80"
+ },
+ "licenseId": "Apache-2.0",
+ "copyright": "Copyright License. Subject to the terms and conditions of",
+ "archetype": [
+  "C"
+ ],
+ "traits": [
+  "brush",
+  "connected",
+  "script"
+ ],
+ "odds": 9,
+ "upm": 1024,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 4720,
+   "sha256": "198942ded21331d4e689f696a4ad05b07f02f316557b3c87982d422259d0df9c",
+   "asc": 756,
+   "desc": 446,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.80566,
+    "H": 1.16113,
+    "X": 0.03027,
+    "top": 0.72559
+   },
+   "w2": {
+    "W": 2.93945,
+    "H": 1.17383,
+    "X": -0.00195,
+    "top": 0.73828
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.78516,
+    "H": 1.12793,
+    "X": -0.07129,
+    "top": 0.69238
+   },
+   "w2": {
+    "W": 2.76172,
+    "H": 1.13379,
+    "X": -0.00977,
+    "top": 0.69824
+   }
+  }
+ ]
+}

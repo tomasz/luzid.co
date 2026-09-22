@@ -1,0 +1,164 @@
+{
+ "id": "playball",
+ "family": "Playball",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/playball/Playball-Regular.ttf",
+  "sha256": "130654dd192f4ccd1c4fa2dc516d03cca93dc8ecdaf30d458283e54dcaef8f40"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2011 The Playball Project Authors (https://github.com/googlefonts/play-ball)",
+ "archetype": [
+  "C"
+ ],
+ "traits": [
+  "connected",
+  "script"
+ ],
+ "odds": 8,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 8212,
+   "sha256": "64c9bb90bb244caa53996ac494f85995b5b23294fab9be1600454a83dc6b3435",
+   "asc": 744,
+   "desc": 237,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.874,
+    "H": 0.735,
+    "X": 0,
+    "top": 0.713
+   },
+   "w2": {
+    "W": 2.965,
+    "H": 0.774,
+    "X": 0.053,
+    "top": 0.744
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.686,
+    "H": 0.593,
+    "X": 0.038,
+    "top": 0.573
+   },
+   "w2": {
+    "W": 2.662,
+    "H": 0.763,
+    "X": 0.034,
+    "top": 0.744
+   }
+  },
+  {
+   "id": "n-ss01-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 2.578,
+    "H": 0.729,
+    "X": 0.006,
+    "top": 0.701
+   },
+   "w2": {
+    "W": 2.659,
+    "H": 0.772,
+    "X": 0.024,
+    "top": 0.744
+   }
+  },
+  {
+   "id": "l-ss01-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 2.491,
+    "H": 0.559,
+    "X": 0.008,
+    "top": 0.531
+   },
+   "w2": {
+    "W": 2.402,
+    "H": 0.772,
+    "X": 0.011,
+    "top": 0.744
+   }
+  },
+  {
+   "id": "n-ss02-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss02\" 1"
+   },
+   "w1": {
+    "W": 2.934,
+    "H": 0.95,
+    "X": 0,
+    "top": 0.713
+   },
+   "w2": {
+    "W": 3.037,
+    "H": 0.981,
+    "X": 0.053,
+    "top": 0.744
+   }
+  },
+  {
+   "id": "l-ss02-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss02\" 1"
+   },
+   "w1": {
+    "W": 2.726,
+    "H": 0.81,
+    "X": 0.027,
+    "top": 0.573
+   },
+   "w2": {
+    "W": 2.734,
+    "H": 0.981,
+    "X": 0.034,
+    "top": 0.744
+   }
+  }
+ ]
+}

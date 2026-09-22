@@ -1,0 +1,121 @@
+{
+ "id": "norican",
+ "family": "Norican",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/norican/Norican-Regular.ttf",
+  "sha256": "71ee99002e70bb69f8f613bd29d646d6044aaf34612efcff689a11afa4291d04"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2011 The Norican Project Authors (https://github.com/googlefonts/NoricanFont)",
+ "archetype": [
+  "C"
+ ],
+ "traits": [
+  "brush",
+  "connected",
+  "script"
+ ],
+ "odds": 8,
+ "upm": 2048,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 5104,
+   "sha256": "e1e66588cd30054ec13bb13144e31b9ca4f9f4226a5c669d44ce54fc18c51aa0",
+   "asc": 1532,
+   "desc": 535,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.82666,
+    "H": 1.00537,
+    "X": -0.00684,
+    "top": 0.74414
+   },
+   "w2": {
+    "W": 2.86084,
+    "H": 1.00928,
+    "X": 0.04004,
+    "top": 0.74805
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.54395,
+    "H": 0.86719,
+    "X": 0.01221,
+    "top": 0.60596
+   },
+   "w2": {
+    "W": 2.63184,
+    "H": 1.00928,
+    "X": -0.00195,
+    "top": 0.74805
+   }
+  },
+  {
+   "id": "n-fina-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"fina\" 1"
+   },
+   "w1": {
+    "W": 2.90967,
+    "H": 1.00537,
+    "X": -0.00684,
+    "top": 0.74414
+   },
+   "w2": {
+    "W": 2.94678,
+    "H": 1.00928,
+    "X": 0.04004,
+    "top": 0.74805
+   }
+  },
+  {
+   "id": "l-fina-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"fina\" 1"
+   },
+   "w1": {
+    "W": 2.70898,
+    "H": 0.86719,
+    "X": 0.02295,
+    "top": 0.60596
+   },
+   "w2": {
+    "W": 2.70801,
+    "H": 1.00928,
+    "X": -0.00049,
+    "top": 0.74805
+   }
+  }
+ ]
+}

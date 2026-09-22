@@ -1,0 +1,165 @@
+{
+ "id": "story-script",
+ "family": "Story Script",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/storyscript/StoryScript-Regular.ttf",
+  "sha256": "2988808654b44c902f0e3a1a0b31fc67398ea5a093888da30c014bc3329f7731"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2022 The Story Script Project Authors (https://github.com/lroulh/story-script)",
+ "archetype": [
+  "C"
+ ],
+ "traits": [
+  "brush",
+  "connected",
+  "script"
+ ],
+ "odds": 7,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 7892,
+   "sha256": "46992be56bc6856c7c2b73142566bb9e80b5d732094b187b18159ac18feb716a",
+   "asc": 805,
+   "desc": 126,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.706,
+    "H": 0.692,
+    "X": 0.096,
+    "top": 0.652
+   },
+   "w2": {
+    "W": 2.72,
+    "H": 0.771,
+    "X": 0.019,
+    "top": 0.727
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.723,
+    "H": 0.673,
+    "X": 0.05,
+    "top": 0.633
+   },
+   "w2": {
+    "W": 2.617,
+    "H": 0.768,
+    "X": 0,
+    "top": 0.727
+   }
+  },
+  {
+   "id": "n-ss01-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 2.651,
+    "H": 0.757,
+    "X": 0.083,
+    "top": 0.677
+   },
+   "w2": {
+    "W": 2.692,
+    "H": 0.867,
+    "X": 0.01,
+    "top": 0.805
+   }
+  },
+  {
+   "id": "l-ss01-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 2.746,
+    "H": 0.71,
+    "X": 0.047,
+    "top": 0.63
+   },
+   "w2": {
+    "W": 2.614,
+    "H": 0.88,
+    "X": -0.004,
+    "top": 0.805
+   }
+  },
+  {
+   "id": "n-ss02-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss02\" 1"
+   },
+   "w1": {
+    "W": 2.746,
+    "H": 0.803,
+    "X": 0.052,
+    "top": 0.677
+   },
+   "w2": {
+    "W": 2.754,
+    "H": 0.86,
+    "X": 0.017,
+    "top": 0.734
+   }
+  },
+  {
+   "id": "l-ss02-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss02\" 1"
+   },
+   "w1": {
+    "W": 2.702,
+    "H": 0.759,
+    "X": 0.05,
+    "top": 0.633
+   },
+   "w2": {
+    "W": 2.718,
+    "H": 0.86,
+    "X": -0.005,
+    "top": 0.734
+   }
+  }
+ ]
+}

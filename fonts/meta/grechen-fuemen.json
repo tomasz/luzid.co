@@ -1,0 +1,77 @@
+{
+ "id": "grechen-fuemen",
+ "family": "Grechen Fuemen",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/grechenfuemen/GrechenFuemen-Regular.ttf",
+  "sha256": "0048d2ccb3f58ce8994804be5764e074771977f4add2f3dd12dfe9a658f1adc0"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2003-2021 The Grechen Fuemen Project Authors (https://github.com/googlefonts/grechen-fuemen)",
+ "archetype": [
+  "C"
+ ],
+ "traits": [
+  "brush",
+  "overlap",
+  "script"
+ ],
+ "odds": 6,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 4144,
+   "sha256": "beba942163732085f060223d19df164748a465c9024553ed7daabae12428a2ac",
+   "asc": 586,
+   "desc": 63,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.301,
+    "H": 0.639,
+    "X": 0.047,
+    "top": 0.576
+   },
+   "w2": {
+    "W": 3.167,
+    "H": 0.638,
+    "X": 0.071,
+    "top": 0.586
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.84,
+    "H": 0.498,
+    "X": 0.024,
+    "top": 0.463
+   },
+   "w2": {
+    "W": 2.842,
+    "H": 0.572,
+    "X": 0.033,
+    "top": 0.537
+   }
+  }
+ ]
+}

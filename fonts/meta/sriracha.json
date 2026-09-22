@@ -1,0 +1,98 @@
+{
+ "id": "sriracha",
+ "family": "Sriracha",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sriracha/Sriracha-Regular.ttf",
+  "sha256": "c3128c30cb21e8724b792586c87059d1b5eceae10d9957ba2ab26c80bbed3669"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright (c) 2015, Cadson Demak (info@cadsondemak.com), Copyright (c) 2014, Pablo Impallari (www.impallari.com|impallari@gmail.com)",
+ "archetype": [
+  "C"
+ ],
+ "traits": [
+  "brush",
+  "script"
+ ],
+ "odds": 7,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 7016,
+   "sha256": "457af5295eea192ed5233e7b950ea44ef96d1a41ded6b18652c0caa27fabedf6",
+   "asc": 775,
+   "desc": 39,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.123,
+    "H": 0.706,
+    "X": 0.057,
+    "top": 0.667
+   },
+   "w2": {
+    "W": 3.223,
+    "H": 0.807,
+    "X": 0.014,
+    "top": 0.775
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.783,
+    "H": 0.698,
+    "X": 0.057,
+    "top": 0.67
+   },
+   "w2": {
+    "W": 3.816,
+    "H": 0.689,
+    "X": 0.014,
+    "top": 0.668
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.084,
+    "H": 0.684,
+    "X": 0.028,
+    "top": 0.645
+   },
+   "w2": {
+    "W": 3.102,
+    "H": 0.807,
+    "X": 0.01,
+    "top": 0.775
+   }
+  }
+ ]
+}
