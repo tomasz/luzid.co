@@ -139,8 +139,7 @@
     ],
     "traits": [
       "script",
-      "brush",
-      "connected"
+      "brush"
     ],
     "odds": 6,
     "cases": [
@@ -161,8 +160,7 @@
     ],
     "traits": [
       "script",
-      "connected",
-      "hairline"
+      "connected"
     ],
     "odds": 6,
     "features": [
@@ -233,7 +231,6 @@
     ],
     "traits": [
       "script",
-      "connected",
       "hairline"
     ],
     "odds": 5,
@@ -282,7 +279,6 @@
     ],
     "traits": [
       "script",
-      "connected",
       "hairline"
     ],
     "odds": 5,
@@ -374,8 +370,7 @@
     ],
     "traits": [
       "script",
-      "brush",
-      "connected"
+      "brush"
     ],
     "odds": 8,
     "cases": [
@@ -417,8 +412,7 @@
     ],
     "traits": [
       "script",
-      "connected",
-      "hairline"
+      "connected"
     ],
     "odds": 5,
     "features": [
