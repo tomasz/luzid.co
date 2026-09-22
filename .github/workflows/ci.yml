@@ -35,10 +35,15 @@ jobs:
 
   e2e:
     runs-on: ubuntu-24.04
-    # The fit and bleed scans grew with the library: 8 fonts at authoring time, 91 now.
-    # The per-PR scope is bounded (changed fonts + the seed matrix), but three engines over
-    # eight viewports is not a 15-minute job any more.
-    timeout-minutes: 30
+    # One job per engine, in parallel. The suite grew with the library -- 8 fonts and 53
+    # variants when the fit scan was written, 147 and 692 now -- and a single job ran past
+    # 30 minutes. Raising the ceiling again would only defer it; the engines are
+    # independent, so splitting them keeps wall-clock roughly flat as the catalogue grows.
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false # one engine's failure must not hide another's
+      matrix:
+        project: [chromium, firefox, webkit]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -52,17 +57,18 @@ jobs:
           node-version-file: .nvmrc
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm exec playwright install --with-deps chromium firefox webkit
+      # Only the engine this job runs; installing all three costs minutes per job.
+      - run: pnpm exec playwright install --with-deps ${{ matrix.project }}
       - run: pnpm run build
-      - run: pnpm run e2e
+      - run: pnpm exec playwright test --project=${{ matrix.project }}
       - name: contact sheets
-        if: ${{ hashFiles('scripts/sheet.mjs') != '' }}
+        if: ${{ matrix.project == 'chromium' && hashFiles('scripts/sheet.mjs') != '' }}
         run: pnpm run sheet -- --changed
         continue-on-error: true
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: always()
         with:
-          name: sheets
+          name: sheets-${{ matrix.project }}
           path: |
             sheets/
             playwright-report/
