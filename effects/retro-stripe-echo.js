@@ -25,14 +25,13 @@ export default {
   params: { a: [45, 135, 90], k: [3, 5, 1], s: [0.6, 1.2, 0.3] },
 
   /**
-   * `t` mirrors `b` so that `G = max(g, bt)` opens the gap the stripes of line 1 fall
-   * through; see `retro-relief-gap` for why that is the only lever available.
+   * Nothing is painted above the block: both angles fall, and R13 feeds `G` from `bleed.b`.
    *
    * @param {{a: number, k: number, s: number}} p
    */
   bleed: (p) => {
     const d = p.k * p.s
-    return { t: d, r: p.a === 45 ? d : 0, b: d, l: p.a === 135 ? d : 0 }
+    return { t: 0, r: p.a === 45 ? d : 0, b: d, l: p.a === 135 ? d : 0 }
   },
 
   /**

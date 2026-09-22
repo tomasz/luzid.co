@@ -33,12 +33,24 @@ export default {
   params: { k: [0.3, 0.9, 0.3], s: [0.6, 1.8, 0.6] },
 
   /**
-   * Nothing reaches far below, so `G = max(g, bt)` is not under pressure here — but the
-   * coloured shadow of line 2 does reach up, and `t` is what keeps it off line 1.
+   * The shadow in the cut travels up and left, so that is where the reach is — and `t` is
+   * what keeps line 2's cut off line 1's glyphs. `1.5·s` and not `s` is R14: a blur radius
+   * is a Gaussian diameter hint, so the ink reaches about one and a half radii. The rule
+   * is written for `drop-shadow()`, but `text-shadow` defines its radius the same way and
+   * the tail is the same tail.
+   *
+   * The bottom and the right are not just the lit bevel for the same reason as the emboss:
+   * at the shallow end of `k` with the softest `s`, the shadow's tail reaches back across
+   * the glyph and out the far side.
    *
    * @param {{k: number, s: number}} p
    */
-  bleed: (p) => ({ t: 2.4 * p.k + p.s, r: p.k, b: p.k, l: 2.2 * p.k + p.s }),
+  bleed: (p) => ({
+    t: 2.4 * p.k + 1.5 * p.s,
+    r: Math.max(p.k, 1.5 * p.s - 2.2 * p.k),
+    b: Math.max(p.k, 1.5 * p.s - 2.4 * p.k),
+    l: 2.2 * p.k + 1.5 * p.s,
+  }),
 
   /**
    * @param {{k: number, s: number}} p

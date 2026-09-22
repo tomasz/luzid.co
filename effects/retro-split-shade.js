@@ -28,14 +28,13 @@ export default {
   params: { a: [45, 135, 90], b: [2, 3, 1], d: [2, 5, 1] },
 
   /**
-   * `t` mirrors `b` although nothing is painted above the block: `G = max(g, bt)` is the
-   * only lever an effect has on the gap between the two lines, and that gap is what the
-   * shade of line 1 falls through. See `retro-relief-gap` for the measurement.
+   * Nothing is painted above the block: both angles fall, and R13 feeds `G` from `bleed.b`,
+   * so the gap the shade needs is asked for on the side the shade is on.
    *
    * @param {{a: number, b: number, d: number}} p
    */
   bleed: (p) => ({
-    t: p.d,
+    t: 0,
     r: p.a === 45 ? p.d : 0,
     b: p.d,
     l: p.a === 135 ? p.d : 0,

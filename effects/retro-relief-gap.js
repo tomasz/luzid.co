@@ -32,24 +32,26 @@ export default {
   params: { a: [45, 135, 90], d: [3, 6, 1], g: [0.3, 1.2, 0.3] },
 
   /**
-   * `t` reserves the *downward* reach as well, which looks wrong and is not.
+   * The only ink above the block top is the stroke ring, which is half of the stroke width
+   * — `p.g` — on every side. Everything else falls: both angles are downward, and R13 now
+   * feeds `G` from `bleed.b` as well, so the gap the shade needs is asked for where the
+   * shade actually is.
    *
-   * §5.2 sets `G = max(g, bt)` and explains it as stopping line 2's shadow painting over
-   * line 1 — but the gap is equally the room line 1's shadow needs on its way down, and
-   * `bt` is the only lever an effect has on `G`. With `t: p.g` alone, the shortest layout
-   * gap (4u) against the deepest shade puts the whole extrusion of `Tomasz` through the
-   * ascenders of `Cudziło`; measured, and it is mud. Mirroring the bottom into the top
-   * costs almost nothing in practice, because at every real aspect ratio this two-line
-   * block is limited by `K1` (width) rather than by `K2`.
+   * `h.stack()` measures its distance along the angle, so the reach on each axis is
+   * `d·cos45`, not `d`. That is exact rather than conservative on purpose: `b` now sets
+   * the line gap as well as the safe box, so rounding it up would cost size twice.
    *
    * @param {{a: number, d: number, g: number}} p
    */
-  bleed: (p) => ({
-    t: p.d + p.g,
-    r: (p.a === 45 ? p.d : 0) + p.g,
-    b: p.d + p.g,
-    l: (p.a === 135 ? p.d : 0) + p.g,
-  }),
+  bleed: (p) => {
+    const q = Math.SQRT1_2 * p.d
+    return {
+      t: p.g,
+      r: (p.a === 45 ? q : 0) + p.g,
+      b: q + p.g,
+      l: (p.a === 135 ? q : 0) + p.g,
+    }
+  },
 
   /**
    * @param {{a: number, d: number, g: number}} p

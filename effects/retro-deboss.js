@@ -48,8 +48,22 @@ export default {
   // k = how deep the press is; s = how far the sheet rolls at the shaded wall. Both in u.
   params: { k: [0.3, 0.9, 0.3], s: [0.6, 1.8, 0.6] },
 
-  /** @param {{k: number, s: number}} p */
-  bleed: (p) => ({ t: 1.6 * p.k + p.s, r: p.k, b: p.k, l: 1.6 * p.k + p.s }),
+  /**
+   * The soft wall is the only thing that travels, and it travels up and left. `1.5·s` and
+   * not `s` is R14: a blur radius is a Gaussian diameter hint, so the ink reaches about
+   * one and a half radii. The rule is written for `drop-shadow()`, but `text-shadow`
+   * defines its radius the same way and the tail is the same tail — this bleed was short
+   * by half a radius until R14 named it, and the phantom top bleed R13 has now removed was
+   * hiding the shortfall.
+   *
+   * @param {{k: number, s: number}} p
+   */
+  bleed: (p) => ({
+    t: 1.6 * p.k + 1.5 * p.s,
+    r: p.k,
+    b: p.k,
+    l: 1.6 * p.k + 1.5 * p.s,
+  }),
 
   /**
    * @param {{k: number, s: number}} p
