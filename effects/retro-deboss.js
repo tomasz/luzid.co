@@ -49,20 +49,27 @@ export default {
   params: { k: [0.3, 0.9, 0.3], s: [0.6, 1.8, 0.6] },
 
   /**
-   * The soft wall is the only thing that travels, and it travels up and left. `1.5·s` and
-   * not `s` is R14: a blur radius is a Gaussian diameter hint, so the ink reaches about
-   * one and a half radii. The rule is written for `drop-shadow()`, but `text-shadow`
-   * defines its radius the same way and the tail is the same tail — this bleed was short
-   * by half a radius until R14 named it, and the phantom top bleed R13 has now removed was
-   * hiding the shortfall.
+   * Two layers travel: a hard press `k` down-right, and a soft wall `1.6·k` up-left blurred
+   * by `s`.
+   *
+   * The trap is that a blur is not directional. The soft wall's tail spreads `s` in *every*
+   * direction from its offset, so at a shallow `k` with a soft `s` it reaches back across
+   * the glyph and out the far side — 1.5u to the right at `k=0.3, s=1.8`, where this bleed
+   * used to promise 0.3u. Budgeting only the direction a layer travels is the mistake;
+   * `max(k, 1.1·s − 1.6·k)` budgets the tail that comes back.
+   *
+   * `1.1·s` and not `1.5·s` is R14 as corrected: the 1.5 came from "a Gaussian is visible
+   * to 3 sigma", but measured against real pixels a blurred layer reaches about 1.0 radii,
+   * so 1.1 is the radius plus a safety factor. `text-shadow` defines its radius the same
+   * way `drop-shadow()` does, and it is the same tail.
    *
    * @param {{k: number, s: number}} p
    */
   bleed: (p) => ({
-    t: 1.6 * p.k + 1.5 * p.s,
-    r: p.k,
-    b: p.k,
-    l: 1.6 * p.k + 1.5 * p.s,
+    t: 1.6 * p.k + 1.1 * p.s,
+    r: Math.max(p.k, 1.1 * p.s - 1.6 * p.k),
+    b: Math.max(p.k, 1.1 * p.s - 1.6 * p.k),
+    l: 1.6 * p.k + 1.1 * p.s,
   }),
 
   /**
