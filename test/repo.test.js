@@ -40,10 +40,16 @@ test('dependency versions are pinned exactly', async () => {
   }
 })
 
-test('the worker never emits an inline style attribute', async () => {
+test('no template in src/ can emit an inline style attribute', async () => {
   // A CSP nonce covers <style> elements only, never style="" attributes (CSP3 §6.7.3.3).
-  const src = await read('src/worker.js')
-  assert.ok(!/\sstyle="/.test(src.replace(/<style/g, '')), 'worker template contains a style attribute')
+  // The document template moved to src/render.js in WP-10, so this scans all of src/ —
+  // grepping worker.js alone would now assert nothing. `test/render.test.js` makes the same
+  // check against the rendered output; this one catches it at the source.
+  const { glob } = await import('node:fs/promises')
+  for await (const file of glob('src/*.js')) {
+    const src = await read(file)
+    assert.ok(!/\sstyle="/.test(src.replaceAll('<style', '<S')), `${file} contains a style attribute`)
+  }
 })
 
 test('wrangler config keeps the routing invariants', async () => {

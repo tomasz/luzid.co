@@ -88,14 +88,49 @@ test('a malformed seed is rejected', async ({ request }) => {
   expect((await request.get('/?seed=k3f9x2m7qa')).status()).toBe(200)
 })
 
+test('a malformed or unknown pin is rejected without echoing the input', async ({ request }) => {
+  for (const q of ['?e=NOT VALID', '?f=../../etc/passwd', '?r=zz', '?p=<script>']) {
+    const res = await request.get(`/${q}`)
+    expect(res.status(), q).toBe(400)
+    expect(await res.text(), q).toBe('Bad pin')
+  }
+  // Shape-valid but nothing in the catalog answers to it.
+  expect((await request.get('/?e=no-such-effect')).status()).toBe(400)
+})
+
+test('QA mask mode is reachable by pin alone', async ({ request }) => {
+  // `?p=qa-bw&e=plain` is what the fit pixel scan measures: black on white, no effect.
+  // qa-bw has odds 0, so it is never drawn — a pin has to be able to resolve it anyway.
+  const res = await request.get('/?p=qa-bw&e=plain&seed=k3f9x2m7qa')
+  expect(res.status()).toBe(200)
+  const pick = res.headers()['luzid-pick']
+  expect(pick).toContain('p:qa-bw.')
+  expect(pick).toContain('e:plain')
+
+  const body = await res.text()
+  expect(body).toContain('--bg:#ffffff')
+  expect(body).toContain('--fg:#000000')
+})
+
+test('the Luzid-Pick header is the canonical tuple', async ({ request }) => {
+  const res = await request.get('/?seed=k3f9x2m7qa')
+  expect(res.headers()['luzid-pick']).toMatch(/^f:\S+\.\S+ p:\S+\.\S+ e:\S+ l:\S+$/)
+  // The same string is in the colophon, so a "view source" bug report is the header.
+  expect(await res.text()).toContain(`<!-- ${res.headers()['luzid-pick']} ·`)
+})
+
 test('the same seed renders the same page; different visits differ', async ({ request }) => {
   const a = await request.get('/?seed=k3f9x2m7qa')
   const b = await request.get('/?seed=k3f9x2m7qa')
   expect(a.headers()['luzid-pick']).toBe(b.headers()['luzid-pick'])
 
-  const x = await request.get('/')
-  const y = await request.get('/')
-  expect(x.headers()['luzid-pick']).not.toBe(y.headers()['luzid-pick'])
+  // Sampled rather than compared pairwise: until the font and palette batches land, the
+  // whole catalog is one system font and one QA palette, so the pick space is a few dozen
+  // outcomes and two consecutive visits collide about 2% of the time. Six visits still
+  // catch what this test is for — a cache or a frozen seed serving one look to everyone.
+  const picks = new Set()
+  for (let i = 0; i < 6; i++) picks.add((await request.get('/')).headers()['luzid-pick'])
+  expect(picks.size).toBeGreaterThan(1)
 })
 
 test('restoring from the back/forward cache re-rolls', async ({ page, browserName }) => {
