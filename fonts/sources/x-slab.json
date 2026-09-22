@@ -1,0 +1,535 @@
+[
+  {
+    "id": "anton",
+    "family": "Anton",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/anton/Anton-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/anton/OFL.txt",
+    "copyright": "Copyright 2020 The Anton Project Authors (https://github.com/googlefonts/AntonFont.git)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "condensed",
+      "fat"
+    ],
+    "odds": 9,
+    "features": [
+      "smcp",
+      "c2sc"
+    ]
+  },
+  {
+    "id": "antonio",
+    "family": "Antonio",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/antonio/Antonio[wght].ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/antonio/OFL.txt",
+    "copyright": "Copyright 2013 The Antonio Project Authors (https://github.com/googlefonts/antonioFont)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "condensed"
+    ],
+    "odds": 7,
+    "stops": [
+      {
+        "id": "w700",
+        "wght": 700
+      }
+    ]
+  },
+  {
+    "id": "asset",
+    "family": "Asset",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/asset/Asset-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/asset/OFL.txt",
+    "copyright": "Copyright 2023 The Asset Project Authors (https://github.com/SorkinType/Asset)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "serif",
+      "slab",
+      "deco",
+      "inline"
+    ],
+    "odds": 6
+  },
+  {
+    "id": "bahianita",
+    "family": "Bahianita",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bahianita/Bahianita-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bahianita/OFL.txt",
+    "copyright": "Copyright 2018 The Bahianita Project Authors (https://github.com/Omnibus-Type/Bahiana/Bahianita)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "condensed"
+    ],
+    "odds": 6,
+    "features": [
+      "ss01",
+      "salt"
+    ]
+  },
+  {
+    "id": "bebas-neue",
+    "family": "Bebas Neue",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bebasneue/BebasNeue-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bebasneue/OFL.txt",
+    "copyright": "Copyright © 2010 by Dharma Type.",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "condensed",
+      "capsOnly"
+    ],
+    "odds": 9,
+    "cases": [
+      "none"
+    ]
+  },
+  {
+    "id": "big-shoulders",
+    "family": "Big Shoulders",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bigshoulders/BigShoulders[opsz,wght].ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bigshoulders/OFL.txt",
+    "copyright": "Copyright 2019 The Big Shoulders Project Authors (https://github.com/xotypeco/big_shoulders)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "condensed"
+    ],
+    "odds": 7,
+    "stops": [
+      {
+        "id": "w900",
+        "wght": 900,
+        "opsz": 72
+      }
+    ],
+    "features": [
+      "ss01",
+      "salt",
+      "smcp"
+    ]
+  },
+  {
+    "id": "bio-rhyme-expanded-extra-bold",
+    "family": "BioRhyme Expanded",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/biorhymeexpanded/BioRhymeExpanded-ExtraBold.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/biorhymeexpanded/OFL.txt",
+    "copyright": "Copyright 2016 Aoife Mooney (aoifemooney@gmail.com www.aoifemooney.org)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "serif",
+      "slab",
+      "fat",
+      "wide"
+    ],
+    "odds": 8,
+    "features": [
+      "ss01",
+      "ss02",
+      "swsh"
+    ]
+  },
+  {
+    "id": "bricolage-grotesque",
+    "family": "Bricolage Grotesque",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bricolagegrotesque/BricolageGrotesque[opsz,wdth,wght].ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bricolagegrotesque/OFL.txt",
+    "copyright": "Copyright 2022 The Bricolage Grotesque Project Authors (https://github.com/ateliertriay/bricolage)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "condensed"
+    ],
+    "odds": 6,
+    "stops": [
+      {
+        "id": "w800",
+        "wght": 800,
+        "opsz": 96,
+        "wdth": 75
+      }
+    ]
+  },
+  {
+    "id": "caacupe-one",
+    "family": "Caacupe One",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/caacupeone/CaacupeOne-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/caacupeone/OFL.txt",
+    "copyright": "Copyright 2014-2026 The Caacupe One Project Authors (https://github.com/googlefonts/caacupe)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "condensed",
+      "fat"
+    ],
+    "odds": 7,
+    "features": [
+      "ss01"
+    ]
+  },
+  {
+    "id": "cyrulik-sharp",
+    "family": "Cyrulik Sharp",
+    "url": "https://raw.githubusercontent.com/warszawskie-kroje/cyrulik/b279c7d408e42649e64b970737bd3703d8412138/Cyrulik-Sharp/Cyrulik-Sharp.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/warszawskie-kroje/cyrulik/b279c7d408e42649e64b970737bd3703d8412138/README.md",
+    "copyright": "Copyright © 2016 Stowarzyszenie Kulturotwórcze Miastodwa",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "condensed"
+    ],
+    "odds": 9,
+    "features": [
+      "ss01",
+      "salt"
+    ]
+  },
+  {
+    "id": "cyrulik-sharp-bold",
+    "family": "Cyrulik Sharp",
+    "url": "https://raw.githubusercontent.com/warszawskie-kroje/cyrulik/b279c7d408e42649e64b970737bd3703d8412138/Cyrulik-SharpBold/Cyrulik-SharpBold.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/warszawskie-kroje/cyrulik/b279c7d408e42649e64b970737bd3703d8412138/README.md",
+    "copyright": "Copyright © 2016 Stowarzyszenie Kulturotwórcze Miastodwa",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "condensed",
+      "fat"
+    ],
+    "odds": 9,
+    "features": [
+      "ss01",
+      "salt"
+    ]
+  },
+  {
+    "id": "fjalla-one",
+    "family": "Fjalla One",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/fjallaone/FjallaOne-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/fjallaone/OFL.txt",
+    "copyright": "Copyright 2012 The Fjalla One Project Authors (https://github.com/SorkinType/FjallaOne)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "condensed"
+    ],
+    "odds": 7
+  },
+  {
+    "id": "freeman",
+    "family": "Freeman",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/freeman/Freeman-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/freeman/OFL.txt",
+    "copyright": "Copyright 2023 The Freeman Project Authors (https://github.com/rfuenzalida/Freeman)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "condensed",
+      "fat"
+    ],
+    "odds": 7,
+    "features": [
+      "smcp",
+      "c2sc"
+    ]
+  },
+  {
+    "id": "holtwood-one-sc",
+    "family": "Holtwood One SC",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/holtwoodonesc/HoltwoodOneSC-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/holtwoodonesc/OFL.txt",
+    "copyright": "Copyright 2011 The Holtwood Project Authors (https://github.com/googlefonts/HoltwoodFont)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "serif",
+      "slab",
+      "fat",
+      "unicase"
+    ],
+    "odds": 8
+  },
+  {
+    "id": "new-amsterdam",
+    "family": "New Amsterdam",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/newamsterdam/NewAmsterdam-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/newamsterdam/OFL.txt",
+    "copyright": "Copyright 2024 The New Amsterdam Project Authors (https://github.com/vladimirnikolic1/NewAmsterdam)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "condensed"
+    ],
+    "odds": 7
+  },
+  {
+    "id": "oswald",
+    "family": "Oswald",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/oswald/Oswald[wght].ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/oswald/OFL.txt",
+    "copyright": "Copyright 2016 The Oswald Project Authors (https://github.com/googlefonts/OswaldFont)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "condensed"
+    ],
+    "odds": 7,
+    "stops": [
+      {
+        "id": "w700",
+        "wght": 700
+      }
+    ]
+  },
+  {
+    "id": "sancreek",
+    "family": "Sancreek",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sancreek/Sancreek-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sancreek/OFL.txt",
+    "copyright": "Copyright 2011 The Sancreek Project Authors (https://github.com/googlefonts/sancreek)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "serif",
+      "slab",
+      "deco"
+    ],
+    "odds": 8
+  },
+  {
+    "id": "smokum",
+    "family": "Smokum",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/smokum/Smokum-Regular.ttf",
+    "sha256": "",
+    "licenseId": "Apache-2.0",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/smokum/LICENSE.txt",
+    "copyright": "Copyright (c) 2011 by Brian J. Bonislawsky DBA Astigmatic (AOETI). All rights reserved.",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "serif",
+      "slab",
+      "fat",
+      "shaded"
+    ],
+    "odds": 7
+  },
+  {
+    "id": "sofia-sans-extra-condensed",
+    "family": "Sofia Sans Extra Condensed",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sofiasansextracondensed/SofiaSansExtraCondensed[wght].ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sofiasansextracondensed/OFL.txt",
+    "copyright": "Copyright 2019 The Sofia Sans Project Authors (https://github.com/lettersoup/Sofia-Sans)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "condensed"
+    ],
+    "odds": 7,
+    "stops": [
+      {
+        "id": "w900",
+        "wght": 900
+      }
+    ],
+    "features": [
+      "ss01",
+      "ss02",
+      "smcp"
+    ]
+  },
+  {
+    "id": "staatliches",
+    "family": "Staatliches",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/staatliches/Staatliches-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/staatliches/OFL.txt",
+    "copyright": "Copyright 2018 The Staatliches Authors (https://github.com/googlefonts/staatliches)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "condensed",
+      "capsOnly"
+    ],
+    "odds": 8,
+    "features": [
+      "salt"
+    ],
+    "cases": [
+      "none"
+    ]
+  },
+  {
+    "id": "tac-one",
+    "family": "Tac One",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/tacone/TacOne-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/tacone/OFL.txt",
+    "copyright": "Copyright 2023 The Tac One Project Authors (https://github.com/Afrotype/tac)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "fat",
+      "jp"
+    ],
+    "odds": 7,
+    "features": [
+      "ss01",
+      "ss02",
+      "ss03"
+    ]
+  },
+  {
+    "id": "tektur",
+    "family": "Tektur",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/tektur/Tektur[wdth,wght].ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/tektur/OFL.txt",
+    "copyright": "Copyright 2023 The Tektur Project Authors (https://www.github.com/hyvyys/Tektur)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "condensed",
+      "wide"
+    ],
+    "odds": 6,
+    "stops": [
+      {
+        "id": "w900n",
+        "wght": 900,
+        "wdth": 100
+      },
+      {
+        "id": "w900c",
+        "wght": 900,
+        "wdth": 75
+      }
+    ],
+    "features": [
+      "ss01",
+      "ss02",
+      "ss03"
+    ]
+  },
+  {
+    "id": "ultra",
+    "family": "Ultra",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/ultra/Ultra-Regular.ttf",
+    "sha256": "",
+    "licenseId": "Apache-2.0",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/ultra/LICENSE.txt",
+    "copyright": "Copyright (c) 2010 by Brian J. Bonislawsky DBA Astigmatic (AOETI). All rights reserved.",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "serif",
+      "slab",
+      "fat"
+    ],
+    "odds": 9
+  },
+  {
+    "id": "vina-sans",
+    "family": "Vina Sans",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/vinasans/VinaSans-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/vinasans/OFL.txt",
+    "copyright": "Copyright 2023 The Vina Sans Project Authors (https://github.com/nguyentype/vinasans)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "condensed",
+      "fat",
+      "capsOnly"
+    ],
+    "odds": 8,
+    "cases": [
+      "none"
+    ]
+  }
+]
