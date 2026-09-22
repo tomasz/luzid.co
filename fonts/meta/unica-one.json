@@ -1,0 +1,58 @@
+{
+ "id": "unica-one",
+ "family": "Unica One",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/unicaone/UnicaOne-Regular.ttf",
+  "sha256": "5d5861ae199cb69049e77e7cd08a8ffd6c14e90da19c8db8df0f4004ca93bd8f"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2012 The Unica One Project Authors (https://github.com/etunni/unica)",
+ "archetype": [
+  "E"
+ ],
+ "traits": [
+  "condensed",
+  "overlap",
+  "sans",
+  "unicase"
+ ],
+ "odds": 9,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 1780,
+   "sha256": "204a22c93b08ddc6ac3d78dbbfc5d83f3fa9be188ca2d0390a53e8175d873b73",
+   "asc": 665,
+   "desc": 15,
+   "stem": 0.07,
+   "crossbar": 0.0567,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.015,
+    "H": 0.68,
+    "X": 0.03,
+    "top": 0.665
+   },
+   "w2": {
+    "W": 2.92,
+    "H": 0.68,
+    "X": 0.085,
+    "top": 0.665
+   }
+  }
+ ]
+}

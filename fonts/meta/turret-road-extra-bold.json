@@ -1,0 +1,101 @@
+{
+ "id": "turret-road-extra-bold",
+ "family": "Turret Road",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/turretroad/TurretRoad-ExtraBold.ttf",
+  "sha256": "566338de973b47357317a9af96fe5e99c0fefe3d4e7707780bd78e8090c652b8"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2018 The Turret Road Project Authors (https://github.com/noponies/turret-road)",
+ "archetype": [
+  "E"
+ ],
+ "traits": [
+  "fat",
+  "rounded",
+  "sans"
+ ],
+ "odds": 7,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 1948,
+   "sha256": "4c1ea82e499ddb5716c81788cfb6bbbbf6a273dbbdb35f685fa6e791a930d805",
+   "asc": 700,
+   "desc": 2,
+   "stem": 0.103,
+   "crossbar": 0.086,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 800,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.523,
+    "H": 0.702,
+    "X": 0.04,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 3.435,
+    "H": 0.702,
+    "X": 0.038,
+    "top": 0.7
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 800,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.193,
+    "H": 0.7,
+    "X": 0.04,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 4.07,
+    "H": 0.7,
+    "X": 0.038,
+    "top": 0.7
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 800,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.241,
+    "H": 0.701,
+    "X": 0.04,
+    "top": 0.699
+   },
+   "w2": {
+    "W": 3.31,
+    "H": 0.702,
+    "X": 0.05,
+    "top": 0.7
+   }
+  }
+ ]
+}

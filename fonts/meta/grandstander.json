@@ -1,0 +1,170 @@
+{
+ "id": "grandstander",
+ "family": "Grandstander",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/grandstander/Grandstander[wght].ttf",
+  "sha256": "fbc7d1d934e6aa7842f7e8420cd833eca9eb123d61880075eec68751369e2f13"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2020 The Grandstander Project Authors (https://github.com/Etcetera-Type-Co/Grandstander)",
+ "archetype": [
+  "E"
+ ],
+ "traits": [
+  "fat",
+  "overlap",
+  "rounded",
+  "sans"
+ ],
+ "odds": 8,
+ "upm": 2000,
+ "files": [
+  {
+   "id": "w900",
+   "axes": {
+    "wght": 900
+   },
+   "bytes": 4392,
+   "sha256": "97309d63b8931cd668a8ff51871c8e1fc5312594a03fc2edb6adfa5fd1d6252a",
+   "asc": 1463,
+   "desc": 77,
+   "stem": 0.2038,
+   "crossbar": 0.0913,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-w900",
+   "file": "w900",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.645,
+    "H": 0.704,
+    "X": 0.017,
+    "top": 0.6655
+   },
+   "w2": {
+    "W": 3.423,
+    "H": 0.7635,
+    "X": 0.0125,
+    "top": 0.7315
+   }
+  },
+  {
+   "id": "u-base-w900",
+   "file": "w900",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.548,
+    "H": 0.7,
+    "X": 0.017,
+    "top": 0.6745
+   },
+   "w2": {
+    "W": 3.785,
+    "H": 0.699,
+    "X": 0.0125,
+    "top": 0.6735
+   }
+  },
+  {
+   "id": "l-base-w900",
+   "file": "w900",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.593,
+    "H": 0.7555,
+    "X": -0.0095,
+    "top": 0.717
+   },
+   "w2": {
+    "W": 3.374,
+    "H": 0.7635,
+    "X": 0.006,
+    "top": 0.7315
+   }
+  },
+  {
+   "id": "n-salt-w900",
+   "file": "w900",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"salt\" 1"
+   },
+   "w1": {
+    "W": 3.5975,
+    "H": 0.704,
+    "X": 0.017,
+    "top": 0.6655
+   },
+   "w2": {
+    "W": 3.423,
+    "H": 0.7635,
+    "X": 0.0125,
+    "top": 0.7315
+   }
+  },
+  {
+   "id": "u-salt-w900",
+   "file": "w900",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"salt\" 1"
+   },
+   "w1": {
+    "W": 3.548,
+    "H": 0.7,
+    "X": 0.017,
+    "top": 0.6745
+   },
+   "w2": {
+    "W": 3.9105,
+    "H": 0.699,
+    "X": 0.0125,
+    "top": 0.6735
+   }
+  },
+  {
+   "id": "l-salt-w900",
+   "file": "w900",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"salt\" 1"
+   },
+   "w1": {
+    "W": 3.5445,
+    "H": 0.7565,
+    "X": 0.019,
+    "top": 0.718
+   },
+   "w2": {
+    "W": 3.374,
+    "H": 0.7635,
+    "X": 0.006,
+    "top": 0.7315
+   }
+  }
+ ]
+}
