@@ -1,0 +1,78 @@
+{
+ "id": "shrikhand",
+ "family": "Shrikhand",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/shrikhand/Shrikhand-Regular.ttf",
+  "sha256": "8ba32f6d6a96fb8dbc92fc1acfbc4d2123d5348063d89b2c3dd784e7afcb81af"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright (c) 2015 Jonny Pinhorn (jonpinhorn.typedesign@gmail.com)",
+ "archetype": [
+  "D"
+ ],
+ "traits": [
+  "connected",
+  "fat",
+  "groovy",
+  "sans"
+ ],
+ "odds": 9,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 3532,
+   "sha256": "8c98f66bc853a3c7aead28c1e70113791e9686284f4f4d5efa992d407d7ccb81",
+   "asc": 750,
+   "desc": 9,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.275,
+    "H": 0.675,
+    "X": 0.09,
+    "top": 0.666
+   },
+   "w2": {
+    "W": 4.07,
+    "H": 0.759,
+    "X": 0.051,
+    "top": 0.75
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.013,
+    "H": 0.647,
+    "X": 0.023,
+    "top": 0.638
+   },
+   "w2": {
+    "W": 3.965,
+    "H": 0.759,
+    "X": 0.016,
+    "top": 0.75
+   }
+  }
+ ]
+}

@@ -1,0 +1,100 @@
+{
+ "id": "cherry-cream-soda",
+ "family": "Cherry Cream Soda",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/cherrycreamsoda/CherryCreamSoda-Regular.ttf",
+  "sha256": "158577b383ce9798384580bd41c35cd0fb4ed550a32fe4a2e41f4f2594337385"
+ },
+ "licenseId": "Apache-2.0",
+ "copyright": "Copyright (c) 2010 by Font Diner, Inc. All rights reserved.",
+ "archetype": [
+  "D"
+ ],
+ "traits": [
+  "fat",
+  "groovy",
+  "rounded",
+  "sans"
+ ],
+ "odds": 7,
+ "upm": 1024,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 3332,
+   "sha256": "f74377ae01e37bdc1094c94f7dd804a4172acf1622d9117207d38283a996fff7",
+   "asc": 745,
+   "desc": 14,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.29883,
+    "H": 0.7373,
+    "X": -0.11035,
+    "top": 0.72363
+   },
+   "w2": {
+    "W": 4.18262,
+    "H": 0.7373,
+    "X": 0.02539,
+    "top": 0.72363
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 5.31641,
+    "H": 0.73633,
+    "X": -0.11035,
+    "top": 0.72754
+   },
+   "w2": {
+    "W": 5.3252,
+    "H": 0.73438,
+    "X": 0.02539,
+    "top": 0.72559
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.04883,
+    "H": 0.68066,
+    "X": 0,
+    "top": 0.66699
+   },
+   "w2": {
+    "W": 3.86816,
+    "H": 0.73438,
+    "X": 0.03027,
+    "top": 0.7207
+   }
+  }
+ ]
+}

@@ -1,148 +1,9 @@
 [
   {
-    "id": "agbalumo",
-    "family": "Agbalumo",
-    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/agbalumo/Agbalumo-Regular.ttf",
-    "sha256": "",
-    "licenseId": "OFL-1.1",
-    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/agbalumo/OFL.txt",
-    "copyright": "Copyright 2023 The Agbalumo Project Authors (https://github.com/SorkinType/Agbalumo)",
-    "archetype": [
-      "D",
-      "A"
-    ],
-    "traits": [
-      "sans",
-      "fat",
-      "groovy",
-      "soft"
-    ],
-    "odds": 9,
-    "features": [
-      "ss01",
-      "ss02",
-      "ss03"
-    ]
-  },
-  {
-    "id": "agu-display",
-    "family": "Agu Display",
-    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/agudisplay/AguDisplay[MORF].ttf",
-    "sha256": "",
-    "licenseId": "OFL-1.1",
-    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/agudisplay/OFL.txt",
-    "copyright": "Copyright 2023 The Agu Display Project Authors (https://github.com/theseunbadejo/Agu-Display)",
-    "archetype": [
-      "D"
-    ],
-    "traits": [
-      "sans",
-      "fat",
-      "groovy"
-    ],
-    "odds": 8,
-    "stops": [
-      {
-        "id": "m0",
-        "MORF": 0
-      },
-      {
-        "id": "m30",
-        "MORF": 30
-      },
-      {
-        "id": "m60",
-        "MORF": 60
-      }
-    ]
-  },
-  {
-    "id": "aujournuit-condensed",
-    "family": "Aujournuit",
-    "url": "https://raw.githubusercontent.com/collletttivo/aujournuit/8b8aed12b67454ea6ae37009ad719bf33617b80d/fonts/Aujournuit-Condensed.ttf",
-    "sha256": "",
-    "licenseId": "OFL-1.1",
-    "licenseUrl": "https://raw.githubusercontent.com/collletttivo/aujournuit/8b8aed12b67454ea6ae37009ad719bf33617b80d/LICENSE.txt",
-    "copyright": "Copyright © 2023, Collletttivo (https://www.collletttivo.it/)",
-    "archetype": [
-      "D"
-    ],
-    "traits": [
-      "sans",
-      "fat",
-      "groovy",
-      "condensed"
-    ],
-    "odds": 7,
-    "features": [
-      "ss01"
-    ]
-  },
-  {
-    "id": "aujournuit-regular",
-    "family": "Aujournuit",
-    "url": "https://raw.githubusercontent.com/collletttivo/aujournuit/8b8aed12b67454ea6ae37009ad719bf33617b80d/fonts/Aujournuit-Regular.ttf",
-    "sha256": "",
-    "licenseId": "OFL-1.1",
-    "licenseUrl": "https://raw.githubusercontent.com/collletttivo/aujournuit/8b8aed12b67454ea6ae37009ad719bf33617b80d/LICENSE.txt",
-    "copyright": "Copyright © 2023, Collletttivo (https://www.collletttivo.it/)",
-    "archetype": [
-      "D"
-    ],
-    "traits": [
-      "sans",
-      "fat",
-      "groovy"
-    ],
-    "odds": 8,
-    "features": [
-      "ss01"
-    ]
-  },
-  {
-    "id": "aujournuit-wide",
-    "family": "Aujournuit",
-    "url": "https://raw.githubusercontent.com/collletttivo/aujournuit/8b8aed12b67454ea6ae37009ad719bf33617b80d/fonts/Aujournuit-Wide.ttf",
-    "sha256": "",
-    "licenseId": "OFL-1.1",
-    "licenseUrl": "https://raw.githubusercontent.com/collletttivo/aujournuit/8b8aed12b67454ea6ae37009ad719bf33617b80d/LICENSE.txt",
-    "copyright": "Copyright © 2023, Collletttivo (https://www.collletttivo.it/)",
-    "archetype": [
-      "D"
-    ],
-    "traits": [
-      "sans",
-      "fat",
-      "groovy",
-      "wide"
-    ],
-    "odds": 8,
-    "features": [
-      "ss01"
-    ]
-  },
-  {
-    "id": "bakbak-one",
-    "family": "Bakbak One",
-    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bakbakone/BakbakOne-Regular.ttf",
-    "sha256": "",
-    "licenseId": "OFL-1.1",
-    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bakbakone/OFL.txt",
-    "copyright": "Copyright 2021 The Bakbak One Project Authors (https://github.com/googlefonts/bakbak)",
-    "archetype": [
-      "D"
-    ],
-    "traits": [
-      "sans",
-      "fat"
-    ],
-    "odds": 7
-  },
-  {
     "id": "baloo-bhaijaan-2",
     "family": "Baloo Bhaijaan 2",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/baloobhaijaan2/BalooBhaijaan2[wght].ttf",
-    "sha256": "",
+    "sha256": "3e9f07fbc796c0ddcb3e6e0aa26f9c86741d9f5b7f5cb72f4ed3c06e55a19336",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/baloobhaijaan2/OFL.txt",
     "copyright": "Copyright 2019 The Baloo 2 Project Authors (https://github.com/EkType/Baloo2)",
@@ -170,7 +31,7 @@
     "id": "bangers",
     "family": "Bangers",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bangers/Bangers-Regular.ttf",
-    "sha256": "",
+    "sha256": "4160a7311de9342674cce9160cde9fcbb30f48190397d86ff1b70b455af65824",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bangers/OFL.txt",
     "copyright": "Copyright 2010 The Bangers Project Authors (https://github.com/googlefonts/bangers)",
@@ -188,7 +49,7 @@
     "id": "barriecito",
     "family": "Barriecito",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/barriecito/Barriecito-Regular.ttf",
-    "sha256": "",
+    "sha256": "ff32a099b68e0eb5e236adcb9a58141d00fbdf196586e421d1c6a0d1859f75b8",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/barriecito/OFL.txt",
     "copyright": "Copyright 2018 The Barriecito Project Authors (https://github.com/Omnibus-Type/Barrio/Barriecito)",
@@ -210,7 +71,7 @@
     "id": "cherry-bomb-one",
     "family": "Cherry Bomb One",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/cherrybombone/CherryBombOne-Regular.ttf",
-    "sha256": "",
+    "sha256": "9596c6793eb0335057d655b13751ce7ccb50ef0cd15cb52c58465fb62de2bb8f",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/cherrybombone/OFL.txt",
     "copyright": "Copyright 2019 The Cherry Bomb Project Authors (https://github.com/satsuyako/CherryBomb)",
@@ -233,7 +94,7 @@
     "id": "cherry-cream-soda",
     "family": "Cherry Cream Soda",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/cherrycreamsoda/CherryCreamSoda-Regular.ttf",
-    "sha256": "",
+    "sha256": "158577b383ce9798384580bd41c35cd0fb4ed550a32fe4a2e41f4f2594337385",
     "licenseId": "Apache-2.0",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/cherrycreamsoda/LICENSE.txt",
     "copyright": "Copyright (c) 2010 by Font Diner, Inc. All rights reserved.",
@@ -252,7 +113,7 @@
     "id": "coiny",
     "family": "Coiny",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/coiny/Coiny-Regular.ttf",
-    "sha256": "",
+    "sha256": "ef02d723a54abe4819bea54ea8b2ecf72d77d258010bb336cd4862a37705eac7",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/coiny/OFL.txt",
     "copyright": "Copyright 2015 Marcelo Magalhaes (marcelommp@gmail.com @marcelommp)",
@@ -271,7 +132,7 @@
     "id": "dyna-puff",
     "family": "DynaPuff",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/dynapuff/DynaPuff[wdth,wght].ttf",
-    "sha256": "",
+    "sha256": "c3752fc6dd8aaa46a88637f061a9a4e6ab44c02c5f0afd65528b91ae8ff6f948",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/dynapuff/OFL.txt",
     "copyright": "Copyright 2021 The DynaPuff Project Authors (https://github.com/googlefonts/dynapuff)",
@@ -304,29 +165,10 @@
     ]
   },
   {
-    "id": "farsan",
-    "family": "Farsan",
-    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/farsan/Farsan-Regular.ttf",
-    "sha256": "",
-    "licenseId": "OFL-1.1",
-    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/farsan/OFL.txt",
-    "copyright": "Copyright (c) 2014 Pooja Saxena (www.poojasaxena.in)",
-    "archetype": [
-      "D"
-    ],
-    "traits": [
-      "sans",
-      "fat",
-      "rounded",
-      "groovy"
-    ],
-    "odds": 7
-  },
-  {
     "id": "fontdiner-swanky",
     "family": "Fontdiner Swanky",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/fontdinerswanky/FontdinerSwanky-Regular.ttf",
-    "sha256": "",
+    "sha256": "847229fbf58c7f7479f93fd7cf9fc269b54c0c9f6465abcb65a206fb261be41b",
     "licenseId": "Apache-2.0",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/fontdinerswanky/LICENSE.txt",
     "copyright": "Copyright (c) 2010 by Stuart Sandler. All rights reserved.",
@@ -341,29 +183,10 @@
     "odds": 7
   },
   {
-    "id": "gulax",
-    "family": "Gulax",
-    "url": "https://gitlab.com/velvetyne/Gulax/-/raw/25ad92e48c142ad0f50c70f4fbaed3a44d93e37a/fonts/otf/Gulax-Regular.otf",
-    "sha256": "",
-    "licenseId": "OFL-1.1",
-    "licenseUrl": "https://gitlab.com/velvetyne/Gulax/-/raw/25ad92e48c142ad0f50c70f4fbaed3a44d93e37a/LICENSE.txt",
-    "copyright": "Copyright Morgan Gilbert (Velvetyne Type Foundry).",
-    "archetype": [
-      "D"
-    ],
-    "traits": [
-      "sans",
-      "fat",
-      "groovy",
-      "wide"
-    ],
-    "odds": 8
-  },
-  {
     "id": "kablammo",
     "family": "Kablammo",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/kablammo/Kablammo[MORF].ttf",
-    "sha256": "",
+    "sha256": "900c8c183efc8d913da30dceb9e4e9886888bbd48847455343f12ce85a334925",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/kablammo/OFL.txt",
     "copyright": "Copyright 2023 The Kablammo Project Authors (https://github.com/Vectro-Type-Foundry/kablammo)",
@@ -399,7 +222,7 @@
     "id": "kumar-one",
     "family": "Kumar One",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/kumarone/KumarOne-Regular.ttf",
-    "sha256": "",
+    "sha256": "04d6479721639f0d00aa34cfaa18d940eacf84060b427433edb70100b6d01100",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/kumarone/OFL.txt",
     "copyright": "Copyright (c) 2015 Indian Type Foundry (info@indiantypefoundry.com)",
@@ -416,7 +239,7 @@
     "id": "lalezar",
     "family": "Lalezar",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/lalezar/Lalezar-Regular.ttf",
-    "sha256": "",
+    "sha256": "7b80807bc831f141de0f7dcf6816412bf0c548968d548c5156ca388733390ea9",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/lalezar/OFL.txt",
     "copyright": "Copyright 2015 The Lalezar Project Authors (https://github.com/BornaIz/Lalezar)",
@@ -433,7 +256,7 @@
     "id": "luckiest-guy",
     "family": "Luckiest Guy",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/luckiestguy/LuckiestGuy-Regular.ttf",
-    "sha256": "",
+    "sha256": "cfbdd68a039f92df51cf3721506af6242e64594c6325fe0bedbeff3fe385d980",
     "licenseId": "Apache-2.0",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/luckiestguy/LICENSE.txt",
     "copyright": "Copyright License. Subject to the terms and conditions of",
@@ -451,7 +274,7 @@
     "id": "matemasie",
     "family": "Matemasie",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/matemasie/Matemasie-Regular.ttf",
-    "sha256": "",
+    "sha256": "5ad4d54e1216448e4acf6044bf3a2a1d36e955cd8dea61e9146e8dfc8f1f5cc7",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/matemasie/OFL.txt",
     "copyright": "Copyright 2024 The Matemasie-Font Project Authors (https://github.com/YADAMSS/Matemasie-Font)",
@@ -474,7 +297,7 @@
     "id": "modak",
     "family": "Modak",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/modak/Modak-Regular.ttf",
-    "sha256": "",
+    "sha256": "9a96ba056ddcbb7d0c937c52f744ff5d71004a97689b1fd2cdbd678f314db245",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/modak/OFL.txt",
     "copyright": "Copyright (c) 2015 Ek Type (www.ektype.in)",
@@ -496,7 +319,7 @@
     "id": "mogra",
     "family": "Mogra",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/mogra/Mogra-Regular.ttf",
-    "sha256": "",
+    "sha256": "1d7133f5926cf5e7042b587b838bc5c5bcfe6c86b19157afd544c71a630159d8",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/mogra/OFL.txt",
     "copyright": "Copyright 2015 The Mogra Project Authors (https://github.com/lipiraval/mogra)",
@@ -511,34 +334,10 @@
     "odds": 8
   },
   {
-    "id": "oi",
-    "family": "Oi",
-    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/oi/Oi-Regular.ttf",
-    "sha256": "",
-    "licenseId": "OFL-1.1",
-    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/oi/OFL.txt",
-    "copyright": "Copyright 2019 The Oi! Project Authors (https://github.com/kosbarts/Oi)",
-    "archetype": [
-      "D"
-    ],
-    "traits": [
-      "sans",
-      "fat",
-      "groovy"
-    ],
-    "odds": 9,
-    "features": [
-      "ss01",
-      "ss02",
-      "ss03",
-      "salt"
-    ]
-  },
-  {
     "id": "rakkas",
     "family": "Rakkas",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rakkas/Rakkas-Regular.ttf",
-    "sha256": "",
+    "sha256": "54278882e4774c14d50c3b555f127d0fe586366d5b787316ebbcbd8108829e60",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rakkas/OFL.txt",
     "copyright": "Copyright 2016 Zeynep Akay",
@@ -561,7 +360,7 @@
     "id": "ribes-black",
     "family": "Ribes",
     "url": "https://raw.githubusercontent.com/collletttivo/ribes/e5f58f6ef719ff69b599a3155c66f4cecaed0a0f/fonts/Ribes-Black.otf",
-    "sha256": "",
+    "sha256": "c38f7389c5cc2317372954552d9aaaad6ef12024b98d27eb146f871ebc6ecb0f",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/collletttivo/ribes/e5f58f6ef719ff69b599a3155c66f4cecaed0a0f/LICENSE.txt",
     "copyright": "Copyright © 2023, Collletttivo (https://www.collletttivo.it/)",
@@ -579,7 +378,7 @@
     "id": "rubik-bubbles",
     "family": "Rubik Bubbles",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikbubbles/RubikBubbles-Regular.ttf",
-    "sha256": "",
+    "sha256": "2171521dab2b1b3675bbb7aecd34b1c169167c360e3647dadb4939910490c974",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikbubbles/OFL.txt",
     "copyright": "Copyright 2020 The Rubik Filtered Project Authors (https://https://github.com/NaN-xyz/Rubik-Filtered)",
@@ -595,27 +394,10 @@
     "odds": 8
   },
   {
-    "id": "rubik-puddles",
-    "family": "Rubik Puddles",
-    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikpuddles/RubikPuddles-Regular.ttf",
-    "sha256": "",
-    "licenseId": "OFL-1.1",
-    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikpuddles/OFL.txt",
-    "copyright": "Copyright 2020 The Rubik Filtered Project Authors (https://https://github.com/NaN-xyz/Rubik-Filtered)",
-    "archetype": [
-      "D"
-    ],
-    "traits": [
-      "sans",
-      "groovy"
-    ],
-    "odds": 6
-  },
-  {
     "id": "shrikhand",
     "family": "Shrikhand",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/shrikhand/Shrikhand-Regular.ttf",
-    "sha256": "",
+    "sha256": "8ba32f6d6a96fb8dbc92fc1acfbc4d2123d5348063d89b2c3dd784e7afcb81af",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/shrikhand/OFL.txt",
     "copyright": "Copyright (c) 2015 Jonny Pinhorn (jonpinhorn.typedesign@gmail.com)",
@@ -633,7 +415,7 @@
     "id": "sigmar",
     "family": "Sigmar",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sigmar/Sigmar-Regular.ttf",
-    "sha256": "",
+    "sha256": "0597d733ed4722af36157f1e72d2415e123a9052655d67410c9ab8a0b223f54d",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sigmar/OFL.txt",
     "copyright": "Copyright 2011 The Sigmar One Project Authors (https://github.com/googlefonts/sigmarone)",
@@ -655,7 +437,7 @@
     "id": "sigmar-one",
     "family": "Sigmar One",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sigmarone/SigmarOne-Regular.ttf",
-    "sha256": "",
+    "sha256": "0817eb698a5c4aac2c07bb84be1ead806494c489da468db23f5ffd9bcf3f0970",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sigmarone/OFL.txt",
     "copyright": "Copyright 2011 The Sigmar One Project Authors (contact@sansoxygen.com)",
@@ -677,7 +459,7 @@
     "id": "slackey",
     "family": "Slackey",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/slackey/Slackey-Regular.ttf",
-    "sha256": "",
+    "sha256": "0be253cdeadcd1ea90ff5954e86641b3ccbef27152608e266af91619cd308eb2",
     "licenseId": "Apache-2.0",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/slackey/LICENSE.txt",
     "copyright": "Copyright (c) 2011 by Sideshow. All rights reserved.",
@@ -695,7 +477,7 @@
     "id": "sour-gummy",
     "family": "Sour Gummy",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sourgummy/SourGummy[wdth,wght].ttf",
-    "sha256": "",
+    "sha256": "a9a710e4a90795f006b83fcf2ff3e036fc851d32c3c65762228df3c825675fd6",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sourgummy/OFL.txt",
     "copyright": "Copyright 2018 The Sour Gummy Project Authors (https://github.com/eifetx/Sour-Gummy-Fonts)",
@@ -722,23 +504,5 @@
         "wdth": 100
       }
     ]
-  },
-  {
-    "id": "tillana-bold",
-    "family": "Tillana",
-    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/tillana/Tillana-Bold.ttf",
-    "sha256": "",
-    "licenseId": "OFL-1.1",
-    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/tillana/OFL.txt",
-    "copyright": "Copyright (c) 2014, Indian Type Foundry (info@indiantypefoundry.com).",
-    "archetype": [
-      "D"
-    ],
-    "traits": [
-      "sans",
-      "fat",
-      "groovy"
-    ],
-    "odds": 6
   }
 ]

@@ -1,0 +1,99 @@
+{
+ "id": "slackey",
+ "family": "Slackey",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/slackey/Slackey-Regular.ttf",
+  "sha256": "0be253cdeadcd1ea90ff5954e86641b3ccbef27152608e266af91619cd308eb2"
+ },
+ "licenseId": "Apache-2.0",
+ "copyright": "Copyright (c) 2011 by Sideshow. All rights reserved.",
+ "archetype": [
+  "D"
+ ],
+ "traits": [
+  "fat",
+  "groovy",
+  "sans"
+ ],
+ "odds": 7,
+ "upm": 1024,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 3572,
+   "sha256": "0ed5a5e0d9873b7bb29b6b811871402304d956c6d2a267a8e1520915d8c4ec8e",
+   "asc": 793,
+   "desc": 46,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.48535,
+    "H": 0.75781,
+    "X": 0.04004,
+    "top": 0.74805
+   },
+   "w2": {
+    "W": 4.26074,
+    "H": 0.73926,
+    "X": 0.03027,
+    "top": 0.75098
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.82227,
+    "H": 0.81934,
+    "X": 0.04004,
+    "top": 0.77441
+   },
+   "w2": {
+    "W": 5.1123,
+    "H": 0.79199,
+    "X": 0.03027,
+    "top": 0.75977
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.30664,
+    "H": 0.73047,
+    "X": 0.03027,
+    "top": 0.72656
+   },
+   "w2": {
+    "W": 4.25098,
+    "H": 0.73926,
+    "X": 0.02539,
+    "top": 0.75098
+   }
+  }
+ ]
+}

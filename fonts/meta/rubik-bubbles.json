@@ -1,0 +1,100 @@
+{
+ "id": "rubik-bubbles",
+ "family": "Rubik Bubbles",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikbubbles/RubikBubbles-Regular.ttf",
+  "sha256": "2171521dab2b1b3675bbb7aecd34b1c169167c360e3647dadb4939910490c974"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2020 The Rubik Filtered Project Authors (https://https://github.com/NaN-xyz/Rubik-Filtered)",
+ "archetype": [
+  "D"
+ ],
+ "traits": [
+  "fat",
+  "groovy",
+  "rounded",
+  "sans"
+ ],
+ "odds": 8,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 6000,
+   "sha256": "4ddbf4ddb7017e3ed41bb84c6b8b3c121808be1ac4ae16ece4f17da6ad10aef5",
+   "asc": 763,
+   "desc": 35,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.96,
+    "H": 0.756,
+    "X": -0.005,
+    "top": 0.729
+   },
+   "w2": {
+    "W": 3.99,
+    "H": 0.798,
+    "X": 0.014,
+    "top": 0.763
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.393,
+    "H": 0.769,
+    "X": -0.005,
+    "top": 0.736
+   },
+   "w2": {
+    "W": 4.624,
+    "H": 0.771,
+    "X": 0.014,
+    "top": 0.736
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.9,
+    "H": 0.744,
+    "X": -0.005,
+    "top": 0.717
+   },
+   "w2": {
+    "W": 3.879,
+    "H": 0.79,
+    "X": 0.014,
+    "top": 0.763
+   }
+  }
+ ]
+}

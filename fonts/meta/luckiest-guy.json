@@ -1,0 +1,56 @@
+{
+ "id": "luckiest-guy",
+ "family": "Luckiest Guy",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/luckiestguy/LuckiestGuy-Regular.ttf",
+  "sha256": "cfbdd68a039f92df51cf3721506af6242e64594c6325fe0bedbeff3fe385d980"
+ },
+ "licenseId": "Apache-2.0",
+ "copyright": "Copyright License. Subject to the terms and conditions of",
+ "archetype": [
+  "D"
+ ],
+ "traits": [
+  "fat",
+  "groovy",
+  "sans",
+  "unicase"
+ ],
+ "odds": 9,
+ "upm": 2048,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 2544,
+   "sha256": "3c63390bcbf34d6ef336ddeb6355ef312e86a3d1df0c24eb61fb2ce37b10b716",
+   "asc": 1458,
+   "desc": 24,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.69727,
+    "H": 0.71484,
+    "X": 0.00293,
+    "top": 0.70801
+   },
+   "w2": {
+    "W": 3.56738,
+    "H": 0.72363,
+    "X": 0.00684,
+    "top": 0.71191
+   }
+  }
+ ]
+}

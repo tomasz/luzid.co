@@ -1,0 +1,231 @@
+{
+ "id": "matemasie",
+ "family": "Matemasie",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/matemasie/Matemasie-Regular.ttf",
+  "sha256": "5ad4d54e1216448e4acf6044bf3a2a1d36e955cd8dea61e9146e8dfc8f1f5cc7"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2024 The Matemasie-Font Project Authors (https://github.com/YADAMSS/Matemasie-Font)",
+ "archetype": [
+  "D"
+ ],
+ "traits": [
+  "fat",
+  "groovy",
+  "sans"
+ ],
+ "odds": 9,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 5448,
+   "sha256": "d65a2ec64a1b9319bd0bbc57f37d664888a514310e8cf88d9eb36a4fab9cdb5c",
+   "asc": 817,
+   "desc": 15,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.08,
+    "H": 0.828,
+    "X": 0.015,
+    "top": 0.814
+   },
+   "w2": {
+    "W": 4.015,
+    "H": 0.831,
+    "X": 0.03,
+    "top": 0.817
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.954,
+    "H": 0.828,
+    "X": 0.015,
+    "top": 0.814
+   },
+   "w2": {
+    "W": 5.058,
+    "H": 0.828,
+    "X": 0.03,
+    "top": 0.814
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.767,
+    "H": 0.774,
+    "X": 0.027,
+    "top": 0.76
+   },
+   "w2": {
+    "W": 3.872,
+    "H": 0.831,
+    "X": 0.019,
+    "top": 0.817
+   }
+  },
+  {
+   "id": "n-ss01-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 4.114,
+    "H": 0.828,
+    "X": 0.015,
+    "top": 0.814
+   },
+   "w2": {
+    "W": 4.046,
+    "H": 0.831,
+    "X": 0.03,
+    "top": 0.817
+   }
+  },
+  {
+   "id": "u-ss01-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 4.968,
+    "H": 0.828,
+    "X": 0.015,
+    "top": 0.814
+   },
+   "w2": {
+    "W": 5.041,
+    "H": 0.828,
+    "X": 0.03,
+    "top": 0.814
+   }
+  },
+  {
+   "id": "l-ss01-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 3.82,
+    "H": 0.829,
+    "X": 0.027,
+    "top": 0.814
+   },
+   "w2": {
+    "W": 3.912,
+    "H": 0.831,
+    "X": 0.019,
+    "top": 0.817
+   }
+  },
+  {
+   "id": "n-ss02-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss02\" 1"
+   },
+   "w1": {
+    "W": 4.09,
+    "H": 0.828,
+    "X": 0.015,
+    "top": 0.814
+   },
+   "w2": {
+    "W": 4.015,
+    "H": 0.831,
+    "X": 0.03,
+    "top": 0.817
+   }
+  },
+  {
+   "id": "l-ss02-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss02\" 1"
+   },
+   "w1": {
+    "W": 3.767,
+    "H": 0.828,
+    "X": 0.027,
+    "top": 0.814
+   },
+   "w2": {
+    "W": 3.872,
+    "H": 0.831,
+    "X": 0.019,
+    "top": 0.817
+   }
+  },
+  {
+   "id": "l-ss03-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss03\" 1"
+   },
+   "w1": {
+    "W": 3.78,
+    "H": 0.828,
+    "X": 0.027,
+    "top": 0.814
+   },
+   "w2": {
+    "W": 3.872,
+    "H": 0.831,
+    "X": 0.019,
+    "top": 0.817
+   }
+  }
+ ]
+}
