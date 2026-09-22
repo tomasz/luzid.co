@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
-import { readdir, readFile } from 'node:fs/promises'
+import { glob, readdir, readFile } from 'node:fs/promises'
 import { test } from 'node:test'
 import * as hb from 'harfbuzzjs'
 import {
@@ -39,7 +39,17 @@ import { decode } from '../scripts/woff2.mjs'
 const url = (p) => new URL(`../${p}`, import.meta.url)
 const readJson = async (p) => JSON.parse(await readFile(url(p), 'utf8'))
 
-const sources = await readJson('fonts/sources/seed.json')
+/**
+ * Every batch under `fonts/sources`, not just the seed: `fonts/meta` is written by the
+ * Wave-2 batches too, and a row has to be findable for each of them. Ids are disjoint
+ * across the files — `test/font-sources.test.js` is what proves that.
+ */
+const sources = []
+for (const file of (await Array.fromAsync(glob('fonts/sources/*.json'))).sort()) {
+  sources.push(...JSON.parse(await readFile(new URL(`../${file}`, import.meta.url), 'utf8')))
+}
+/** A known-good row, used as the base for the negative cases below. */
+const seedRow = sources.find((r) => r.id === 'boldonse')
 const metas = []
 for (const name of (await readdir(url('fonts/meta'))).filter((f) => f.endsWith('.json')).sort()) {
   metas.push(await readJson(`fonts/meta/${name}`))
@@ -60,7 +70,7 @@ function stub(overrides = {}) {
 // ---------------------------------------------------------------- rule 1: never the css2 API
 
 test('rule 1: the Google css2 API is never a source, and neither is a zip', () => {
-  const base = sources[1]
+  const base = seedRow
   assert.throws(
     () => validateRow({ ...base, url: 'https://fonts.googleapis.com/css2?family=Boldonse&text=Tomasz' }),
     /css2 API is never a source/,
@@ -95,6 +105,8 @@ test('rule 1: a source without an immutable commit ships the original alongside 
 
   const committed = await readdir(url('fonts/upstream'))
   for (const row of sources) {
+    // A queued row has no hash yet, so there is nothing on disk to compare against.
+    if (row.sha256 === '') continue
     const { original } = upstreamPaths(row)
     if (pinnedToCommit(row.url)) {
       assert.ok(!committed.includes(original), `${row.id}: pinned to a commit, so it needs no committed copy`)
@@ -198,7 +210,7 @@ test('rule 3: a Reserved Font Name is rejected, and the OFL body is not a false 
 
 test('rule 3: licenseId is one of the three allowed, and every shipped font ships a licence', async () => {
   assert.deepEqual([...LICENSE_IDS].sort(), ['Apache-2.0', 'GUST', 'OFL-1.1'])
-  assert.throws(() => validateRow({ ...sources[1], licenseId: 'MIT' }), /licenseId MIT is not allowed/)
+  assert.throws(() => validateRow({ ...seedRow, licenseId: 'MIT' }), /licenseId MIT is not allowed/)
   for (const meta of metas) {
     assert.ok(LICENSE_IDS.has(meta.licenseId), `${meta.id}: ${meta.licenseId}`)
     const text = await readFile(url(`fonts/licenses/${meta.id}.txt`), 'utf8')
@@ -415,7 +427,7 @@ test('source rows validate, with disjoint ids', () => {
   assert.equal(seen.size, sources.length)
   assert.throws(() => validateRow(sources[0], seen), /duplicate id/)
 
-  const base = sources[1]
+  const base = seedRow
   assert.throws(() => validateRow({ ...base, id: 'Not Kebab' }), /kebab-case/)
   assert.throws(() => validateRow({ ...base, odds: 17 }), /odds must be an integer 0-16/)
   assert.throws(() => validateRow({ ...base, archetype: ['Z'] }), /unknown archetype Z/)
@@ -499,6 +511,7 @@ test('every shipped font agrees with its own source row', () => {
   // The metadata is the merge, so anything the row declared has to survive into it.
   for (const meta of metas) {
     const row = sources.find((r) => r.id === meta.id)
+    assert.ok(row, `${meta.id} has no source row`)
     for (const trait of row.traits) {
       assert.ok(meta.traits.includes(trait), `${meta.id}: declared ${trait} is missing from the metadata`)
     }
@@ -509,7 +522,9 @@ test('every shipped font agrees with its own source row', () => {
 test('the metadata describes exactly what is on disk', async () => {
   const files = new Set((await readdir(url('fonts/files'))).filter((f) => f.endsWith('.woff2')))
   const licenses = new Set((await readdir(url('fonts/licenses'))).filter((f) => f.endsWith('.txt')))
-  assert.equal(metas.length, sources.length, 'every source row must have produced metadata')
+  // Rows are queued ahead of the build, so metadata is a subset of the rows, never the
+  // other way round: everything under fonts/meta must have a row, and only one file.
+  assert.equal(new Set(metas.map((m) => m.id)).size, metas.length, 'two metadata files share an id')
 
   for (const meta of metas) {
     const row = sources.find((r) => r.id === meta.id)
@@ -547,7 +562,8 @@ test('the metadata describes exactly what is on disk', async () => {
 test('the eight seed fonts cover the eight risky branches', () => {
   const byId = Object.fromEntries(metas.map((m) => [m.id, m]))
   const ids = ['fraunces', 'boldonse', 'pacifico', 'cyklop', 'syncopate', 'coconat', 'bungee', 'unbounded']
-  assert.deepEqual(Object.keys(byId).sort(), [...ids].sort())
+  // Later batches ship beside these; what matters is that all eight are still here.
+  for (const id of ids) assert.ok(byId[id], `the seed font ${id} is no longer shipped`)
 
   assert.equal(byId.fraunces.files.length, 2, 'Fraunces ships static stops of a four-axis source')
   assert.deepEqual(Object.keys(byId.fraunces.files[0].axes).sort(), ['SOFT', 'WONK', 'opsz', 'wght'])
