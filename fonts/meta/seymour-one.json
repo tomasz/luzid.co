@@ -1,0 +1,99 @@
+{
+ "id": "seymour-one",
+ "family": "Seymour One",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/seymourone/SeymourOne-Regular.ttf",
+  "sha256": "8699709245074a91a64b43495bf864f6df6d43648d7e9d0d09144ca74433c3d4"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2011 The Seymour One Project Authors (https://github.com/googlefonts/seymourFont)",
+ "archetype": [
+  "B"
+ ],
+ "traits": [
+  "fat",
+  "sans",
+  "wide"
+ ],
+ "odds": 6,
+ "upm": 2048,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 3724,
+   "sha256": "526eaf81ba5f5594c2ee0bcaa69da507dd3d1a82df093391fe3ddf8f49cd5ec3",
+   "asc": 1605,
+   "desc": 51,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 5.45557,
+    "H": 0.72656,
+    "X": 0.04834,
+    "top": 0.70752
+   },
+   "w2": {
+    "W": 5.07324,
+    "H": 0.80566,
+    "X": 0.06494,
+    "top": 0.78369
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 6.56396,
+    "H": 0.74805,
+    "X": 0.04834,
+    "top": 0.72314
+   },
+   "w2": {
+    "W": 6.78955,
+    "H": 0.74658,
+    "X": 0.06494,
+    "top": 0.72314
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 5.27979,
+    "H": 0.71338,
+    "X": 0.04346,
+    "top": 0.69434
+   },
+   "w2": {
+    "W": 5.0293,
+    "H": 0.80273,
+    "X": 0.05811,
+    "top": 0.78369
+   }
+  }
+ ]
+}

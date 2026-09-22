@@ -1,0 +1,165 @@
+{
+ "id": "dela-gothic-one",
+ "family": "Dela Gothic One",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/delagothicone/DelaGothicOne-Regular.ttf",
+  "sha256": "4ff87a0965f1b0505e5a2c58424bc6ad3cff27e56a82f21c2fc9d6b0e3857ee2"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2020 The Dela Gothic Project Authors (https://github.com/syakuzen/DelaGothic)",
+ "archetype": [
+  "B"
+ ],
+ "traits": [
+  "fat",
+  "jp",
+  "sans"
+ ],
+ "odds": 9,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 3164,
+   "sha256": "db6932f55a7e5def71d0017aa12f809b915ca2245c83ac6cf8d92c72ca3da15f",
+   "asc": 830,
+   "desc": 10,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.664,
+    "H": 0.736,
+    "X": 0.04,
+    "top": 0.726
+   },
+   "w2": {
+    "W": 4.439,
+    "H": 0.84,
+    "X": 0.04,
+    "top": 0.83
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 5.535,
+    "H": 0.757,
+    "X": 0.04,
+    "top": 0.747
+   },
+   "w2": {
+    "W": 6.023,
+    "H": 0.757,
+    "X": 0.04,
+    "top": 0.747
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.418,
+    "H": 0.666,
+    "X": 0.01,
+    "top": 0.656
+   },
+   "w2": {
+    "W": 4.213,
+    "H": 0.84,
+    "X": 0.03,
+    "top": 0.83
+   }
+  },
+  {
+   "id": "n-fwid-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"fwid\" 1"
+   },
+   "w1": {
+    "W": 5.605,
+    "H": 0.736,
+    "X": 0.071,
+    "top": 0.726
+   },
+   "w2": {
+    "W": 6.151,
+    "H": 0.84,
+    "X": 0.069,
+    "top": 0.83
+   }
+  },
+  {
+   "id": "u-fwid-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"fwid\" 1"
+   },
+   "w1": {
+    "W": 5.762,
+    "H": 0.757,
+    "X": 0.071,
+    "top": 0.747
+   },
+   "w2": {
+    "W": 6.727,
+    "H": 0.757,
+    "X": 0.069,
+    "top": 0.747
+   }
+  },
+  {
+   "id": "l-fwid-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"fwid\" 1"
+   },
+   "w1": {
+    "W": 5.537,
+    "H": 0.666,
+    "X": 0.259,
+    "top": 0.656
+   },
+   "w2": {
+    "W": 6.041,
+    "H": 0.84,
+    "X": 0.179,
+    "top": 0.83
+   }
+  }
+ ]
+}

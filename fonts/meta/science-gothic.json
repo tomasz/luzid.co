@@ -1,0 +1,184 @@
+{
+ "id": "science-gothic",
+ "family": "Science Gothic",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sciencegothic/ScienceGothic[CTRS,slnt,wdth,wght].ttf",
+  "sha256": "246e4d33a6fcb3846094e5c4c034616f83e9ae10100316df32e2436362deab3d"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2024 Font Detective LLC <https://github.com/googlefonts/science-gothic/OFL.txt>",
+ "archetype": [
+  "B"
+ ],
+ "traits": [
+  "fat",
+  "sans",
+  "wide"
+ ],
+ "odds": 8,
+ "upm": 2000,
+ "files": [
+  {
+   "id": "w900x",
+   "axes": {
+    "wght": 900,
+    "wdth": 200,
+    "slnt": 0,
+    "CTRS": 0
+   },
+   "bytes": 2248,
+   "sha256": "1f987420c63794e4f9b05da3ea0d9f0ecd0ef69ceb30493cf7399e9544ff43a3",
+   "asc": 1472,
+   "desc": 14,
+   "glyphs": 23
+  },
+  {
+   "id": "w900n",
+   "axes": {
+    "wght": 900,
+    "wdth": 100,
+    "slnt": 0,
+    "CTRS": 0
+   },
+   "bytes": 2168,
+   "sha256": "5bd0f7f2e890927f1bc63ea09325ec379befdbab38ae88f1db62914fc473a546",
+   "asc": 1472,
+   "desc": 14,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-w900x",
+   "file": "w900x",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 7.239,
+    "H": 0.705,
+    "X": 0.03,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 6.7255,
+    "H": 0.743,
+    "X": 0.135,
+    "top": 0.736
+   }
+  },
+  {
+   "id": "n-base-w900n",
+   "file": "w900n",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.783,
+    "H": 0.705,
+    "X": 0.025,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 4.651,
+    "H": 0.743,
+    "X": 0.079,
+    "top": 0.736
+   }
+  },
+  {
+   "id": "u-base-w900x",
+   "file": "w900x",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 9.0245,
+    "H": 0.714,
+    "X": 0.03,
+    "top": 0.707
+   },
+   "w2": {
+    "W": 9.2115,
+    "H": 0.714,
+    "X": 0.135,
+    "top": 0.707
+   }
+  },
+  {
+   "id": "u-base-w900n",
+   "file": "w900n",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 5.634,
+    "H": 0.714,
+    "X": 0.025,
+    "top": 0.707
+   },
+   "w2": {
+    "W": 5.906,
+    "H": 0.714,
+    "X": 0.079,
+    "top": 0.707
+   }
+  },
+  {
+   "id": "l-base-w900x",
+   "file": "w900x",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 6.671,
+    "H": 0.627,
+    "X": 0.044,
+    "top": 0.622
+   },
+   "w2": {
+    "W": 6.439,
+    "H": 0.741,
+    "X": 0.103,
+    "top": 0.736
+   }
+  },
+  {
+   "id": "l-base-w900n",
+   "file": "w900n",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.517,
+    "H": 0.627,
+    "X": 0.026,
+    "top": 0.622
+   },
+   "w2": {
+    "W": 4.4905,
+    "H": 0.741,
+    "X": 0.0575,
+    "top": 0.736
+   }
+  }
+ ]
+}

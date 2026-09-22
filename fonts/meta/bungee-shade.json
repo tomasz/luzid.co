@@ -1,0 +1,122 @@
+{
+ "id": "bungee-shade",
+ "family": "Bungee Shade",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bungeeshade/BungeeShade-Regular.ttf",
+  "sha256": "665c626082682b462f4e696308eafa7071c114da8f8ff3fb73a289c7ff7df482"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2023 The Bungee Project Authors (https://github.com/djrrb/Bungee)",
+ "archetype": [
+  "B"
+ ],
+ "traits": [
+  "capsOnly",
+  "fat",
+  "sans",
+  "shaded"
+ ],
+ "odds": 10,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 5244,
+   "sha256": "fb007d9bca51f162e7332604eea0e25cd7770c35d71c64625ff0ececb78448f1",
+   "asc": 745,
+   "desc": 134,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.852,
+    "H": 0.879,
+    "X": 0.004,
+    "top": 0.745
+   },
+   "w2": {
+    "W": 5.46,
+    "H": 0.879,
+    "X": 0.034,
+    "top": 0.745
+   }
+  },
+  {
+   "id": "n-salt-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"salt\" 1"
+   },
+   "w1": {
+    "W": 5.079,
+    "H": 0.879,
+    "X": 0.004,
+    "top": 0.745
+   },
+   "w2": {
+    "W": 5.141,
+    "H": 0.879,
+    "X": 0.034,
+    "top": 0.745
+   }
+  },
+  {
+   "id": "n-ss01-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 5.749,
+    "H": 0.879,
+    "X": 0.126,
+    "top": 0.745
+   },
+   "w2": {
+    "W": 6.757,
+    "H": 0.879,
+    "X": 0.122,
+    "top": 0.745
+   }
+  },
+  {
+   "id": "n-ss02-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss02\" 1"
+   },
+   "w1": {
+    "W": 5.079,
+    "H": 0.879,
+    "X": 0.004,
+    "top": 0.745
+   },
+   "w2": {
+    "W": 5.46,
+    "H": 0.879,
+    "X": 0.034,
+    "top": 0.745
+   }
+  }
+ ]
+}

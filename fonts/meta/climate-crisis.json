@@ -1,0 +1,179 @@
+{
+ "id": "climate-crisis",
+ "family": "Climate Crisis",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/climatecrisis/ClimateCrisis[YEAR].ttf",
+  "sha256": "4b25279f80e420f9f09dbba13eb14d0beabfa013d17f74bad19cc9fdf4d55523"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2020 The Climate Crisis Project Authors (https://github.com/dancoull/ClimateCrisis)",
+ "archetype": [
+  "B"
+ ],
+ "traits": [
+  "fat",
+  "overlap",
+  "sans",
+  "wide"
+ ],
+ "odds": 8,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "y1979",
+   "axes": {
+    "YEAR": 1979
+   },
+   "bytes": 3508,
+   "sha256": "90a4c9791c07c0e19273ea7f1e8aa0c40c165d11f1b7bb3b5669a2be60b4f8bd",
+   "asc": 780,
+   "desc": 30,
+   "glyphs": 23
+  },
+  {
+   "id": "y2019",
+   "axes": {
+    "YEAR": 2019
+   },
+   "bytes": 3940,
+   "sha256": "3b0d7ecccbad1b6060cb013ebc6e9b7cd150d0a106bd2895bf963ab4342bacc1",
+   "asc": 724,
+   "desc": 0,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-y1979",
+   "file": "y1979",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 5.489,
+    "H": 0.78,
+    "X": 0.013,
+    "top": 0.75
+   },
+   "w2": {
+    "W": 5.447,
+    "H": 0.81,
+    "X": 0.01,
+    "top": 0.78
+   }
+  },
+  {
+   "id": "n-base-y2019",
+   "file": "y2019",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 5.326,
+    "H": 0.672,
+    "X": 0.076,
+    "top": 0.699
+   },
+   "w2": {
+    "W": 5.205,
+    "H": 0.692,
+    "X": 0.13,
+    "top": 0.719
+   }
+  },
+  {
+   "id": "u-base-y1979",
+   "file": "y1979",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 6.279,
+    "H": 0.81,
+    "X": 0.013,
+    "top": 0.78
+   },
+   "w2": {
+    "W": 6.561,
+    "H": 0.81,
+    "X": 0.01,
+    "top": 0.78
+   }
+  },
+  {
+   "id": "u-base-y2019",
+   "file": "y2019",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 6.096,
+    "H": 0.689,
+    "X": 0.076,
+    "top": 0.724
+   },
+   "w2": {
+    "W": 6.311,
+    "H": 0.687,
+    "X": 0.13,
+    "top": 0.719
+   }
+  },
+  {
+   "id": "l-base-y1979",
+   "file": "y1979",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 5.222,
+    "H": 0.734,
+    "X": 0.022,
+    "top": 0.704
+   },
+   "w2": {
+    "W": 5.235,
+    "H": 0.78,
+    "X": 0.01,
+    "top": 0.75
+   }
+  },
+  {
+   "id": "l-base-y2019",
+   "file": "y2019",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 5.067,
+    "H": 0.605,
+    "X": 0.078,
+    "top": 0.632
+   },
+   "w2": {
+    "W": 5.059,
+    "H": 0.672,
+    "X": 0.064,
+    "top": 0.699
+   }
+  }
+ ]
+}

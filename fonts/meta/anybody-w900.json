@@ -1,0 +1,325 @@
+{
+ "id": "anybody-w900",
+ "family": "Anybody",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/anybody/Anybody[wdth,wght].ttf",
+  "sha256": "b184bd7e6ca8348bbaecec98951565729d7e89b7872d4898a1f9981342b5b64c"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2020 The Anybody Project Authors (https://github.com/Etcetera-Type-Co/Anybody)",
+ "archetype": [
+  "B"
+ ],
+ "traits": [
+  "fat",
+  "overlap",
+  "sans",
+  "wide"
+ ],
+ "odds": 8,
+ "upm": 2000,
+ "files": [
+  {
+   "id": "w900n",
+   "axes": {
+    "wght": 900,
+    "wdth": 100
+   },
+   "bytes": 2632,
+   "sha256": "32e203b807e19f0d00545431171be89cc7d13a560ae44e1d7b00ff7594dfd446",
+   "asc": 1570,
+   "desc": 17,
+   "glyphs": 23
+  },
+  {
+   "id": "w900x",
+   "axes": {
+    "wght": 900,
+    "wdth": 150
+   },
+   "bytes": 2676,
+   "sha256": "e6320cf90aa596d1da795a248b06e0e6890a49d47b2b6c8c511fb255d4ac227e",
+   "asc": 1570,
+   "desc": 20,
+   "glyphs": 23
+  },
+  {
+   "id": "w900c",
+   "axes": {
+    "wght": 900,
+    "wdth": 50
+   },
+   "bytes": 2408,
+   "sha256": "8d03823d66ec3472c88595725757e17498ad2a7dcc64eadf4a4d227f998b4f93",
+   "asc": 1570,
+   "desc": 14,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-w900n",
+   "file": "w900n",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.384,
+    "H": 0.682,
+    "X": 0.0345,
+    "top": 0.675
+   },
+   "w2": {
+    "W": 4.1245,
+    "H": 0.7895,
+    "X": 0.016,
+    "top": 0.785
+   }
+  },
+  {
+   "id": "n-base-w900x",
+   "file": "w900x",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 6.545,
+    "H": 0.684,
+    "X": 0.063,
+    "top": 0.675
+   },
+   "w2": {
+    "W": 6.07,
+    "H": 0.7905,
+    "X": 0.026,
+    "top": 0.785
+   }
+  },
+  {
+   "id": "n-base-w900c",
+   "file": "w900c",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.227,
+    "H": 0.679,
+    "X": 0.006,
+    "top": 0.675
+   },
+   "w2": {
+    "W": 2.182,
+    "H": 0.789,
+    "X": 0.007,
+    "top": 0.785
+   }
+  },
+  {
+   "id": "u-base-w900n",
+   "file": "w900n",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.453,
+    "H": 0.6875,
+    "X": 0.0345,
+    "top": 0.6815
+   },
+   "w2": {
+    "W": 4.495,
+    "H": 0.6875,
+    "X": 0.016,
+    "top": 0.6815
+   }
+  },
+  {
+   "id": "u-base-w900x",
+   "file": "w900x",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 6.6405,
+    "H": 0.69,
+    "X": 0.063,
+    "top": 0.682
+   },
+   "w2": {
+    "W": 6.7975,
+    "H": 0.69,
+    "X": 0.026,
+    "top": 0.682
+   }
+  },
+  {
+   "id": "u-base-w900c",
+   "file": "w900c",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.2695,
+    "H": 0.686,
+    "X": 0.006,
+    "top": 0.682
+   },
+   "w2": {
+    "W": 2.196,
+    "H": 0.686,
+    "X": 0.007,
+    "top": 0.682
+   }
+  },
+  {
+   "id": "l-base-w900n",
+   "file": "w900n",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.341,
+    "H": 0.738,
+    "X": 0.0095,
+    "top": 0.7295
+   },
+   "w2": {
+    "W": 4.0775,
+    "H": 0.791,
+    "X": 0.0185,
+    "top": 0.785
+   }
+  },
+  {
+   "id": "l-base-w900x",
+   "file": "w900x",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 6.481,
+    "H": 0.747,
+    "X": 0.013,
+    "top": 0.737
+   },
+   "w2": {
+    "W": 5.971,
+    "H": 0.792,
+    "X": 0.031,
+    "top": 0.785
+   }
+  },
+  {
+   "id": "l-base-w900c",
+   "file": "w900c",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.205,
+    "H": 0.7295,
+    "X": 0.006,
+    "top": 0.7225
+   },
+   "w2": {
+    "W": 2.1885,
+    "H": 0.789,
+    "X": 0.006,
+    "top": 0.785
+   }
+  },
+  {
+   "id": "n-ss01-w900n",
+   "file": "w900n",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 4.389,
+    "H": 0.6795,
+    "X": 0.0345,
+    "top": 0.675
+   },
+   "w2": {
+    "W": 4.1245,
+    "H": 0.7895,
+    "X": 0.016,
+    "top": 0.785
+   }
+  },
+  {
+   "id": "n-ss01-w900x",
+   "file": "w900x",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 6.567,
+    "H": 0.6795,
+    "X": 0.063,
+    "top": 0.675
+   },
+   "w2": {
+    "W": 6.07,
+    "H": 0.7905,
+    "X": 0.026,
+    "top": 0.785
+   }
+  },
+  {
+   "id": "n-ss01-w900c",
+   "file": "w900c",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 2.214,
+    "H": 0.679,
+    "X": 0.006,
+    "top": 0.675
+   },
+   "w2": {
+    "W": 2.182,
+    "H": 0.789,
+    "X": 0.007,
+    "top": 0.785
+   }
+  }
+ ]
+}

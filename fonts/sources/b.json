@@ -3,7 +3,7 @@
     "id": "alumni-sans-inline-one",
     "family": "Alumni Sans Inline One",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/alumnisansinlineone/AlumniSansInlineOne-Regular.ttf",
-    "sha256": "",
+    "sha256": "e77a9db5e63f9316840cab59d1364cd40334d6cd441c0b43fe2a18b2521e0e7e",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/alumnisansinlineone/OFL.txt",
     "copyright": "Copyright 2014 The Alumni Sans Inline Project Authors (https://github.com/googlefonts/alumni-sans-inline)",
@@ -27,7 +27,7 @@
     "id": "anybody-w900",
     "family": "Anybody",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/anybody/Anybody[wdth,wght].ttf",
-    "sha256": "",
+    "sha256": "b184bd7e6ca8348bbaecec98951565729d7e89b7872d4898a1f9981342b5b64c",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/anybody/OFL.txt",
     "copyright": "Copyright 2020 The Anybody Project Authors (https://github.com/Etcetera-Type-Co/Anybody)",
@@ -65,7 +65,7 @@
     "id": "archivo-black",
     "family": "Archivo Black",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/archivoblack/ArchivoBlack-Regular.ttf",
-    "sha256": "",
+    "sha256": "dd9a89a019b4849f66ab75455fe7bdf931311042cbb0f0f97acc061539703180",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/archivoblack/OFL.txt",
     "copyright": "Copyright 2017 The Archivo Black Project Authors (https://github.com/Omnibus-Type/ArchivoBlack)",
@@ -85,7 +85,7 @@
     "id": "backout",
     "family": "BackOut",
     "url": "https://gitlab.com/velvetyne/backout/-/raw/4f894ca0bf7d46e12a1e818d24a1234660e5848b/fonts/BackOut.ttf",
-    "sha256": "",
+    "sha256": "07eb28e21bec97eec99b64750ac2ea178ed2fd864bc35883ade494e347735fb4",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://gitlab.com/velvetyne/backout/-/raw/4f894ca0bf7d46e12a1e818d24a1234660e5848b/LICENSE.txt",
     "copyright": "Created by Frank ADEBIAYE, edited by Ariel Martín Pérez (Velvetyne Type Foundry).",
@@ -94,8 +94,6 @@
     ],
     "traits": [
       "sans",
-      "fat",
-      "wide",
       "stencil"
     ],
     "odds": 8,
@@ -110,7 +108,7 @@
     "id": "big-shoulders-inline",
     "family": "Big Shoulders Inline",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bigshouldersinline/BigShouldersInline[opsz,wght].ttf",
-    "sha256": "",
+    "sha256": "417c1d07898a6648faa9e3a95d7302aa44ee614e2236a2b336e16922569d1fa3",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bigshouldersinline/OFL.txt",
     "copyright": "Copyright 2019 The Big Shoulders Project Authors (https://github.com/xotypeco/big_shoulders)",
@@ -128,11 +126,6 @@
         "id": "w900",
         "wght": 900,
         "opsz": 72
-      },
-      {
-        "id": "w400",
-        "wght": 400,
-        "opsz": 40
       }
     ],
     "features": [
@@ -145,7 +138,7 @@
     "id": "big-shoulders-stencil",
     "family": "Big Shoulders Stencil",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bigshouldersstencil/BigShouldersStencil[opsz,wght].ttf",
-    "sha256": "",
+    "sha256": "758ec880296a8bdaf736a31fc57e90fa16673d8c357efc3c36bdb6582d625f0a",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bigshouldersstencil/OFL.txt",
     "copyright": "Copyright 2019 The Big Shoulders Project Authors (https://github.com/xotypeco/big_shoulders)",
@@ -175,7 +168,7 @@
     "id": "black-ops-one",
     "family": "Black Ops One",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/blackopsone/BlackOpsOne-Regular.ttf",
-    "sha256": "",
+    "sha256": "282a825b5f294377387e3969f765408157dbea8da0f5d0aae68c6bc704b145b3",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/blackopsone/OFL.txt",
     "copyright": "Copyright 2022 The Black-Ops Project Authors (https://github.com/googlefonts/googlefonts-project-template)",
@@ -190,37 +183,10 @@
     "odds": 7
   },
   {
-    "id": "bungee-hairline",
-    "family": "Bungee Hairline",
-    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bungeehairline/BungeeHairline-Regular.ttf",
-    "sha256": "",
-    "licenseId": "OFL-1.1",
-    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bungeehairline/OFL.txt",
-    "copyright": "Copyright 2023 The Bungee Project Authors (https://github.com/djrrb/Bungee)",
-    "archetype": [
-      "B"
-    ],
-    "traits": [
-      "sans",
-      "hairline",
-      "capsOnly"
-    ],
-    "odds": 6,
-    "features": [
-      "ss01",
-      "ss02",
-      "ss03",
-      "salt"
-    ],
-    "cases": [
-      "none"
-    ]
-  },
-  {
     "id": "bungee-inline",
     "family": "Bungee Inline",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bungeeinline/BungeeInline-Regular.ttf",
-    "sha256": "",
+    "sha256": "5a07361627376971fa195e8500ec0fc5e0daf7df2f94ba8eb30d1b10ed7e0375",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bungeeinline/OFL.txt",
     "copyright": "Copyright 2023 The Bungee Project Authors (https://github.com/djrrb/Bungee)",
@@ -248,7 +214,7 @@
     "id": "bungee-outline",
     "family": "Bungee Outline",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bungeeoutline/BungeeOutline-Regular.ttf",
-    "sha256": "",
+    "sha256": "9232000ff85fdbb68987007305f2de877486d63d31450f81b403461bbe721f1f",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bungeeoutline/OFL.txt",
     "copyright": "Copyright 2023 The Bungee Project Authors (https://github.com/djrrb/Bungee)",
@@ -276,7 +242,7 @@
     "id": "bungee-shade",
     "family": "Bungee Shade",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bungeeshade/BungeeShade-Regular.ttf",
-    "sha256": "",
+    "sha256": "665c626082682b462f4e696308eafa7071c114da8f8ff3fb73a289c7ff7df482",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bungeeshade/OFL.txt",
     "copyright": "Copyright 2023 The Bungee Project Authors (https://github.com/djrrb/Bungee)",
@@ -304,7 +270,7 @@
     "id": "climate-crisis",
     "family": "Climate Crisis",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/climatecrisis/ClimateCrisis[YEAR].ttf",
-    "sha256": "",
+    "sha256": "4b25279f80e420f9f09dbba13eb14d0beabfa013d17f74bad19cc9fdf4d55523",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/climatecrisis/OFL.txt",
     "copyright": "Copyright 2020 The Climate Crisis Project Authors (https://github.com/dancoull/ClimateCrisis)",
@@ -325,10 +291,6 @@
       {
         "id": "y2019",
         "YEAR": 2019
-      },
-      {
-        "id": "y2050",
-        "YEAR": 2050
       }
     ]
   },
@@ -336,7 +298,7 @@
     "id": "danfo",
     "family": "Danfo",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/danfo/Danfo[ELSH].ttf",
-    "sha256": "",
+    "sha256": "7e88c371ac63b0e4d0140812e703a3e021d37147a0df4f167ac324255a39d42f",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/danfo/OFL.txt",
     "copyright": "Copyright 2023 The Danfo Project Authors (https://github.com/Afrotype/danfo)",
@@ -368,7 +330,7 @@
     "id": "dela-gothic-one",
     "family": "Dela Gothic One",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/delagothicone/DelaGothicOne-Regular.ttf",
-    "sha256": "",
+    "sha256": "4ff87a0965f1b0505e5a2c58424bc6ad3cff27e56a82f21c2fc9d6b0e3857ee2",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/delagothicone/OFL.txt",
     "copyright": "Copyright 2020 The Dela Gothic Project Authors (https://github.com/syakuzen/DelaGothic)",
@@ -383,34 +345,10 @@
     "odds": 9
   },
   {
-    "id": "exile",
-    "family": "Exile",
-    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/exile/Exile-Regular.ttf",
-    "sha256": "",
-    "licenseId": "OFL-1.1",
-    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/exile/OFL.txt",
-    "copyright": "Copyright 2022 The Exile Project Authors (https://github.com/rozgatype/Exile)",
-    "archetype": [
-      "B"
-    ],
-    "traits": [
-      "sans",
-      "fat",
-      "capsOnly"
-    ],
-    "odds": 8,
-    "features": [
-      "ss01"
-    ],
-    "cases": [
-      "none"
-    ]
-  },
-  {
     "id": "jaro",
     "family": "Jaro",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/jaro/Jaro[opsz].ttf",
-    "sha256": "",
+    "sha256": "38d50e38a6fb082069984b363eb0a9280fc6a5e7f8a69fce2afce52bb6bc9670",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/jaro/OFL.txt",
     "copyright": "Copyright 2023 The Jaro Project Authors (https://github.com/googlefonts/googlefonts-project-template)",
@@ -438,7 +376,7 @@
     "id": "magiel-black",
     "family": "Magiel",
     "url": "https://raw.githubusercontent.com/warszawskie-kroje/magiel/f6f3fd11f3e72a5363aaa3e28769a88eb9c6c9b8/Magiel-Black/Magiel-Black.ttf",
-    "sha256": "",
+    "sha256": "82a43f2c245c8f236862136930624129ec6154763b8088bfdebfa930ed44e240",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/warszawskie-kroje/magiel/f6f3fd11f3e72a5363aaa3e28769a88eb9c6c9b8/README.md",
     "copyright": "Copyright © 2016 Stowarzyszenie Kulturotwórcze Miastodwa",
@@ -457,7 +395,7 @@
     "id": "mattone-black",
     "family": "Mattone",
     "url": "https://raw.githubusercontent.com/collletttivo/mattone/b1dc55dc6a432708ab00329d452d8f6907c6e570/fonts/Mattone-Black.ttf",
-    "sha256": "",
+    "sha256": "ca095d075d591e2a30b360c9a5c0377160d0de6a1592d9c5d337b23eba9a35ae",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/collletttivo/mattone/b1dc55dc6a432708ab00329d452d8f6907c6e570/LICENSE.txt",
     "copyright": "Copyright © 2023, Collletttivo (https://www.collletttivo.it/)",
@@ -475,30 +413,10 @@
     ]
   },
   {
-    "id": "mattone-bold",
-    "family": "Mattone",
-    "url": "https://raw.githubusercontent.com/collletttivo/mattone/b1dc55dc6a432708ab00329d452d8f6907c6e570/fonts/Mattone-Bold.ttf",
-    "sha256": "",
-    "licenseId": "OFL-1.1",
-    "licenseUrl": "https://raw.githubusercontent.com/collletttivo/mattone/b1dc55dc6a432708ab00329d452d8f6907c6e570/LICENSE.txt",
-    "copyright": "Copyright © 2023, Collletttivo (https://www.collletttivo.it/)",
-    "archetype": [
-      "B"
-    ],
-    "traits": [
-      "sans",
-      "fat"
-    ],
-    "odds": 6,
-    "features": [
-      "ss01"
-    ]
-  },
-  {
     "id": "messapia-bold",
     "family": "Messapia",
     "url": "https://raw.githubusercontent.com/collletttivo/messapia/c7fbc664055d3f16f5d7431271f738ab5cdc6373/fonts/Messapia-Bold.otf",
-    "sha256": "",
+    "sha256": "6628fcd4b211a50e001c974f3b0e7d5e1db4547b9a470b052ea14fced07bd779",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/collletttivo/messapia/c7fbc664055d3f16f5d7431271f738ab5cdc6373/LICENSE.txt",
     "copyright": "Copyright © 2023, Collletttivo (https://www.collletttivo.it/)",
@@ -507,7 +425,6 @@
     ],
     "traits": [
       "sans",
-      "fat",
       "wide"
     ],
     "odds": 8
@@ -516,7 +433,7 @@
     "id": "rubik-mono-one",
     "family": "Rubik Mono One",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikmonoone/RubikMonoOne-Regular.ttf",
-    "sha256": "",
+    "sha256": "b22624b6a36e543e942106edfccd198c50b57b65b924bfe02a6f0a5699429e6b",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikmonoone/OFL.txt",
     "copyright": "Copyright 2015 The Rubik Project Authors (mail@hubertfischer.com)",
@@ -538,7 +455,7 @@
     "id": "saira-stencil-one",
     "family": "Saira Stencil One",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sairastencilone/SairaStencilOne-Regular.ttf",
-    "sha256": "",
+    "sha256": "781496fdaf8e04cf6741b31025f6b4ba84f66021b097a8e0d85cbea2180cf223",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sairastencilone/OFL.txt",
     "copyright": "Copyright 2019 The Saira Stencil Project Authors (https://github.com/Omnibus-Type/Saira/SairaStencil)",
@@ -555,7 +472,7 @@
     "id": "science-gothic",
     "family": "Science Gothic",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sciencegothic/ScienceGothic[CTRS,slnt,wdth,wght].ttf",
-    "sha256": "",
+    "sha256": "246e4d33a6fcb3846094e5c4c034616f83e9ae10100316df32e2436362deab3d",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sciencegothic/OFL.txt",
     "copyright": "Copyright 2024 Font Detective LLC <https://github.com/googlefonts/science-gothic/OFL.txt>",
@@ -582,13 +499,6 @@
         "wdth": 100,
         "slnt": 0,
         "CTRS": 0
-      },
-      {
-        "id": "w900k",
-        "wght": 900,
-        "wdth": 150,
-        "slnt": 0,
-        "CTRS": 85
       }
     ],
     "features": [
@@ -601,7 +511,7 @@
     "id": "seymour-one",
     "family": "Seymour One",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/seymourone/SeymourOne-Regular.ttf",
-    "sha256": "",
+    "sha256": "8699709245074a91a64b43495bf864f6df6d43648d7e9d0d09144ca74433c3d4",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/seymourone/OFL.txt",
     "copyright": "Copyright 2011 The Seymour One Project Authors (https://github.com/googlefonts/seymourFont)",
@@ -619,7 +529,7 @@
     "id": "special-gothic-expanded-one",
     "family": "Special Gothic Expanded One",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/specialgothicexpandedone/SpecialGothicExpandedOne-Regular.ttf",
-    "sha256": "",
+    "sha256": "b6c347c00c607f9ca562e6054cadf87fb3ea20dbe2cc482bad3086fa4de48027",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/specialgothicexpandedone/OFL.txt",
     "copyright": "Copyright 2023 The Special Gothic Project Authors (https://github.com/AlistairMcCready/Special-Gothic/)",
@@ -640,7 +550,7 @@
     "id": "strichpunkt-sans",
     "family": "Strichpunkt Sans",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/strichpunktsans/StrichpunktSans[wdth,wght].ttf",
-    "sha256": "",
+    "sha256": "fe0d16855fd52eb54300f69ebcbfd0bd0323faf0abd8e112d7e42cee2d2804ea",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/strichpunktsans/OFL.txt",
     "copyright": "Copyright 2026 The Strichpunkt Sans Project Authors (https://github.com/solmatas/Strichpunkt_Sans)",
@@ -670,7 +580,7 @@
     "id": "syne-extrabold",
     "family": "Syne",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/syne/Syne[wght].ttf",
-    "sha256": "",
+    "sha256": "ce5ac77142a65cab2248a1a2ebb740b1d4d9c20b52488877d3ff664d1356104a",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/syne/OFL.txt",
     "copyright": "Copyright 2017 The Syne Project Authors (https://gitlab.com/bonjour-monde/fonderie/syne-typeface)",
@@ -700,7 +610,7 @@
     "id": "tilt-prism",
     "family": "Tilt Prism",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/tiltprism/TiltPrism[XROT,YROT].ttf",
-    "sha256": "",
+    "sha256": "28e96351753e177dc6e097f7f089c6942cdf26416e861f4ab9d6ee0bc57c7515",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/tiltprism/OFL.txt",
     "copyright": "Copyright 2019 The Tilt Project Authors (https://github.com/googlefonts/Tilt-Fonts)",
@@ -731,7 +641,7 @@
     "id": "tourney",
     "family": "Tourney",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/tourney/Tourney[wdth,wght].ttf",
-    "sha256": "",
+    "sha256": "ee686a1a657ca9397d4d1e9ba3ada1c10a5d9b6da53aeb94411cd62b1b793377",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/tourney/OFL.txt",
     "copyright": "Copyright 2020 The Tourney Project Authors (https://github.com/Etcetera-Type-Co/Tourney)",
@@ -741,8 +651,7 @@
     "traits": [
       "sans",
       "fat",
-      "wide",
-      "inline"
+      "wide"
     ],
     "odds": 7,
     "stops": [
@@ -765,7 +674,7 @@
     "id": "train-one",
     "family": "Train One",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/trainone/TrainOne-Regular.ttf",
-    "sha256": "",
+    "sha256": "07d67ad14231a4a41f0ee501b14bd6f9c7a9beada5ee6af2924114863a034623",
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/trainone/OFL.txt",
     "copyright": "Copyright 2020 The Train Project Authors (https://github.com/fontworks-fonts/Train)",
@@ -779,23 +688,5 @@
       "jp"
     ],
     "odds": 8
-  },
-  {
-    "id": "zaklad",
-    "family": "Zakład",
-    "url": "https://raw.githubusercontent.com/warszawskie-kroje/zaklad/e23057817a3aee58f1cd11a214675d23d6fe39d7/Zaklad-Regular/Zaklad-Regular.ttf",
-    "sha256": "",
-    "licenseId": "OFL-1.1",
-    "licenseUrl": "https://raw.githubusercontent.com/warszawskie-kroje/zaklad/e23057817a3aee58f1cd11a214675d23d6fe39d7/README.md",
-    "copyright": "Copyright © 2016 Stowarzyszenie Kulturotwórcze Miastodwa",
-    "archetype": [
-      "B"
-    ],
-    "traits": [
-      "sans",
-      "fat",
-      "wide"
-    ],
-    "odds": 10
   }
 ]

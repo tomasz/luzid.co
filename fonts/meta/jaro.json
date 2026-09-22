@@ -1,0 +1,179 @@
+{
+ "id": "jaro",
+ "family": "Jaro",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/jaro/Jaro[opsz].ttf",
+  "sha256": "38d50e38a6fb082069984b363eb0a9280fc6a5e7f8a69fce2afce52bb6bc9670"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2023 The Jaro Project Authors (https://github.com/googlefonts/googlefonts-project-template)",
+ "archetype": [
+  "B"
+ ],
+ "traits": [
+  "fat",
+  "overlap",
+  "sans",
+  "wide"
+ ],
+ "odds": 7,
+ "upm": 2000,
+ "files": [
+  {
+   "id": "o72",
+   "axes": {
+    "opsz": 72
+   },
+   "bytes": 2144,
+   "sha256": "dbaee47155bbd0c23d917ffc28a45df2c2b6ddb84cdb24440c3b832dcb86e828",
+   "asc": 1350,
+   "desc": 0,
+   "glyphs": 23
+  },
+  {
+   "id": "o14",
+   "axes": {
+    "opsz": 14
+   },
+   "bytes": 2192,
+   "sha256": "7df07f06bba63922e87716a8d3b6fe96e29bc4a61a60f6ee66064a1819d6a87a",
+   "asc": 1350,
+   "desc": 0,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-o72",
+   "file": "o72",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.651,
+    "H": 0.6665,
+    "X": 0.021,
+    "top": 0.6665
+   },
+   "w2": {
+    "W": 2.512,
+    "H": 0.675,
+    "X": 0.021,
+    "top": 0.675
+   }
+  },
+  {
+   "id": "n-base-o14",
+   "file": "o14",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.972,
+    "H": 0.6665,
+    "X": 0.06,
+    "top": 0.6665
+   },
+   "w2": {
+    "W": 2.7955,
+    "H": 0.675,
+    "X": 0.0565,
+    "top": 0.675
+   }
+  },
+  {
+   "id": "u-base-o72",
+   "file": "o72",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.921,
+    "H": 0.6665,
+    "X": 0.021,
+    "top": 0.6665
+   },
+   "w2": {
+    "W": 2.848,
+    "H": 0.6665,
+    "X": 0.021,
+    "top": 0.6665
+   }
+  },
+  {
+   "id": "u-base-o14",
+   "file": "o14",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.1455,
+    "H": 0.6665,
+    "X": 0.06,
+    "top": 0.6665
+   },
+   "w2": {
+    "W": 3.0675,
+    "H": 0.6665,
+    "X": 0.0565,
+    "top": 0.6665
+   }
+  },
+  {
+   "id": "l-base-o72",
+   "file": "o72",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.5675,
+    "H": 0.625,
+    "X": 0.01,
+    "top": 0.625
+   },
+   "w2": {
+    "W": 2.4555,
+    "H": 0.675,
+    "X": 0.021,
+    "top": 0.675
+   }
+  },
+  {
+   "id": "l-base-o14",
+   "file": "o14",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.828,
+    "H": 0.625,
+    "X": 0.03,
+    "top": 0.625
+   },
+   "w2": {
+    "W": 2.7355,
+    "H": 0.675,
+    "X": 0.0565,
+    "top": 0.675
+   }
+  }
+ ]
+}

@@ -1,0 +1,100 @@
+{
+ "id": "magiel-black",
+ "family": "Magiel",
+ "src": {
+  "url": "https://raw.githubusercontent.com/warszawskie-kroje/magiel/f6f3fd11f3e72a5363aaa3e28769a88eb9c6c9b8/Magiel-Black/Magiel-Black.ttf",
+  "sha256": "82a43f2c245c8f236862136930624129ec6154763b8088bfdebfa930ed44e240"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright © 2016 Stowarzyszenie Kulturotwórcze Miastodwa",
+ "archetype": [
+  "B",
+  "E"
+ ],
+ "traits": [
+  "condensed",
+  "fat",
+  "sans"
+ ],
+ "odds": 10,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 2208,
+   "sha256": "5a89bc285045cb41a408a195115607fd833006cf684262fba4cb48b0e2f02178",
+   "asc": 790,
+   "desc": 20,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.275,
+    "H": 0.7,
+    "X": 0.02,
+    "top": 0.68
+   },
+   "w2": {
+    "W": 4.227,
+    "H": 0.81,
+    "X": 0.02,
+    "top": 0.79
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.743,
+    "H": 0.78,
+    "X": 0.02,
+    "top": 0.76
+   },
+   "w2": {
+    "W": 4.981,
+    "H": 0.72,
+    "X": 0.02,
+    "top": 0.7
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.016,
+    "H": 0.726,
+    "X": 0.02,
+    "top": 0.706
+   },
+   "w2": {
+    "W": 4.099,
+    "H": 0.81,
+    "X": 0.01,
+    "top": 0.79
+   }
+  }
+ ]
+}

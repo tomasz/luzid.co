@@ -1,0 +1,223 @@
+{
+ "id": "danfo",
+ "family": "Danfo",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/danfo/Danfo[ELSH].ttf",
+  "sha256": "7e88c371ac63b0e4d0140812e703a3e021d37147a0df4f167ac324255a39d42f"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2023 The Danfo Project Authors (https://github.com/Afrotype/danfo)",
+ "archetype": [
+  "B"
+ ],
+ "traits": [
+  "capsOnly",
+  "fat",
+  "overlap",
+  "sans"
+ ],
+ "odds": 7,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "e0",
+   "axes": {
+    "ELSH": 0
+   },
+   "bytes": 2080,
+   "sha256": "13c84ee6ce755bb3ba5360ffd9c2a7ab8082a6c8a3d71479ad88999014f9f9e5",
+   "asc": 722,
+   "desc": 6,
+   "glyphs": 23
+  },
+  {
+   "id": "e100",
+   "axes": {
+    "ELSH": 100
+   },
+   "bytes": 2120,
+   "sha256": "da7e6e5b545fdf370da7d561547d2d0836f468195ebc2a11641181da3554ecf6",
+   "asc": 722,
+   "desc": 6,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-e0",
+   "file": "e0",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.825,
+    "H": 0.728,
+    "X": 0.015,
+    "top": 0.722
+   },
+   "w2": {
+    "W": 4.02,
+    "H": 0.728,
+    "X": 0.029,
+    "top": 0.722
+   }
+  },
+  {
+   "id": "n-base-e100",
+   "file": "e100",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.825,
+    "H": 0.728,
+    "X": 0.015,
+    "top": 0.722
+   },
+   "w2": {
+    "W": 4.02,
+    "H": 0.728,
+    "X": 0.029,
+    "top": 0.722
+   }
+  },
+  {
+   "id": "n-ss01-e0",
+   "file": "e0",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 3.825,
+    "H": 0.728,
+    "X": 0.015,
+    "top": 0.722
+   },
+   "w2": {
+    "W": 3.993,
+    "H": 0.728,
+    "X": 0.029,
+    "top": 0.722
+   }
+  },
+  {
+   "id": "n-ss01-e100",
+   "file": "e100",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 3.825,
+    "H": 0.728,
+    "X": 0.015,
+    "top": 0.722
+   },
+   "w2": {
+    "W": 3.993,
+    "H": 0.728,
+    "X": 0.029,
+    "top": 0.722
+   }
+  },
+  {
+   "id": "n-ss02-e0",
+   "file": "e0",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss02\" 1"
+   },
+   "w1": {
+    "W": 3.825,
+    "H": 0.728,
+    "X": 0.015,
+    "top": 0.722
+   },
+   "w2": {
+    "W": 4.003,
+    "H": 0.728,
+    "X": 0.029,
+    "top": 0.722
+   }
+  },
+  {
+   "id": "n-ss02-e100",
+   "file": "e100",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss02\" 1"
+   },
+   "w1": {
+    "W": 3.825,
+    "H": 0.728,
+    "X": 0.015,
+    "top": 0.722
+   },
+   "w2": {
+    "W": 4.003,
+    "H": 0.728,
+    "X": 0.029,
+    "top": 0.722
+   }
+  },
+  {
+   "id": "n-ss03-e0",
+   "file": "e0",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss03\" 1"
+   },
+   "w1": {
+    "W": 3.825,
+    "H": 0.728,
+    "X": 0.015,
+    "top": 0.722
+   },
+   "w2": {
+    "W": 4.024,
+    "H": 0.728,
+    "X": 0.029,
+    "top": 0.722
+   }
+  },
+  {
+   "id": "n-ss03-e100",
+   "file": "e100",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss03\" 1"
+   },
+   "w1": {
+    "W": 3.825,
+    "H": 0.728,
+    "X": 0.015,
+    "top": 0.722
+   },
+   "w2": {
+    "W": 4.024,
+    "H": 0.728,
+    "X": 0.029,
+    "top": 0.722
+   }
+  }
+ ]
+}

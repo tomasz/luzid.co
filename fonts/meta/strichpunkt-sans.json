@@ -1,0 +1,181 @@
+{
+ "id": "strichpunkt-sans",
+ "family": "Strichpunkt Sans",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/strichpunktsans/StrichpunktSans[wdth,wght].ttf",
+  "sha256": "fe0d16855fd52eb54300f69ebcbfd0bd0323faf0abd8e112d7e42cee2d2804ea"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2026 The Strichpunkt Sans Project Authors (https://github.com/solmatas/Strichpunkt_Sans)",
+ "archetype": [
+  "B"
+ ],
+ "traits": [
+  "fat",
+  "overlap",
+  "sans",
+  "wide"
+ ],
+ "odds": 7,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "w900x",
+   "axes": {
+    "wght": 900,
+    "wdth": 200
+   },
+   "bytes": 2652,
+   "sha256": "cea5ba33669130c1e031be0acdda785ccb3aadae10d87b0e94515ef2df93c631",
+   "asc": 710,
+   "desc": 30,
+   "glyphs": 23
+  },
+  {
+   "id": "w900n",
+   "axes": {
+    "wght": 900,
+    "wdth": 100
+   },
+   "bytes": 2608,
+   "sha256": "af26e6d856b038dbc5c0c51d15e9bef60d87d8babf1c084d32f4dfeef94679bf",
+   "asc": 710,
+   "desc": 10,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-w900x",
+   "file": "w900x",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.748,
+    "H": 0.71,
+    "X": 0.005,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 4.582,
+    "H": 0.72,
+    "X": 0.016,
+    "top": 0.71
+   }
+  },
+  {
+   "id": "n-base-w900n",
+   "file": "w900n",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.735,
+    "H": 0.71,
+    "X": 0.005,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 3.639,
+    "H": 0.72,
+    "X": 0.018,
+    "top": 0.71
+   }
+  },
+  {
+   "id": "u-base-w900x",
+   "file": "w900x",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 5.482,
+    "H": 0.74,
+    "X": 0.005,
+    "top": 0.71
+   },
+   "w2": {
+    "W": 5.58,
+    "H": 0.72,
+    "X": 0.016,
+    "top": 0.71
+   }
+  },
+  {
+   "id": "u-base-w900n",
+   "file": "w900n",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.257,
+    "H": 0.72,
+    "X": 0.005,
+    "top": 0.71
+   },
+   "w2": {
+    "W": 4.278,
+    "H": 0.72,
+    "X": 0.018,
+    "top": 0.71
+   }
+  },
+  {
+   "id": "l-base-w900x",
+   "file": "w900x",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.631,
+    "H": 0.715,
+    "X": 0.005,
+    "top": 0.705
+   },
+   "w2": {
+    "W": 4.405,
+    "H": 0.71,
+    "X": 0.012,
+    "top": 0.7
+   }
+  },
+  {
+   "id": "l-base-w900n",
+   "file": "w900n",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.623,
+    "H": 0.681,
+    "X": 0.013,
+    "top": 0.671
+   },
+   "w2": {
+    "W": 3.54,
+    "H": 0.71,
+    "X": 0.014,
+    "top": 0.7
+   }
+  }
+ ]
+}
