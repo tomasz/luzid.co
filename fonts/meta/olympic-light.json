@@ -1,0 +1,100 @@
+{
+ "id": "olympic-light",
+ "family": "Olympic",
+ "src": {
+  "url": "https://raw.githubusercontent.com/warszawskie-kroje/olympic/16653295b28b8b9e6cfe73360d4487ca37bd0c70/Olympic-Light/Olympic-Light.ttf",
+  "sha256": "2e22d1edf504cd89389e4ad7d141988015040aa0bbb48e8a135048db6c94d256"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright © 2016 Stowarzyszenie Kulturotwórcze Miastodwa",
+ "archetype": [
+  "F"
+ ],
+ "traits": [
+  "deco",
+  "serif"
+ ],
+ "odds": 10,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 2788,
+   "sha256": "b8c8c669115ce940b255082579d0c0938eebb1eb9cf75fca5d683a4dd84710a1",
+   "asc": 713,
+   "desc": 10,
+   "stem": 0.0656,
+   "crossbar": 0.0277,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 300,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.939,
+    "H": 0.683,
+    "X": 0.071,
+    "top": 0.674
+   },
+   "w2": {
+    "W": 2.918,
+    "H": 0.723,
+    "X": 0.059,
+    "top": 0.713
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 300,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.831,
+    "H": 0.699,
+    "X": 0.071,
+    "top": 0.689
+   },
+   "w2": {
+    "W": 4.001,
+    "H": 0.685,
+    "X": 0.059,
+    "top": 0.675
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 300,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.652,
+    "H": 0.598,
+    "X": 0.056,
+    "top": 0.589
+   },
+   "w2": {
+    "W": 2.662,
+    "H": 0.722,
+    "X": 0.042,
+    "top": 0.713
+   }
+  }
+ ]
+}

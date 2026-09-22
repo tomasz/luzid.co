@@ -1,0 +1,103 @@
+{
+ "id": "libre-bodoni",
+ "family": "Libre Bodoni",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/librebodoni/LibreBodoni[wght].ttf",
+  "sha256": "0d543665bd869819ffd7d46608804e245497ba835960832d44be89e561b0c717"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2012 The Libre Bodoni Project Authors (https://github.com/googlefonts/Libre-Bodoni/)",
+ "archetype": [
+  "F"
+ ],
+ "traits": [
+  "deco",
+  "overlap",
+  "serif"
+ ],
+ "odds": 7,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "w700",
+   "axes": {
+    "wght": 700
+   },
+   "bytes": 2876,
+   "sha256": "1a6f7ff05cd7bd9743efa2bb5009758efad24eef3ef368e26ff51b6a7fa2f790",
+   "asc": 763,
+   "desc": 13,
+   "stem": 0.158,
+   "crossbar": 0.03,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-w700",
+   "file": "w700",
+   "case": "none",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.528,
+    "H": 0.767,
+    "X": 0.015,
+    "top": 0.754
+   },
+   "w2": {
+    "W": 3.573,
+    "H": 0.776,
+    "X": 0.05,
+    "top": 0.763
+   }
+  },
+  {
+   "id": "u-base-w700",
+   "file": "w700",
+   "case": "uppercase",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.359,
+    "H": 0.776,
+    "X": 0.015,
+    "top": 0.763
+   },
+   "w2": {
+    "W": 4.704,
+    "H": 0.776,
+    "X": 0.05,
+    "top": 0.763
+   }
+  },
+  {
+   "id": "l-base-w700",
+   "file": "w700",
+   "case": "lowercase",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.267,
+    "H": 0.635,
+    "X": 0.01,
+    "top": 0.622
+   },
+   "w2": {
+    "W": 3.387,
+    "H": 0.767,
+    "X": 0.045,
+    "top": 0.754
+   }
+  }
+ ]
+}

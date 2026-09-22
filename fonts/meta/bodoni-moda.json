@@ -1,0 +1,228 @@
+{
+ "id": "bodoni-moda",
+ "family": "Bodoni Moda",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bodonimoda/BodoniModa[opsz,wght].ttf",
+  "sha256": "550f5e34ee0a828d7941b1fe9bc58b34e5260d3f33a61532e6d0a0114e79a5cf"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2020 The Bodoni Moda Project Authors (https://github.com/indestructible-type/Bodoni)",
+ "archetype": [
+  "F"
+ ],
+ "traits": [
+  "deco",
+  "overlap",
+  "serif"
+ ],
+ "odds": 9,
+ "upm": 2000,
+ "files": [
+  {
+   "id": "w900d",
+   "axes": {
+    "wght": 900,
+    "opsz": 14
+   },
+   "bytes": 3704,
+   "sha256": "618ff1761bc75900163656e7cf9288ffb7fa8d60e59781389ee875a94e077d82",
+   "asc": 1529,
+   "desc": 29,
+   "stem": 0.215,
+   "crossbar": 0.016,
+   "glyphs": 23
+  },
+  {
+   "id": "w400t",
+   "axes": {
+    "wght": 400,
+    "opsz": 11
+   },
+   "bytes": 3716,
+   "sha256": "e3cd02ad311fdce2f99e387e069491e5e2c15ea35289caa2d01aba61c05386b4",
+   "asc": 1529,
+   "desc": 29,
+   "stem": 0.095,
+   "crossbar": 0.0195,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-w900d",
+   "file": "w900d",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.738,
+    "H": 0.76,
+    "X": 0.0145,
+    "top": 0.75
+   },
+   "w2": {
+    "W": 3.795,
+    "H": 0.77,
+    "X": 0.04,
+    "top": 0.76
+   }
+  },
+  {
+   "id": "n-base-w400t",
+   "file": "w400t",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.381,
+    "H": 0.76,
+    "X": 0.031,
+    "top": 0.75
+   },
+   "w2": {
+    "W": 3.464,
+    "H": 0.77,
+    "X": 0.0555,
+    "top": 0.76
+   }
+  },
+  {
+   "id": "u-base-w900d",
+   "file": "w900d",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.5495,
+    "H": 0.779,
+    "X": 0.0145,
+    "top": 0.7645
+   },
+   "w2": {
+    "W": 4.828,
+    "H": 0.7745,
+    "X": 0.04,
+    "top": 0.76
+   }
+  },
+  {
+   "id": "u-base-w400t",
+   "file": "w400t",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.128,
+    "H": 0.779,
+    "X": 0.031,
+    "top": 0.7645
+   },
+   "w2": {
+    "W": 4.3745,
+    "H": 0.7745,
+    "X": 0.0555,
+    "top": 0.76
+   }
+  },
+  {
+   "id": "l-base-w900d",
+   "file": "w900d",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.482,
+    "H": 0.6,
+    "X": 0.002,
+    "top": 0.59
+   },
+   "w2": {
+    "W": 3.6325,
+    "H": 0.77,
+    "X": 0.0275,
+    "top": 0.76
+   }
+  },
+  {
+   "id": "l-base-w400t",
+   "file": "w400t",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.1175,
+    "H": 0.6,
+    "X": 0.0265,
+    "top": 0.59
+   },
+   "w2": {
+    "W": 3.277,
+    "H": 0.7675,
+    "X": 0.0515,
+    "top": 0.7575
+   }
+  },
+  {
+   "id": "l-smcp-w900d",
+   "file": "w900d",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"smcp\" 1"
+   },
+   "w1": {
+    "W": 3.973,
+    "H": 0.534,
+    "X": 0.025,
+    "top": 0.52
+   },
+   "w2": {
+    "W": 4.209,
+    "H": 0.534,
+    "X": 0.05,
+    "top": 0.52
+   }
+  },
+  {
+   "id": "l-smcp-w400t",
+   "file": "w400t",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"smcp\" 1"
+   },
+   "w1": {
+    "W": 3.5155,
+    "H": 0.5345,
+    "X": 0.035,
+    "top": 0.52
+   },
+   "w2": {
+    "W": 3.6875,
+    "H": 0.5345,
+    "X": 0.05,
+    "top": 0.52
+   }
+  }
+ ]
+}

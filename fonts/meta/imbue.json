@@ -1,0 +1,229 @@
+{
+ "id": "imbue",
+ "family": "Imbue",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/imbue/Imbue[opsz,wght].ttf",
+  "sha256": "bf45ff1dc01974acedf4f11bcbfa7365053d97f4d598ddafe189d238ac80a534"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2020 The Imbue Project Authors (https://github.com/Etcetera-Type-Co/Imbue)",
+ "archetype": [
+  "F"
+ ],
+ "traits": [
+  "condensed",
+  "deco",
+  "overlap",
+  "serif"
+ ],
+ "odds": 7,
+ "upm": 2000,
+ "files": [
+  {
+   "id": "w900d",
+   "axes": {
+    "wght": 900,
+    "opsz": 40
+   },
+   "bytes": 3460,
+   "sha256": "6fe1d1d5033c5f50c8f860058d5abe9493e0071580c97ad43bb8c97b4f992baa",
+   "asc": 1509,
+   "desc": 27,
+   "stem": 0.149,
+   "crossbar": 0.03,
+   "glyphs": 23
+  },
+  {
+   "id": "w400t",
+   "axes": {
+    "wght": 400,
+    "opsz": 10
+   },
+   "bytes": 3464,
+   "sha256": "8d8dd71bc8b5ec04166aebca65f0b8986b810093750a45629dd49bbfdffe59f4",
+   "asc": 1500,
+   "desc": 27,
+   "stem": 0.075,
+   "crossbar": 0.0335,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-w900d",
+   "file": "w900d",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.5655,
+    "H": 0.711,
+    "X": 0.0195,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 2.611,
+    "H": 0.7655,
+    "X": 0.031,
+    "top": 0.7545
+   }
+  },
+  {
+   "id": "n-base-w400t",
+   "file": "w400t",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.037,
+    "H": 0.711,
+    "X": 0.019,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 2.0485,
+    "H": 0.761,
+    "X": 0.0315,
+    "top": 0.75
+   }
+  },
+  {
+   "id": "u-base-w900d",
+   "file": "w900d",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.453,
+    "H": 0.7245,
+    "X": 0.0195,
+    "top": 0.711
+   },
+   "w2": {
+    "W": 2.694,
+    "H": 0.723,
+    "X": 0.031,
+    "top": 0.711
+   }
+  },
+  {
+   "id": "u-base-w400t",
+   "file": "w400t",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.1265,
+    "H": 0.7245,
+    "X": 0.019,
+    "top": 0.711
+   },
+   "w2": {
+    "W": 2.2725,
+    "H": 0.723,
+    "X": 0.0315,
+    "top": 0.711
+   }
+  },
+  {
+   "id": "l-base-w900d",
+   "file": "w900d",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.4855,
+    "H": 0.6885,
+    "X": -0.0015,
+    "top": 0.6775
+   },
+   "w2": {
+    "W": 2.606,
+    "H": 0.7655,
+    "X": 0.025,
+    "top": 0.7545
+   }
+  },
+  {
+   "id": "l-base-w400t",
+   "file": "w400t",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 1.9485,
+    "H": 0.6775,
+    "X": 0.0015,
+    "top": 0.6665
+   },
+   "w2": {
+    "W": 2.031,
+    "H": 0.761,
+    "X": 0.0255,
+    "top": 0.75
+   }
+  },
+  {
+   "id": "u-c2sc-w900d",
+   "file": "w900d",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"c2sc\" 1"
+   },
+   "w1": {
+    "W": 2.4305,
+    "H": 0.5795,
+    "X": 0.032,
+    "top": 0.5685
+   },
+   "w2": {
+    "W": 2.6795,
+    "H": 0.578,
+    "X": 0.0445,
+    "top": 0.5685
+   }
+  },
+  {
+   "id": "u-c2sc-w400t",
+   "file": "w400t",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"c2sc\" 1"
+   },
+   "w1": {
+    "W": 2.098,
+    "H": 0.5795,
+    "X": 0.032,
+    "top": 0.5685
+   },
+   "w2": {
+    "W": 2.2605,
+    "H": 0.578,
+    "X": 0.0455,
+    "top": 0.5685
+   }
+  }
+ ]
+}

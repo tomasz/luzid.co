@@ -1,0 +1,185 @@
+{
+ "id": "kalnia",
+ "family": "Kalnia",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/kalnia/Kalnia[wdth,wght].ttf",
+  "sha256": "33685d0ec4abcca2736a51a10a6d4ee1aab2e608e6598c6926af9550b86731a4"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2022 The Kalnia Project Authors (https://github.com/fridamedrano/Kalnia-Typeface.git)",
+ "archetype": [
+  "F",
+  "A"
+ ],
+ "traits": [
+  "deco",
+  "overlap",
+  "serif"
+ ],
+ "odds": 8,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "w700",
+   "axes": {
+    "wght": 700,
+    "wdth": 100
+   },
+   "bytes": 2860,
+   "sha256": "eaff635dff8e2f8032d84fcbdbb26de11493aefa7638981e7047be87feed4cb8",
+   "asc": 745,
+   "desc": 15,
+   "stem": 0.245,
+   "crossbar": 0.0151,
+   "glyphs": 23
+  },
+  {
+   "id": "w400",
+   "axes": {
+    "wght": 400,
+    "wdth": 100
+   },
+   "bytes": 2920,
+   "sha256": "8e18b0f6406308397ace6d1b47ea0d0ed69d5c4cf3d355343dc4b1e6bd25e2f6",
+   "asc": 745,
+   "desc": 15,
+   "stem": 0.115,
+   "crossbar": 0.015,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-w700",
+   "file": "w700",
+   "case": "none",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.214,
+    "H": 0.723,
+    "X": 0.005,
+    "top": 0.708
+   },
+   "w2": {
+    "W": 3.998,
+    "H": 0.76,
+    "X": 0.03,
+    "top": 0.745
+   }
+  },
+  {
+   "id": "n-base-w400",
+   "file": "w400",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.986,
+    "H": 0.723,
+    "X": 0.036,
+    "top": 0.708
+   },
+   "w2": {
+    "W": 3.705,
+    "H": 0.76,
+    "X": 0.058,
+    "top": 0.745
+   }
+  },
+  {
+   "id": "u-base-w700",
+   "file": "w700",
+   "case": "uppercase",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.679,
+    "H": 0.738,
+    "X": 0.005,
+    "top": 0.723
+   },
+   "w2": {
+    "W": 4.753,
+    "H": 0.738,
+    "X": 0.03,
+    "top": 0.723
+   }
+  },
+  {
+   "id": "u-base-w400",
+   "file": "w400",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.445,
+    "H": 0.738,
+    "X": 0.036,
+    "top": 0.723
+   },
+   "w2": {
+    "W": 4.534,
+    "H": 0.738,
+    "X": 0.058,
+    "top": 0.723
+   }
+  },
+  {
+   "id": "l-base-w700",
+   "file": "w700",
+   "case": "lowercase",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.855,
+    "H": 0.679,
+    "X": 0,
+    "top": 0.664
+   },
+   "w2": {
+    "W": 3.873,
+    "H": 0.76,
+    "X": 0.02,
+    "top": 0.745
+   }
+  },
+  {
+   "id": "l-base-w400",
+   "file": "w400",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.622,
+    "H": 0.679,
+    "X": 0.014,
+    "top": 0.664
+   },
+   "w2": {
+    "W": 3.58,
+    "H": 0.76,
+    "X": 0.045,
+    "top": 0.745
+   }
+  }
+ ]
+}

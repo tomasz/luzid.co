@@ -1,0 +1,100 @@
+{
+ "id": "girassol",
+ "family": "Girassol",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/girassol/Girassol-Regular.ttf",
+  "sha256": "84c229dea2428bf26808d985a44262fd57f47a17b1722497c9d4ec5bba94fafc"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2019 The Girassol Project Authors (https://github.com/liamspradlin/Girassol-Display)",
+ "archetype": [
+  "F"
+ ],
+ "traits": [
+  "deco",
+  "serif"
+ ],
+ "odds": 7,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 2300,
+   "sha256": "ccaf526e76a27e862cac052912fa155fe88846a66f83109d5ee2c6e1e85e0275",
+   "asc": 788,
+   "desc": 31,
+   "stem": 0.112,
+   "crossbar": 0.0391,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.891,
+    "H": 0.808,
+    "X": 0.008,
+    "top": 0.787
+   },
+   "w2": {
+    "W": 2.911,
+    "H": 0.809,
+    "X": 0.043,
+    "top": 0.788
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.036,
+    "H": 0.819,
+    "X": 0.008,
+    "top": 0.788
+   },
+   "w2": {
+    "W": 3.023,
+    "H": 0.819,
+    "X": 0.043,
+    "top": 0.788
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.819,
+    "H": 0.587,
+    "X": 0,
+    "top": 0.566
+   },
+   "w2": {
+    "W": 2.902,
+    "H": 0.581,
+    "X": 0.04,
+    "top": 0.56
+   }
+  }
+ ]
+}

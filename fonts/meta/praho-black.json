@@ -1,0 +1,101 @@
+{
+ "id": "praho-black",
+ "family": "Praho",
+ "src": {
+  "url": "https://raw.githubusercontent.com/warszawskie-kroje/praho/9bcc8b6e22eacc0f5f1540dd7483fd97d42259df/Praho-Black/Praho-Black.ttf",
+  "sha256": "01043bfc95e1ca27ec1c2bcd799dbe78231e0e69d7db8572cfa682b7633ba6ac"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright © 2016 Stowarzyszenie Kulturotwórcze Miastodwa",
+ "archetype": [
+  "F"
+ ],
+ "traits": [
+  "deco",
+  "fat",
+  "serif"
+ ],
+ "odds": 10,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 2456,
+   "sha256": "6a970334a5a69aec3152f1eff47f024429ccd887e0e1df449d5c064086a88dcc",
+   "asc": 803,
+   "desc": 10,
+   "stem": 0.23,
+   "crossbar": 0.024,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.72,
+    "H": 0.71,
+    "X": 0.014,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 3.767,
+    "H": 0.813,
+    "X": 0.031,
+    "top": 0.803
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.183,
+    "H": 0.72,
+    "X": 0.014,
+    "top": 0.71
+   },
+   "w2": {
+    "W": 4.423,
+    "H": 0.72,
+    "X": 0.031,
+    "top": 0.71
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.517,
+    "H": 0.692,
+    "X": 0.001,
+    "top": 0.682
+   },
+   "w2": {
+    "W": 3.678,
+    "H": 0.813,
+    "X": 0.026,
+    "top": 0.803
+   }
+  }
+ ]
+}

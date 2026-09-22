@@ -1,0 +1,166 @@
+{
+ "id": "cantique",
+ "family": "Cantique",
+ "src": {
+  "url": "https://gitlab.com/velvetyne/cantique/-/raw/ff74dccdf7af6c3c4d1af70f44732ef87d75ce61/fonts/Cantique-Normal.otf",
+  "sha256": "13d7caef17187d1e74001d21cc042048b36e6d63a5bf97165602ab449179d831"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright Sébastien Hayez, 2018 (Velvetyne Type Foundry).",
+ "archetype": [
+  "F"
+ ],
+ "traits": [
+  "deco",
+  "serif"
+ ],
+ "odds": 8,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 4808,
+   "sha256": "69c4b63704d14f4195f2e5ef0ade66138675570fee1fe1d23a59f73166c89eae",
+   "asc": 843,
+   "desc": 817,
+   "stem": 0.068,
+   "crossbar": 0.0127,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.986,
+    "H": 1.597,
+    "X": 0.052,
+    "top": 0.78
+   },
+   "w2": {
+    "W": 3.978,
+    "H": 0.812,
+    "X": 0.082,
+    "top": 0.805
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 5.755,
+    "H": 1.66,
+    "X": 0.052,
+    "top": 0.843
+   },
+   "w2": {
+    "W": 6.147,
+    "H": 0.935,
+    "X": 0.082,
+    "top": 0.843
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.503,
+    "H": 0.588,
+    "X": 0.006,
+    "top": 0.58
+   },
+   "w2": {
+    "W": 3.645,
+    "H": 0.757,
+    "X": 0.063,
+    "top": 0.75
+   }
+  },
+  {
+   "id": "n-salt-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"salt\" 1"
+   },
+   "w1": {
+    "W": 3.986,
+    "H": 0.788,
+    "X": 0.052,
+    "top": 0.78
+   },
+   "w2": {
+    "W": 3.978,
+    "H": 0.812,
+    "X": 0.082,
+    "top": 0.805
+   }
+  },
+  {
+   "id": "u-salt-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"salt\" 1"
+   },
+   "w1": {
+    "W": 6.25,
+    "H": 1.657,
+    "X": 0.052,
+    "top": 0.843
+   },
+   "w2": {
+    "W": 6.147,
+    "H": 0.935,
+    "X": 0.082,
+    "top": 0.843
+   }
+  },
+  {
+   "id": "n-ss02-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss02\" 1"
+   },
+   "w1": {
+    "W": 3.802,
+    "H": 1.598,
+    "X": 0.052,
+    "top": 0.781
+   },
+   "w2": {
+    "W": 3.978,
+    "H": 0.812,
+    "X": 0.082,
+    "top": 0.805
+   }
+  }
+ ]
+}

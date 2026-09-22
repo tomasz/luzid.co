@@ -1,0 +1,122 @@
+{
+ "id": "nocturne-serif",
+ "family": "Nocturne Serif",
+ "src": {
+  "url": "https://raw.githubusercontent.com/warszawskie-kroje/nocturne/4dfa961f2eed74e486f4959aca07337fd70debfe/Nocturne%20Serif/NocturneSerif-Regular.ttf",
+  "sha256": "ec981b3d8412fead7dee2fd59df2d19e2616f6f4019f6f340ad8bc7df6914b8a"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright © 2016 Stowarzyszenie Kulturotwórcze Miastodwa",
+ "archetype": [
+  "F"
+ ],
+ "traits": [
+  "deco",
+  "serif"
+ ],
+ "odds": 10,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 3252,
+   "sha256": "74f9f86a30ef32ded8ec6bdedf4c438c869a273b10a14ee192fc88f1959d0040",
+   "asc": 780,
+   "desc": 10,
+   "stem": 0.1,
+   "crossbar": 0.0229,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.56,
+    "H": 0.73,
+    "X": 0.03,
+    "top": 0.72
+   },
+   "w2": {
+    "W": 3.525,
+    "H": 0.79,
+    "X": 0.05,
+    "top": 0.78
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.257,
+    "H": 0.74,
+    "X": 0.03,
+    "top": 0.73
+   },
+   "w2": {
+    "W": 4.57,
+    "H": 0.73,
+    "X": 0.05,
+    "top": 0.72
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.404,
+    "H": 0.579,
+    "X": 0.005,
+    "top": 0.569
+   },
+   "w2": {
+    "W": 3.305,
+    "H": 0.79,
+    "X": 0.045,
+    "top": 0.78
+   }
+  },
+  {
+   "id": "u-c2sc-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"c2sc\" 1"
+   },
+   "w1": {
+    "W": 3.667,
+    "H": 0.597,
+    "X": 0.025,
+    "top": 0.587
+   },
+   "w2": {
+    "W": 3.939,
+    "H": 0.585,
+    "X": 0.04,
+    "top": 0.575
+   }
+  }
+ ]
+}

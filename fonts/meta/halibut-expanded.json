@@ -1,0 +1,101 @@
+{
+ "id": "halibut-expanded",
+ "family": "Halibut",
+ "src": {
+  "url": "https://raw.githubusercontent.com/collletttivo/halibut/13df8fd7ea926f9a47049ec1426fcce186909ee8/fonts/Halibut-ExpandedRegular.otf",
+  "sha256": "50243aff06928e792dcb4ecbb5b5b1ea2ba22313a72a79b72784007ecc73a937"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright © 2023, Collletttivo (https://www.collletttivo.it/)",
+ "archetype": [
+  "F"
+ ],
+ "traits": [
+  "deco",
+  "serif",
+  "wide"
+ ],
+ "odds": 7,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 2984,
+   "sha256": "0dfa70863461c17f047d79a39f7d5cbd8d35793745743bbb86810cda32f296c5",
+   "asc": 725,
+   "desc": 23,
+   "stem": 0.095,
+   "crossbar": 0.0232,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.718,
+    "H": 0.633,
+    "X": 0.019,
+    "top": 0.61
+   },
+   "w2": {
+    "W": 4.563,
+    "H": 0.745,
+    "X": 0.024,
+    "top": 0.725
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 5.655,
+    "H": 0.645,
+    "X": 0.019,
+    "top": 0.625
+   },
+   "w2": {
+    "W": 5.955,
+    "H": 0.645,
+    "X": 0.024,
+    "top": 0.625
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.493,
+    "H": 0.588,
+    "X": -0.005,
+    "top": 0.565
+   },
+   "w2": {
+    "W": 4.322,
+    "H": 0.745,
+    "X": 0.026,
+    "top": 0.725
+   }
+  }
+ ]
+}

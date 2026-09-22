@@ -1,0 +1,210 @@
+{
+ "id": "trickster",
+ "family": "Trickster",
+ "src": {
+  "url": "https://gitlab.com/velvetyne/Trickster/-/raw/751b1fa5fd5293614d0eb4df4962ec195fa243ab/fonts/Trickster-Reg.ttf",
+  "sha256": "39f93ce2b34de5b800daeab0e6460cdd7340d0636e8474a0a3d79e803287105b"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright Jean-Baptiste Morizot (Velvetyne Type Foundry).",
+ "archetype": [
+  "F"
+ ],
+ "traits": [
+  "deco",
+  "serif"
+ ],
+ "odds": 8,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 3684,
+   "sha256": "102515a6191380f0505fa55d8ca07c40a53a4fa544efc68ab00b20d0c27f6907",
+   "asc": 876,
+   "desc": 426,
+   "stem": 0.1421,
+   "crossbar": 0.0432,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.498,
+    "H": 0.765,
+    "X": 0.03,
+    "top": 0.75
+   },
+   "w2": {
+    "W": 3.146,
+    "H": 0.897,
+    "X": 0.019,
+    "top": 0.876
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.155,
+    "H": 0.781,
+    "X": 0.03,
+    "top": 0.766
+   },
+   "w2": {
+    "W": 4.07,
+    "H": 0.778,
+    "X": 0.019,
+    "top": 0.764
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.27,
+    "H": 0.72,
+    "X": 0.012,
+    "top": 0.705
+   },
+   "w2": {
+    "W": 2.981,
+    "H": 0.897,
+    "X": 0.017,
+    "top": 0.876
+   }
+  },
+  {
+   "id": "n-ss02-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss02\" 1"
+   },
+   "w1": {
+    "W": 3.505,
+    "H": 0.765,
+    "X": 0.03,
+    "top": 0.75
+   },
+   "w2": {
+    "W": 3.146,
+    "H": 0.897,
+    "X": 0.019,
+    "top": 0.876
+   }
+  },
+  {
+   "id": "u-ss02-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss02\" 1"
+   },
+   "w1": {
+    "W": 4.203,
+    "H": 0.781,
+    "X": 0.03,
+    "top": 0.766
+   },
+   "w2": {
+    "W": 4.07,
+    "H": 0.778,
+    "X": 0.019,
+    "top": 0.764
+   }
+  },
+  {
+   "id": "l-ss02-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss02\" 1"
+   },
+   "w1": {
+    "W": 3.277,
+    "H": 0.72,
+    "X": 0.012,
+    "top": 0.705
+   },
+   "w2": {
+    "W": 2.981,
+    "H": 0.897,
+    "X": 0.017,
+    "top": 0.876
+   }
+  },
+  {
+   "id": "n-ss03-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss03\" 1"
+   },
+   "w1": {
+    "W": 3.505,
+    "H": 1.176,
+    "X": 0.03,
+    "top": 0.75
+   },
+   "w2": {
+    "W": 3.146,
+    "H": 1.302,
+    "X": 0.019,
+    "top": 0.876
+   }
+  },
+  {
+   "id": "l-ss03-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss03\" 1"
+   },
+   "w1": {
+    "W": 3.277,
+    "H": 1.131,
+    "X": 0.012,
+    "top": 0.705
+   },
+   "w2": {
+    "W": 2.981,
+    "H": 1.302,
+    "X": 0.017,
+    "top": 0.876
+   }
+  }
+ ]
+}

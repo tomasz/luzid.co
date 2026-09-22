@@ -1,0 +1,101 @@
+{
+ "id": "belleza",
+ "family": "Belleza",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/belleza/Belleza-Regular.ttf",
+  "sha256": "a88eb0fdf4e78687a40d3478e1c90d4d3079e8c0d7d3a2452488a3ba805bff1d"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2012 The Belleza Project Authors (https://github.com/etunni/belleza)",
+ "archetype": [
+  "F"
+ ],
+ "traits": [
+  "deco",
+  "overlap",
+  "sans"
+ ],
+ "odds": 6,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 2416,
+   "sha256": "0079a4f5428404d3124616351f3605af3337402f224d54ffbfb195f441f0aed6",
+   "asc": 683,
+   "desc": 13,
+   "stem": 0.092,
+   "crossbar": 0.0427,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.96,
+    "H": 0.675,
+    "X": 0.01,
+    "top": 0.662
+   },
+   "w2": {
+    "W": 2.966,
+    "H": 0.696,
+    "X": 0.028,
+    "top": 0.683
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.865,
+    "H": 0.69,
+    "X": 0.01,
+    "top": 0.678
+   },
+   "w2": {
+    "W": 3.99,
+    "H": 0.686,
+    "X": 0.028,
+    "top": 0.674
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.829,
+    "H": 0.562,
+    "X": 0.01,
+    "top": 0.549
+   },
+   "w2": {
+    "W": 2.742,
+    "H": 0.696,
+    "X": 0.026,
+    "top": 0.683
+   }
+  }
+ ]
+}
