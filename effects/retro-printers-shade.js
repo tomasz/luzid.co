@@ -32,12 +32,15 @@ export default {
   params: { b: [0.2, 0.6, 0.2], d: [1.5, 4, 0.5] },
 
   /**
-   * `t` mirrors `b` so that `G = max(g, bt)` opens the gap the shade of line 1 falls
-   * through; see `retro-relief-gap` for why that is the only lever available.
+   * Nothing reaches above or left of the block: every soft layer sits further out than its
+   * own tail, and R13 feeds `G` from `bleed.b`. The `1.5` is R14 — a blur radius is a
+   * Gaussian diameter hint, so the ink reaches about one and a half radii, not one. That
+   * rule is written for `drop-shadow()`, but `text-shadow` defines its radius the same way
+   * and the tail is the same tail; budgeting at 1x left about 0.03u of margin here.
    *
    * @param {{b: number, d: number}} p
    */
-  bleed: (p) => ({ t: p.d + p.b, r: p.d + p.b, b: p.d + p.b, l: 0 }),
+  bleed: (p) => ({ t: 0, r: p.d + 1.5 * p.b, b: p.d + 1.5 * p.b, l: 0 }),
 
   /**
    * @param {{b: number, d: number}} p
@@ -45,9 +48,12 @@ export default {
    */
   css: (p, h) => {
     const n = Math.min(60, Math.max(12, Math.round(14 * p.d)))
-    // Six bands, never a per-layer alternation. The lowest mix is 3% and not 0% so the
-    // emitted colour never contains a bare `0`, which the layer lint reads as a length.
-    const tone = (i) => h.mix('var(--fg)', 'var(--a1)', 3 + 4 * Math.min(5, Math.floor((6 * (i - 1)) / n)))
+    // Six bands, never a per-layer alternation. The nearest band is the accent itself,
+    // which is what a 0% mix means and is a good deal shorter to say.
+    const tone = (i) => {
+      const band = Math.min(5, Math.floor((6 * (i - 1)) / n))
+      return band === 0 ? 'var(--a1)' : h.mix('var(--fg)', 'var(--a1)', 4 * band)
+    }
     const out = []
     for (let i = 1; i <= n; i++) {
       const k = (p.d * i) / n

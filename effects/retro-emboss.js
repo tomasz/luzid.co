@@ -41,18 +41,27 @@ export default {
   params: { k: [0.3, 0.9, 0.3], s: [0.6, 1.8, 0.6] },
 
   /**
-   * Hover lifts the letter further, so the bleed reserves the hover throw rather than the
-   * resting one. `t` mirrors `b` so that `G = max(g, bt)` opens the gap the cast shadow of
-   * line 1 falls through; see `retro-relief-gap` for why that is the only lever available.
+   * Hover lifts the letter further, so every side reserves the hover throw rather than the
+   * resting one. `1.5·s` and not `s` is R14: a blur radius is a Gaussian diameter hint, so
+   * the ink reaches about one and a half radii. The rule is written for `drop-shadow()`,
+   * but `text-shadow` defines its radius the same way and the tail is the same tail.
+   *
+   * That is also why the top and the left are not simply the hard rim. At the shallow end
+   * of `k` with the softest `s`, the cast shadow's own tail reaches back past the glyph and
+   * out the other side — about 2.4u above the block at `k = 0.3, s = 1.8`. It was the
+   * phantom top bleed R13 has now removed that happened to be covering that.
    *
    * @param {{k: number, s: number}} p
    */
-  bleed: (p) => ({
-    t: 2.8 * p.k * 1.3 + p.s * 1.3,
-    r: 2.4 * p.k * 1.3 + p.s * 1.3,
-    b: 2.8 * p.k * 1.3 + p.s * 1.3,
-    l: p.k,
-  }),
+  bleed: (p) => {
+    const tail = 1.5 * p.s * 1.3
+    return {
+      t: Math.max(p.k, tail - 2.8 * p.k * 1.3),
+      r: 2.4 * p.k * 1.3 + tail,
+      b: 2.8 * p.k * 1.3 + tail,
+      l: Math.max(p.k, tail - 2.4 * p.k * 1.3),
+    }
+  },
 
   /**
    * @param {{k: number, s: number}} p
