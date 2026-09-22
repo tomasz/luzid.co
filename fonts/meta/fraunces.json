@@ -1,0 +1,272 @@
+{
+ "id": "fraunces",
+ "family": "Fraunces",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/ac502d8eff76ef4d9477cdcc8ef7d0c84fde5372/ofl/fraunces/Fraunces%5BSOFT,WONK,opsz,wght%5D.ttf",
+  "sha256": "177ff6c0f14e5550a3c624247cd1189611d4eb65d000b14944c63d967958abbb"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2020 The Fraunces Project Authors (github.com/undercasetype/Fraunces)",
+ "archetype": [
+  "A"
+ ],
+ "traits": [
+  "overlap",
+  "serif",
+  "soft"
+ ],
+ "odds": 4,
+ "upm": 2000,
+ "files": [
+  {
+   "id": "w600",
+   "axes": {
+    "opsz": 144,
+    "wght": 600,
+    "SOFT": 100,
+    "WONK": 1
+   },
+   "bytes": 3700,
+   "sha256": "2ec596905e8bafc38af03421bec51b44aee0592c223684d1e385978ab0bc2b97",
+   "asc": 1484,
+   "desc": 34,
+   "glyphs": 23
+  },
+  {
+   "id": "w900",
+   "axes": {
+    "opsz": 144,
+    "wght": 900,
+    "SOFT": 100,
+    "WONK": 1
+   },
+   "bytes": 3604,
+   "sha256": "3679aba74362d08a559bc7ea46a81e39252218adb3176fd2adca278fd791b7f2",
+   "asc": 1510,
+   "desc": 36,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-w600",
+   "file": "w600",
+   "case": "none",
+   "css": {
+    "weight": 600,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.149,
+    "H": 0.7335,
+    "X": 0.0115,
+    "top": 0.7195
+   },
+   "w2": {
+    "W": 3.0515,
+    "H": 0.756,
+    "X": 0.0285,
+    "top": 0.742
+   }
+  },
+  {
+   "id": "n-base-w900",
+   "file": "w900",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.3935,
+    "H": 0.7315,
+    "X": 0.0075,
+    "top": 0.7185
+   },
+   "w2": {
+    "W": 3.2975,
+    "H": 0.768,
+    "X": 0.0255,
+    "top": 0.755
+   }
+  },
+  {
+   "id": "u-base-w600",
+   "file": "w600",
+   "case": "uppercase",
+   "css": {
+    "weight": 600,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.9775,
+    "H": 0.7355,
+    "X": 0.0115,
+    "top": 0.7195
+   },
+   "w2": {
+    "W": 4.1955,
+    "H": 0.7355,
+    "X": 0.0285,
+    "top": 0.7185
+   }
+  },
+  {
+   "id": "u-base-w900",
+   "file": "w900",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.2905,
+    "H": 0.7365,
+    "X": 0.0075,
+    "top": 0.7185
+   },
+   "w2": {
+    "W": 4.4785,
+    "H": 0.7365,
+    "X": 0.0255,
+    "top": 0.7185
+   }
+  },
+  {
+   "id": "l-base-w600",
+   "file": "w600",
+   "case": "lowercase",
+   "css": {
+    "weight": 600,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.8965,
+    "H": 0.564,
+    "X": 0,
+    "top": 0.55
+   },
+   "w2": {
+    "W": 2.8595,
+    "H": 0.756,
+    "X": 0.0215,
+    "top": 0.742
+   }
+  },
+  {
+   "id": "l-base-w900",
+   "file": "w900",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.1375,
+    "H": 0.585,
+    "X": -0.005,
+    "top": 0.572
+   },
+   "w2": {
+    "W": 3.107,
+    "H": 0.768,
+    "X": 0.015,
+    "top": 0.755
+   }
+  },
+  {
+   "id": "n-case-w600",
+   "file": "w600",
+   "case": "none",
+   "css": {
+    "weight": 600,
+    "style": "normal",
+    "feat": "\"case\" 1"
+   },
+   "w1": {
+    "W": 3.9775,
+    "H": 0.7355,
+    "X": 0.0115,
+    "top": 0.7195
+   },
+   "w2": {
+    "W": 3.896,
+    "H": 0.758,
+    "X": 0.0285,
+    "top": 0.742
+   }
+  },
+  {
+   "id": "n-case-w900",
+   "file": "w900",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"case\" 1"
+   },
+   "w1": {
+    "W": 4.2905,
+    "H": 0.7365,
+    "X": 0.0075,
+    "top": 0.7185
+   },
+   "w2": {
+    "W": 4.1755,
+    "H": 0.773,
+    "X": 0.0255,
+    "top": 0.755
+   }
+  },
+  {
+   "id": "l-case-w600",
+   "file": "w600",
+   "case": "lowercase",
+   "css": {
+    "weight": 600,
+    "style": "normal",
+    "feat": "\"case\" 1"
+   },
+   "w1": {
+    "W": 3.9775,
+    "H": 0.7355,
+    "X": 0.0115,
+    "top": 0.7195
+   },
+   "w2": {
+    "W": 3.896,
+    "H": 0.758,
+    "X": 0.0285,
+    "top": 0.742
+   }
+  },
+  {
+   "id": "l-case-w900",
+   "file": "w900",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"case\" 1"
+   },
+   "w1": {
+    "W": 4.2905,
+    "H": 0.7365,
+    "X": 0.0075,
+    "top": 0.7185
+   },
+   "w2": {
+    "W": 4.1755,
+    "H": 0.773,
+    "X": 0.0255,
+    "top": 0.755
+   }
+  }
+ ]
+}

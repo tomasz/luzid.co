@@ -1,0 +1,274 @@
+{
+ "id": "cyklop",
+ "family": "Cyklop",
+ "src": {
+  "url": "https://mirrors.ctan.org/fonts/cyklop/fonts/opentype/public/cyklop/cyklop-regular.otf",
+  "sha256": "dec04a1ed2805a2d41251ad1253831169c00d8617904b91558cffab762281c1d"
+ },
+ "licenseId": "GUST",
+ "copyright": "Copyright (c) 2008, Digitized by Janusz M. Nowacki - 2007-2008, Grudziadz, Poland",
+ "archetype": [
+  "B"
+ ],
+ "traits": [
+  "fat",
+  "sans"
+ ],
+ "odds": 5,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 3384,
+   "sha256": "049d5dcc5fa35736f0c40a17549dfc9bc202f27a1ab27828b5434a47c0c3a9b6",
+   "asc": 716,
+   "desc": 16,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 5.282,
+    "H": 0.716,
+    "X": 0.038,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 5.248,
+    "H": 0.732,
+    "X": 0.038,
+    "top": 0.716
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 5.642,
+    "H": 0.732,
+    "X": 0.038,
+    "top": 0.716
+   },
+   "w2": {
+    "W": 5.99,
+    "H": 0.732,
+    "X": 0.038,
+    "top": 0.716
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.989,
+    "H": 0.716,
+    "X": 0.075,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 5.082,
+    "H": 0.726,
+    "X": 0.038,
+    "top": 0.71
+   }
+  },
+  {
+   "id": "n-salt-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"salt\" 1"
+   },
+   "w1": {
+    "W": 5.142,
+    "H": 0.716,
+    "X": 0.038,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 5.248,
+    "H": 0.732,
+    "X": 0.038,
+    "top": 0.716
+   }
+  },
+  {
+   "id": "u-c2sc-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"c2sc\" 1"
+   },
+   "w1": {
+    "W": 4.796,
+    "H": 0.542,
+    "X": 0.038,
+    "top": 0.526
+   },
+   "w2": {
+    "W": 5.143,
+    "H": 0.542,
+    "X": 0.038,
+    "top": 0.526
+   }
+  },
+  {
+   "id": "l-salt-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"salt\" 1"
+   },
+   "w1": {
+    "W": 4.849,
+    "H": 0.716,
+    "X": 0.075,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 5.082,
+    "H": 0.726,
+    "X": 0.038,
+    "top": 0.71
+   }
+  },
+  {
+   "id": "n-ss01-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 5.142,
+    "H": 0.716,
+    "X": 0.038,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 5.248,
+    "H": 0.732,
+    "X": 0.038,
+    "top": 0.716
+   }
+  },
+  {
+   "id": "u-salt-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"salt\" 1"
+   },
+   "w1": {
+    "W": 5.513,
+    "H": 0.732,
+    "X": 0.038,
+    "top": 0.716
+   },
+   "w2": {
+    "W": 5.99,
+    "H": 0.732,
+    "X": 0.038,
+    "top": 0.716
+   }
+  },
+  {
+   "id": "l-smcp-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"smcp\" 1"
+   },
+   "w1": {
+    "W": 4.796,
+    "H": 0.542,
+    "X": 0.038,
+    "top": 0.526
+   },
+   "w2": {
+    "W": 5.143,
+    "H": 0.542,
+    "X": 0.038,
+    "top": 0.526
+   }
+  },
+  {
+   "id": "u-ss01-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 5.513,
+    "H": 0.732,
+    "X": 0.038,
+    "top": 0.716
+   },
+   "w2": {
+    "W": 5.99,
+    "H": 0.732,
+    "X": 0.038,
+    "top": 0.716
+   }
+  },
+  {
+   "id": "l-ss01-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 4.849,
+    "H": 0.716,
+    "X": 0.075,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 5.082,
+    "H": 0.726,
+    "X": 0.038,
+    "top": 0.71
+   }
+  }
+ ]
+}

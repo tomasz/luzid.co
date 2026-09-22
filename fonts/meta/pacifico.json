@@ -1,0 +1,253 @@
+{
+ "id": "pacifico",
+ "family": "Pacifico",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/34ce35e2b6d7a1467c0ecfd9cd13082a87ffd23e/ofl/pacifico/Pacifico-Regular.ttf",
+  "sha256": "5b6c0d5334a7bf77dea52b975c5a0c408878c0f7115ed5b6fb151f634b7bf701"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2018 The Pacifico Project Authors (https://github.com/googlefonts/Pacifico)",
+ "archetype": [
+  "C"
+ ],
+ "traits": [
+  "brush",
+  "connected",
+  "script"
+ ],
+ "odds": 4,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 6664,
+   "sha256": "f7bfb52cd0fc2265bb6ae2cad65e7cbb12e668a792f61eb165f21a4630fd84e2",
+   "asc": 1013,
+   "desc": 399,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.099,
+    "H": 0.874,
+    "X": 0.035,
+    "top": 0.847
+   },
+   "w2": {
+    "W": 3.05,
+    "H": 1.028,
+    "X": 0.064,
+    "top": 1.013
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.919,
+    "H": 0.9,
+    "X": 0.001,
+    "top": 0.873
+   },
+   "w2": {
+    "W": 2.764,
+    "H": 1.028,
+    "X": 0.032,
+    "top": 1.013
+   }
+  },
+  {
+   "id": "n-case-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"case\" 1"
+   },
+   "w1": {
+    "W": 2.991,
+    "H": 0.874,
+    "X": 0.067,
+    "top": 0.847
+   },
+   "w2": {
+    "W": 3.057,
+    "H": 1.028,
+    "X": 0.065,
+    "top": 1.013
+   }
+  },
+  {
+   "id": "l-fina-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"fina\" 1"
+   },
+   "w1": {
+    "W": 2.879,
+    "H": 0.9,
+    "X": 0.001,
+    "top": 0.873
+   },
+   "w2": {
+    "W": 2.791,
+    "H": 1.035,
+    "X": 0.032,
+    "top": 1.013
+   }
+  },
+  {
+   "id": "n-fina-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"fina\" 1"
+   },
+   "w1": {
+    "W": 3.039,
+    "H": 0.874,
+    "X": 0.035,
+    "top": 0.847
+   },
+   "w2": {
+    "W": 3.041,
+    "H": 1.035,
+    "X": 0.064,
+    "top": 1.013
+   }
+  },
+  {
+   "id": "l-salt-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"salt\" 1"
+   },
+   "w1": {
+    "W": 2.857,
+    "H": 0.792,
+    "X": 0.013,
+    "top": 0.765
+   },
+   "w2": {
+    "W": 2.693,
+    "H": 1.334,
+    "X": 0.032,
+    "top": 0.935
+   }
+  },
+  {
+   "id": "n-salt-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"salt\" 1"
+   },
+   "w1": {
+    "W": 2.991,
+    "H": 0.874,
+    "X": 0.067,
+    "top": 0.847
+   },
+   "w2": {
+    "W": 2.986,
+    "H": 1.334,
+    "X": 0.065,
+    "top": 0.935
+   }
+  },
+  {
+   "id": "l-ss01-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 2.857,
+    "H": 0.792,
+    "X": 0.013,
+    "top": 0.765
+   },
+   "w2": {
+    "W": 2.693,
+    "H": 1.334,
+    "X": 0.032,
+    "top": 0.935
+   }
+  },
+  {
+   "id": "n-ss01-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 2.991,
+    "H": 0.874,
+    "X": 0.067,
+    "top": 0.847
+   },
+   "w2": {
+    "W": 2.986,
+    "H": 1.334,
+    "X": 0.065,
+    "top": 0.935
+   }
+  },
+  {
+   "id": "n-ss02-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss02\" 1"
+   },
+   "w1": {
+    "W": 2.991,
+    "H": 0.874,
+    "X": 0.067,
+    "top": 0.847
+   },
+   "w2": {
+    "W": 3.057,
+    "H": 1.028,
+    "X": 0.065,
+    "top": 1.013
+   }
+  }
+ ]
+}
