@@ -10,15 +10,19 @@ import {
   checkBudget,
   checkCoverage,
   declaresReservedFontName,
+  dedupeCombos,
   effectiveFeatures,
   LETTERS,
   LICENSE_IDS,
   MAX_STOPS,
   MAX_VARIANTS,
   MEASURED_TRAITS,
+  measureCrossbar,
+  measureStem,
   pinnedToCommit,
   planVariants,
   reconcileTraits,
+  shedToBudget,
   TEXT,
   TRAITS,
   traitDisagreements,
@@ -235,6 +239,36 @@ test('rule 4: a case-like feature is kept only when it changes every letter, Ł 
   assert.deepEqual(effectiveFeatures(font, 'none', ['smcp']), [])
 })
 
+test('rule 4: alias tags do not both survive', async () => {
+  // Cyklop's `salt` and `ss01` are one substitution under two names, as are Playball's,
+  // Moon Dance's, Tagger's and four of batch A's. Rule 4's on-versus-off test compares each
+  // tag against plain text only, so both passed it and shipped byte-identical variants.
+  const font = new hb.Font(new hb.Face(new hb.Blob(await readFile(url('fonts/upstream/cyklop.otf')))))
+  const cases = ['none']
+  assert.deepEqual(effectiveFeatures(font, 'none', ['salt', 'ss01']), ['salt', 'ss01'])
+  assert.deepEqual(dedupeCombos(font, cases, { none: ['salt', 'ss01'] }), { none: ['salt'] })
+})
+
+test('rule 4: uppercase small caps and lowercase small caps are one variant', async () => {
+  // `uppercase` + `c2sc` and `lowercase` + `smcp` reach the same glyphs from opposite
+  // directions, so any font carrying both shipped a guaranteed duplicate. The first in
+  // plan order survives.
+  const font = new hb.Font(new hb.Face(new hb.Blob(await readFile(url('fonts/upstream/cyklop.otf')))))
+  const cases = ['none', 'uppercase', 'lowercase']
+  const kept = dedupeCombos(font, cases, { none: [], uppercase: ['c2sc'], lowercase: ['smcp'] })
+  assert.deepEqual(kept, { none: [], uppercase: ['c2sc'], lowercase: [] })
+})
+
+test('rule 4: a substitution nobody can see is not a variant', async () => {
+  // Instrument Serif Italic's ss01 swaps the `a` of "Tomasz" for glyph 25 in place of glyph
+  // 12 — two different glyphs with byte-identical outlines. On ids that is a change and it
+  // shipped a variant; on outlines it is nothing, which is what a reader sees.
+  const font = new hb.Font(
+    new hb.Face(new hb.Blob(decode(await readFile(url('fonts/files/instrument-serif-italic.static.woff2'))))),
+  )
+  assert.deepEqual(effectiveFeatures(font, 'none', ['ss01']), [])
+})
+
 test('rule 4: at most twelve variants, and the plan degrades one feature at a time', () => {
   const plan = planVariants({
     cases: ['none', 'uppercase', 'lowercase'],
@@ -284,6 +318,62 @@ test('rule 5: nothing variable survives, and STAT and MVAR are dropped', async (
       // Hinting is off, so the bytecode tables must be gone too.
       for (const gone of ['fpgm', 'prep', 'cvt ']) {
         assert.ok(!tags.includes(gone), `${meta.id}.${file.id} still carries ${gone}`)
+      }
+    }
+  }
+})
+
+/** Open a shipped file the way the pipeline does, for the measurements below. */
+const openShipped = async (name) => {
+  const face = new hb.Face(new hb.Blob(decode(await readFile(url(`fonts/files/${name}`)))))
+  return { font: new hb.Font(face), upem: face.upem }
+}
+
+test('stroke width survives overlapping contours', async () => {
+  // Rule 5 sets OVERLAP_SIMPLE precisely because pinned instances have overlapping
+  // contours, and pairing crossings off in twos is exactly wrong on them. Baloo Bhaijaan
+  // 2's capital I is two stems overlapping over a third of their height: every scanline
+  // crosses at 65, 65, 240, 240, which paired off is two runs of zero width. It shipped
+  // tagged `fat, hairline`, which routes it through effects that deny hairlines.
+  const baloo = await openShipped('baloo-bhaijaan-2.w800.woff2')
+  const stem = measureStem(baloo)
+  assert.ok(stem > 0.1, `an overlapping stem measured ${stem.toFixed(3)} em`)
+
+  // Nothing about the non-overlapping case changes: winding and pairing agree there.
+  for (const name of ['boldonse.static.woff2', 'syncopate.static.woff2']) {
+    const stem = measureStem(await openShipped(name))
+    assert.ok(stem > 0.05 && stem < 0.4, `${name}: stem ${stem}`)
+  }
+
+  // And a face that really is drawn in hairlines still reads as one.
+  assert.ok(measureStem(await openShipped('bungee-outline.static.woff2')) < 0.05)
+})
+
+test('the Ł crossbar is measured, not assumed from the stem', async () => {
+  // `outline-hollow` and `outline-comic` close the crossbar on these two: a thick stem with
+  // a hairline bar, which a stem measurement alone calls robust. The number is exposed so
+  // an effect can compare it against its own randomised stroke width, which is why this is
+  // a number in the metadata rather than another trait — the threshold belongs to the
+  // effect, not to the font, and the trait enum is closed besides.
+  for (const name of ['gloock.static.woff2', 'rozha-one.static.woff2']) {
+    const face = await openShipped(name)
+    const stem = measureStem(face)
+    const crossbar = measureCrossbar(face)
+    assert.ok(stem > 0.14, `${name}: stem ${stem} should read as a thick stroke`)
+    assert.ok(crossbar < 0.025, `${name}: crossbar ${crossbar} should read as a hairline`)
+    assert.ok(crossbar / stem < 0.2, `${name}: crossbar is ${(crossbar / stem).toFixed(2)} of the stem`)
+  }
+  // A face with an evenly weighted Ł is not flagged.
+  const cyklop = await openShipped('cyklop.static.woff2')
+  assert.ok(measureCrossbar(cyklop) / measureStem(cyklop) > 0.15)
+
+  // Both numbers are per stop, because pinning wght moves them a long way. The library on
+  // disk predates them; this starts enforcing as soon as the regeneration sweep has run.
+  for (const meta of metas) {
+    for (const file of meta.files) {
+      for (const key of ['stem', 'crossbar']) {
+        if (file[key] === undefined) continue
+        assert.ok(file[key] > 0 && file[key] < 1, `${meta.id}.${file.id}: ${key} is ${file[key]} em`)
       }
     }
   }
@@ -397,6 +487,63 @@ test('rule 7: no file is over 10,500 bytes', async () => {
       assert.ok(bytes <= BUDGET_BYTES, `${meta.id}.${file.id} is ${bytes} B`)
     }
   }
+})
+
+test('rule 7: the ladder sheds features, then stops, before the font is dropped', async () => {
+  // The ladder is driven by the whole build, weighing included. When the weighing sat
+  // outside the try, the budget error escaped and took the rest of the batch with it, so
+  // these three cases never ran on a real font: `--batch c` stopped dead on its third row.
+  const shed = []
+  const ladder = (overBudgetWhile) => ({
+    id: 'heavy',
+    cases: ['none', 'lowercase'],
+    featuresByCase: { none: ['ss01', 'ss02'], lowercase: ['ss01'] },
+    stops: [{ id: 'w400' }, { id: 'w900' }],
+    log: (line) => shed.push(line),
+    attempt: async (state) => {
+      const size = 10_000 + 400 * state.featuresByCase.none.length + 300 * (state.stops.length - 1)
+      if (overBudgetWhile(state)) throw new Error(`heavy: ${size} B is over the 10500 B budget`)
+      return state
+    },
+  })
+
+  // Features go first, one round from every case at a time.
+  shed.length = 0
+  let { attempt, ...state } = ladder((s) => s.featuresByCase.none.length > 1)
+  let out = await shedToBudget(state, attempt)
+  assert.deepEqual(out.featuresByCase, { none: ['ss01'], lowercase: [] })
+  assert.deepEqual(
+    out.stops.map((s) => s.id),
+    ['w400', 'w900'],
+    'no stop should have been shed yet',
+  )
+  assert.equal(shed.length, 1)
+  assert.match(shed[0], /over the 10500 B budget; dropped the last effective feature/)
+
+  // Only once every feature is gone does a stop go.
+  shed.length = 0
+  ;({ attempt, ...state } = ladder((s) => s.featuresByCase.none.length > 0 || s.stops.length > 1))
+  out = await shedToBudget(state, attempt)
+  assert.deepEqual(out.featuresByCase, { none: [], lowercase: [] })
+  assert.deepEqual(
+    out.stops.map((s) => s.id),
+    ['w400'],
+  )
+  assert.equal(shed.filter((l) => l.includes('dropped a stop')).length, 1)
+
+  // With one stop and no features left there is nothing to trim, and the font is dropped.
+  ;({ attempt, ...state } = ladder(() => true))
+  await assert.rejects(() => shedToBudget(state, attempt), /heavy: .* with nothing left to trim/)
+
+  // Anything that is not a budget failure is not the ladder's business.
+  ;({ attempt, ...state } = ladder(() => false))
+  await assert.rejects(
+    () =>
+      shedToBudget(state, async () => {
+        throw new Error('heavy: Ł is the same glyph as L')
+      }),
+    /Ł is the same glyph as L/,
+  )
 })
 
 // ---------------------------------------------------------------- rule 8: licence files
