@@ -1,0 +1,55 @@
+{
+ "id": "syncopate",
+ "family": "Syncopate",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/56cadf2effb0b99c13c520ac4b05ec12580f707d/apache/syncopate/Syncopate-Bold.ttf",
+  "sha256": "c71f5a40a83115518443c13474e5132804f4a91ce26e26fd9718cd3814ad4b2e"
+ },
+ "licenseId": "Apache-2.0",
+ "copyright": "Copyright (c) 2010 by Brian J. Bonislawsky DBA Astigmatic (AOETI)",
+ "archetype": [
+  "E"
+ ],
+ "traits": [
+  "sans",
+  "unicase",
+  "wide"
+ ],
+ "odds": 4,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 2080,
+   "sha256": "72851507791d165bd7de3d944af657dd442d6e845dc2d9d47eefc101501a01d9",
+   "asc": 1409,
+   "desc": 39,
+   "upem": 2048,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 5.76416,
+    "H": 0.70605,
+    "X": 0.01514,
+    "top": 0.68799
+   },
+   "w2": {
+    "W": 5.88086,
+    "H": 0.70703,
+    "X": 0.06006,
+    "top": 0.68799
+   }
+  }
+ ]
+}

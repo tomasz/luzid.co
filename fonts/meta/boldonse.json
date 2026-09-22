@@ -1,0 +1,120 @@
+{
+ "id": "boldonse",
+ "family": "Boldonse",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/5bf2c8330ab94bf00b354e40e5675f11ac819d4a/ofl/boldonse/Boldonse-Regular.ttf",
+  "sha256": "f566c572a85fee25b41ccab1a8d18ef8039a30e3ca44f310ee162899ea6d5fc7"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2024 The Boldonse Project Authors (https://github.com/googlefonts/boldonse)",
+ "archetype": [
+  "B"
+ ],
+ "traits": [
+  "fat",
+  "sans"
+ ],
+ "odds": 4,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 3288,
+   "sha256": "6611d398cbc01f21c8c8f528f8702d250aca22f09904e94a86e05af23f2d2007",
+   "asc": 1200,
+   "desc": 10,
+   "upem": 1000,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.324,
+    "H": 1.2,
+    "X": 0.015,
+    "top": 1.19
+   },
+   "w2": {
+    "W": 4.876,
+    "H": 1.21,
+    "X": 0.03,
+    "top": 1.2
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.876,
+    "H": 1.21,
+    "X": 0.015,
+    "top": 1.2
+   },
+   "w2": {
+    "W": 5.433,
+    "H": 1.21,
+    "X": 0.03,
+    "top": 1.2
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.299,
+    "H": 1.09,
+    "X": 0.01,
+    "top": 1.08
+   },
+   "w2": {
+    "W": 4.565,
+    "H": 1.21,
+    "X": 0.026,
+    "top": 1.2
+   }
+  },
+  {
+   "id": "l-ss01-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 4.299,
+    "H": 1.09,
+    "X": 0.01,
+    "top": 1.08
+   },
+   "w2": {
+    "W": 4.565,
+    "H": 1.21,
+    "X": 0.026,
+    "top": 1.2
+   }
+  }
+ ]
+}

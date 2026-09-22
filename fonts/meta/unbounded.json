@@ -1,0 +1,179 @@
+{
+ "id": "unbounded",
+ "family": "Unbounded",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/8b80d4f3f73cfe02b69a6f0dc71da5a1cc574bd3/ofl/unbounded/Unbounded%5Bwght%5D.ttf",
+  "sha256": "323b511be380c8d474ef030686b71aedde501f8d9cd46da558b7c40454372c3f"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2022 The Unbounded Project Authors (https://github.com/googlefonts/unbounded)",
+ "archetype": [
+  "B"
+ ],
+ "traits": [
+  "fat",
+  "overlap",
+  "sans"
+ ],
+ "odds": 4,
+ "files": [
+  {
+   "id": "w400",
+   "axes": {
+    "wght": 400
+   },
+   "bytes": 2760,
+   "sha256": "2cdc5472b1dd8cee6f0c75ab174c15cd7f1f3f5ac16e1ecf51d9bd544e536240",
+   "asc": 789,
+   "desc": 14,
+   "upem": 1000,
+   "glyphs": 23
+  },
+  {
+   "id": "w900",
+   "axes": {
+    "wght": 900
+   },
+   "bytes": 2880,
+   "sha256": "b9b22ba5ce23990a4989f52af89e3be96b55a855b2a1999c0f92b93b761f0700",
+   "asc": 849,
+   "desc": 18,
+   "upem": 1000,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-w400",
+   "file": "w400",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.591,
+    "H": 0.764,
+    "X": 0.016,
+    "top": 0.75
+   },
+   "w2": {
+    "W": 4.397,
+    "H": 0.803,
+    "X": 0.045,
+    "top": 0.789
+   }
+  },
+  {
+   "id": "n-base-w900",
+   "file": "w900",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 5.076,
+    "H": 0.768,
+    "X": 0.021,
+    "top": 0.75
+   },
+   "w2": {
+    "W": 4.877,
+    "H": 0.867,
+    "X": 0.032,
+    "top": 0.849
+   }
+  },
+  {
+   "id": "u-base-w400",
+   "file": "w400",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 5.248,
+    "H": 0.778,
+    "X": 0.016,
+    "top": 0.764
+   },
+   "w2": {
+    "W": 5.32,
+    "H": 0.778,
+    "X": 0.045,
+    "top": 0.764
+   }
+  },
+  {
+   "id": "u-base-w900",
+   "file": "w900",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 5.653,
+    "H": 0.786,
+    "X": 0.021,
+    "top": 0.768
+   },
+   "w2": {
+    "W": 5.669,
+    "H": 0.786,
+    "X": 0.032,
+    "top": 0.768
+   }
+  },
+  {
+   "id": "l-base-w400",
+   "file": "w400",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.534,
+    "H": 0.728,
+    "X": 0.005,
+    "top": 0.714
+   },
+   "w2": {
+    "W": 4.217,
+    "H": 0.803,
+    "X": 0.037,
+    "top": 0.789
+   }
+  },
+  {
+   "id": "l-base-w900",
+   "file": "w900",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.972,
+    "H": 0.75,
+    "X": 0.006,
+    "top": 0.732
+   },
+   "w2": {
+    "W": 4.722,
+    "H": 0.867,
+    "X": 0.025,
+    "top": 0.849
+   }
+  }
+ ]
+}

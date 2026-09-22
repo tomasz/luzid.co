@@ -1,0 +1,100 @@
+{
+ "id": "coconat",
+ "family": "Coconat",
+ "src": {
+  "url": "https://raw.githubusercontent.com/collletttivo/coconat/75f0bf21470de362ebee2f173e99505b7a7e977b/fonts/Coconat-Regular.otf",
+  "sha256": "782e06a11fba0d6a07b4ebad6cd45ddc324dec62bb67cbc7bd57a233b2069221"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "© 2023, Collletttivo & Sara Lavazza",
+ "archetype": [
+  "A",
+  "F"
+ ],
+ "traits": [
+  "deco",
+  "overlap",
+  "serif"
+ ],
+ "odds": 4,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 3352,
+   "sha256": "513dafaac554871130527f8698a8e52a4f1996d77ee19466a82d106b8874e914",
+   "asc": 756,
+   "desc": 18,
+   "upem": 1000,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.61,
+    "H": 0.716,
+    "X": 0.045,
+    "top": 0.704
+   },
+   "w2": {
+    "W": 3.323,
+    "H": 0.774,
+    "X": 0.05,
+    "top": 0.756
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.31,
+    "H": 0.724,
+    "X": 0.045,
+    "top": 0.712
+   },
+   "w2": {
+    "W": 4.241,
+    "H": 0.727,
+    "X": 0.05,
+    "top": 0.712
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.425,
+    "H": 0.644,
+    "X": 0.01,
+    "top": 0.632
+   },
+   "w2": {
+    "W": 3.188,
+    "H": 0.774,
+    "X": 0.04,
+    "top": 0.756
+   }
+  }
+ ]
+}

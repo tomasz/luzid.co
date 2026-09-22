@@ -1,0 +1,209 @@
+{
+ "id": "bungee",
+ "family": "Bungee",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/6bc4f73e2ba5dddbf82aa93e4d6a57abebdc6940/ofl/bungee/Bungee-Regular.ttf",
+  "sha256": "c4f5361ce120af3e6b9156d0bf379fa19cda2ea0cd18ac01fd99596c6bf66e3f"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2023 The Bungee Project Authors (https://github.com/djrrb/Bungee)",
+ "archetype": [
+  "B"
+ ],
+ "traits": [
+  "capsOnly",
+  "fat",
+  "sans"
+ ],
+ "odds": 4,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 3004,
+   "sha256": "0cf562ec14b0f5c4b2b86e0d01016b99fba3ae94db8513ea5201f776dea67245",
+   "asc": 735,
+   "desc": 226,
+   "upem": 1000,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.203,
+    "H": 0.75,
+    "X": 0.028,
+    "top": 0.735
+   },
+   "w2": {
+    "W": 4.711,
+    "H": 0.75,
+    "X": 0.058,
+    "top": 0.735
+   }
+  },
+  {
+   "id": "n-salt-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"salt\" 1"
+   },
+   "w1": {
+    "W": 4.43,
+    "H": 0.75,
+    "X": 0.028,
+    "top": 0.735
+   },
+   "w2": {
+    "W": 4.392,
+    "H": 0.75,
+    "X": 0.058,
+    "top": 0.735
+   }
+  },
+  {
+   "id": "n-ss01-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 5.6,
+    "H": 0.75,
+    "X": 0.2,
+    "top": 0.735
+   },
+   "w2": {
+    "W": 6.608,
+    "H": 0.75,
+    "X": 0.196,
+    "top": 0.735
+   }
+  },
+  {
+   "id": "n-ss02-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss02\" 1"
+   },
+   "w1": {
+    "W": 4.43,
+    "H": 0.75,
+    "X": 0.028,
+    "top": 0.735
+   },
+   "w2": {
+    "W": 4.711,
+    "H": 0.75,
+    "X": 0.058,
+    "top": 0.735
+   }
+  },
+  {
+   "id": "n-ss04-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss04\" 1"
+   },
+   "w1": {
+    "W": 4.203,
+    "H": 0.75,
+    "X": 0.028,
+    "top": 0.735
+   },
+   "w2": {
+    "W": 4.477,
+    "H": 0.75,
+    "X": 0.058,
+    "top": 0.735
+   }
+  },
+  {
+   "id": "n-ss05-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss05\" 1"
+   },
+   "w1": {
+    "W": 4.203,
+    "H": 0.75,
+    "X": 0.028,
+    "top": 0.735
+   },
+   "w2": {
+    "W": 4.626,
+    "H": 0.75,
+    "X": 0.058,
+    "top": 0.735
+   }
+  },
+  {
+   "id": "n-ss11-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss11\" 1"
+   },
+   "w1": {
+    "W": 7,
+    "H": 0.75,
+    "X": 0.34,
+    "top": 0.735
+   },
+   "w2": {
+    "W": 8.288,
+    "H": 0.75,
+    "X": 0.336,
+    "top": 0.735
+   }
+  },
+  {
+   "id": "n-ss12-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss12\" 1"
+   },
+   "w1": {
+    "W": 5.6,
+    "H": 0.75,
+    "X": 0.2,
+    "top": 0.527
+   },
+   "w2": {
+    "W": 6.608,
+    "H": 0.753,
+    "X": 0.196,
+    "top": 0.527
+   }
+  }
+ ]
+}
