@@ -1,0 +1,120 @@
+{
+ "id": "bona-nova-bold",
+ "family": "Bona Nova",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bonanova/BonaNova-Bold.ttf",
+  "sha256": "c59ccb3ba8f0151236b1b427b58bee0c90607c82ef747cc6e19d5e20138385dd"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2020 The Bona Nova Project Authors (https://github.com/kosmynkab/Brygada-1918)",
+ "archetype": [
+  "A",
+  "F"
+ ],
+ "traits": [
+  "serif"
+ ],
+ "odds": 8,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 3732,
+   "sha256": "c3847016f0cbe3992f6c7556d140416fb3de8e1bc3e76bd22f7b11f0506547ce",
+   "asc": 790,
+   "desc": 21,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.449,
+    "H": 0.68,
+    "X": 0.033,
+    "top": 0.665
+   },
+   "w2": {
+    "W": 3.54,
+    "H": 0.811,
+    "X": 0.058,
+    "top": 0.79
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.185,
+    "H": 0.703,
+    "X": 0.033,
+    "top": 0.688
+   },
+   "w2": {
+    "W": 4.618,
+    "H": 0.695,
+    "X": 0.058,
+    "top": 0.68
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.276,
+    "H": 0.625,
+    "X": 0.024,
+    "top": 0.61
+   },
+   "w2": {
+    "W": 3.343,
+    "H": 0.811,
+    "X": 0.03,
+    "top": 0.79
+   }
+  },
+  {
+   "id": "l-smcp-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "\"smcp\" 1"
+   },
+   "w1": {
+    "W": 3.603,
+    "H": 0.563,
+    "X": 0.026,
+    "top": 0.548
+   },
+   "w2": {
+    "W": 4.017,
+    "H": 0.555,
+    "X": 0.058,
+    "top": 0.54
+   }
+  }
+ ]
+}

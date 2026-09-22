@@ -1,0 +1,144 @@
+{
+ "id": "bevan",
+ "family": "Bevan",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bevan/Bevan-Regular.ttf",
+  "sha256": "8d16c0920330f1def84e342ce70626c27fbf179b4294e6391b19301ff5873469"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2016 The Bevan Project Authors (https://github.com/googlefonts/BevanFont)",
+ "archetype": [
+  "A"
+ ],
+ "traits": [
+  "fat",
+  "overlap",
+  "serif",
+  "slab"
+ ],
+ "odds": 8,
+ "upm": 2048,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 2768,
+   "sha256": "ed2696d1c99b5a23ba4c5eb0875cfd1debbb6ff11f63f5a8ce76eae5119cc7e3",
+   "asc": 1623,
+   "desc": 29,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.34814,
+    "H": 0.78613,
+    "X": 0.02246,
+    "top": 0.77734
+   },
+   "w2": {
+    "W": 4.32764,
+    "H": 0.80566,
+    "X": 0.03564,
+    "top": 0.7915
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 5.15088,
+    "H": 0.80664,
+    "X": 0.02246,
+    "top": 0.79248
+   },
+   "w2": {
+    "W": 5.2749,
+    "H": 0.80566,
+    "X": 0.03564,
+    "top": 0.7915
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.03613,
+    "H": 0.69531,
+    "X": 0.00586,
+    "top": 0.68652
+   },
+   "w2": {
+    "W": 4.11768,
+    "H": 0.79688,
+    "X": 0.02588,
+    "top": 0.7876
+   }
+  },
+  {
+   "id": "n-ss01-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 4.41016,
+    "H": 0.78613,
+    "X": 0.02246,
+    "top": 0.77734
+   },
+   "w2": {
+    "W": 4.32764,
+    "H": 0.80566,
+    "X": 0.03564,
+    "top": 0.7915
+   }
+  },
+  {
+   "id": "l-ss01-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 4.09814,
+    "H": 0.69531,
+    "X": 0.00586,
+    "top": 0.68652
+   },
+   "w2": {
+    "W": 4.11768,
+    "H": 0.79688,
+    "X": 0.02588,
+    "top": 0.7876
+   }
+  }
+ ]
+}

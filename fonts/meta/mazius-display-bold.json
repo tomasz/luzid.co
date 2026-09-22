@@ -1,0 +1,143 @@
+{
+ "id": "mazius-display-bold",
+ "family": "Mazius Display",
+ "src": {
+  "url": "https://raw.githubusercontent.com/collletttivo/mazius-display/5798d69b14f0b7c1691f031f2ecb98ebdb709b54/fonts/MaziusDisplay-Bold.otf",
+  "sha256": "1b7d88a4d6347a5904741f9e35e333d77e0039f4278f674d6e369e6cb8d2f7f3"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright © 2023, Collletttivo (https://www.collletttivo.it/)",
+ "archetype": [
+  "A",
+  "F"
+ ],
+ "traits": [
+  "fat",
+  "serif"
+ ],
+ "odds": 8,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 2852,
+   "sha256": "e1de6f1eba6100fd5854372cdadf15574a6f928deb88da0f8733231701ca6e4f",
+   "asc": 750,
+   "desc": 19,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.517,
+    "H": 0.723,
+    "X": 0.015,
+    "top": 0.704
+   },
+   "w2": {
+    "W": 3.376,
+    "H": 0.764,
+    "X": 0.039,
+    "top": 0.75
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.319,
+    "H": 0.733,
+    "X": 0.015,
+    "top": 0.716
+   },
+   "w2": {
+    "W": 4.559,
+    "H": 0.732,
+    "X": 0.039,
+    "top": 0.714
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.274,
+    "H": 0.651,
+    "X": -0.005,
+    "top": 0.632
+   },
+   "w2": {
+    "W": 3.217,
+    "H": 0.764,
+    "X": 0.033,
+    "top": 0.75
+   }
+  },
+  {
+   "id": "n-ss01-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 3.469,
+    "H": 0.723,
+    "X": 0.015,
+    "top": 0.704
+   },
+   "w2": {
+    "W": 3.376,
+    "H": 0.764,
+    "X": 0.039,
+    "top": 0.75
+   }
+  },
+  {
+   "id": "l-ss01-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 3.226,
+    "H": 0.651,
+    "X": -0.005,
+    "top": 0.632
+   },
+   "w2": {
+    "W": 3.217,
+    "H": 0.764,
+    "X": 0.033,
+    "top": 0.75
+   }
+  }
+ ]
+}

@@ -1,0 +1,142 @@
+{
+ "id": "inknut-antiqua-black",
+ "family": "Inknut Antiqua",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/inknutantiqua/InknutAntiqua-Black.ttf",
+  "sha256": "279de2d9b3f21796a2a367cc55d8654eee9534a4f329d5d442294d82a333c361"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2014 The Inknut Antiqua Project Authors (https://github.com/clauseggers/Inknut-Antiqua)",
+ "archetype": [
+  "A"
+ ],
+ "traits": [
+  "fat",
+  "serif"
+ ],
+ "odds": 6,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 2688,
+   "sha256": "53c655cdb70a8f9ac6992f84f5111b2601712545219d9d5acd75a64da4476c9a",
+   "asc": 873,
+   "desc": 21,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.348,
+    "H": 0.822,
+    "X": 0.03,
+    "top": 0.804
+   },
+   "w2": {
+    "W": 4.417,
+    "H": 0.893,
+    "X": 0.05,
+    "top": 0.873
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 5.376,
+    "H": 0.827,
+    "X": 0.03,
+    "top": 0.806
+   },
+   "w2": {
+    "W": 5.621,
+    "H": 0.826,
+    "X": 0.05,
+    "top": 0.806
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.121,
+    "H": 0.752,
+    "X": 0,
+    "top": 0.734
+   },
+   "w2": {
+    "W": 4.223,
+    "H": 0.891,
+    "X": 0.05,
+    "top": 0.873
+   }
+  },
+  {
+   "id": "n-ss01-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 4.392,
+    "H": 0.822,
+    "X": 0.03,
+    "top": 0.804
+   },
+   "w2": {
+    "W": 4.417,
+    "H": 0.893,
+    "X": 0.05,
+    "top": 0.873
+   }
+  },
+  {
+   "id": "l-ss01-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 4.165,
+    "H": 0.752,
+    "X": 0,
+    "top": 0.734
+   },
+   "w2": {
+    "W": 4.223,
+    "H": 0.891,
+    "X": 0.05,
+    "top": 0.873
+   }
+  }
+ ]
+}

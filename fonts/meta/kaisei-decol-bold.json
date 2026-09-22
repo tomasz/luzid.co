@@ -1,0 +1,100 @@
+{
+ "id": "kaisei-decol-bold",
+ "family": "Kaisei Decol",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/kaiseidecol/KaiseiDecol-Bold.ttf",
+  "sha256": "0e3a6da5145fdbba32cfb1c806812d95457506e1698f5d61e8f834fb847f0d6f"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2020 The Kaisei Project Authors (https://github.com/Font-Kai/Kaisei)",
+ "archetype": [
+  "A"
+ ],
+ "traits": [
+  "jp",
+  "rounded",
+  "serif",
+  "soft"
+ ],
+ "odds": 7,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 4228,
+   "sha256": "d8d03f901c229c75ab44e78e0bf5e7b1eaad90bd9f0e6ac762685a5422f26b6c",
+   "asc": 779,
+   "desc": 13,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.689,
+    "H": 0.746,
+    "X": 0.008,
+    "top": 0.737
+   },
+   "w2": {
+    "W": 3.666,
+    "H": 0.786,
+    "X": 0.055,
+    "top": 0.779
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.438,
+    "H": 0.767,
+    "X": 0.008,
+    "top": 0.754
+   },
+   "w2": {
+    "W": 4.787,
+    "H": 0.748,
+    "X": 0.055,
+    "top": 0.74
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.356,
+    "H": 0.724,
+    "X": 0.023,
+    "top": 0.718
+   },
+   "w2": {
+    "W": 3.492,
+    "H": 0.786,
+    "X": 0.044,
+    "top": 0.779
+   }
+  }
+ ]
+}

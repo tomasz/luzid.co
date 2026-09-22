@@ -1,0 +1,98 @@
+{
+ "id": "rozha-one",
+ "family": "Rozha One",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rozhaone/RozhaOne-Regular.ttf",
+  "sha256": "8491b838c31f30272aa6da67e4749afabab8297db82a055fd2d0aa689f500ee3"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright (c) 2014, Indian Type Foundry (info@indiantypefoundry.com).",
+ "archetype": [
+  "A"
+ ],
+ "traits": [
+  "fat",
+  "serif"
+ ],
+ "odds": 8,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 2280,
+   "sha256": "d7385ce9f8ef11485cdb26aee59c899c99fdd99f30135702e42a75283a3f20ab",
+   "asc": 681,
+   "desc": 15,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.555,
+    "H": 0.572,
+    "X": 0.02,
+    "top": 0.56
+   },
+   "w2": {
+    "W": 3.454,
+    "H": 0.696,
+    "X": 0.025,
+    "top": 0.681
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.645,
+    "H": 0.587,
+    "X": 0.02,
+    "top": 0.572
+   },
+   "w2": {
+    "W": 3.746,
+    "H": 0.588,
+    "X": 0.025,
+    "top": 0.573
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.367,
+    "H": 0.625,
+    "X": 0,
+    "top": 0.613
+   },
+   "w2": {
+    "W": 3.392,
+    "H": 0.693,
+    "X": 0.03,
+    "top": 0.681
+   }
+  }
+ ]
+}

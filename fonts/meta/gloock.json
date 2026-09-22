@@ -1,0 +1,99 @@
+{
+ "id": "gloock",
+ "family": "Gloock",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/gloock/Gloock-Regular.ttf",
+  "sha256": "c3a67e0212f7da01764796ae721cb9bab3e122d142354f97cf9c63fb763e6d77"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2022 The Gloock Project Authors (https://github.com/duartp/gloock)",
+ "archetype": [
+  "A"
+ ],
+ "traits": [
+  "fat",
+  "serif",
+  "soft"
+ ],
+ "odds": 9,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 3112,
+   "sha256": "9bf750770e033cd9f88a46d55b75e63de7aa40a4c9bd911b3a136de48dadcbfa",
+   "asc": 788,
+   "desc": 38,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.497,
+    "H": 0.764,
+    "X": 0.008,
+    "top": 0.75
+   },
+   "w2": {
+    "W": 3.566,
+    "H": 0.826,
+    "X": 0.037,
+    "top": 0.788
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.215,
+    "H": 0.779,
+    "X": 0.008,
+    "top": 0.765
+   },
+   "w2": {
+    "W": 4.532,
+    "H": 0.778,
+    "X": 0.037,
+    "top": 0.764
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.281,
+    "H": 0.666,
+    "X": 0.014,
+    "top": 0.652
+   },
+   "w2": {
+    "W": 3.356,
+    "H": 0.826,
+    "X": 0.033,
+    "top": 0.788
+   }
+  }
+ ]
+}

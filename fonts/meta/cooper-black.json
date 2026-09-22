@@ -1,0 +1,143 @@
+{
+ "id": "cooper-black",
+ "family": "Cooper*",
+ "src": {
+  "url": "https://raw.githubusercontent.com/indestructible-type/Cooper/062a60572254535634569ab23b993a5745bab4ac/fonts/ttf/Cooper-Black.ttf",
+  "sha256": "9e2c6c7effb731d0adef633d55c488c7a501777980911f8d3603ee05b5076491"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2024 The Cooper* Project Authors (https://github.com/indestructibletype/Cooper)",
+ "archetype": [
+  "A"
+ ],
+ "traits": [
+  "fat",
+  "serif",
+  "soft"
+ ],
+ "odds": 10,
+ "upm": 2000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 5212,
+   "sha256": "325d6327cc733d90b8bc8f5adfb66bd41f345b6f2979c575fcf346e44887ad37",
+   "asc": 1466,
+   "desc": 66,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.8595,
+    "H": 0.7425,
+    "X": 0,
+    "top": 0.725
+   },
+   "w2": {
+    "W": 3.9135,
+    "H": 0.7395,
+    "X": 0.025,
+    "top": 0.719
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.606,
+    "H": 0.7605,
+    "X": 0,
+    "top": 0.733
+   },
+   "w2": {
+    "W": 4.915,
+    "H": 0.757,
+    "X": 0.025,
+    "top": 0.7295
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.696,
+    "H": 0.6705,
+    "X": 0,
+    "top": 0.6545
+   },
+   "w2": {
+    "W": 3.7265,
+    "H": 0.7395,
+    "X": 0.0175,
+    "top": 0.719
+   }
+  },
+  {
+   "id": "n-swsh-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"swsh\" 1"
+   },
+   "w1": {
+    "W": 4.0285,
+    "H": 0.7325,
+    "X": 0.025,
+    "top": 0.715
+   },
+   "w2": {
+    "W": 3.9135,
+    "H": 0.7395,
+    "X": 0.025,
+    "top": 0.719
+   }
+  },
+  {
+   "id": "u-swsh-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"swsh\" 1"
+   },
+   "w1": {
+    "W": 5.762,
+    "H": 0.758,
+    "X": 0.025,
+    "top": 0.725
+   },
+   "w2": {
+    "W": 5.272,
+    "H": 0.757,
+    "X": 0.025,
+    "top": 0.7295
+   }
+  }
+ ]
+}
