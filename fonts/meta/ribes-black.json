@@ -1,0 +1,99 @@
+{
+ "id": "ribes-black",
+ "family": "Ribes",
+ "src": {
+  "url": "https://raw.githubusercontent.com/collletttivo/ribes/e5f58f6ef719ff69b599a3155c66f4cecaed0a0f/fonts/Ribes-Black.otf",
+  "sha256": "c38f7389c5cc2317372954552d9aaaad6ef12024b98d27eb146f871ebc6ecb0f"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright © 2023, Collletttivo (https://www.collletttivo.it/)",
+ "archetype": [
+  "D"
+ ],
+ "traits": [
+  "fat",
+  "groovy",
+  "sans"
+ ],
+ "odds": 9,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 2560,
+   "sha256": "3d74535189d14fc5657331bc474899d3b6a7f44128352116a6794ffe1ea60db6",
+   "asc": 750,
+   "desc": 26,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.34,
+    "H": 0.708,
+    "X": 0.008,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 3.136,
+    "H": 0.758,
+    "X": 0.036,
+    "top": 0.75
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.826,
+    "H": 0.716,
+    "X": 0.008,
+    "top": 0.708
+   },
+   "w2": {
+    "W": 3.914,
+    "H": 0.716,
+    "X": 0.036,
+    "top": 0.708
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.116,
+    "H": 0.69,
+    "X": 0.008,
+    "top": 0.664
+   },
+   "w2": {
+    "W": 2.98,
+    "H": 0.758,
+    "X": 0.036,
+    "top": 0.75
+   }
+  }
+ ]
+}

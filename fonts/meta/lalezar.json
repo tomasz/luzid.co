@@ -1,0 +1,98 @@
+{
+ "id": "lalezar",
+ "family": "Lalezar",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/lalezar/Lalezar-Regular.ttf",
+  "sha256": "7b80807bc831f141de0f7dcf6816412bf0c548968d548c5156ca388733390ea9"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2015 The Lalezar Project Authors (https://github.com/BornaIz/Lalezar)",
+ "archetype": [
+  "D"
+ ],
+ "traits": [
+  "fat",
+  "sans"
+ ],
+ "odds": 7,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 2344,
+   "sha256": "bcc96a7cd60dbef9801c77bd67d76feab4a4b28e383bdda6418b02d4aee59e72",
+   "asc": 673,
+   "desc": 13,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.203,
+    "H": 0.583,
+    "X": 0.008,
+    "top": 0.57
+   },
+   "w2": {
+    "W": 3.097,
+    "H": 0.686,
+    "X": 0.03,
+    "top": 0.673
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.565,
+    "H": 0.59,
+    "X": 0.008,
+    "top": 0.577
+   },
+   "w2": {
+    "W": 3.623,
+    "H": 0.59,
+    "X": 0.03,
+    "top": 0.577
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.065,
+    "H": 0.59,
+    "X": 0.008,
+    "top": 0.577
+   },
+   "w2": {
+    "W": 3.034,
+    "H": 0.686,
+    "X": 0.024,
+    "top": 0.673
+   }
+  }
+ ]
+}

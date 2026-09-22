@@ -1,0 +1,121 @@
+{
+ "id": "sigmar",
+ "family": "Sigmar",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sigmar/Sigmar-Regular.ttf",
+  "sha256": "0597d733ed4722af36157f1e72d2415e123a9052655d67410c9ab8a0b223f54d"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2011 The Sigmar One Project Authors (https://github.com/googlefonts/sigmarone)",
+ "archetype": [
+  "D"
+ ],
+ "traits": [
+  "fat",
+  "groovy",
+  "sans"
+ ],
+ "odds": 9,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 6940,
+   "sha256": "5569e626c9c634990e934ee234b3fbdd9e5471405d5af3993821356392118a0f",
+   "asc": 861,
+   "desc": 40,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.958,
+    "H": 0.697,
+    "X": 0.005,
+    "top": 0.657
+   },
+   "w2": {
+    "W": 4.111,
+    "H": 0.901,
+    "X": 0.02,
+    "top": 0.861
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.415,
+    "H": 0.726,
+    "X": 0.005,
+    "top": 0.692
+   },
+   "w2": {
+    "W": 4.761,
+    "H": 0.724,
+    "X": 0.02,
+    "top": 0.694
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.743,
+    "H": 0.764,
+    "X": 0.002,
+    "top": 0.724
+   },
+   "w2": {
+    "W": 3.928,
+    "H": 0.901,
+    "X": 0.02,
+    "top": 0.861
+   }
+  },
+  {
+   "id": "l-smcp-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"smcp\" 1"
+   },
+   "w1": {
+    "W": 3.905,
+    "H": 0.643,
+    "X": 0.005,
+    "top": 0.612
+   },
+   "w2": {
+    "W": 4.276,
+    "H": 0.646,
+    "X": 0.02,
+    "top": 0.612
+   }
+  }
+ ]
+}

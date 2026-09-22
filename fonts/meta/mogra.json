@@ -1,0 +1,99 @@
+{
+ "id": "mogra",
+ "family": "Mogra",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/mogra/Mogra-Regular.ttf",
+  "sha256": "1d7133f5926cf5e7042b587b838bc5c5bcfe6c86b19157afd544c71a630159d8"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2015 The Mogra Project Authors (https://github.com/lipiraval/mogra)",
+ "archetype": [
+  "D"
+ ],
+ "traits": [
+  "fat",
+  "groovy",
+  "sans"
+ ],
+ "odds": 8,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 3264,
+   "sha256": "13b1c072f7a023f34831f919eff4ce37d86eed3f8f3273bd181b0ff779a8bed4",
+   "asc": 782,
+   "desc": 5,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.714,
+    "H": 0.7,
+    "X": 0.062,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 3.794,
+    "H": 0.787,
+    "X": 0.019,
+    "top": 0.782
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.407,
+    "H": 0.715,
+    "X": 0.062,
+    "top": 0.71
+   },
+   "w2": {
+    "W": 3.635,
+    "H": 0.715,
+    "X": 0.019,
+    "top": 0.71
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.686,
+    "H": 0.728,
+    "X": 0.007,
+    "top": 0.728
+   },
+   "w2": {
+    "W": 3.769,
+    "H": 0.782,
+    "X": 0.013,
+    "top": 0.782
+   }
+  }
+ ]
+}

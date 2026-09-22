@@ -1,0 +1,99 @@
+{
+ "id": "sigmar-one",
+ "family": "Sigmar One",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sigmarone/SigmarOne-Regular.ttf",
+  "sha256": "0817eb698a5c4aac2c07bb84be1ead806494c489da468db23f5ffd9bcf3f0970"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2011 The Sigmar One Project Authors (contact@sansoxygen.com)",
+ "archetype": [
+  "D"
+ ],
+ "traits": [
+  "fat",
+  "groovy",
+  "sans"
+ ],
+ "odds": 8,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 4660,
+   "sha256": "8c3e91a062b831ff16374afe5d3dc77d0fc6932d753162aaaa91563156194706",
+   "asc": 695,
+   "desc": 25,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.323,
+    "H": 0.683,
+    "X": 0.038,
+    "top": 0.658
+   },
+   "w2": {
+    "W": 4.551,
+    "H": 0.72,
+    "X": 0.041,
+    "top": 0.695
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.844,
+    "H": 0.719,
+    "X": 0.038,
+    "top": 0.695
+   },
+   "w2": {
+    "W": 5.051,
+    "H": 0.719,
+    "X": 0.041,
+    "top": 0.695
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.255,
+    "H": 0.636,
+    "X": 0.036,
+    "top": 0.611
+   },
+   "w2": {
+    "W": 4.467,
+    "H": 0.625,
+    "X": 0.043,
+    "top": 0.6
+   }
+  }
+ ]
+}

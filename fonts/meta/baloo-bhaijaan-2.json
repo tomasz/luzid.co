@@ -1,0 +1,104 @@
+{
+ "id": "baloo-bhaijaan-2",
+ "family": "Baloo Bhaijaan 2",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/baloobhaijaan2/BalooBhaijaan2[wght].ttf",
+  "sha256": "3e9f07fbc796c0ddcb3e6e0aa26f9c86741d9f5b7f5cb72f4ed3c06e55a19336"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2019 The Baloo 2 Project Authors (https://github.com/EkType/Baloo2)",
+ "archetype": [
+  "D",
+  "E"
+ ],
+ "traits": [
+  "fat",
+  "hairline",
+  "overlap",
+  "rounded",
+  "sans"
+ ],
+ "odds": 7,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "w800",
+   "axes": {
+    "wght": 800
+   },
+   "bytes": 2912,
+   "sha256": "be3f1c10cb7b11c94011b44ccf56d81bbb1b58d8d386ec9710daf7405060883b",
+   "asc": 711,
+   "desc": 18,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-w800",
+   "file": "w800",
+   "case": "none",
+   "css": {
+    "weight": 800,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.404,
+    "H": 0.623,
+    "X": 0.018,
+    "top": 0.606
+   },
+   "w2": {
+    "W": 3.412,
+    "H": 0.729,
+    "X": 0.035,
+    "top": 0.711
+   }
+  },
+  {
+   "id": "u-base-w800",
+   "file": "w800",
+   "case": "uppercase",
+   "css": {
+    "weight": 800,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.731,
+    "H": 0.643,
+    "X": 0.018,
+    "top": 0.625
+   },
+   "w2": {
+    "W": 3.938,
+    "H": 0.643,
+    "X": 0.035,
+    "top": 0.625
+   }
+  },
+  {
+   "id": "l-base-w800",
+   "file": "w800",
+   "case": "lowercase",
+   "css": {
+    "weight": 800,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.265,
+    "H": 0.626,
+    "X": 0.054,
+    "top": 0.609
+   },
+   "w2": {
+    "W": 3.334,
+    "H": 0.727,
+    "X": 0.031,
+    "top": 0.711
+   }
+  }
+ ]
+}
