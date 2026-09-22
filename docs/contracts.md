@@ -83,7 +83,15 @@ Layouts in v1.0: `stack-fit` (odds 12), `stack-eq` (odds 4), plus independent ke
 - **Keyed draws:** `draw(seed, key) = h32(seed + "\x1f" + key) / 2³²`. Stateless; a new axis never reshuffles the others.
 - Weighted pick: cumulative scan over candidates sorted by id; integer `odds` 0–16 from the item, overridden by `data/weights.json` (`{"bucket":{…},"f":{id:n},"p":{},"e":{},"l":{},"preset":{}}`). `0` = retired.
 - **Axis order (normative):** mode (free | preset, Wave 4) → `bucket` → font → file+variant → effect → effect params → palette → role set → layout + `side` + `g`.
-  - `bucket` ∈ {A,B,C,D,E,F,X}, default odds `{A:3,B:3,C:3,D:3,E:3,F:3,X:2}` → 90% archetypes. Font candidates = fonts whose `archetype` contains the bucket; empty bucket → flat pool.
+  - `bucket` ∈ {A,B,C,D,E,F,X}, default odds `{A:3,B:3,C:3,D:3,E:3,F:3,X:2}` → 90% archetypes.
+    The six are taste buckets taken from the owner's reference images, not technical
+    classes: **A** soft 70s display serif · **B** ultra-heavy wide caps with inline or
+    stencil cuts · **C** bold casual brush script · **D** fat groovy psychedelic caps ·
+    **E** rounded geometric display · **F** elegant deco and nouveau serif with alternates.
+    E was originally written as "rounded geometric unicase", but only 2 of its 26 curated
+    faces measure unicase — the rest are ordinary bicameral rounded geometrics, and the
+    reference image is a rounded geometric that happens also to be unicase. The bucket is
+    named for the silhouette it actually selects. Font candidates = fonts whose `archetype` contains the bucket; empty bucket → flat pool.
   - Pins are fixed before any draw. Each drawn axis filters against everything already fixed, **and removes candidates that would complete a `data/deny.json` rule**. Every axis has a universal fallback (`effect: plain`), so one pass always terminates.
   - `data/deny.json` = `{"deny":[{"f":"pacifico","e":"outline-rings"},{"e":"glow-neon","p":"wada1-176"}]}`; keys `f v p r e l`; a rule matches when all its keys equal the pick's. Per-font effect exclusions are `{f,e}` rules. Generated meta is never hand-edited.
 - Params are quantized `[min,max,step]`; a draw picks a step index.
