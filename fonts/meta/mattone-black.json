@@ -1,0 +1,165 @@
+{
+ "id": "mattone-black",
+ "family": "Mattone",
+ "src": {
+  "url": "https://raw.githubusercontent.com/collletttivo/mattone/b1dc55dc6a432708ab00329d452d8f6907c6e570/fonts/Mattone-Black.ttf",
+  "sha256": "ca095d075d591e2a30b360c9a5c0377160d0de6a1592d9c5d337b23eba9a35ae"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright © 2023, Collletttivo (https://www.collletttivo.it/)",
+ "archetype": [
+  "B"
+ ],
+ "traits": [
+  "fat",
+  "sans",
+  "wide"
+ ],
+ "odds": 8,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 2224,
+   "sha256": "26cdb7ff064895873529b73e1f1eebabf8f748608ca0c49e2f10c37f254db54a",
+   "asc": 818,
+   "desc": 28,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 5.137,
+    "H": 0.778,
+    "X": 0.035,
+    "top": 0.75
+   },
+   "w2": {
+    "W": 5.064,
+    "H": 0.844,
+    "X": 0.023,
+    "top": 0.818
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 6.264,
+    "H": 0.806,
+    "X": 0.035,
+    "top": 0.78
+   },
+   "w2": {
+    "W": 6.274,
+    "H": 0.801,
+    "X": 0.023,
+    "top": 0.775
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.934,
+    "H": 0.798,
+    "X": 0.023,
+    "top": 0.77
+   },
+   "w2": {
+    "W": 4.876,
+    "H": 0.842,
+    "X": 0.023,
+    "top": 0.818
+   }
+  },
+  {
+   "id": "n-ss01-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 5.23,
+    "H": 0.778,
+    "X": 0.035,
+    "top": 0.75
+   },
+   "w2": {
+    "W": 5.136,
+    "H": 0.844,
+    "X": 0.023,
+    "top": 0.818
+   }
+  },
+  {
+   "id": "u-ss01-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 6.264,
+    "H": 0.806,
+    "X": 0.035,
+    "top": 0.78
+   },
+   "w2": {
+    "W": 6.694,
+    "H": 0.801,
+    "X": 0.023,
+    "top": 0.775
+   }
+  },
+  {
+   "id": "l-ss01-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 5.027,
+    "H": 0.798,
+    "X": 0.023,
+    "top": 0.77
+   },
+   "w2": {
+    "W": 4.948,
+    "H": 0.842,
+    "X": 0.023,
+    "top": 0.818
+   }
+  }
+ ]
+}

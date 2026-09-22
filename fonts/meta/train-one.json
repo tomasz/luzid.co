@@ -1,0 +1,233 @@
+{
+ "id": "train-one",
+ "family": "Train One",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/trainone/TrainOne-Regular.ttf",
+  "sha256": "07d67ad14231a4a41f0ee501b14bd6f9c7a9beada5ee6af2924114863a034623"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2020 The Train Project Authors (https://github.com/fontworks-fonts/Train)",
+ "archetype": [
+  "B"
+ ],
+ "traits": [
+  "fat",
+  "hairline",
+  "inline",
+  "jp",
+  "sans"
+ ],
+ "odds": 8,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 5504,
+   "sha256": "d2652b0ecb38c664ec331f7ebe6b9253c77f36b5084dce3bff94ae114bb20bdc",
+   "asc": 802,
+   "desc": 20,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.929,
+    "H": 0.792,
+    "X": 0.016,
+    "top": 0.78
+   },
+   "w2": {
+    "W": 3.909,
+    "H": 0.821,
+    "X": 0.048,
+    "top": 0.801
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.49,
+    "H": 0.821,
+    "X": 0.016,
+    "top": 0.801
+   },
+   "w2": {
+    "W": 4.772,
+    "H": 0.821,
+    "X": 0.048,
+    "top": 0.801
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.707,
+    "H": 0.743,
+    "X": 0.026,
+    "top": 0.731
+   },
+   "w2": {
+    "W": 3.764,
+    "H": 0.792,
+    "X": 0.038,
+    "top": 0.78
+   }
+  },
+  {
+   "id": "n-fwid-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"fwid\" 1"
+   },
+   "w1": {
+    "W": 5.543,
+    "H": 0.792,
+    "X": 0.201,
+    "top": 0.78
+   },
+   "w2": {
+    "W": 6,
+    "H": 0.821,
+    "X": 0.164,
+    "top": 0.802
+   }
+  },
+  {
+   "id": "u-fwid-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"fwid\" 1"
+   },
+   "w1": {
+    "W": 5.583,
+    "H": 0.821,
+    "X": 0.201,
+    "top": 0.801
+   },
+   "w2": {
+    "W": 6.327,
+    "H": 0.822,
+    "X": 0.164,
+    "top": 0.802
+   }
+  },
+  {
+   "id": "l-fwid-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"fwid\" 1"
+   },
+   "w1": {
+    "W": 5.442,
+    "H": 0.743,
+    "X": 0.302,
+    "top": 0.731
+   },
+   "w2": {
+    "W": 5.923,
+    "H": 0.792,
+    "X": 0.241,
+    "top": 0.78
+   }
+  },
+  {
+   "id": "n-hwid-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"hwid\" 1"
+   },
+   "w1": {
+    "W": 2.97,
+    "H": 0.792,
+    "X": 0.014,
+    "top": 0.78
+   },
+   "w2": {
+    "W": 3.358,
+    "H": 0.821,
+    "X": 0.006,
+    "top": 0.801
+   }
+  },
+  {
+   "id": "u-hwid-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"hwid\" 1"
+   },
+   "w1": {
+    "W": 2.972,
+    "H": 0.821,
+    "X": 0.014,
+    "top": 0.801
+   },
+   "w2": {
+    "W": 3.62,
+    "H": 0.821,
+    "X": 0.006,
+    "top": 0.801
+   }
+  },
+  {
+   "id": "l-hwid-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"hwid\" 1"
+   },
+   "w1": {
+    "W": 2.921,
+    "H": 0.743,
+    "X": 0.063,
+    "top": 0.731
+   },
+   "w2": {
+    "W": 3.351,
+    "H": 0.792,
+    "X": 0.013,
+    "top": 0.78
+   }
+  }
+ ]
+}

@@ -1,0 +1,99 @@
+{
+ "id": "black-ops-one",
+ "family": "Black Ops One",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/blackopsone/BlackOpsOne-Regular.ttf",
+  "sha256": "282a825b5f294377387e3969f765408157dbea8da0f5d0aae68c6bc704b145b3"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2022 The Black-Ops Project Authors (https://github.com/googlefonts/googlefonts-project-template)",
+ "archetype": [
+  "B"
+ ],
+ "traits": [
+  "fat",
+  "sans",
+  "stencil"
+ ],
+ "odds": 7,
+ "upm": 2048,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 2696,
+   "sha256": "16935ee15a376616e530af7fdd56f8549058bfcbd4997ce95fc7910e100ae616",
+   "asc": 1476,
+   "desc": 0,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.95313,
+    "H": 0.64795,
+    "X": 0.02539,
+    "top": 0.64795
+   },
+   "w2": {
+    "W": 3.87012,
+    "H": 0.7207,
+    "X": 0.04736,
+    "top": 0.7207
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.21777,
+    "H": 0.64795,
+    "X": 0.02539,
+    "top": 0.64795
+   },
+   "w2": {
+    "W": 4.50586,
+    "H": 0.64795,
+    "X": 0.04736,
+    "top": 0.64795
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.87939,
+    "H": 0.64795,
+    "X": 0.01855,
+    "top": 0.64795
+   },
+   "w2": {
+    "W": 3.8125,
+    "H": 0.7207,
+    "X": 0.04639,
+    "top": 0.7207
+   }
+  }
+ ]
+}

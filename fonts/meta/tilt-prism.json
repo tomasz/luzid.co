@@ -1,0 +1,183 @@
+{
+ "id": "tilt-prism",
+ "family": "Tilt Prism",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/tiltprism/TiltPrism[XROT,YROT].ttf",
+  "sha256": "28e96351753e177dc6e097f7f089c6942cdf26416e861f4ab9d6ee0bc57c7515"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2019 The Tilt Project Authors (https://github.com/googlefonts/Tilt-Fonts)",
+ "archetype": [
+  "B"
+ ],
+ "traits": [
+  "fat",
+  "hairline",
+  "inline",
+  "overlap",
+  "sans",
+  "shaded"
+ ],
+ "odds": 7,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "flat",
+   "axes": {
+    "XROT": 0,
+    "YROT": 0
+   },
+   "bytes": 7200,
+   "sha256": "80414f1fe6882dc28dde8e9da7718ab5d918ed222507700abae59bd1e3ea43c7",
+   "asc": 700,
+   "desc": 24,
+   "glyphs": 23
+  },
+  {
+   "id": "tilt",
+   "axes": {
+    "XROT": -30,
+    "YROT": 30
+   },
+   "bytes": 7896,
+   "sha256": "c2bf7a3ad7a3ba0e54b58639db70b550d1c06df275a9a0da7b0292dd7c5871f4",
+   "asc": 585,
+   "desc": 1,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-flat",
+   "file": "flat",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.533,
+    "H": 0.709,
+    "X": 0.017,
+    "top": 0.688
+   },
+   "w2": {
+    "W": 3.683,
+    "H": 0.724,
+    "X": 0.029,
+    "top": 0.7
+   }
+  },
+  {
+   "id": "n-base-tilt",
+   "file": "tilt",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.961,
+    "H": 0.574,
+    "X": -0.106,
+    "top": 0.576
+   },
+   "w2": {
+    "W": 3.015,
+    "H": 0.586,
+    "X": -0.044,
+    "top": 0.585
+   }
+  },
+  {
+   "id": "u-base-flat",
+   "file": "flat",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.881,
+    "H": 0.721,
+    "X": 0.017,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 4.043,
+    "H": 0.724,
+    "X": 0.029,
+    "top": 0.7
+   }
+  },
+  {
+   "id": "u-base-tilt",
+   "file": "tilt",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.241,
+    "H": 0.583,
+    "X": -0.106,
+    "top": 0.585
+   },
+   "w2": {
+    "W": 3.295,
+    "H": 0.586,
+    "X": -0.044,
+    "top": 0.585
+   }
+  },
+  {
+   "id": "l-base-flat",
+   "file": "flat",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.517,
+    "H": 0.621,
+    "X": 0.012,
+    "top": 0.6
+   },
+   "w2": {
+    "W": 3.622,
+    "H": 0.624,
+    "X": 0.021,
+    "top": 0.6
+   }
+  },
+  {
+   "id": "l-base-tilt",
+   "file": "tilt",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.929,
+    "H": 0.503,
+    "X": -0.088,
+    "top": 0.505
+   },
+   "w2": {
+    "W": 2.952,
+    "H": 0.506,
+    "X": -0.036,
+    "top": 0.505
+   }
+  }
+ ]
+}

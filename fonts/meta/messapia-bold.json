@@ -1,0 +1,98 @@
+{
+ "id": "messapia-bold",
+ "family": "Messapia",
+ "src": {
+  "url": "https://raw.githubusercontent.com/collletttivo/messapia/c7fbc664055d3f16f5d7431271f738ab5cdc6373/fonts/Messapia-Bold.otf",
+  "sha256": "6628fcd4b211a50e001c974f3b0e7d5e1db4547b9a470b052ea14fced07bd779"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright © 2023, Collletttivo (https://www.collletttivo.it/)",
+ "archetype": [
+  "B"
+ ],
+ "traits": [
+  "sans",
+  "wide"
+ ],
+ "odds": 8,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 2440,
+   "sha256": "8d0a7e15305404af44c2caaed535e936b455527f403ea49efa62ebbe1717183c",
+   "asc": 765,
+   "desc": 15,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 5.149,
+    "H": 0.715,
+    "X": 0.05,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 4.974,
+    "H": 0.78,
+    "X": 0.05,
+    "top": 0.765
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 5.845,
+    "H": 0.73,
+    "X": 0.05,
+    "top": 0.715
+   },
+   "w2": {
+    "W": 6.089,
+    "H": 0.73,
+    "X": 0.05,
+    "top": 0.715
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 5.016,
+    "H": 0.652,
+    "X": 0,
+    "top": 0.637
+   },
+   "w2": {
+    "W": 4.802,
+    "H": 0.78,
+    "X": 0.043,
+    "top": 0.765
+   }
+  }
+ ]
+}

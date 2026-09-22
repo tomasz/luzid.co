@@ -1,0 +1,103 @@
+{
+ "id": "syne-extrabold",
+ "family": "Syne",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/syne/Syne[wght].ttf",
+  "sha256": "ce5ac77142a65cab2248a1a2ebb740b1d4d9c20b52488877d3ff664d1356104a"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2017 The Syne Project Authors (https://gitlab.com/bonjour-monde/fonderie/syne-typeface)",
+ "archetype": [
+  "B",
+  "E"
+ ],
+ "traits": [
+  "fat",
+  "overlap",
+  "sans",
+  "wide"
+ ],
+ "odds": 8,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "w800",
+   "axes": {
+    "wght": 800
+   },
+   "bytes": 2516,
+   "sha256": "a01129e153af54f58fe4dc7e703c982dd2695a37c39b51847283e96b9807b335",
+   "asc": 747,
+   "desc": 20,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-w800",
+   "file": "w800",
+   "case": "none",
+   "css": {
+    "weight": 800,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 6.421,
+    "H": 0.655,
+    "X": 0.03,
+    "top": 0.64
+   },
+   "w2": {
+    "W": 5.974,
+    "H": 0.767,
+    "X": 0.06,
+    "top": 0.747
+   }
+  },
+  {
+   "id": "u-base-w800",
+   "file": "w800",
+   "case": "uppercase",
+   "css": {
+    "weight": 800,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 7.246,
+    "H": 0.681,
+    "X": 0.03,
+    "top": 0.661
+   },
+   "w2": {
+    "W": 7.66,
+    "H": 0.68,
+    "X": 0.06,
+    "top": 0.66
+   }
+  },
+  {
+   "id": "l-base-w800",
+   "file": "w800",
+   "case": "lowercase",
+   "css": {
+    "weight": 800,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 6.019,
+    "H": 0.655,
+    "X": 0.02,
+    "top": 0.64
+   },
+   "w2": {
+    "W": 5.677,
+    "H": 0.762,
+    "X": 0.035,
+    "top": 0.747
+   }
+  }
+ ]
+}
