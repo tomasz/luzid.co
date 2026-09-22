@@ -118,11 +118,15 @@ function extent(css) {
       const prop = decl.slice(0, i).trim()
       const value = decl.slice(i + 1).trim()
 
-      // Half a stroke lies outside the contour, and it adds to every shadow's reach.
+      // A centred stroke puts w/2 outside the contour geometrically -- but Chrome and
+      // WebKit MITER their joins, and a miter on an acute corner runs to w/2 / sin(0/2),
+      // which is unbounded as the corner sharpens. Count the full width: it covers a 2x
+      // miter, which is the sharpest these display faces produce. The stroke then feeds
+      // every shadow that follows, so this is an outset on the glyph, not a separate side.
       if (/^-webkit-text-stroke(-width)?$/.test(prop)) {
         const w = u(topSplit(value, ' ')[0])
         if (w === null) opaque.push(prop)
-        else stroke = Math.max(stroke, w / 2)
+        else stroke = Math.max(stroke, w)
         continue
       }
       // drop-shadow is the one filter whose geometry the scan understands; any other
@@ -143,6 +147,12 @@ function extent(css) {
             .filter((f) => f.trim().startsWith('drop-shadow('))
             .map((f) => f.trim().slice('drop-shadow('.length, -1))
 
+      // `text-shadow` layers are siblings: each is drawn from the same glyph, so the
+      // extent is the widest of them. Chained `drop-shadow()` filters are NOT siblings --
+      // each pass shadows the OUTPUT of the one before, so offsets add up and blurs
+      // compound. Taking the max over a chain under-reports it, which is how this scan
+      // scored `glow-neon-outline` at 3.15u while it painted 5.08u and called it clean.
+      const chain = { l: 0, r: 0, t: 0, b: 0 }
       for (const layer of layers) {
         const nums = []
         for (const part of topSplit(layer, ' ')) {
@@ -157,11 +167,19 @@ function extent(css) {
         }
         const [x, y] = nums
         const reach = BLUR_REACH * (nums[2] ?? 0)
-        ext.l = Math.max(ext.l, -(x - reach))
-        ext.r = Math.max(ext.r, x + reach)
-        ext.t = Math.max(ext.t, -(y - reach))
-        ext.b = Math.max(ext.b, y + reach)
+        if (isShadow) {
+          ext.l = Math.max(ext.l, -(x - reach))
+          ext.r = Math.max(ext.r, x + reach)
+          ext.t = Math.max(ext.t, -(y - reach))
+          ext.b = Math.max(ext.b, y + reach)
+        } else {
+          chain.l += Math.max(0, -(x - reach))
+          chain.r += Math.max(0, x + reach)
+          chain.t += Math.max(0, -(y - reach))
+          chain.b += Math.max(0, y + reach)
+        }
       }
+      for (const k of /** @type {const} */ (['l', 'r', 't', 'b'])) ext[k] = Math.max(ext[k], chain[k])
     }
   }
   for (const k of /** @type {const} */ (['l', 'r', 't', 'b'])) ext[k] = Math.max(ext[k], 0) + stroke
@@ -224,7 +242,14 @@ test('the scan measures reach the way R14 says', () => {
   // The blur reaches 2.2u back but the offset carries it 3u right, so nothing lands left
   // of the glyph: a side that is never painted contributes no bleed, and clamps at 0.
   assert.equal(ext.l, 0)
-  // Half a stroke lies outside the contour and adds to every layer.
+  // A stroke counts at its full width, not w/2: the joins are mitred, so an acute corner
+  // paints well past the geometric half-width. It outsets the glyph every layer starts from.
   const withStroke = extent('.n{-webkit-text-stroke:calc(4*var(--u)) var(--fg);text-shadow:0 0 0 var(--a1)}')
-  assert.equal(withStroke.ext.l, 2)
+  assert.equal(withStroke.ext.l, 4)
+
+  // Chained drop-shadows compound: each pass shadows the output of the one before.
+  const chained = extent('.n{filter:drop-shadow(0 calc(2*var(--u)) 0) drop-shadow(0 calc(3*var(--u)) 0)}')
+  assert.equal(chained.ext.b, 5, 'a drop-shadow chain accumulates rather than taking the widest')
+  const siblings = extent('.n{text-shadow:0 calc(2*var(--u)) 0 var(--a1),0 calc(3*var(--u)) 0 var(--a1)}')
+  assert.equal(siblings.ext.b, 3, 'text-shadow layers are siblings and take the widest')
 })

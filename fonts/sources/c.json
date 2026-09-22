@@ -1,26 +1,5 @@
 [
   {
-    "id": "arizonia",
-    "family": "Arizonia",
-    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/arizonia/Arizonia-Regular.ttf",
-    "sha256": "8df1c10bc15d0aba145d4599c25cafad83db686d2cefa42619f069b6f1bbce62",
-    "licenseId": "OFL-1.1",
-    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/arizonia/OFL.txt",
-    "copyright": "Copyright 2007-2021 The Arizonia Project Authors (https://github.com/googlefonts/arizonia)",
-    "archetype": [
-      "C"
-    ],
-    "traits": [
-      "script",
-      "connected"
-    ],
-    "odds": 0,
-    "cases": [
-      "none",
-      "lowercase"
-    ]
-  },
-  {
     "id": "birthstone-bounce",
     "family": "Birthstone Bounce",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/birthstonebounce/BirthstoneBounce-Regular.ttf",
@@ -35,7 +14,7 @@
       "script",
       "connected"
     ],
-    "odds": 0,
+    "odds": 5,
     "features": [
       "ss02"
     ],
@@ -107,6 +86,27 @@
     ]
   },
   {
+    "id": "havana",
+    "family": "Havana",
+    "url": "https://raw.githubusercontent.com/warszawskie-kroje/havana/931bb3a781bd4cae6873a9e7ff5b422ea967b73a/Havana-Regular/Havana-Regular.ttf",
+    "sha256": "f7f537584838b560ae4b30add7cf9fbc85537b74217349774f0369b477a5b416",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/warszawskie-kroje/havana/931bb3a781bd4cae6873a9e7ff5b422ea967b73a/README.md",
+    "copyright": "Copyright © 2016 Stowarzyszenie Kulturotwórcze Miastodwa",
+    "archetype": [
+      "C"
+    ],
+    "traits": [
+      "script",
+      "connected"
+    ],
+    "odds": 7,
+    "cases": [
+      "none",
+      "lowercase"
+    ]
+  },
+  {
     "id": "hurricane",
     "family": "Hurricane",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/hurricane/Hurricane-Regular.ttf",
@@ -121,7 +121,7 @@
       "script",
       "connected"
     ],
-    "odds": 0,
+    "odds": 5,
     "features": [
       "ss02",
       "ss03",
@@ -148,33 +148,7 @@
       "brush",
       "condensed"
     ],
-    "odds": 0
-  },
-  {
-    "id": "kolker-brush",
-    "family": "Kolker Brush",
-    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/kolkerbrush/KolkerBrush-Regular.ttf",
-    "sha256": "c0914812bc5b224cc0e8321de70021a33a1a766b9efaf525f7463200f82300f4",
-    "licenseId": "OFL-1.1",
-    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/kolkerbrush/OFL.txt",
-    "copyright": "Copyright 2004 The Kolker Brush Project Authors (https://github.com/googlefonts/kolker-brush)",
-    "archetype": [
-      "C"
-    ],
-    "traits": [
-      "script",
-      "brush",
-      "connected"
-    ],
-    "odds": 0,
-    "features": [
-      "ss01",
-      "salt"
-    ],
-    "cases": [
-      "none",
-      "lowercase"
-    ]
+    "odds": 6
   },
   {
     "id": "licorice",
@@ -191,7 +165,7 @@
       "script",
       "hairline"
     ],
-    "odds": 0,
+    "odds": 4,
     "cases": [
       "none",
       "lowercase"
@@ -212,7 +186,7 @@
       "script",
       "hairline"
     ],
-    "odds": 0,
+    "odds": 4,
     "features": [
       "ss01",
       "salt"
@@ -322,32 +296,7 @@
       "script",
       "connected"
     ],
-    "odds": 0,
-    "cases": [
-      "none",
-      "lowercase"
-    ]
-  },
-  {
-    "id": "ruthie",
-    "family": "Ruthie",
-    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/ruthie/Ruthie-Regular.ttf",
-    "sha256": "f97e99910e79a6caebcc18dcca305969a0ab42595fce6767139f260c193da302",
-    "licenseId": "OFL-1.1",
-    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/ruthie/OFL.txt",
-    "copyright": "Copyright 2014 The Ruthie Project Authors (https://github.com/googlefonts/ruthie)",
-    "archetype": [
-      "C"
-    ],
-    "traits": [
-      "script",
-      "connected"
-    ],
-    "odds": 0,
-    "features": [
-      "ss01",
-      "salt"
-    ],
+    "odds": 5,
     "cases": [
       "none",
       "lowercase"
@@ -455,6 +404,33 @@
     "features": [
       "ss01",
       "ss02"
+    ],
+    "cases": [
+      "none",
+      "lowercase"
+    ]
+  },
+  {
+    "id": "tagger",
+    "family": "Tagger",
+    "url": "https://raw.githubusercontent.com/warszawskie-kroje/tagger/a283c4bb3d583b308c074c06fb8291f6be352598/Tagger-Regular/Tagger-Regular.ttf",
+    "sha256": "8452b7bb65999c0243f4fd2c0196ca4aedf1d3814ff71e88811a53066abada41",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/warszawskie-kroje/tagger/a283c4bb3d583b308c074c06fb8291f6be352598/README.md",
+    "copyright": "Copyright © 2016 Stowarzyszenie Kulturotwórcze Miastodwa",
+    "archetype": [
+      "C"
+    ],
+    "traits": [
+      "script",
+      "brush",
+      "connected"
+    ],
+    "odds": 9,
+    "features": [
+      "ss01",
+      "ss02",
+      "salt"
     ],
     "cases": [
       "none",

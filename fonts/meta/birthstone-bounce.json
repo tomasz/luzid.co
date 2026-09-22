@@ -1,0 +1,122 @@
+{
+ "id": "birthstone-bounce",
+ "family": "Birthstone Bounce",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/birthstonebounce/BirthstoneBounce-Regular.ttf",
+  "sha256": "a03b6146597d467e794fdd4d61178d72f083eb93e9e86040a10530aaa1307ef9"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2019 The Birthstone Bounce Project Authors (https://github.com/googlefonts/birthstone-bounce)",
+ "archetype": [
+  "C"
+ ],
+ "traits": [
+  "connected",
+  "script"
+ ],
+ "odds": 5,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 6632,
+   "sha256": "e5819fafe1c10f1256281b62340678333caa38537f7d0342a735128360eed6b1",
+   "asc": 727,
+   "desc": 356,
+   "stem": 0.0788,
+   "crossbar": 0.0224,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.557,
+    "H": 1.063,
+    "X": 0.021,
+    "top": 0.707
+   },
+   "w2": {
+    "W": 2.61,
+    "H": 1.083,
+    "X": -0.006,
+    "top": 0.727
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.256,
+    "H": 0.942,
+    "X": -0.014,
+    "top": 0.586
+   },
+   "w2": {
+    "W": 2.22,
+    "H": 0.994,
+    "X": 0.021,
+    "top": 0.638
+   }
+  },
+  {
+   "id": "n-ss02-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss02\" 1"
+   },
+   "w1": {
+    "W": 2.528,
+    "H": 1.063,
+    "X": 0.021,
+    "top": 0.707
+   },
+   "w2": {
+    "W": 2.619,
+    "H": 1.083,
+    "X": -0.006,
+    "top": 0.727
+   }
+  },
+  {
+   "id": "l-ss02-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss02\" 1"
+   },
+   "w1": {
+    "W": 2.299,
+    "H": 0.931,
+    "X": -0.032,
+    "top": 0.575
+   },
+   "w2": {
+    "W": 2.229,
+    "H": 0.994,
+    "X": 0.021,
+    "top": 0.638
+   }
+  }
+ ]
+}

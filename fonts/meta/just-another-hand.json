@@ -1,0 +1,101 @@
+{
+ "id": "just-another-hand",
+ "family": "Just Another Hand",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/justanotherhand/JustAnotherHand-Regular.ttf",
+  "sha256": "f1cd102ebacdb6388c879c9d481d63908ee0d5939a301415a78cdfdc752f79ea"
+ },
+ "licenseId": "Apache-2.0",
+ "copyright": "Copyright License. Subject to the terms and conditions of",
+ "archetype": [
+  "C"
+ ],
+ "traits": [
+  "brush",
+  "condensed",
+  "script"
+ ],
+ "odds": 6,
+ "upm": 2048,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 4772,
+   "sha256": "2785ad6d08d408aa9ef6eb3c1e46c68548f1faa2df3e5c4e2544ee5e26933413",
+   "asc": 1492,
+   "desc": 78,
+   "stem": 0.0751,
+   "crossbar": 0.0583,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 1.64014,
+    "H": 0.72314,
+    "X": -0.01318,
+    "top": 0.69922
+   },
+   "w2": {
+    "W": 1.65137,
+    "H": 0.74219,
+    "X": 0.02588,
+    "top": 0.7041
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.19873,
+    "H": 0.73828,
+    "X": -0.01318,
+    "top": 0.71484
+   },
+   "w2": {
+    "W": 2.45166,
+    "H": 0.74121,
+    "X": 0.02588,
+    "top": 0.72852
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 1.54102,
+    "H": 0.57031,
+    "X": -0.00732,
+    "top": 0.54639
+   },
+   "w2": {
+    "W": 1.48096,
+    "H": 0.72852,
+    "X": 0.01416,
+    "top": 0.69043
+   }
+  }
+ ]
+}

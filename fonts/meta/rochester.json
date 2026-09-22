@@ -1,0 +1,78 @@
+{
+ "id": "rochester",
+ "family": "Rochester",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/rochester/Rochester-Regular.ttf",
+  "sha256": "38657df5e357e841a39995592970ac14ea96a1376f178f0d8e0231fd5d630b2b"
+ },
+ "licenseId": "Apache-2.0",
+ "copyright": "Copyright License. Subject to the terms and conditions of",
+ "archetype": [
+  "C"
+ ],
+ "traits": [
+  "connected",
+  "script"
+ ],
+ "odds": 5,
+ "upm": 2048,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 5096,
+   "sha256": "afed3a861235929f55c827906e24d1b0a6da4cb8d5b5722910924222fde07219",
+   "asc": 1679,
+   "desc": 512,
+   "stem": 0.0767,
+   "crossbar": 0.0281,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.72559,
+    "H": 1.06982,
+    "X": -0.06396,
+    "top": 0.81982
+   },
+   "w2": {
+    "W": 2.62891,
+    "H": 1.06982,
+    "X": -0.00537,
+    "top": 0.81982
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.34619,
+    "H": 0.8501,
+    "X": -0.03223,
+    "top": 0.6001
+   },
+   "w2": {
+    "W": 2.39746,
+    "H": 0.97998,
+    "X": -0.00684,
+    "top": 0.72998
+   }
+  }
+ ]
+}

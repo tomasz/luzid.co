@@ -1,0 +1,123 @@
+{
+ "id": "tagger",
+ "family": "Tagger",
+ "src": {
+  "url": "https://raw.githubusercontent.com/warszawskie-kroje/tagger/a283c4bb3d583b308c074c06fb8291f6be352598/Tagger-Regular/Tagger-Regular.ttf",
+  "sha256": "8452b7bb65999c0243f4fd2c0196ca4aedf1d3814ff71e88811a53066abada41"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright © 2016 Stowarzyszenie Kulturotwórcze Miastodwa",
+ "archetype": [
+  "C"
+ ],
+ "traits": [
+  "brush",
+  "connected",
+  "script"
+ ],
+ "odds": 9,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 6384,
+   "sha256": "815c4a93f6908121f7e27a27f191749ea11ced38cf98493c8f582df993c26a19",
+   "asc": 819,
+   "desc": 38,
+   "stem": 0.0608,
+   "crossbar": 0.0447,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.56,
+    "H": 0.829,
+    "X": 0.015,
+    "top": 0.791
+   },
+   "w2": {
+    "W": 3.645,
+    "H": 0.841,
+    "X": 0.019,
+    "top": 0.809
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.26,
+    "H": 0.857,
+    "X": 0.036,
+    "top": 0.819
+   },
+   "w2": {
+    "W": 3.507,
+    "H": 0.819,
+    "X": 0.006,
+    "top": 0.809
+   }
+  },
+  {
+   "id": "n-salt-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"salt\" 1"
+   },
+   "w1": {
+    "W": 3.56,
+    "H": 0.829,
+    "X": 0.015,
+    "top": 0.791
+   },
+   "w2": {
+    "W": 3.824,
+    "H": 0.841,
+    "X": 0.019,
+    "top": 0.809
+   }
+  },
+  {
+   "id": "l-salt-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"salt\" 1"
+   },
+   "w1": {
+    "W": 3.26,
+    "H": 0.857,
+    "X": 0.036,
+    "top": 0.819
+   },
+   "w2": {
+    "W": 3.686,
+    "H": 0.819,
+    "X": 0.006,
+    "top": 0.809
+   }
+  }
+ ]
+}
