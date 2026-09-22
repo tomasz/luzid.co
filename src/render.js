@@ -132,8 +132,14 @@ export function fit(p, parts) {
     l: Math.max(0, Number(raw.l) || 0),
   }
 
-  // G stops line 2's shadow from painting over line 1.
-  const G = Math.max(p.g, b.t)
+  // The gap has to clear ink travelling BOTH ways, because the two lines paint in tree
+  // order: line 2's upward ink would cover line 1's glyphs, and line 2's glyphs would
+  // cover line 1's downward ink. `b.t` alone only bought the first, so every effect with
+  // a downward shade had to declare a top bleed it never painted into just to widen the
+  // gap — dead space above line 1, measured at 3-7% of block width on a phone.
+  // max() rather than b.t + b.b: the two lines' inks may meet in the gap, they just may
+  // not reach the other line's glyphs, and the sum would cost real size for nothing.
+  const G = Math.max(p.g, b.t, b.b)
   const R = (h1 + h2 + G) / 100
 
   return {
