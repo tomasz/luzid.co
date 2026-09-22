@@ -1,0 +1,36 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mise exec node@24 pnpm@12.4.2 -- pnpm:*)",
+      "Bash(node:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git push origin HEAD)",
+      "Bash(git worktree:*)",
+      "Bash(gh pr:*)",
+      "Bash(gh run:*)",
+      "Bash(gh issue:*)"
+    ],
+    "deny": [
+      "Bash(*--no-gpg-sign*)",
+      "Bash(git -c commit.gpgsign=false*)",
+      "Bash(git config *gpgsign*)",
+      "Bash(git push --force*)",
+      "Bash(git push -f*)",
+      "Bash(git push origin *:main)",
+      "Bash(*wrangler deploy*)",
+      "Bash(*wrangler login*)",
+      "Bash(*wrangler rollback*)",
+      "Bash(*wrangler secret*)",
+      "Bash(*wrangler delete*)",
+      "Bash(gh secret*)",
+      "Bash(gh variable*)",
+      "Bash(gh repo delete*)",
+      "Bash(gh api -X DELETE*)",
+      "Bash(gh api --method DELETE*)"
+    ]
+  }
+}

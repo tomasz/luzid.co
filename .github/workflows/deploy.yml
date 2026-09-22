@@ -1,0 +1,65 @@
+name: deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci.yml
+
+  deploy:
+    needs: ci
+    # Skipped until the owner finishes Sitting 2 and sets DEPLOY_ENABLED, so the first
+    # pushes to main are green instead of failing on a missing Cloudflare token.
+    if: vars.DEPLOY_ENABLED == 'true'
+    runs-on: ubuntu-24.04
+    environment:
+      name: production
+      url: https://luzid.co
+    # Never cancel: a run killed between `deploy` and `smoke` would leave a bad version live.
+    concurrency:
+      group: deploy-production
+      cancel-in-progress: false
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+      WRANGLER_SEND_METRICS: "false"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+        with:
+          version: 12.4.2 # keep in sync with engines.pnpm; test/repo.test.js enforces it
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+
+      - name: record the live version, so a rollback targets it explicitly
+        id: prev
+        run: |
+          id=$(pnpm exec wrangler deployments status --json 2>/dev/null \
+                | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{const j=JSON.parse(s);console.log(j?.versions?.[0]?.version_id??j?.["Version ID"]??"")}catch{console.log("")}})')
+          echo "id=$id" >> "$GITHUB_OUTPUT"
+          echo "live version: ${id:-none}"
+
+      - name: deploy
+        id: deploy
+        run: pnpm exec wrangler deploy --message "$GITHUB_SHA"
+
+      - name: smoke
+        id: smoke
+        run: node scripts/smoke.mjs https://luzid.co
+
+      - name: roll back (only when the deploy succeeded but the smoke test failed)
+        if: failure() && steps.deploy.outcome == 'success' && steps.smoke.outcome == 'failure' && steps.prev.outputs.id != ''
+        run: |
+          pnpm exec wrangler rollback "${{ steps.prev.outputs.id }}" --message "smoke failed $GITHUB_SHA"
+          echo "::error::Rolled production back to ${{ steps.prev.outputs.id }}."

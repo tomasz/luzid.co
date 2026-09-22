@@ -1,0 +1,14 @@
+{
+  "name": "luzid.co",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:24",
+  // The image already ships pnpm on PATH. `corepack enable` would fail here: it symlinks
+  // into root-owned /usr/local/bin while the container runs as the `node` user.
+  "postCreateCommand": "pnpm install --frozen-lockfile",
+  "forwardPorts": [8787],
+  "customizations": {
+    "vscode": {
+      "extensions": ["biomejs.biome"],
+      "settings": { "editor.defaultFormatter": "biomejs.biome" }
+    }
+  }
+}
