@@ -1,0 +1,6 @@
+# pnpm 12 blocks dependency install scripts unless listed here (strictDepBuilds).
+# esbuild and workerd need theirs; fsevents ships a prebuilt binary, so it is denied.
+allowBuilds:
+  esbuild: true
+  workerd: true
+  fsevents: false

@@ -1,0 +1,27 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "luzid-co",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-09-01",
+
+  // The catalog is generated, never committed. watch_dir is required: without it a running
+  // `wrangler dev` only rebuilds on src/ changes and never sees a new effect or font.
+  // build/ must never be watched — that would loop.
+  "build": {
+    "command": "node scripts/build.mjs",
+    "watch_dir": ["effects", "presets", "fonts/meta", "data"]
+  },
+
+  // No index.html in public/: it would shadow the Worker on "/".
+  // not_found_handling stays unset; single-page-application mode would let navigations
+  // bypass the Worker entirely. run_worker_first stays unset: on the Free plan it bills
+  // every asset request and returns 429 once the daily quota is gone.
+  "assets": { "directory": "public", "binding": "ASSETS" },
+
+  "routes": [{ "pattern": "luzid.co", "custom_domain": true }],
+  "workers_dev": false,
+  "preview_urls": false,
+  "observability": { "enabled": true }
+
+  // Never add "cache": { "enabled": true } — every visitor in a colo would get one frozen look.
+}

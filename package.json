@@ -1,0 +1,31 @@
+{
+  "name": "luzid-co",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "luzid.co — one name, endless looks",
+  "license": "MIT",
+  "engines": {
+    "node": ">=24",
+    "pnpm": "12.4.2"
+  },
+  "scripts": {
+    "dev": "wrangler dev",
+    "build": "node scripts/build.mjs",
+    "test": "node --test \"test/**/*.test.js\"",
+    "check": "node scripts/build.mjs && biome check . && node --test \"test/**/*.test.js\"",
+    "e2e": "playwright test",
+    "e2e:all": "FIT_SCOPE=all playwright test",
+    "fonts": "node scripts/fonts.mjs",
+    "palettes": "node scripts/palettes.mjs",
+    "sheet": "node scripts/sheet.mjs",
+    "assets": "node scripts/assets.mjs"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.14",
+    "@playwright/test": "1.63.0",
+    "harfbuzzjs": "1.6.1",
+    "subset-font": "2.9.0",
+    "wrangler": "4.135.0"
+  }
+}
