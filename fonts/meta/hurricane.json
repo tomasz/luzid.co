@@ -1,0 +1,210 @@
+{
+ "id": "hurricane",
+ "family": "Hurricane",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/hurricane/Hurricane-Regular.ttf",
+  "sha256": "5ea86b562ca5c2b1893c233367cde1aee0d677bb6d30af9c3f699c270880da13"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2016-2021 The Hurricane Project Authors (https://github.com/googlefonts/hurricane)",
+ "archetype": [
+  "C"
+ ],
+ "traits": [
+  "connected",
+  "script"
+ ],
+ "odds": 5,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 7268,
+   "sha256": "73ae7097c564e5fc2de872c86586cd5ced5200e037cd6fea77fa0795a82fc39c",
+   "asc": 744,
+   "desc": 471,
+   "stem": 0.0515,
+   "crossbar": 0.0275,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.173,
+    "H": 0.662,
+    "X": 0.015,
+    "top": 0.597
+   },
+   "w2": {
+    "W": 2.375,
+    "H": 0.621,
+    "X": 0.041,
+    "top": 0.599
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 1.963,
+    "H": 0.582,
+    "X": 0.066,
+    "top": 0.54
+   },
+   "w2": {
+    "W": 2.084,
+    "H": 0.6,
+    "X": 0.027,
+    "top": 0.579
+   }
+  },
+  {
+   "id": "n-ss02-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss02\" 1"
+   },
+   "w1": {
+    "W": 2.223,
+    "H": 1.068,
+    "X": 0.015,
+    "top": 0.597
+   },
+   "w2": {
+    "W": 2.463,
+    "H": 1.07,
+    "X": 0.041,
+    "top": 0.599
+   }
+  },
+  {
+   "id": "l-ss02-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss02\" 1"
+   },
+   "w1": {
+    "W": 2.013,
+    "H": 1.011,
+    "X": 0.066,
+    "top": 0.54
+   },
+   "w2": {
+    "W": 2.172,
+    "H": 1.05,
+    "X": 0.027,
+    "top": 0.579
+   }
+  },
+  {
+   "id": "n-ss03-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss03\" 1"
+   },
+   "w1": {
+    "W": 2.736,
+    "H": 0.929,
+    "X": 0.015,
+    "top": 0.597
+   },
+   "w2": {
+    "W": 2.342,
+    "H": 1.076,
+    "X": 0.041,
+    "top": 0.744
+   }
+  },
+  {
+   "id": "l-ss03-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss03\" 1"
+   },
+   "w1": {
+    "W": 2.78,
+    "H": 0.921,
+    "X": -0.216,
+    "top": 0.589
+   },
+   "w2": {
+    "W": 2.051,
+    "H": 1.076,
+    "X": 0.027,
+    "top": 0.744
+   }
+  },
+  {
+   "id": "n-ss04-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss04\" 1"
+   },
+   "w1": {
+    "W": 2.173,
+    "H": 0.662,
+    "X": 0.015,
+    "top": 0.597
+   },
+   "w2": {
+    "W": 2.355,
+    "H": 0.742,
+    "X": 0.041,
+    "top": 0.72
+   }
+  },
+  {
+   "id": "l-ss04-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss04\" 1"
+   },
+   "w1": {
+    "W": 1.963,
+    "H": 0.631,
+    "X": 0.038,
+    "top": 0.589
+   },
+   "w2": {
+    "W": 2.064,
+    "H": 0.741,
+    "X": 0.027,
+    "top": 0.72
+   }
+  }
+ ]
+}
