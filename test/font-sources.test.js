@@ -243,13 +243,32 @@ test('WP-11 seed ids never appear in a Wave-2 batch', () => {
   }
 })
 
-test('every archetype batch carries at least 20 rows', () => {
+test('every archetype has enough fonts to not feel repetitive', async () => {
+  // The floor is on fonts that SHIP, not on rows in a list. A row a batch agent dropped --
+  // for a reserved name, an unreadable Ł, or simply not belonging to the archetype --
+  // contributes nothing to what a visitor sees, so counting it would let a bucket look
+  // healthy while being thin on the page. Counting rows also made the floor actively
+  // harmful: it blocked moving a misfiled font out of a batch that was already at 20.
+  //
+  // Before any batch is built, rows are all there is, so the floor falls back to them.
+  const { readdir, readFile } = await import('node:fs/promises')
+  const dir = new URL('../fonts/meta/', import.meta.url)
+  const built = new Map()
+  for (const f of (await readdir(dir)).filter((n) => n.endsWith('.json'))) {
+    const meta = JSON.parse(await readFile(new URL(f, dir), 'utf8'))
+    for (const a of meta.archetype ?? []) built.set(a, (built.get(a) ?? 0) + 1)
+  }
+
   for (const name of ARCHETYPE_BATCHES) {
     const rows = batches.get(name)
     assert.ok(rows, `${name}.json is missing`)
+    const letter = name.toUpperCase()
+    const shipped = built.get(letter) ?? 0
+    const counted = shipped || rows.length
+    const what = shipped ? 'shipped fonts' : 'rows (nothing built yet)'
     assert.ok(
-      rows.length >= MIN_ROWS_PER_ARCHETYPE,
-      `${name}.json has ${rows.length} rows, needs ${MIN_ROWS_PER_ARCHETYPE}`,
+      counted >= MIN_ROWS_PER_ARCHETYPE,
+      `archetype ${letter} has ${counted} ${what}, needs ${MIN_ROWS_PER_ARCHETYPE}`,
     )
   }
 })

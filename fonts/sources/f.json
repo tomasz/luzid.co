@@ -222,6 +222,27 @@
     ]
   },
   {
+    "id": "cormorant-unicase-bold",
+    "family": "Cormorant Unicase",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/cormorantunicase/CormorantUnicase-Bold.ttf",
+    "sha256": "b934e5e865cd0301e0be8ef15f85006d5479fbb2faf875093ddc36493b8ea845",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/cormorantunicase/OFL.txt",
+    "copyright": "Copyright 2015 the Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+    "archetype": [
+      "F"
+    ],
+    "traits": [
+      "serif"
+    ],
+    "odds": 8,
+    "features": [
+      "ss12",
+      "ss13",
+      "smcp"
+    ]
+  },
+  {
     "id": "cormorant-upright-bold",
     "family": "Cormorant Upright",
     "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/cormorantupright/CormorantUpright-Bold.ttf",

@@ -1,123 +1,122 @@
 {
- "id": "cormorant-unicase-bold",
- "family": "Cormorant Unicase",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/cormorantunicase/CormorantUnicase-Bold.ttf",
-  "sha256": "b934e5e865cd0301e0be8ef15f85006d5479fbb2faf875093ddc36493b8ea845"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2015 the Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
- "archetype": [
-  "E",
-  "F"
- ],
- "traits": [
-  "overlap",
-  "serif"
- ],
- "odds": 8,
- "upm": 1000,
- "files": [
-  {
-   "id": "static",
-   "axes": {},
-   "bytes": 4280,
-   "sha256": "f2d09573fb7b9f15db18093486e8db2529532d804ecbef8c312d0c86af758cc6",
-   "asc": 725,
-   "desc": 14,
-   "stem": 0.112,
-   "crossbar": 0.0172,
-   "glyphs": 23
-  }
- ],
- "variants": [
-  {
-   "id": "n-base-static",
-   "file": "static",
-   "case": "none",
-   "css": {
-    "weight": 700,
-    "style": "normal",
-    "feat": "normal"
-   },
-   "w1": {
-    "W": 3.354,
-    "H": 0.666,
-    "X": 0.04,
-    "top": 0.654
-   },
-   "w2": {
-    "W": 3.545,
-    "H": 0.648,
-    "X": 0.049,
-    "top": 0.636
-   }
+  "id": "cormorant-unicase-bold",
+  "family": "Cormorant Unicase",
+  "src": {
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/cormorantunicase/CormorantUnicase-Bold.ttf",
+    "sha256": "b934e5e865cd0301e0be8ef15f85006d5479fbb2faf875093ddc36493b8ea845"
   },
-  {
-   "id": "u-base-static",
-   "file": "static",
-   "case": "uppercase",
-   "css": {
-    "weight": 700,
-    "style": "normal",
-    "feat": "normal"
-   },
-   "w1": {
-    "W": 4.006,
-    "H": 0.668,
-    "X": 0.04,
-    "top": 0.656
-   },
-   "w2": {
-    "W": 4.237,
-    "H": 0.67,
-    "X": 0.049,
-    "top": 0.656
-   }
-  },
-  {
-   "id": "l-base-static",
-   "file": "static",
-   "case": "lowercase",
-   "css": {
-    "weight": 700,
-    "style": "normal",
-    "feat": "normal"
-   },
-   "w1": {
-    "W": 3.169,
-    "H": 0.546,
-    "X": 0.02,
-    "top": 0.534
-   },
-   "w2": {
-    "W": 3.425,
-    "H": 0.512,
-    "X": 0.03,
-    "top": 0.5
-   }
-  },
-  {
-   "id": "l-smcp-static",
-   "file": "static",
-   "case": "lowercase",
-   "css": {
-    "weight": 700,
-    "style": "normal",
-    "feat": "\"smcp\" 1"
-   },
-   "w1": {
-    "W": 2.923,
-    "H": 0.51,
-    "X": 0.025,
-    "top": 0.497
-   },
-   "w2": {
-    "W": 2.867,
-    "H": 0.739,
-    "X": 0.032,
-    "top": 0.725
-   }
-  }
- ]
+  "licenseId": "OFL-1.1",
+  "copyright": "Copyright 2015 the Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+  "archetype": [
+    "F"
+  ],
+  "traits": [
+    "overlap",
+    "serif"
+  ],
+  "odds": 8,
+  "upm": 1000,
+  "files": [
+    {
+      "id": "static",
+      "axes": {},
+      "bytes": 4280,
+      "sha256": "f2d09573fb7b9f15db18093486e8db2529532d804ecbef8c312d0c86af758cc6",
+      "asc": 725,
+      "desc": 14,
+      "stem": 0.112,
+      "crossbar": 0.0172,
+      "glyphs": 23
+    }
+  ],
+  "variants": [
+    {
+      "id": "n-base-static",
+      "file": "static",
+      "case": "none",
+      "css": {
+        "weight": 700,
+        "style": "normal",
+        "feat": "normal"
+      },
+      "w1": {
+        "W": 3.354,
+        "H": 0.666,
+        "X": 0.04,
+        "top": 0.654
+      },
+      "w2": {
+        "W": 3.545,
+        "H": 0.648,
+        "X": 0.049,
+        "top": 0.636
+      }
+    },
+    {
+      "id": "u-base-static",
+      "file": "static",
+      "case": "uppercase",
+      "css": {
+        "weight": 700,
+        "style": "normal",
+        "feat": "normal"
+      },
+      "w1": {
+        "W": 4.006,
+        "H": 0.668,
+        "X": 0.04,
+        "top": 0.656
+      },
+      "w2": {
+        "W": 4.237,
+        "H": 0.67,
+        "X": 0.049,
+        "top": 0.656
+      }
+    },
+    {
+      "id": "l-base-static",
+      "file": "static",
+      "case": "lowercase",
+      "css": {
+        "weight": 700,
+        "style": "normal",
+        "feat": "normal"
+      },
+      "w1": {
+        "W": 3.169,
+        "H": 0.546,
+        "X": 0.02,
+        "top": 0.534
+      },
+      "w2": {
+        "W": 3.425,
+        "H": 0.512,
+        "X": 0.03,
+        "top": 0.5
+      }
+    },
+    {
+      "id": "l-smcp-static",
+      "file": "static",
+      "case": "lowercase",
+      "css": {
+        "weight": 700,
+        "style": "normal",
+        "feat": "\"smcp\" 1"
+      },
+      "w1": {
+        "W": 2.923,
+        "H": 0.51,
+        "X": 0.025,
+        "top": 0.497
+      },
+      "w2": {
+        "W": 2.867,
+        "H": 0.739,
+        "X": 0.032,
+        "top": 0.725
+      }
+    }
+  ]
 }

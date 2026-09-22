@@ -44,7 +44,16 @@ const ALIGNS = [
   { id: 'flex-start', odds: 4 },
 ]
 
-/** D4: 90% of visits draw from the six taste archetypes, equal share each. */
+/**
+ * D4: 90% of visits draw from the six taste archetypes, equal share each.
+ *
+ * A soft 70s display serif · B ultra-heavy wide caps with inline or stencil cuts ·
+ * C bold casual brush script · D fat groovy psychedelic caps · E rounded geometric
+ * display · F elegant deco and nouveau serif with alternates · X everything else.
+ *
+ * They are taste buckets from the owner's reference images, not technical classes: a font
+ * belongs to one because it looks like the reference, not because it measures a certain way.
+ */
 export const BUCKET_ODDS = { A: 3, B: 3, C: 3, D: 3, E: 3, F: 3, X: 2 }
 
 /** Gap between the two lines, in u. */
