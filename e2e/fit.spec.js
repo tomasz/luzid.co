@@ -18,6 +18,7 @@
 import { expect, test } from '@playwright/test'
 
 import {
+  bandTop,
   CENTRE_TOL,
   FILL_MAX,
   FILL_MIN,
@@ -152,13 +153,64 @@ const KNOWN_DIVERGENCE = [
     vp: { w: 390, h: 844 },
     why: 'CoreText does not apply the OpenType `fina` feature to Latin, so WebKit-on-macOS paints the base glyphs (3.099 em) while the build-time harfbuzz metric says 3.039 em: +1.97% on line 1. Linux WebKit shapes with HarfBuzz and is unaffected',
   },
+  {
+    engine: 'webkit',
+    // The mirror image of the entry above, and for the same underlying reason: the two
+    // WebKit ports do not share a shaping backend. The Mac port goes through CoreText,
+    // which applies this feature's GPOS y-placement — measured directly, and matching the
+    // build metric to the unit. The Linux port shapes through its own HarfBuzz path, and
+    // the vertical offset does not survive it.
+    platform: 'linux',
+    f: 'bungee',
+    v: 'n-ss12-static',
+    l: 'stack-fit',
+    vp: { w: 390, h: 844 },
+    probe: true,
+    why: "bungee's `ss12` is a GPOS vertical shift, not a substitution — same glyph ids and advances as `ss01`, moved down 0.208 em. Linux WebKit paints it at the unshifted height, which lifts the whole ink block ~12.5 px and breaks the centring while leaving the width, and so the fill ratio, correct. macOS agrees with the metric in all three engines",
+  },
 ]
+
+/**
+ * Where the ink actually lands inside the boxes the fit maths drew. §5.2's whole claim is
+ * that the patched metrics put each line's ink top exactly on its block top, so this is
+ * the quantity a vertical divergence moves — and the one a `fill` ratio cannot see,
+ * because a vertical shift leaves every width alone.
+ */
+const INK_VS_BOX = () => {
+  const px = (sel) => {
+    const r = document.querySelector(sel).getBoundingClientRect()
+    return { top: r.top, bottom: r.bottom }
+  }
+  return { l1: px('.l1'), l2: px('.l2'), fs1: getComputedStyle(document.querySelector('.l1')).fontSize }
+}
 
 test.describe('known engine divergences', () => {
   for (const k of KNOWN_DIVERGENCE) {
     test(`${k.f}.${k.v} on ${k.engine}/${k.platform} — ${k.why}`, async ({ page, browserName }) => {
       test.fail(browserName === k.engine && process.platform === k.platform)
-      await measure(page, url({ seed: SEEDS.flat, f: k.f, v: k.v, l: k.l }), k.vp)
+      const href = url({ seed: SEEDS.flat, f: k.f, v: k.v, l: k.l })
+
+      // A pinned divergence that only ever reports "expected failure" tells the next
+      // reader nothing about how big it got. For the vertical ones the number is the
+      // whole diagnosis, so it is logged on every engine and platform, pass or fail.
+      if (k.probe) {
+        const { probe, img } = await shoot(page, href, k.vp)
+        const boxes = await page.evaluate(INK_VS_BOX)
+        const fs1 = Number.parseFloat(boxes.fs1)
+        const split = (boxes.l1.bottom + boxes.l2.top) / 2
+        const ink = inkBox(img, isInk, probe.dpr)
+        const top1 = bandTop(img, probe.dpr, 0, split)
+        const d = top1 === null ? Number.NaN : top1 - boxes.l1.top
+        console.log(
+          `[divergence probe] ${k.f}.${k.v} ${browserName}/${process.platform} ${k.vp.w}x${k.vp.h}: ` +
+            `line-1 ink top − box top = ${d.toFixed(2)}px (${(d / fs1).toFixed(4)} em), ` +
+            `ink height ${ink.h.toFixed(1)}px vs block ${probe.n.height.toFixed(1)}px, ` +
+            `dcy ${(ink.cy - k.vp.h / 2).toFixed(2)}px ` +
+            `(${(((ink.cy - k.vp.h / 2) / k.vp.h) * 100).toFixed(3)}%)`,
+        )
+      }
+
+      await measure(page, href, k.vp)
     })
   }
 })
