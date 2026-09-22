@@ -1,0 +1,611 @@
+[
+  {
+    "id": "baloo-2",
+    "family": "Baloo 2",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/baloo2/Baloo2[wght].ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/baloo2/OFL.txt",
+    "copyright": "Copyright 2019 The Baloo 2 Project Authors (https://github.com/EkType/Baloo2)",
+    "archetype": [
+      "E"
+    ],
+    "traits": [
+      "sans",
+      "rounded",
+      "fat"
+    ],
+    "odds": 7,
+    "stops": [
+      {
+        "id": "w800",
+        "wght": 800
+      }
+    ],
+    "features": [
+      "ss01",
+      "ss02",
+      "salt"
+    ]
+  },
+  {
+    "id": "cormorant-unicase-bold",
+    "family": "Cormorant Unicase",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/cormorantunicase/CormorantUnicase-Bold.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/cormorantunicase/OFL.txt",
+    "copyright": "Copyright 2015 the Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+    "archetype": [
+      "E",
+      "F"
+    ],
+    "traits": [
+      "serif",
+      "unicase"
+    ],
+    "odds": 8,
+    "features": [
+      "ss12",
+      "ss13",
+      "smcp"
+    ]
+  },
+  {
+    "id": "cyrulik-rounded",
+    "family": "Cyrulik Rounded",
+    "url": "https://raw.githubusercontent.com/warszawskie-kroje/cyrulik/b279c7d408e42649e64b970737bd3703d8412138/Cyrulik-Rounded/Cyrulik-Rounded.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/warszawskie-kroje/cyrulik/b279c7d408e42649e64b970737bd3703d8412138/README.md",
+    "copyright": "Copyright © 2016 Stowarzyszenie Kulturotwórcze Miastodwa",
+    "archetype": [
+      "E"
+    ],
+    "traits": [
+      "sans",
+      "rounded"
+    ],
+    "odds": 10,
+    "features": [
+      "ss01",
+      "salt"
+    ]
+  },
+  {
+    "id": "cyrulik-stencil",
+    "family": "Cyrulik Stencil",
+    "url": "https://raw.githubusercontent.com/warszawskie-kroje/cyrulik/b279c7d408e42649e64b970737bd3703d8412138/Cyrulik-Stencil/Cyrulik-Stencil.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/warszawskie-kroje/cyrulik/b279c7d408e42649e64b970737bd3703d8412138/README.md",
+    "copyright": "Copyright © 2016 Stowarzyszenie Kulturotwórcze Miastodwa",
+    "archetype": [
+      "E",
+      "B"
+    ],
+    "traits": [
+      "sans",
+      "stencil"
+    ],
+    "odds": 9,
+    "features": [
+      "ss01",
+      "salt"
+    ]
+  },
+  {
+    "id": "dongle-bold",
+    "family": "Dongle",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/dongle/Dongle-Bold.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/dongle/OFL.txt",
+    "copyright": "Copyright 2021 The Dongle Project Authors (https://github.com/yangheeryu/Dongle)",
+    "archetype": [
+      "E"
+    ],
+    "traits": [
+      "sans",
+      "rounded"
+    ],
+    "odds": 6
+  },
+  {
+    "id": "dosis",
+    "family": "Dosis",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/dosis/Dosis[wght].ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/dosis/OFL.txt",
+    "copyright": "Copyright 2011 The Dosis Project Authors (https://github.com/googlefonts/dosis-vf)",
+    "archetype": [
+      "E"
+    ],
+    "traits": [
+      "sans",
+      "rounded"
+    ],
+    "odds": 6,
+    "stops": [
+      {
+        "id": "w800",
+        "wght": 800
+      }
+    ],
+    "features": [
+      "ss01",
+      "ss02",
+      "salt"
+    ]
+  },
+  {
+    "id": "fredoka",
+    "family": "Fredoka",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/fredoka/Fredoka[wdth,wght].ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/fredoka/OFL.txt",
+    "copyright": "Copyright 2016 The Fredoka Project Authors (https://github.com/hafontia/Fredoka-One)",
+    "archetype": [
+      "E"
+    ],
+    "traits": [
+      "sans",
+      "rounded",
+      "fat"
+    ],
+    "odds": 9,
+    "stops": [
+      {
+        "id": "w700x",
+        "wght": 700,
+        "wdth": 125
+      },
+      {
+        "id": "w700n",
+        "wght": 700,
+        "wdth": 100
+      }
+    ]
+  },
+  {
+    "id": "gluten",
+    "family": "Gluten",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/gluten/Gluten[slnt,wght].ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/gluten/OFL.txt",
+    "copyright": "Copyright 2020 The Gluten Project Authors (https://github.com/Etcetera-Type-Co/Gluten)",
+    "archetype": [
+      "E"
+    ],
+    "traits": [
+      "sans",
+      "rounded",
+      "fat"
+    ],
+    "odds": 8,
+    "stops": [
+      {
+        "id": "w900",
+        "wght": 900,
+        "slnt": 0
+      },
+      {
+        "id": "w900s",
+        "wght": 900,
+        "slnt": -13
+      }
+    ],
+    "features": [
+      "ss01"
+    ]
+  },
+  {
+    "id": "grandstander",
+    "family": "Grandstander",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/grandstander/Grandstander[wght].ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/grandstander/OFL.txt",
+    "copyright": "Copyright 2020 The Grandstander Project Authors (https://github.com/Etcetera-Type-Co/Grandstander)",
+    "archetype": [
+      "E"
+    ],
+    "traits": [
+      "sans",
+      "rounded",
+      "fat"
+    ],
+    "odds": 8,
+    "stops": [
+      {
+        "id": "w900",
+        "wght": 900
+      }
+    ],
+    "features": [
+      "ss01",
+      "salt"
+    ]
+  },
+  {
+    "id": "gruppo",
+    "family": "Gruppo",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/gruppo/Gruppo-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/gruppo/OFL.txt",
+    "copyright": "Copyright 2010 The Gruppo Project Authors (https://github.com/googlefonts/GruppoFont)",
+    "archetype": [
+      "E",
+      "F"
+    ],
+    "traits": [
+      "sans",
+      "hairline",
+      "deco"
+    ],
+    "odds": 6
+  },
+  {
+    "id": "havana",
+    "family": "Havana",
+    "url": "https://raw.githubusercontent.com/warszawskie-kroje/havana/931bb3a781bd4cae6873a9e7ff5b422ea967b73a/Havana-Regular/Havana-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/warszawskie-kroje/havana/931bb3a781bd4cae6873a9e7ff5b422ea967b73a/README.md",
+    "copyright": "Copyright © 2016 Stowarzyszenie Kulturotwórcze Miastodwa",
+    "archetype": [
+      "E",
+      "C"
+    ],
+    "traits": [
+      "sans",
+      "rounded",
+      "unicase"
+    ],
+    "odds": 10
+  },
+  {
+    "id": "kiwi-maru-medium",
+    "family": "Kiwi Maru",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/kiwimaru/KiwiMaru-Medium.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/kiwimaru/OFL.txt",
+    "copyright": "Copyright 2020 The Kiwi Maru Project Authors (https://github.com/Kiwi-KawagotoKajiru/Kiwi-Maru)",
+    "archetype": [
+      "E"
+    ],
+    "traits": [
+      "serif",
+      "rounded",
+      "jp"
+    ],
+    "odds": 6
+  },
+  {
+    "id": "life-savers-extra-bold",
+    "family": "Life Savers",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/lifesavers/LifeSavers-ExtraBold.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/lifesavers/OFL.txt",
+    "copyright": "Copyright 2012 The Life Savers Project Authors (https://github.com/googlefonts/life-savers)",
+    "archetype": [
+      "E",
+      "F"
+    ],
+    "traits": [
+      "serif",
+      "rounded",
+      "deco"
+    ],
+    "odds": 7,
+    "features": [
+      "ss01",
+      "salt"
+    ]
+  },
+  {
+    "id": "madimi-one",
+    "family": "Madimi One",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/madimione/MadimiOne-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/madimione/OFL.txt",
+    "copyright": "Copyright 2023 The Madimi One Project Authors (https://github.com/TaVaTake/madimi)",
+    "archetype": [
+      "E"
+    ],
+    "traits": [
+      "sans",
+      "rounded",
+      "fat"
+    ],
+    "odds": 7
+  },
+  {
+    "id": "major-mono-display",
+    "family": "Major Mono Display",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/majormonodisplay/MajorMonoDisplay-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/majormonodisplay/OFL.txt",
+    "copyright": "Copyright 2018 The Major Mono Project Authors (https://github.com/googlefonts/majormono)",
+    "archetype": [
+      "E"
+    ],
+    "traits": [
+      "mono",
+      "unicase",
+      "rounded"
+    ],
+    "odds": 7
+  },
+  {
+    "id": "megrim",
+    "family": "Megrim",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/megrim/Megrim.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/megrim/OFL.txt",
+    "copyright": "Copyright (c) 2009, 2010, 2011 Daniel Johnson (<il.basso.buffo@gmail.com>).",
+    "archetype": [
+      "E"
+    ],
+    "traits": [
+      "sans",
+      "hairline",
+      "deco"
+    ],
+    "odds": 6
+  },
+  {
+    "id": "montserrat-alternates-black",
+    "family": "Montserrat Alternates",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/montserratalternates/MontserratAlternates-Black.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/montserratalternates/OFL.txt",
+    "copyright": "Copyright 2011 The Montserrat Project Authors (https://github.com/JulietaUla/Montserrat)",
+    "archetype": [
+      "E",
+      "F"
+    ],
+    "traits": [
+      "sans",
+      "rounded",
+      "fat"
+    ],
+    "odds": 8,
+    "features": [
+      "smcp",
+      "c2sc"
+    ]
+  },
+  {
+    "id": "museo-moderno",
+    "family": "MuseoModerno",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/museomoderno/MuseoModerno[wght].ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/museomoderno/OFL.txt",
+    "copyright": "Copyright 2020 The MuseoModerno Project Authors (https://github.com/Omnibus-Type/MuseoModerno)",
+    "archetype": [
+      "E"
+    ],
+    "traits": [
+      "sans",
+      "rounded",
+      "unicase"
+    ],
+    "odds": 9,
+    "stops": [
+      {
+        "id": "w900",
+        "wght": 900
+      },
+      {
+        "id": "w400",
+        "wght": 400
+      }
+    ],
+    "features": [
+      "ss01",
+      "ss02",
+      "ss03"
+    ]
+  },
+  {
+    "id": "outfit",
+    "family": "Outfit",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/outfit/Outfit[wght].ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/outfit/OFL.txt",
+    "copyright": "Copyright 2021 The Outfit Project Authors (https://github.com/Outfitio/Outfit-Fonts)",
+    "archetype": [
+      "E"
+    ],
+    "traits": [
+      "sans",
+      "rounded"
+    ],
+    "odds": 6,
+    "stops": [
+      {
+        "id": "w900",
+        "wght": 900
+      }
+    ],
+    "features": [
+      "ss01",
+      "salt"
+    ]
+  },
+  {
+    "id": "rewir-light",
+    "family": "Rewir",
+    "url": "https://raw.githubusercontent.com/warszawskie-kroje/rewir/ab79a90962f86c10ca399ee7dc83392c9d6d4b00/Rewir-Light/Rewir-Light.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/warszawskie-kroje/rewir/ab79a90962f86c10ca399ee7dc83392c9d6d4b00/README.md",
+    "copyright": "Copyright © 2016 Stowarzyszenie Kulturotwórcze Miastodwa",
+    "archetype": [
+      "E"
+    ],
+    "traits": [
+      "sans",
+      "hairline",
+      "unicase"
+    ],
+    "odds": 9,
+    "features": [
+      "ss01",
+      "ss02",
+      "salt"
+    ]
+  },
+  {
+    "id": "smooch-sans",
+    "family": "Smooch Sans",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/smoochsans/SmoochSans[wght].ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/smoochsans/OFL.txt",
+    "copyright": "Copyright 2016 The Smooch Sans Project Authors (https://github.com/googlefonts/smooch-sans)",
+    "archetype": [
+      "E"
+    ],
+    "traits": [
+      "sans",
+      "condensed",
+      "rounded"
+    ],
+    "odds": 6,
+    "stops": [
+      {
+        "id": "w900",
+        "wght": 900
+      }
+    ]
+  },
+  {
+    "id": "sniglet-extra-bold",
+    "family": "Sniglet",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sniglet/Sniglet-ExtraBold.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sniglet/OFL.txt",
+    "copyright": "Copyright (c) 2008, Haley Fiege (haley@kingdomofawesome.com), Copyright (c) 2012, Brenda Gallo (gbrenda1987@gmail.com), Copyright (c) 2013, Pablo Imp",
+    "archetype": [
+      "E"
+    ],
+    "traits": [
+      "sans",
+      "rounded",
+      "fat"
+    ],
+    "odds": 8
+  },
+  {
+    "id": "tilt-neon",
+    "family": "Tilt Neon",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/tiltneon/TiltNeon[XROT,YROT].ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/tiltneon/OFL.txt",
+    "copyright": "Copyright 2019 The Tilt Project Authors (https://github.com/googlefonts/Tilt-Fonts)",
+    "archetype": [
+      "E"
+    ],
+    "traits": [
+      "sans",
+      "rounded",
+      "inline"
+    ],
+    "odds": 7,
+    "stops": [
+      {
+        "id": "flat",
+        "XROT": 0,
+        "YROT": 0
+      },
+      {
+        "id": "tilt",
+        "XROT": -30,
+        "YROT": 30
+      }
+    ],
+    "features": [
+      "ss01",
+      "ss02",
+      "ss03"
+    ]
+  },
+  {
+    "id": "turret-road-extra-bold",
+    "family": "Turret Road",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/turretroad/TurretRoad-ExtraBold.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/turretroad/OFL.txt",
+    "copyright": "Copyright 2018 The Turret Road Project Authors (https://github.com/noponies/turret-road)",
+    "archetype": [
+      "E"
+    ],
+    "traits": [
+      "sans",
+      "rounded",
+      "fat"
+    ],
+    "odds": 7
+  },
+  {
+    "id": "unica-one",
+    "family": "Unica One",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/unicaone/UnicaOne-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/unicaone/OFL.txt",
+    "copyright": "Copyright 2012 The Unica One Project Authors (https://github.com/etunni/unica)",
+    "archetype": [
+      "E"
+    ],
+    "traits": [
+      "sans",
+      "unicase",
+      "condensed"
+    ],
+    "odds": 9
+  },
+  {
+    "id": "winky-sans",
+    "family": "Winky Sans",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/winkysans/WinkySans[wght].ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/winkysans/OFL.txt",
+    "copyright": "Copyright 2024 The Winky Sans Project Authors (https://github.com/typofactur/winkysans)",
+    "archetype": [
+      "E"
+    ],
+    "traits": [
+      "sans",
+      "rounded"
+    ],
+    "odds": 7,
+    "stops": [
+      {
+        "id": "w900",
+        "wght": 900
+      }
+    ],
+    "features": [
+      "salt"
+    ]
+  }
+]
