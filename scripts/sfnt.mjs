@@ -1,7 +1,7 @@
 /**
  * Minimal SFNT (TrueType/OpenType) reader, writer and patcher. No dependencies.
  *
- * Three jobs, all of them required by PLAN §5.2 and §5.5 rule 5:
+ * Four jobs, all of them required by PLAN §5.2 and §5.5 rules 3 and 5:
  *
  *  1. `normalizeMetrics` rewrites the vertical metrics so that every engine and OS puts
  *     the baseline in the same place. Without this the pseudo-element copies an effect
@@ -10,7 +10,11 @@
  *  2. `setOverlapFlags` sets OVERLAP_SIMPLE / OVERLAP_COMPOUND on every `glyf` glyph.
  *     A pinned instance of a variable font almost always has overlapping contours, and
  *     Apple's rasterizer punches holes through them unless the flag says not to.
- *  3. `build` reassembles a font with correct table checksums and `head.checkSumAdjustment`,
+ *  3. `readNames` / `writeNames` rebuild the `name` table. The OFL requires a Modified
+ *     Version of a font that declares a Reserved Font Name to carry a different name, and
+ *     neither `subset-font` nor `hb-subset` can rewrite name IDs 1-6 (subset-font 2.9.0,
+ *     verified in its source): hb-subset only chooses which records to *keep*.
+ *  4. `build` reassembles a font with correct table checksums and `head.checkSumAdjustment`,
  *     which both WOFF2 encoding and decoding need (WOFF2 does not carry checksums).
  *
  * Offsets are hard-coded from the OpenType spec rather than parsed into structs: only a
@@ -172,6 +176,112 @@ export function readMetrics(tables) {
     usWinAscent: os2.data.readUInt16BE(74),
     usWinDescent: os2.data.readUInt16BE(76),
   }
+}
+
+// ---------------------------------------------------------------- the name table
+
+/**
+ * Platform 1 (Macintosh) stores one byte per character; every other platform the spec
+ * still allows in a `name` table stores UTF-16BE. MacRoman and latin1 agree over the ASCII
+ * a name record is written in, and a record that is not ASCII is one we are about to
+ * replace anyway.
+ */
+const decodeNameString = (data, platformID) => {
+  if (platformID === 1) return data.toString('latin1')
+  let out = ''
+  for (let i = 0; i + 1 < data.length; i += 2) out += String.fromCharCode(data.readUInt16BE(i))
+  return out
+}
+
+const encodeNameString = (text, platformID) => {
+  if (platformID === 1) return Buffer.from(text, 'latin1')
+  const out = Buffer.alloc(text.length * 2)
+  for (let i = 0; i < text.length; i++) out.writeUInt16BE(text.charCodeAt(i), i * 2)
+  return out
+}
+
+/**
+ * Every record of the `name` table, in table order.
+ * @returns {{platformID: number, encodingID: number, languageID: number, nameID: number, text: string}[]}
+ */
+export function readNames(tables) {
+  const name = tables.find((t) => t.tag === 'name')
+  if (!name) return []
+  const d = name.data
+  if (d.length < 6) throw new Error('sfnt: the name table is shorter than its header')
+  const count = d.readUInt16BE(2)
+  const storage = d.readUInt16BE(4)
+  const out = []
+  for (let i = 0; i < count; i++) {
+    const p = 6 + i * 12
+    if (p + 12 > d.length) throw new Error('sfnt: a name record runs past the end of the table')
+    const length = d.readUInt16BE(p + 8)
+    const at = storage + d.readUInt16BE(p + 10)
+    if (at + length > d.length) throw new Error('sfnt: a name string runs past the end of the table')
+    const platformID = d.readUInt16BE(p)
+    out.push({
+      platformID,
+      encodingID: d.readUInt16BE(p + 2),
+      languageID: d.readUInt16BE(p + 4),
+      nameID: d.readUInt16BE(p + 6),
+      text: decodeNameString(d.subarray(at, at + length), platformID),
+    })
+  }
+  return out
+}
+
+/**
+ * Replace the `name` table with exactly these records, as a format 0 table.
+ *
+ * Format 0 rather than 1 because format 1's language-tag records are the only thing format
+ * 1 adds, and a record that names a tag (`languageID >= 0x8000`) is dropped by the caller
+ * before it gets here — see `renameRecords` in `scripts/fonts.mjs`. The spec requires the
+ * records to be sorted by platform, encoding, language and name ID; identical strings share
+ * one run of storage, which is what keeps a rebuilt table from growing.
+ */
+export function writeNames(tables, records) {
+  const sorted = [...records].sort(
+    (a, b) =>
+      a.platformID - b.platformID ||
+      a.encodingID - b.encodingID ||
+      a.languageID - b.languageID ||
+      a.nameID - b.nameID,
+  )
+  const storage = []
+  const offsets = new Map()
+  let length = 0
+  const place = (record) => {
+    const bytes = encodeNameString(record.text, record.platformID)
+    const key = `${record.platformID} ${record.text}`
+    if (!offsets.has(key)) {
+      if (length + bytes.length > 0xffff) throw new Error('sfnt: the name table storage is over 64 KiB')
+      offsets.set(key, length)
+      storage.push(bytes)
+      length += bytes.length
+    }
+    return { offset: offsets.get(key), length: bytes.length }
+  }
+
+  const dir = Buffer.alloc(6 + sorted.length * 12)
+  dir.writeUInt16BE(0, 0)
+  dir.writeUInt16BE(sorted.length, 2)
+  dir.writeUInt16BE(dir.length, 4)
+  sorted.forEach((record, i) => {
+    const p = 6 + i * 12
+    const { offset, length: bytes } = place(record)
+    dir.writeUInt16BE(record.platformID, p)
+    dir.writeUInt16BE(record.encodingID, p + 2)
+    dir.writeUInt16BE(record.languageID, p + 4)
+    dir.writeUInt16BE(record.nameID, p + 6)
+    dir.writeUInt16BE(bytes, p + 8)
+    dir.writeUInt16BE(offset, p + 10)
+  })
+
+  const data = Buffer.concat([dir, ...storage])
+  const existing = tables.find((t) => t.tag === 'name')
+  if (existing) existing.data = data
+  else tables.push({ tag: 'name', data })
+  return sorted.length
 }
 
 /** Glyph data offsets from `loca`, honouring `head.indexToLocFormat`. */
