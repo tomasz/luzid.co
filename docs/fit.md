@@ -7,8 +7,9 @@ browser agrees. This package screenshots real renders in Chromium, Firefox and W
 finds the ink by scanning pixels.
 
 Everything below is measured, on this Mac (macOS 26.6.2, M1 Pro), at DPR 1, against
-`wrangler dev`. The catalog at the time of measurement: 8 fonts, 53 variants, 349 palettes,
-30 effects, at contract R13/R14.
+`wrangler dev`. The fill ratios and the metric-patch table were measured against the seed
+catalog of 8 fonts / 53 variants; the effect findings against the full 91 fonts / 424
+variants / 30 effects, at contract R13/R14.
 
 ## What the proof actually asserts
 
@@ -201,8 +202,16 @@ a font:
    instance. Pacifico carries `connected`, so a trait check is not sufficient on its own.
 
 Until then the divergence is pinned by `known engine divergences` in `e2e/fit.spec.js`: it
-runs the unmodified normative assertion and is annotated as an expected failure on WebKit,
-so it stays in every report and turns the run **red** the day it is fixed.
+runs the unmodified normative assertion and is annotated as an expected failure, so it stays
+in every report and turns the run **red** the day it is fixed.
+
+The pin is armed on **WebKit *and* macOS**, not on WebKit alone. The divergence is a
+property of CoreText, and only Playwright's macOS WebKit shapes through it; its Linux
+WebKit is WPE with FreeType and HarfBuzz and no CoreText anywhere, so the variant renders
+at its declared width there and passes. That is a true statement about that engine rather
+than a missed failure — but an ungated `test.fail` inverts it into "expected to fail, but
+passed" and turns CI red for the wrong reason, which is exactly what happened on the first
+CI run of this branch. A pin has to fire only where the condition it describes can exist.
 
 ### F2 — `G = max(g, bt)` guarded only one direction · **fixed by R13**
 
@@ -255,56 +264,62 @@ factor is wanted, 1.1r covers every measurement taken here. Budgeting at 1.5r co
 size — it is 0.5r of block width per side thrown away on ink nobody can see, and for
 `glow-neon-outline(r=25)` that is 2.1 u of the 100 u block on each axis.
 
-### F5 — three effects under-declare their bleed; none of them clips
+### F5 — two effects under-declare their bleed; none of them clips
 
-The static audit flagged four corners. The pixels agree with one of them and disagree with
-three, and find two more the audit could not see.
+**The test that separates ink from rounding.** An overshoot measured in pixels can be real
+ink or it can be the glyph's own edge against a box drawn at a fractional coordinate. The
+two are told apart by changing the block size: real ink is a fixed fraction of the block,
+so it holds its value in `u`; a sub-pixel edge effect is a fixed pixel cost, so its `u`
+value collapses as the block grows. Every verdict below is that measurement, fraunces
+`n-base-w600`, `stack-fit`, mask mode, worst side over three engines.
 
-Measured beyond the declared envelope, worst side, Δ > 8/255, over three engines and both
-layout modes:
-
-| effect · corner | audit predicted (1.5r) | measured | verdict |
+| effect · corner | 1440×900 (u ≈ 13) | 3840×2160 (u ≈ 33) | verdict |
 |---|---|---|---|
-| `retro-deboss(k=0.3,s=1.8)` | 1.92 u r, b | **0.32 u l · 0.32 u b · 0.30 u r** | real, 6× smaller |
-| `glow-neon(r=25,t=60)` | 1.25 u all four | −0.34 u worst | clean |
-| `glow-fire(r=25,l=6)` | 1.25 u l, r, t | −0.49 u worst | clean |
-| `depth-float(y=10,o=18)` | 0.09 u t (hover) | +0.05 u t, base and hover | clean — see below |
-| `glow-neon-outline(r=25,t=100,w=80)` | not flagged | **0.63 u l · 0.47 u b/r · 0.44 u t** | real |
-| `glow-foil(a=188,k=30,o=6,s=45)` | not flagged | **0.15 u l · 0.10 u t/b · 0.07 u r** | real |
+| `plain()` — the control, zero bleed, no shadow | 1.5 px · 0.111 u | 0.8 px · 0.022 u | **rounding** |
+| `retro-stripe-echo(a=135,k=5,s=1.2)` | 2.1 px · 0.162 u | 0.8 px · 0.024 u | **rounding** |
+| `retro-deboss(k=0.3,s=1.8)` | −9.5 px · −0.71 u | −24.6 px · −0.69 u | **clean** — paints *inside* its envelope |
+| `glow-foil(a=188,k=30,o=6,s=45)` | 3.5 px · 0.262 u | 10.3 px · **0.316 u** | **real ink** |
+| `glow-neon-outline(r=25,t=100,w=80)` | 10.5 px · 0.827 u | 27.1 px · **0.808 u** | **real ink** |
 
-`depth-float`'s 0.05 u top reach is identical at Δ > 2 and at Δ > 64, so it is solid ink,
-not a blur tail: it is the glyph's own antialiasing sitting half a pixel above `.n`'s box,
-which the fit contract's ±2 px already covers. Its declared `t: 0` is correct.
+So two effects under-declare, not five:
 
-`glow-neon-outline` also paints into the inter-line band — its bloom reaches further up than
-the top bleed it declares, which is the same under-declaration seen from the other side.
+- **`glow-neon-outline`** — 0.83 u left, 0.69 u right, 0.66 u below, 0.50 u above, and it
+  also reaches the inter-line band. The largest, and the one to fix first.
+- **`glow-foil`** — 0.26–0.32 u left and right. Both compose a `-webkit-text-stroke` with
+  blurred shadow layers, which is the composition a shadow-list audit under-counts.
 
-**Why the audit missed two.** Both are outline-family effects that compose a
-`-webkit-text-stroke` with blurred shadow layers; a scan of shadow lists alone under-counts
-the composition. The structural case is worse than that, though: `retro-relief-gap` is
-shape B, so its ink comes from `::before`/`::after` copies placed with `translate`, which a
-static scan of `text-shadow`/`drop-shadow` cannot see **at all**. It happens to be clean,
-but nothing in a shadow-list audit could have told you that.
+**Two retractions from this document's first revision**, both mine:
 
-**None of it clips.** Across 474 bleed measurements in three engines there were **zero**
-safe-box violations, and a dedicated sweep of the worst effect over all eight viewports ×
-three corners × both modes × three engines never went below **3.0 px** of headroom. The
-`.985` shrink factor absorbs every one of these. They are `bleed()` declarations to
-correct, not fit failures — which is the difference between "send it back to the author"
-and "stop the release".
+1. `retro-deboss` was reported at 0.32 u. It is **clean** — it paints 0.7 u *inside* its
+   declared envelope at both block sizes. The earlier number was the spec's own
+   quantisation against a slack that was one pixel too tight.
+2. `retro-relief-gap` was reported at 3.66 u. That was a bug in this spec: the layout gap
+   was parsed out of the pick string with a bare `/g=(\d+)/`, which matched that effect's
+   own `g` parameter first and fed `G = 0` into the expected geometry. Anchored on the `l:`
+   segment it is clean at every corner. Worth naming — any later spec reading the pick
+   string hits the same trap.
+
+**`retro-stripe-echo` is clean, and dropping its phantom top bleed was correct.** Every one
+of its shadow layers sits at `y = +k` with `k > 0` and zero blur, so there is no mechanism
+for upward ink at all, and `t: 0` is right by construction. The 0.08 u that CI reported
+above its envelope is the same quantity `plain` shows at 1.5 px while painting nothing
+whatsoever: it survives to a 50 % ink threshold, so it is the glyph outline sitting
+fractionally above `.n`'s box, which is exactly the integer ascent rounding §9.2 already
+grants ±2 px for. It needed no `ALLOWANCE` entry; it needed the spec to account for its own
+quantisation, which `ENVELOPE_SLACK` now does.
+
+**Nothing clips.** Across the bleed sweep in three engines there were **zero** safe-box
+violations, and a dedicated sweep of the worst effect over eight viewports × three corners
+× both modes × three engines never dropped below **3.0 px** of headroom. The `.985` shrink
+factor absorbs all of it. These are `bleed()` declarations to correct, not fit failures.
 
 `effects/**` is outside this package's paths, so each is recorded as a budget in
-`ALLOWANCE` in `e2e/bleed.spec.js` — the envelope assertion permits exactly the measured
-overshoot and no more. That still catches growth and any new effect that under-declares,
-and each entry drops to 0 when its effect is fixed.
-
-**One correction to my own first pass.** An earlier run reported `retro-relief-gap`
-overshooting by up to 3.66 u. That was a bug in this spec, not in the effect: the layout
-gap was parsed out of the pick string with a bare `/g=(\d+)/`, which matched
-`retro-relief-gap`'s own `g` parameter first and fed `G = 0` into the expected geometry.
-Anchoring the match on the `l:` segment fixed it, and the effect is clean at every corner.
-It is worth naming because any later spec that reads the pick string will hit the same
-trap.
+`ALLOWANCE` in `e2e/bleed.spec.js`, permitting exactly the measured overshoot and no more.
+`glow-foil`'s 0.26 u is below the quantisation floor at the sweep's own viewports, so a
+budget there would be inert — `recorded overshoots hold their budget at full resolution`
+re-measures every recorded entry and the R14 watchlist at 3840×2160, where
+`ENVELOPE_SLACK` is 0.12 u instead of 0.3 u and the same overshoot is ten pixels rather
+than four.
 
 ### A measurement cannot assert what it cannot resolve
 
@@ -316,9 +331,22 @@ contradicted themselves run to run.
 
 So the envelope check is gated on `u ≥ 6 px` (`ENVELOPE_MIN_U`), and the `side` mode
 measures at the largest portrait viewport rather than the smallest. The **safe-box** check
-— the normative one — stays unconditional at every viewport. The rule is worth keeping as
-the catalog grows: assert the contract everywhere, assert the sharper diagnostic only where
-the block is big enough to express it.
+— the normative one — stays unconditional at every viewport.
+
+It also carries its own slack rather than borrowing §9.2's. Wherever an effect declares a
+zero bleed on a side, the envelope's outer edge *is* the block box, and three separate
+sub-pixel costs land on it at once: the ±2 px §9.2 already grants the glyph for integer
+ascent rounding and half-leading flooring, one more for flooring the fractional envelope
+edge to whole pixels, and one more for the antialiased pixel an ink threshold counts and a
+geometric outline does not. `ENVELOPE_SLACK` is `SLACK + 2` for exactly those three, and
+the number is founded on `plain` — which paints nothing beyond the glyphs and declares a
+zero bleed on all four sides, and still reads 1.5 px outside its own envelope at 1440×900.
+
+An earlier revision used `SLACK` alone, and `retro-stripe-echo` failed CI by about one
+device pixel as a result. The rule is worth keeping as the catalog grows: assert the
+contract everywhere, assert the sharper diagnostic only where the block is big enough to
+express it, and let the diagnostic pay for its own rounding rather than charging it to an
+effect.
 
 ### F3 — Pacifico's `ł` is faithful, and it does read oddly
 
@@ -378,8 +406,9 @@ Two deliberate departures from §9.2, both cheap and both safe:
 The full 463-corner cross is left to `FIT_SCOPE=all`; at three viewports and three engines
 it would not fit the per-PR budget.
 
-**Cost.** `pnpm run e2e` at the default scope, against the 30-effect catalog: **1.3 min**
-wall clock, 597 tests, three engines, on a 10-core M1 Pro. The ~10-minute budget has room.
+**Cost.** `pnpm run e2e` at the default scope, 91 fonts and 30 effects: **4.4 min** wall
+clock, 1 360 tests, three engines, on a 10-core M1 Pro. On CI at `workers: 3` the whole
+job is 13.8 min against a 30-minute ceiling.
 
 **A static audit belongs in `test/`, with a caveat.** An analytical check that parses each
 effect's emitted lengths and compares them to its declared bleed runs in milliseconds

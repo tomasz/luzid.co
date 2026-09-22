@@ -54,6 +54,25 @@ const VARIANT = FONT.variants.find((v) => v.id === 'n-base-w600') ?? FONT.varian
  */
 const ENVELOPE_MIN_U = 6
 
+/**
+ * The envelope's outer edge is the block box itself wherever an effect declares a zero
+ * bleed on that side, and §9.2 already grants the glyph ±2 px there for integer ascent
+ * rounding and half-leading flooring. Flooring the fractional envelope edge to whole
+ * pixels costs up to another one, and the two compound.
+ *
+ * Measured rather than assumed. `plain` paints nothing beyond the glyphs and declares a
+ * zero bleed on all four sides, so its "overshoot" is purely this quantity: fraunces
+ * `n-base-w600`, `stack-fit`, mask mode, it reads **1.5 px** at 1440x900 and **0.8 px** at
+ * 3840x2160 — constant in *pixels* while collapsing from 0.111u to 0.022u as the block
+ * grows sixteenfold. Two of §9.2's pixels plus one for flooring the fractional edge plus
+ * one for the antialiased pixel an ink threshold includes and an outline does not.
+ *
+ * This is the spec's own quantisation bookkeeping, not an allowance for any effect: it
+ * applies to all 30 equally, and ALLOWANCE stays the place where a real under-declaration
+ * is recorded.
+ */
+const ENVELOPE_SLACK = SLACK + 2
+
 /** White ground: `qa-bw` role `10--` is `--bg:#ffffff`, and every accent aliases the face. */
 const GROUND = /** @type {[number, number, number]} */ ([255, 255, 255])
 const isPaint = notGround(GROUND)
@@ -100,6 +119,16 @@ const SUITE = EFFECTS.map((e) => {
   }
 })
 
+/**
+ * Effects whose declaration is known to be off by less than the quantisation floor at the
+ * sweep's own viewports. A fixed pixel cost is a shrinking fraction of `u` as the block
+ * grows, so the only way to see them is to measure on a big one — which is also the test
+ * that tells real ink from rounding, because real ink holds its value in `u` and rounding
+ * does not.
+ */
+const RESOLVE = ['glow-neon-outline', 'glow-foil', ...WATCHLIST.map((w) => w.id)]
+const RESOLVE_VP = { w: 3840, h: 2160 }
+
 /** The canonical corner label: sorted, so a title and a lookup key can never disagree. */
 const label = (params) =>
   Object.entries(params)
@@ -122,12 +151,12 @@ const label = (params) =>
  * effect's `bleed()` is corrected. `docs/fit.md` has the per-side numbers and the analysis.
  */
 const ALLOWANCE = {
-  // left 0.63u · below 0.47u · right 0.47u · above 0.44u
-  'glow-neon-outline': 0.7,
-  // left 0.32u · below 0.32u · right 0.30u
-  'retro-deboss': 0.4,
-  // left 0.15u · above/below 0.10u · right 0.07u
-  'glow-foil': 0.2,
+  // Real ink, and the largest: 0.83u l · 0.69u r · 0.66u b · 0.50u t, holding its value in
+  // u from a 1270 px block to a 3360 px one. Also reaches the inter-line band.
+  'glow-neon-outline': 0.9,
+  // Real ink: 0.26u at 1440x900 and 0.32u at 3840x2160, again u-constant. Below the
+  // quantisation floor at the sweep's own viewports, which is why RESOLVE exists.
+  'glow-foil': 0.35,
 }
 
 /** Same idea for the inter-line band: an upward bleed that under-declares reaches it. */
@@ -224,10 +253,10 @@ test.describe('the declared bleed bounds every painted pixel', () => {
               const cx = vp.w / 2
               const cy = vp.h / 2
               const sides = [
-                ['left', Math.floor(cx - sw / 2 - allow) - SLACK - box.x0],
-                ['right', box.x1 - (Math.ceil(cx + sw / 2 + allow) + SLACK)],
-                ['above', Math.floor(cy - sh / 2 - allow) - SLACK - box.y0],
-                ['below', box.y1 - (Math.ceil(cy + sh / 2 + allow) + SLACK)],
+                ['left', Math.floor(cx - sw / 2 - allow) - ENVELOPE_SLACK - box.x0],
+                ['right', box.x1 - (Math.ceil(cx + sw / 2 + allow) + ENVELOPE_SLACK)],
+                ['above', Math.floor(cy - sh / 2 - allow) - ENVELOPE_SLACK - box.y0],
+                ['below', box.y1 - (Math.ceil(cy + sh / 2 + allow) + ENVELOPE_SLACK)],
               ]
               for (const [name, excess] of sides) {
                 const overU = (excess + allow) / u
@@ -371,20 +400,60 @@ test.describe('the declared bleed bounds the hover state too', () => {
         const env = `env=${ew.toFixed(1)}x${eh.toFixed(1)} · box=[${box.x0.toFixed(1)},${box.y0.toFixed(1)},${box.x1.toFixed(1)},${box.y1.toFixed(1)}] · predicted ${w.predicted} · ${where}`
         expect
           .soft(box.x0, `hover paint left of its envelope · ${env}`)
-          .toBeGreaterThanOrEqual(Math.floor(vp.w / 2 - ew / 2) - SLACK)
+          .toBeGreaterThanOrEqual(Math.floor(vp.w / 2 - ew / 2) - ENVELOPE_SLACK)
         expect
           .soft(box.x1, `hover paint right of its envelope · ${env}`)
-          .toBeLessThanOrEqual(Math.ceil(vp.w / 2 + ew / 2) + SLACK)
+          .toBeLessThanOrEqual(Math.ceil(vp.w / 2 + ew / 2) + ENVELOPE_SLACK)
         expect
           .soft(box.y0, `hover paint above its envelope · ${env}`)
-          .toBeGreaterThanOrEqual(Math.floor(vp.h / 2 - eh / 2) - SLACK)
+          .toBeGreaterThanOrEqual(Math.floor(vp.h / 2 - eh / 2) - ENVELOPE_SLACK)
         expect
           .soft(box.y1, `hover paint below its envelope · ${env}`)
-          .toBeLessThanOrEqual(Math.ceil(vp.h / 2 + eh / 2) + SLACK)
+          .toBeLessThanOrEqual(Math.ceil(vp.h / 2 + eh / 2) + ENVELOPE_SLACK)
 
         const { aw, ah } = safeBox(vp.w, vp.h, false)
         expect.soft(box.w, `hover paint wider than the safe box · ${env}`).toBeLessThanOrEqual(aw + SLACK)
         expect.soft(box.h, `hover paint taller than the safe box · ${env}`).toBeLessThanOrEqual(ah + SLACK)
+      }
+    })
+  }
+})
+
+/**
+ * The recorded under-declarations, re-measured on a 3360 px block where `ENVELOPE_SLACK`
+ * is 0.12u rather than 0.3u. This is what keeps an `ALLOWANCE` entry honest: at the
+ * sweep's viewports a 0.3u overshoot is four pixels and indistinguishable from rounding,
+ * and here it is ten.
+ */
+test.describe('recorded overshoots hold their budget at full resolution', () => {
+  for (const id of [...new Set(RESOLVE)]) {
+    const effect = EFFECTS.find((e) => e.id === id)
+    if (!effect) continue
+    const cs = corners(effect)
+    const params = cs[cs.length - 1]
+    test(`${id}(${label(params)}) · 3840x2160`, async ({ page }) => {
+      const seed = seedFor(effect, params, false)
+      const r = await paint(page, { effect, params, seed, vp: RESOLVE_VP })
+      const { box, want, u, where } = r
+      const allow = (ALLOWANCE[id] ?? 0) * u
+      const ew = r.probe.bw * want.K1
+      const eh = r.probe.bw * want.K2
+      const cx = RESOLVE_VP.w / 2
+      const cy = RESOLVE_VP.h / 2
+      const sides = [
+        ['left', Math.floor(cx - ew / 2 - allow) - ENVELOPE_SLACK - box.x0],
+        ['right', box.x1 - (Math.ceil(cx + ew / 2 + allow) + ENVELOPE_SLACK)],
+        ['above', Math.floor(cy - eh / 2 - allow) - ENVELOPE_SLACK - box.y0],
+        ['below', box.y1 - (Math.ceil(cy + eh / 2 + allow) + ENVELOPE_SLACK)],
+      ]
+      for (const [name, excess] of sides) {
+        expect
+          .soft(
+            excess,
+            `paint ${name} of its declared envelope by ${((excess + allow) / u).toFixed(3)}u ` +
+              `(budget ${(allow / u).toFixed(2)}u, u=${u.toFixed(1)}px) · ${where}`,
+          )
+          .toBeLessThanOrEqual(0)
       }
     })
   }

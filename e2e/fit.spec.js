@@ -140,18 +140,24 @@ test.describe('every layout mode fills its safe box at every viewport', () => {
 const KNOWN_DIVERGENCE = [
   {
     engine: 'webkit',
+    // The divergence is a property of CoreText, not of WebKit: Playwright's macOS WebKit
+    // is a Mac-port build that shapes through it, while its Linux WebKit is WPE with
+    // FreeType and HarfBuzz and no CoreText anywhere. On Linux the variant therefore
+    // renders at its declared width and passes — a true statement about that engine, not
+    // a missed failure, so the pin must not be armed there.
+    platform: 'darwin',
     f: 'pacifico',
     v: 'n-fina-static',
     l: 'stack-fit',
     vp: { w: 390, h: 844 },
-    why: 'CoreText does not apply the OpenType `fina` feature to Latin, so WebKit paints the base glyphs (3.099 em) while the build-time harfbuzz metric says 3.039 em: +1.97% on line 1',
+    why: 'CoreText does not apply the OpenType `fina` feature to Latin, so WebKit-on-macOS paints the base glyphs (3.099 em) while the build-time harfbuzz metric says 3.039 em: +1.97% on line 1. Linux WebKit shapes with HarfBuzz and is unaffected',
   },
 ]
 
 test.describe('known engine divergences', () => {
   for (const k of KNOWN_DIVERGENCE) {
-    test(`${k.f}.${k.v} on ${k.engine} — ${k.why}`, async ({ page, browserName }) => {
-      test.fail(browserName === k.engine)
+    test(`${k.f}.${k.v} on ${k.engine}/${k.platform} — ${k.why}`, async ({ page, browserName }) => {
+      test.fail(browserName === k.engine && process.platform === k.platform)
       await measure(page, url({ seed: SEEDS.flat, f: k.f, v: k.v, l: k.l }), k.vp)
     })
   }
