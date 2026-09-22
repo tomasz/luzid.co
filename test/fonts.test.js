@@ -45,6 +45,8 @@ const sources = []
 for (const name of (await readdir(url('fonts/sources'))).filter((f) => f.endsWith('.json')).sort()) {
   sources.push(...(await readJson(`fonts/sources/${name}`)))
 }
+/** A known-good row for the negative cases below, found by id rather than by position. */
+const seedRow = sources.find((r) => r.id === 'boldonse')
 const metas = []
 for (const name of (await readdir(url('fonts/meta'))).filter((f) => f.endsWith('.json')).sort()) {
   metas.push(await readJson(`fonts/meta/${name}`))
@@ -65,7 +67,7 @@ function stub(overrides = {}) {
 // ---------------------------------------------------------------- rule 1: never the css2 API
 
 test('rule 1: the Google css2 API is never a source, and neither is a zip', () => {
-  const base = sources[1]
+  const base = seedRow
   assert.throws(
     () => validateRow({ ...base, url: 'https://fonts.googleapis.com/css2?family=Boldonse&text=Tomasz' }),
     /css2 API is never a source/,
@@ -100,6 +102,8 @@ test('rule 1: a source without an immutable commit ships the original alongside 
 
   const committed = await readdir(url('fonts/upstream'))
   for (const row of sources) {
+    // A queued row has no hash yet, so there is nothing on disk to compare it against.
+    if (row.sha256 === '') continue
     const { original } = upstreamPaths(row)
     if (pinnedToCommit(row.url)) {
       assert.ok(!committed.includes(original), `${row.id}: pinned to a commit, so it needs no committed copy`)
@@ -203,7 +207,7 @@ test('rule 3: a Reserved Font Name is rejected, and the OFL body is not a false 
 
 test('rule 3: licenseId is one of the three allowed, and every shipped font ships a licence', async () => {
   assert.deepEqual([...LICENSE_IDS].sort(), ['Apache-2.0', 'GUST', 'OFL-1.1'])
-  assert.throws(() => validateRow({ ...sources[1], licenseId: 'MIT' }), /licenseId MIT is not allowed/)
+  assert.throws(() => validateRow({ ...seedRow, licenseId: 'MIT' }), /licenseId MIT is not allowed/)
   for (const meta of metas) {
     assert.ok(LICENSE_IDS.has(meta.licenseId), `${meta.id}: ${meta.licenseId}`)
     const text = await readFile(url(`fonts/licenses/${meta.id}.txt`), 'utf8')
@@ -422,9 +426,9 @@ test('source rows validate, with disjoint ids', () => {
   const seen = new Set()
   for (const row of sources) validateRow(row, seen)
   assert.equal(seen.size, sources.length)
-  assert.throws(() => validateRow(sources[0], seen), /duplicate id/)
+  assert.throws(() => validateRow(seedRow, seen), /duplicate id/)
 
-  const base = sources[1]
+  const base = seedRow
   assert.throws(() => validateRow({ ...base, id: 'Not Kebab' }), /kebab-case/)
   assert.throws(() => validateRow({ ...base, odds: 17 }), /odds must be an integer 0-16/)
   assert.throws(() => validateRow({ ...base, archetype: ['Z'] }), /unknown archetype Z/)
@@ -508,6 +512,7 @@ test('every shipped font agrees with its own source row', () => {
   // The metadata is the merge, so anything the row declared has to survive into it.
   for (const meta of metas) {
     const row = sources.find((r) => r.id === meta.id)
+    assert.ok(row, `${meta.id} has no source row`)
     for (const trait of row.traits) {
       assert.ok(meta.traits.includes(trait), `${meta.id}: declared ${trait} is missing from the metadata`)
     }
