@@ -1,0 +1,78 @@
+{
+ "id": "havana",
+ "family": "Havana",
+ "src": {
+  "url": "https://raw.githubusercontent.com/warszawskie-kroje/havana/931bb3a781bd4cae6873a9e7ff5b422ea967b73a/Havana-Regular/Havana-Regular.ttf",
+  "sha256": "f7f537584838b560ae4b30add7cf9fbc85537b74217349774f0369b477a5b416"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright © 2016 Stowarzyszenie Kulturotwórcze Miastodwa",
+ "archetype": [
+  "C"
+ ],
+ "traits": [
+  "connected",
+  "script"
+ ],
+ "odds": 7,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 5148,
+   "sha256": "f03f7f7999255de6f054b6a33bcd43975eb55ebb5d575bd74cfaec2f26e68e2a",
+   "asc": 727,
+   "desc": 7,
+   "stem": 0.0624,
+   "crossbar": 0.0558,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.984,
+    "H": 0.62,
+    "X": -0.006,
+    "top": 0.615
+   },
+   "w2": {
+    "W": 2.689,
+    "H": 0.732,
+    "X": 0,
+    "top": 0.727
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.667,
+    "H": 0.656,
+    "X": 0,
+    "top": 0.649
+   },
+   "w2": {
+    "W": 2.63,
+    "H": 0.732,
+    "X": 0,
+    "top": 0.727
+   }
+  }
+ ]
+}

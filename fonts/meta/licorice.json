@@ -1,0 +1,78 @@
+{
+ "id": "licorice",
+ "family": "Licorice",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/licorice/Licorice-Regular.ttf",
+  "sha256": "c72d8cb2f56e6995b3682d8620e2d602bacf78b67121cdfbface9acc422750d8"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2004 The Licorice Project Authors (https://github.com/googlefonts/licorice)",
+ "archetype": [
+  "C"
+ ],
+ "traits": [
+  "hairline",
+  "script"
+ ],
+ "odds": 4,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 4828,
+   "sha256": "87a99200dde522b200249d29ceb34630d430d391def3766d83e785356ac05385",
+   "asc": 730,
+   "desc": 55,
+   "stem": 0.0421,
+   "crossbar": 0.024,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.137,
+    "H": 0.758,
+    "X": -0.007,
+    "top": 0.73
+   },
+   "w2": {
+    "W": 2.237,
+    "H": 0.772,
+    "X": 0.08,
+    "top": 0.717
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 1.919,
+    "H": 0.636,
+    "X": -0.006,
+    "top": 0.608
+   },
+   "w2": {
+    "W": 1.879,
+    "H": 0.727,
+    "X": 0.049,
+    "top": 0.711
+   }
+  }
+ ]
+}
