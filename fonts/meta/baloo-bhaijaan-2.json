@@ -13,7 +13,6 @@
  ],
  "traits": [
   "fat",
-  "hairline",
   "overlap",
   "rounded",
   "sans"
@@ -30,6 +29,8 @@
    "sha256": "be3f1c10cb7b11c94011b44ccf56d81bbb1b58d8d386ec9710daf7405060883b",
    "asc": 711,
    "desc": 18,
+   "stem": 0.175,
+   "crossbar": 0.1261,
    "glyphs": 23
   }
  ],

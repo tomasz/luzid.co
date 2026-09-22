@@ -153,21 +153,6 @@ const KNOWN_DIVERGENCE = [
     vp: { w: 390, h: 844 },
     why: 'CoreText does not apply the OpenType `fina` feature to Latin, so WebKit-on-macOS paints the base glyphs (3.099 em) while the build-time harfbuzz metric says 3.039 em: +1.97% on line 1. Linux WebKit shapes with HarfBuzz and is unaffected',
   },
-  {
-    engine: 'webkit',
-    // The mirror image of the entry above, and for the same underlying reason: the two
-    // WebKit ports do not share a shaping backend. The Mac port goes through CoreText,
-    // which applies this feature's GPOS y-placement — measured directly, and matching the
-    // build metric to the unit. The Linux port shapes through its own HarfBuzz path, and
-    // the vertical offset does not survive it.
-    platform: 'linux',
-    f: 'bungee',
-    v: 'n-ss12-static',
-    l: 'stack-fit',
-    vp: { w: 390, h: 844 },
-    probe: true,
-    why: "bungee's `ss12` is a GPOS vertical shift, not a substitution — same glyph ids and advances as `ss01`, moved down 0.208 em. Linux WebKit paints it at the unshifted height, which lifts the whole ink block ~12.5 px and breaks the centring while leaving the width, and so the fill ratio, correct. macOS agrees with the metric in all three engines",
-  },
 ]
 
 /**

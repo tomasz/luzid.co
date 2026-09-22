@@ -22,10 +22,12 @@
   {
    "id": "static",
    "axes": {},
-   "bytes": 3332,
-   "sha256": "884b4332ef2c1967fc9a477731bd65171d2caf5fd097fe7147f588e6973d4c78",
+   "bytes": 3308,
+   "sha256": "c57ca1e2eef6566b70cd01f247625ace0fb0fc057499fd804baf74140401d5fc",
    "asc": 728,
    "desc": 2,
+   "stem": 0.2087,
+   "crossbar": 0.1232,
    "glyphs": 23
   }
  ],
@@ -126,50 +128,6 @@
     "weight": 400,
     "style": "normal",
     "feat": "\"salt\" 1"
-   },
-   "w1": {
-    "W": 3.199,
-    "H": 0.702,
-    "X": -0.015,
-    "top": 0.7
-   },
-   "w2": {
-    "W": 3.289,
-    "H": 0.73,
-    "X": 0.025,
-    "top": 0.728
-   }
-  },
-  {
-   "id": "n-ss01-static",
-   "file": "static",
-   "case": "none",
-   "css": {
-    "weight": 400,
-    "style": "normal",
-    "feat": "\"ss01\" 1"
-   },
-   "w1": {
-    "W": 3.288,
-    "H": 0.699,
-    "X": 0.025,
-    "top": 0.697
-   },
-   "w2": {
-    "W": 3.426,
-    "H": 0.73,
-    "X": 0.025,
-    "top": 0.728
-   }
-  },
-  {
-   "id": "l-ss01-static",
-   "file": "static",
-   "case": "lowercase",
-   "css": {
-    "weight": 400,
-    "style": "normal",
-    "feat": "\"ss01\" 1"
    },
    "w1": {
     "W": 3.199,

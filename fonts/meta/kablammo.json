@@ -29,6 +29,8 @@
    "sha256": "d8b69c98d7e3d3913351b712b524d14cdf3c772c9087903110b6a45599c02045",
    "asc": 1618,
    "desc": 230,
+   "stem": 0.0858,
+   "crossbar": 0.0538,
    "glyphs": 23
   },
   {
@@ -40,6 +42,8 @@
    "sha256": "1496abeabb17b8bd7f8762b230ed9710c2efedbf4fd8b7776c4b00e923ec77e1",
    "asc": 1598,
    "desc": 244,
+   "stem": 0.1202,
+   "crossbar": 0.0527,
    "glyphs": 23
   },
   {
@@ -51,6 +55,8 @@
    "sha256": "9aea7133cef248f2fec8d2632047ab5beb2e1cbdd07e66cae94e88e22814a5b5",
    "asc": 1610,
    "desc": 251,
+   "stem": 0.1092,
+   "crossbar": 0.0731,
    "glyphs": 23
   }
  ],

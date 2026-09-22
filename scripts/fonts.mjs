@@ -241,16 +241,17 @@ function outlineOf(font, gid) {
 }
 
 /**
- * What a word actually draws: outlines and positions, deliberately not glyph ids.
+ * What a word actually draws: the outline of each glyph and how far it advances.
  *
- * A feature that swaps one glyph for another that is drawn identically has changed the
- * glyph stream and changed nothing a reader can see. Boldonse's `ss01` in lowercase and
- * Instrument Serif Italic's do exactly that, and both shipped a variant indistinguishable
- * from plain text because the comparison was on ids.
+ * Deliberately not glyph ids. A feature that swaps one glyph for another that is drawn
+ * identically has changed the glyph stream and changed nothing a reader can see; Boldonse's
+ * `ss01` in lowercase and Instrument Serif Italic's do exactly that.
+ *
+ * Deliberately not GPOS placement either — see `POSITION_ONLY` below.
  */
 const rendered = (font, word, feats = []) =>
   shape(font, word, feats)
-    .map((g) => `${outlineOf(font, g.codepoint)}@${g.xAdvance ?? 0},${g.xOffset ?? 0},${g.yOffset ?? 0}`)
+    .map((g) => `${outlineOf(font, g.codepoint)}@${g.xAdvance ?? 0}`)
     .join(' ')
 
 // ---------------------------------------------------------------- gates
@@ -658,7 +659,30 @@ export function effectiveFeatures(font, caseName, candidates) {
  *    byte-identical files under two names;
  *  - a tag that only repeats what `text-transform` has already done;
  *  - `uppercase` + `c2sc` against `lowercase` + `smcp`, which arrive at the same small
- *    caps from opposite directions, so any font carrying both shipped a guaranteed pair.
+ *    caps from opposite directions, so any font carrying both shipped a guaranteed pair;
+ *  - and a feature that selects the same glyphs with the same advances and only moves them
+ *    with a GPOS placement, which is the same question with the position dropped.
+ *
+ * That last one is why `rendered` leaves placement out. The fit normalises to the ink box —
+ * the box top is pinned to the block top, the box width sets the font size — so moving the
+ * whole word up, down or sideways is normalised straight back out, and what survives is at
+ * most a per-glyph jitter nobody asked for.
+ *
+ * Bungee's `ss12` is the case that proved it: identical glyph ids, identical outlines and
+ * identical advances to `ss01`, differing only by a y-placement of about -0.208 em. It
+ * shipped as a separate variant that renders the same as `ss01` once fitted — and engines
+ * disagree about it. Measuring the ink top of line 1 against the box top at 390x844 gives
+ * -0.10 px on Firefox and Darwin WebKit, -1.11 px on Chromium, and -27.11 px on Linux
+ * WebKit. That is 2.025x the shift, not the 1.0x of ignoring it: Linux WebKit applies the
+ * placement with the opposite sign, and the name lands 12 px off centre there.
+ *
+ * x and y are treated alike, which is a choice rather than an assumption about symmetry.
+ * Under the fit they really are symmetric — `W` is an ink width exactly as `top` is an ink
+ * top, so both normalise away the absolute offset and expose only the relative arrangement.
+ * What is not symmetric is the risk: a y-placement is the rare path engines get wrong, an
+ * x-placement is the everyday kerning path they agree on. Rejecting both is the
+ * conservative reading and costs nothing measurable — across the 692 variants in the
+ * library there is exactly one placement-only pair, Bungee's, and no x-only pair at all.
  *
  * The plain variant of every case is seeded first and therefore always wins. After that the
  * order follows `planVariants` — round by round, cases in their given order — so the tag

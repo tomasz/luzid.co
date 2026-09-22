@@ -24,6 +24,8 @@
    "sha256": "f0e8d268a1d5bb27b1010640657f2fe4b9806c778ae7656cea4325ae4146ddc0",
    "asc": 725,
    "desc": 12,
+   "stem": 0.221,
+   "crossbar": 0.0986,
    "glyphs": 23
   }
  ],
