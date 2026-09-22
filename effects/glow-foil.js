@@ -27,6 +27,21 @@
  */
 const pc = (x) => `${Math.round(x * 10) / 10}%`
 
+/**
+ * The keyline's outset, as a multiple of its own width. Geometrically 0.5 —
+ * `-webkit-text-stroke` is centred — but Chrome and WebKit miter their joins, and a miter on
+ * an acute serif corner runs well past the nominal half-width. Budgeting the full width
+ * covers a 2x miter and costs at most 0.15u. See `glow-neon-outline`, which was measured
+ * short for the same reason.
+ */
+const STROKE_OUTSET = 1
+
+/** R14's one-radius reach, plus the margin a blur spreading from a stroke edge needs. */
+const REACH = 1.3
+
+/** The ambient pass's blur radius in u. `bleed()` and `bevel()` share it. */
+const AMBIENT = 1.1
+
 export default {
   id: 'glow-foil',
   family: 'glow',
@@ -45,13 +60,20 @@ export default {
   params: { a: [172, 188, 4], s: [25, 45, 5], o: [2, 6, 1], k: [14, 30, 4] },
 
   /**
-   * The chain steps `o` up and then `o + 1.6·o` down, and the ambient adds its blur on every
-   * side. The keyline straddles the outline, so half of it counts too.
+   * The chain steps `o` up and then `o + 1.6·o` down, and the ambient blur spreads from the
+   * *keyline's* outer edge on every side — not from the glyph contour.
+   *
+   * The first version of this effect counted the keyline as half its width and the ambient
+   * blur at 1.0x its radius. `e2e/bleed.spec.js` measured 0.26u of real ink past that at
+   * 1440x900 and 0.32u at 3840x2160 — u-constant, so ink rather than rounding, on the left
+   * and right where the bevel's own offsets contribute nothing. `STROKE_OUTSET` covers the
+   * mitered joins Chrome and WebKit put on a sharp serif corner; `REACH` is R14 plus the
+   * margin a blur fed by a stroke turns out to need.
    * @param {{o: number, k: number}} p
    */
   bleed: (p) => {
     const o = p.o / 10
-    const side = p.k / 200 + 1.1
+    const side = (STROKE_OUTSET * p.k) / 100 + REACH * AMBIENT
     return { t: o + side, r: side, b: o * 2.6 + side, l: side }
   },
 
@@ -97,6 +119,6 @@ function bevel(p, h) {
   return (
     `drop-shadow(0 ${h.u(-o)} 0 ${h.mix('var(--fg)', 'var(--a1)', 60)}) ` +
     `drop-shadow(0 ${h.u(o)} 0 ${h.mix('var(--bg)', 'var(--a1)', 45)}) ` +
-    `drop-shadow(0 ${h.u(o * 1.6)} ${h.u(1.1)} ${h.mix('var(--bg)', 'var(--a1)', 75)})`
+    `drop-shadow(0 ${h.u(o * 1.6)} ${h.u(AMBIENT)} ${h.mix('var(--bg)', 'var(--a1)', 75)})`
   )
 }

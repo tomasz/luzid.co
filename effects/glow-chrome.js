@@ -41,12 +41,22 @@ export default {
   params: { z: [25, 80, 5], s: [25, 45, 5], d: [7, 21, 7], k: [14, 30, 4] },
 
   /**
-   * The doubling chain sinks the face by the full depth; the keyline straddles the outline,
-   * so half of it outsets on every side.
+   * The doubling chain sinks the face by the full depth, and the keyline outsets on every
+   * side.
+   *
+   * The keyline is budgeted at 1.5x its width, not the geometric half. Chrome and WebKit
+   * miter their stroke joins, so an acute corner runs past `k/2`; that is what the pixel
+   * proof caught on the two effects in this family that compose a stroke with a blur.
+   *
+   * This one has no blurred layer, which is exactly why its allowance has to be the larger.
+   * On `glow-neon-outline` and `glow-foil` a generous blur term absorbs the miter; here the
+   * keyline is the only ink on the left and right, so the miter is the entire error budget.
+   * Measured at 3840x2160 on the sharpest faces this effect accepts, `bellefair` leaves
+   * 0.01u at 1x and 0.14u at 1.5x. The extra costs 0.3% of the block width.
    * @param {{d: number, k: number}} p
    */
   bleed: (p) => {
-    const side = p.k / 200
+    const side = (1.5 * p.k) / 100
     return { t: side, r: side, b: p.d / 10 + side, l: side }
   },
 
