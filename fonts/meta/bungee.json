@@ -21,10 +21,12 @@
   {
    "id": "static",
    "axes": {},
-   "bytes": 3004,
-   "sha256": "0cf562ec14b0f5c4b2b86e0d01016b99fba3ae94db8513ea5201f776dea67245",
+   "bytes": 2884,
+   "sha256": "b1de242cee3c8593294ac72b982b00db1f70e93c35b60a693b1fbbdb692a3bd3",
    "asc": 735,
-   "desc": 226,
+   "desc": 15,
+   "stem": 0.23,
+   "crossbar": 0.189,
    "glyphs": 23
   }
  ],
@@ -181,28 +183,6 @@
     "H": 0.75,
     "X": 0.336,
     "top": 0.735
-   }
-  },
-  {
-   "id": "n-ss12-static",
-   "file": "static",
-   "case": "none",
-   "css": {
-    "weight": 400,
-    "style": "normal",
-    "feat": "\"ss12\" 1"
-   },
-   "w1": {
-    "W": 5.6,
-    "H": 0.75,
-    "X": 0.2,
-    "top": 0.527
-   },
-   "w2": {
-    "W": 6.608,
-    "H": 0.753,
-    "X": 0.196,
-    "top": 0.527
    }
   }
  ]

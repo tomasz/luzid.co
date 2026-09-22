@@ -21,10 +21,12 @@
   {
    "id": "static",
    "axes": {},
-   "bytes": 6664,
-   "sha256": "f7bfb52cd0fc2265bb6ae2cad65e7cbb12e668a792f61eb165f21a4630fd84e2",
+   "bytes": 6680,
+   "sha256": "547323220b4744c774b6b2464f8bb651a8699d24118874f421b759c543e2c0f8",
    "asc": 1013,
    "desc": 399,
+   "stem": 0.1392,
+   "crossbar": 0.0974,
    "glyphs": 23
   }
  ],
@@ -181,72 +183,6 @@
     "H": 1.334,
     "X": 0.065,
     "top": 0.935
-   }
-  },
-  {
-   "id": "l-ss01-static",
-   "file": "static",
-   "case": "lowercase",
-   "css": {
-    "weight": 400,
-    "style": "normal",
-    "feat": "\"ss01\" 1"
-   },
-   "w1": {
-    "W": 2.857,
-    "H": 0.792,
-    "X": 0.013,
-    "top": 0.765
-   },
-   "w2": {
-    "W": 2.693,
-    "H": 1.334,
-    "X": 0.032,
-    "top": 0.935
-   }
-  },
-  {
-   "id": "n-ss01-static",
-   "file": "static",
-   "case": "none",
-   "css": {
-    "weight": 400,
-    "style": "normal",
-    "feat": "\"ss01\" 1"
-   },
-   "w1": {
-    "W": 2.991,
-    "H": 0.874,
-    "X": 0.067,
-    "top": 0.847
-   },
-   "w2": {
-    "W": 2.986,
-    "H": 1.334,
-    "X": 0.065,
-    "top": 0.935
-   }
-  },
-  {
-   "id": "n-ss02-static",
-   "file": "static",
-   "case": "none",
-   "css": {
-    "weight": 400,
-    "style": "normal",
-    "feat": "\"ss02\" 1"
-   },
-   "w1": {
-    "W": 2.991,
-    "H": 0.874,
-    "X": 0.067,
-    "top": 0.847
-   },
-   "w2": {
-    "W": 3.057,
-    "H": 1.028,
-    "X": 0.065,
-    "top": 1.013
    }
   }
  ]

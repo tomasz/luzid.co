@@ -493,6 +493,57 @@ test('rule 4: a substitution nobody can see is not a variant', async () => {
   assert.deepEqual(effectiveFeatures(font, 'none', ['ss01']), [])
 })
 
+test('rule 4: a feature that only moves the glyphs is not a variant', async () => {
+  // Bungee's ss12 selected ss01's exact glyphs and advances and moved them down about
+  // 0.208 em. Invisible once the fit pins the ink box -- and Linux WebKit applied the
+  // placement with the opposite sign, which put the name 12 px off centre there while
+  // leaving every width, and so the fill ratio, correct.
+  //
+  // This asserts the OUTCOME rather than the mechanism on purpose. The obvious test --
+  // shape the shipped subset with ss12 and compare against ss01 -- cannot survive its own
+  // rule: once the feature is rejected the subset no longer carries it, so the guard reads
+  // base glyphs and fails. The mechanism is covered by `dedupeCombos` on synthetic input
+  // above; what is worth protecting here is that the variant stays gone.
+  const bungee = await readJson('fonts/meta/bungee.json')
+  const feats = bungee.variants.map((v) => v.css.feat)
+  assert.ok(
+    !feats.some((f) => f.includes('ss12')),
+    `bungee must ship no ss12 variant, got ${feats.join(' | ')}`,
+  )
+  assert.deepEqual(
+    bungee.variants.map((v) => v.id),
+    [
+      'n-base-static',
+      'n-salt-static',
+      'n-ss01-static',
+      'n-ss02-static',
+      'n-ss04-static',
+      'n-ss05-static',
+      'n-ss11-static',
+    ],
+    'bungee keeps every feature that changes a glyph, and only those',
+  )
+})
+
+test('rule 4: a substitution that merely matches in width still counts', async () => {
+  // Two pairs share a font, a case and an ink width while differing in ink top, which looks
+  // like Bungee's case and is not. Identical width does not mean identical glyphs: both of
+  // these really do swap outlines, so both have to survive the rule above.
+  const dyna = new hb.Font(
+    new hb.Face(new hb.Blob(decode(await readFile(url('fonts/files/dyna-puff.w700x.woff2'))))),
+  )
+  // DynaPuff's ss01 swaps the initial T and C for alternates of exactly the same advance.
+  assert.deepEqual(dedupeCombos(dyna, ['none'], { none: ['ss01'] }), { none: ['ss01'] })
+
+  const matemasie = new hb.Font(
+    new hb.Face(new hb.Blob(decode(await readFile(url('fonts/files/matemasie.static.woff2'))))),
+  )
+  // Matemasie's ss02 swaps the t and s of "tomasz" and changes their advances too.
+  assert.deepEqual(dedupeCombos(matemasie, ['lowercase'], { lowercase: ['ss02'] }), {
+    lowercase: ['ss02'],
+  })
+})
+
 test('rule 4: at most twelve variants, and the plan degrades one feature at a time', () => {
   const plan = planVariants({
     cases: ['none', 'uppercase', 'lowercase'],
