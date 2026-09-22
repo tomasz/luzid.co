@@ -1,0 +1,64 @@
+{
+  "note": "Explicit, reviewed errata applied on top of the vendored upstream colors.json by scripts/palette-sources/wada1.mjs. The upstream file is never edited. Every `from` value below is asserted against the vendored file before `to` is applied, so this patch fails loudly if the pinned source is ever changed.",
+  "sources": [
+    "https://github.com/mattdesl/dictionary-of-colour-combinations/issues/1",
+    "https://github.com/mattdesl/dictionary-of-colour-combinations/pull/2"
+  ],
+  "hexPolicy": "The four CMYK fixes below are NOT reflected in `hex`. Upstream hex is produced by an ICC transform (U.S. Web Coated (SWOP) v2 -> sRGB IEC61966-2.1, relative colorimetric + black point compensation) that this repo cannot run: the Adobe ICC profile is not redistributable and the pipeline would be a new dependency. Until someone recomputes these four through that same transform, we keep mattdesl's existing hex, which is visually close (the CMYK deltas are small K shifts) and is what every other published dataset shows. Corrected CMYK is carried in the data so the recompute is a one-line change later.",
+  "cmyk": [
+    {
+      "index": 71,
+      "name": "Citrine",
+      "from": [36, 32, 100, 0],
+      "to": [36, 32, 100, 7],
+      "keepHex": "#b09f36",
+      "why": "Book has K=7; reported by the book owner in issue #1 and matched independently by the vol. 2 transcription."
+    },
+    {
+      "index": 96,
+      "name": "Rainette Green",
+      "from": [42, 20, 62, 10],
+      "to": [42, 20, 62, 28],
+      "keepHex": "#8fa071",
+      "why": "Book has K=28; same two independent confirmations."
+    },
+    {
+      "index": 105,
+      "name": "Diamine Green",
+      "from": [87, 32, 91, 18],
+      "to": [87, 20, 100, 10],
+      "keepHex": "#1a7444",
+      "why": "Book has 87/20/100/10; same two independent confirmations."
+    },
+    {
+      "index": 130,
+      "name": "Dull Violet Black",
+      "from": [95, 106, 38, 50],
+      "to": [100, 90, 38, 50],
+      "keepHex": "#1e0e3f",
+      "why": "M=106 is impossible (CMYK is 0-100); the book reads 100/90/38/50. This is the only upstream value that is invalid rather than merely wrong."
+    }
+  ],
+  "names": {
+    "Calamine BLue": "Calamine Blue",
+    "Rosolanc Purple": "Rosolane Purple",
+    "Pomegranite Purple": "Pomegranate Purple",
+    "Sulpher Yellow": "Sulphur Yellow",
+    "Krongbergs Green": "Kronbergs Green",
+    "Artemesia Green": "Artemisia Green",
+    "Veronia Purple": "Vernonia Purple",
+    "Ochre Red": "Ocher Red",
+    "Mars Brown Tobacco": "Mars Brown/Tobacco",
+    "Eugenia Red | A": "Eugenia Red (A)",
+    "Eugenia Red | B": "Eugenia Red (B)",
+    "Grayish Lavender - A": "Grayish Lavender (A)",
+    "Grayish Lavender - B": "Grayish Lavender (B)"
+  },
+  "namesWhy": {
+    "typos": "The first nine are transcription typos in the upstream file; the book spellings are the ones in issue #1 and open PR #2.",
+    "duplicates": "Eugenia Red and Grayish Lavender are two distinct colours each, sharing one book name. Upstream disambiguates them with two different ad-hoc separators; we only normalise the separator to '(A)' / '(B)' and keep both entries. The suffix is ours, not the book's."
+  },
+  "notApplied": {
+    "marcebollin": "marcebollin/sanzo-wada-colors additionally changes Red Y 70->90, Pinkish Cinnamon C 5->0, Cinnamon Buff M 25->23 and Olive C 48->18. The issue #1 reporter (who owns the book) found only the four discrepancies above, and the independent vol. 2 book transcription keeps mattdesl's values for all four, so these are treated as transcription errors and are not applied."
+  }
+}
