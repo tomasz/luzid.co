@@ -1,0 +1,10 @@
+.research/
+.claude/worktrees/
+build/
+node_modules/
+.wrangler/
+test-results/
+playwright-report/
+sheets/
+.pr.md
+.DS_Store

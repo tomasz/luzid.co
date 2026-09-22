@@ -1,0 +1,13 @@
+* text=auto eol=lf
+
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.png binary
+*.ico binary
+*.jpg binary
+
+fonts/files/** linguist-generated
+fonts/meta/** linguist-generated
+data/palettes/** linguist-generated
+test/golden/** linguist-generated
