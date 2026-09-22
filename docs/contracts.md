@@ -116,16 +116,16 @@ Layouts in v1.0: `stack-fit` (odds 12), `stack-eq` (odds 4), plus independent ke
 **Pipeline rules** (`scripts/fonts.mjs`; each is a hard failure):
 1. Never the Google css2 API: it strips `ssNN/salt/swsh/dlig` (verified; google/fonts#1335).
 2. The 22 letters `TOMASZCUDIŁ tomaszcudił` map to glyphs with `glyphExtents` width > 0 and height > 0; space has advance > 0; gids of `Ł/ł` differ from `L/l`. The `latin-ext` label is ignored (wrong in both directions; Lombard ships an empty `Ł`).
-3. Licence gate: read the licence header; **reject any font declaring a Reserved Font Name** (v1.0). `licenseId` ∈ `OFL-1.1 | Apache-2.0 | GUST`.
+3. Licence gate. `licenseId` ∈ `OFL-1.1 | Apache-2.0 | GUST`. Reserved Font Names are read from the **licence header only** — everything above the first rule of five or more dashes — plus name ID 0 of the binary: the OFL body itself defines the phrase, so a whole-file search matches every OFL font there is, and some fonts declare a name only in the binary (Oleo Script reserves "Oleo", Molle reserves "Spinnaker"). A declared name is **renamed, not refused**. The names go into the meta as `rfn:[…]`, `[]` when there are none; a clause the parser cannot read a name out of is a hard failure. With `rfn` non-empty the subset ships under the neutral internal family `neutralName(id, [family, …rfn])` = `LZ <6 hex>` of `sha256(id)`, re-rolled with a salt while it collides with a reserved word: name IDs 1-6 are rewritten (5 keeps its version number only, 6 loses the space) and everything else but 0, 13 and 14 is dropped. With `rfn` empty **nothing is touched**: the OFL requires renaming only of a reserved name. Attribution is never the thing that moves — name IDs 0, 13 and 14 (copyright, licence, licence URL; OFL FAQ 2.4), `fonts/licenses/<id>.txt`, the change notice and the source URL all stay exactly as they are, and `meta.family` and the colophon still credit the original family by name. **Lint:** no name record but 0, 13 and 14 may contain the upstream family name or any reserved word, compared lowercased with whitespace removed. The CSS family alias is `f` and is neutral already.
 4. Variants ≤ 12 per font = case (`none/uppercase/lowercase`; collapsed for `capsOnly`/`unicase`; `connected` scripts never get `uppercase`) × **effective** feature sets (shape the two real words with the feature on vs off; keep only real diffs; case-like features `smcp c2sc unic titl` only if every letter incl. `Ł/ł` changes) × ≤ 4 stops.
    - **Two variants that draw the same thing are one variant.** A variant is identified by the outline of each shaped glyph and its advance — *not* by glyph id, and *not* including GPOS placement. Candidates are compared against every variant already kept, not only against plain text, which is what collapses alias tags (`salt` ≡ `ss01`), `uppercase`+`c2sc` against `lowercase`+`smcp`, and substitutions to an identically drawn glyph.
    - **Placement alone is not a look.** A feature selecting the same glyphs with the same advances and only moving them with a GPOS placement is rejected. The fit normalises to the ink box — box top pinned to block top, box width sets the font size — so the shift is normalised back out and only a per-glyph jitter survives. Bungee's `ss12` is the precedent: `ss01`'s glyphs and advances, shifted about −0.208 em, and Linux WebKit applies that placement with the **opposite sign** (ink top −27.11 px against −0.10 px on Firefox and Darwin WebKit, 2.025× the shift), putting the name 12 px off centre. x and y are treated alike: under the fit they are symmetric, and rejecting both costs nothing — the library has no x-only pair at all.
-5. **Every shipped file is a fully pinned static instance.** Per stop: `subsetFont(src, 'TOMASZCUDIŁ tomaszcudił', {targetFormat:'sfnt', noHinting:true, preserveNameIds:[13,14], dropTables:['STAT','MVAR'], variationAxes:{<every fvar axis>:<number>}, keepFeatures:[kern liga clig calt rlig rclt curs ccmp locl mark mkmk rvrn + effective tags]})`. Then `sfnt.mjs`: metrics (§5.2), **set OVERLAP_SIMPLE (0x40 on the first flag byte) / OVERLAP_COMPOUND (0x0400) on every glyf glyph** (pinned variable fonts have overlapping contours; Apple rasterizers punch holes without the flag), recompute table checksums + `head.checkSumAdjustment`. Then `woff2.mjs` → `fonts/files/<id>.<stop>.woff2`.
+5. **Every shipped file is a fully pinned static instance.** Per stop: `subsetFont(src, 'TOMASZCUDIŁ tomaszcudił', {targetFormat:'sfnt', noHinting:true, preserveNameIds:[13,14], dropTables:['STAT','MVAR'], variationAxes:{<every fvar axis>:<number>}, keepFeatures:[kern liga clig calt rlig rclt curs ccmp locl mark mkmk rvrn + effective tags]})`. Then `sfnt.mjs`: metrics (§5.2), **set OVERLAP_SIMPLE (0x40 on the first flag byte) / OVERLAP_COMPOUND (0x0400) on every glyf glyph** (pinned variable fonts have overlapping contours; Apple rasterizers punch holes without the flag), rebuild `name` when rule 3 says to rename (neither `subset-font` nor `hb-subset` can rewrite name IDs 1-6; they only choose which records to keep), recompute table checksums + `head.checkSumAdjustment`. Then `woff2.mjs` → `fonts/files/<id>.<stop>.woff2`.
 6. `scripts/woff2.mjs` (~100 lines, `node:zlib` only): 48-byte header, directory with known-tag flags, `glyf`/`loca` marked transform version 3 (null transform, which preserves the overlap flags that the 2018-era `wawoff2` encoder strips), one `brotliCompressSync` (quality 11, `BROTLI_MODE_FONT`). `decode()` is the inverse for tests. Acceptance: `decode(encode(x))` tables byte-identical; file loads in Chromium, Firefox, WebKit. **Escape hatch** if it cannot pass within WP-11's timebox: add `fontverter` as an explicit sixth devDependency (owner approves), accept the overlap-flag loss, and drop fonts that show artifacts.
 7. Budget: **≤ 10,500 B per file hard stop**, target ≤ 8 KB. Over: drop features that never fire, then stops, then variants, then the font (list it in the PR body). The response test (§9.1, ≤ 14,000 B brotli) is the final gate.
 8. Licence file `fonts/licenses/<id>.txt` = upstream licence text (Apache: + NOTICE if any; GUST: + upstream MANIFEST; Warsaw Types, which state OFL only in a README: README copyright line + canonical OFL-1.1 text, with `licenseEvidence:{url,quote}` in the meta — **these PRs wait for an owner yes**), prefixed by: `Modified by luzid.co: 23-glyph subset of <family> <version>; hinting removed; vertical metrics changed. Original: <url>` (satisfies Apache §4(b) and LPPL §6). Nothing is written outside `fonts/`. `THIRD_PARTY_NOTICES.md` is a static pointer file from WP-00; WP-53 may generate a readable table once at the end.
 
-**Meta** (`fonts/meta/<id>.json`, generated): `{id, family, src:{url,sha256}, licenseId, copyright, archetype, traits, odds, upm, files:[{id:"w900x", axes:{…}, bytes, sha256, asc, desc, stem, crossbar, glyphs:23}], variants:[{id, file, case, css:{weight,style,feat}, w1:{W,H,X,top}, w2:{…}}]}`. `upm` is the em grid every metric and ink measurement is in; `stem` (capital `I`) and `crossbar` (narrowest stroke in `Ł`/`ł`) are per stop, in em, for effects that add a stroke and would otherwise close a thin crossbar.
+**Meta** (`fonts/meta/<id>.json`, generated): `{id, family, src:{url,sha256}, licenseId, copyright, rfn:[…], archetype, traits, odds, upm, files:[{id:"w900x", axes:{…}, bytes, sha256, asc, desc, stem, crossbar, glyphs:23}], variants:[{id, file, case, css:{weight,style,feat}, w1:{W,H,X,top}, w2:{…}}]}`. `family` is always the upstream family — what the colophon credits — whatever the shipped files are named internally. `upm` is the em grid every metric and ink measurement is in; `stem` (capital `I`) and `crossbar` (narrowest stroke in `Ł`/`ł`) are per stop, in em, for effects that add a stroke and would otherwise close a thin crossbar.
 
 **Traits — closed enum**, lint-enforced in font rows and effect files; unknown trait = build failure; adding one = `contract` PR:
 `serif sans slab script brush blackletter deco rounded unicase mono fat hairline condensed wide inline shaded stencil soft groovy connected capsOnly overlap jp`. Measured by the pipeline where possible (`capsOnly`, `unicase`, `overlap`, `hairline` from stem width, `connected` from `curs`/script joins), else set by hand.
@@ -382,3 +382,41 @@ Two things a static audit of shadow lists cannot see, so do not trust one alone:
 a `-webkit-text-stroke` composed with blurred shadows (half the stroke lies outside the
 contour and adds to every layer's reach), and shape-B geometry, where the ink comes from a
 translated pseudo-element and no shadow list mentions it at all.
+
+### R15 — a Reserved Font Name is renamed, not refused, and only when there is one
+
+D2 and §5.5 rule 3 refused any font declaring a Reserved Font Name in v1.0, to avoid
+name-table surgery. Measured cost: about 41% of all candidates, and **every one** of the 21
+remaining brush-script candidates — Lobster, Mr Dafoe, Kaushan Script, Berkshire Swash,
+Grand Hotel, Oleo Script, Courgette, Kavoon, Pattaya, Merienda, Molle — so archetype C
+could not be filled at all. The owner approved lifting it.
+
+The OFL does not forbid using these fonts. FAQ 2.2, 2.5 and 2.6 say a subset is a Modified
+Version, and a Modified Version may not be distributed under the reserved name; renaming is
+the sanctioned path. So the gate now renames.
+
+Four choices §5.5 did not make:
+
+- **The header, not the file.** The OFL body defines the phrase "Reserved Font Name", so
+  `grep -i` over a whole OFL.txt matches every OFL font in existence — a trap an earlier
+  agent walked into. Only the copyright block above the first rule of dashes is read, plus
+  name ID 0 of the binary, because a reserved name is not always in the licence file and is
+  not always the family name: DM Serif reserves "Source", Galada and Pattaya both reserve
+  "Lobster", Oleo Script's name table says "Oleo", Molle's says "Spinnaker".
+- **After subsetting, not before.** `subset-font` 2.9.0 and `hb-subset` cannot rewrite name
+  IDs 1-6; they only choose which records to keep. The table has to be rebuilt either way,
+  and rebuilding the subset's nine records costs less than rebuilding the upstream's
+  hundred. `sfnt.mjs` gained `readNames` / `writeNames` for it.
+- **Only when a name is reserved.** Always-renaming is simpler to reason about and was the
+  research's recommendation, but it would rewrite 147 already-shipped files for no licence
+  reason and throw away the one piece of provenance a font manager can show. A font with
+  `rfn: []` keeps its own name table byte for byte, which is asserted against the shipped
+  library.
+- **`LZ <6 hex>`, derived from the id.** Deterministic, so a rebuild is byte-identical and
+  the metadata does not need to carry the name — `neutralName(meta.id, [meta.family,
+  ...meta.rfn])` recomputes it. Six hex digits can spell a word (`facade`, `decade`), so a
+  collision with a reserved word re-rolls with a salt rather than failing.
+
+Renaming is a licence *requirement*, not a way to obscure authorship. `meta.family`,
+`fonts/licenses/<id>.txt`, the change notice, the source URL and name IDs 0, 13 and 14 are
+all untouched, and the colophon still credits the original family by name.

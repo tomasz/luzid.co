@@ -14,15 +14,20 @@ import {
   effectiveFeatures,
   LETTERS,
   LICENSE_IDS,
+  lintNames,
   MAX_STOPS,
   MAX_VARIANTS,
   MEASURED_TRAITS,
   measureCrossbar,
   measureStem,
+  neutralName,
   pinnedToCommit,
   planVariants,
   reconcileTraits,
+  renameRecords,
+  reservedFontNames,
   shedToBudget,
+  squash,
   TEXT,
   TRAITS,
   traitDisagreements,
@@ -36,7 +41,9 @@ import {
   normalizeMetrics,
   parse,
   readMetrics,
+  readNames,
   unitsPerEm,
+  writeNames,
 } from '../scripts/sfnt.mjs'
 import { decode } from '../scripts/woff2.mjs'
 
@@ -188,25 +195,200 @@ test('rule 2: the coverage gate fails on each way a font can be unusable', () =>
 
 // ---------------------------------------------------------------- rule 3: the licence gate
 
-test('rule 3: a Reserved Font Name is rejected, and the OFL body is not a false positive', () => {
-  const ofl = [
-    'Copyright 2018 The Fraunces Project Authors (github.com/undercasetype/Fraunces)',
-    '',
-    'This Font Software is licensed under the SIL Open Font License, Version 1.1.',
-    '',
-    '-----------------------------------------------------------',
-    'SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007',
-    '-----------------------------------------------------------',
-    '"Reserved Font Name" refers to any names specified as such after the',
-    'copyright statement(s). No Modified Version of the Font Software may use',
-    'the Reserved Font Name(s) unless explicit written permission is granted.',
-  ].join('\n')
-  assert.equal(declaresReservedFontName(ofl, 'Copyright 2018 The Fraunces Project Authors'), false)
+/** An OFL 1.1 text whose body — the part every OFL font carries — defines the phrase. */
+const OFL = [
+  'Copyright 2018 The Fraunces Project Authors (github.com/undercasetype/Fraunces)',
+  '',
+  'This Font Software is licensed under the SIL Open Font License, Version 1.1.',
+  '',
+  '-----------------------------------------------------------',
+  'SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007',
+  '-----------------------------------------------------------',
+  '"Reserved Font Name" refers to any names specified as such after the',
+  'copyright statement(s). No Modified Version of the Font Software may use',
+  'the Reserved Font Name(s) unless explicit written permission is granted.',
+].join('\n')
 
-  const reserved = ofl.replace('Authors (github', 'Authors, with Reserved Font Name "Fraunces" (github')
-  assert.equal(declaresReservedFontName(reserved, ''), true)
+test('rule 3: the OFL body is not a false positive, and the header is where it is read', () => {
+  // The phrase is defined in the body of every OFL 1.1 text there is, so a whole-file
+  // search matches every OFL font in existence. Only the copyright block above the first
+  // rule of dashes is read.
+  assert.deepEqual(reservedFontNames(OFL, 'Copyright 2018 The Fraunces Project Authors'), [])
+  assert.equal(declaresReservedFontName(OFL, ''), false)
+
+  const reserved = OFL.replace('Authors (github', 'Authors, with Reserved Font Name "Fraunces" (github')
+  assert.deepEqual(reservedFontNames(reserved, ''), ['Fraunces'])
   // Some binaries declare it only in name ID 0, where the licence file forgot to.
-  assert.equal(declaresReservedFontName(ofl, 'Copyright 2010, with Reserved Font Name Lobster'), true)
+  assert.deepEqual(reservedFontNames(OFL, 'Copyright 2010, with Reserved Font Name Lobster'), ['Lobster'])
+
+  // Second line of defence, for a licence file with no rule of dashes to split on: the
+  // OFL's own definition and its restriction clause are both recognised and skipped.
+  assert.deepEqual(reservedFontNames(OFL.replace(/^-+$/gm, ''), ''), [])
+  assert.deepEqual(
+    reservedFontNames('No Modified Version may use the Reserved Font Name(s) unless permitted.', ''),
+    [],
+  )
+})
+
+test('rule 3: every shape a reserved-name clause takes in the wild is read', () => {
+  const header = (line) => `${line}\n\nThis Font Software is licensed under the SIL Open Font License.`
+  const read = (line) => reservedFontNames(header(line), '')
+
+  // Quoted, the common form (Lobster, Molle).
+  assert.deepEqual(read('Copyright 2010 The Lobster Project Authors, with Reserved Font Name "Lobster".'), [
+    'Lobster',
+  ])
+  // Unquoted, up to the end of the sentence (Galada — which reserves someone else's name).
+  assert.deepEqual(read('Copyright (c) 2010, Pablo Impallari, with Reserved Font Name Lobster.'), ['Lobster'])
+  // Several names, and a clause that starts on its own line (Le Murmure).
+  assert.deepEqual(
+    reservedFontNames(
+      header('Copyright (c) 2020, Jeremy Landes\nwith Reserved Font Names "Murmure", "Le Murmure".'),
+      '',
+    ),
+    ['Murmure', 'Le Murmure'],
+  )
+  // A reserved word that is not the family name at all, in typographic quotes (DM Serif).
+  assert.deepEqual(
+    read("Copyright 2014-2018 Adobe, with Reserved Font Name 'Source'. All Rights Reserved."),
+    ['Source'],
+  )
+  // "and" joins them (Abril Fatface).
+  assert.deepEqual(read('Copyright 2011, with Reserved Font Name "Abril" and "Abril Fatface".'), [
+    'Abril',
+    'Abril Fatface',
+  ])
+  // The same name twice, in two spellings, is one name.
+  assert.deepEqual(read('Copyright 2011, with Reserved Font Name "Titan One" and "titanone".'), ['Titan One'])
+
+  // A clause the parser cannot read a name out of is a hard failure. Shipping an unrenamed
+  // Modified Version is the one outcome rule 3 exists to prevent, so an empty array here
+  // would be the worst possible answer.
+  assert.throws(
+    () => read('Copyright 2011 Somebody, with Reserved Font Name ""'),
+    /declares a Reserved Font Name the parser cannot read/,
+  )
+})
+
+test('rule 3: the neutral name is `LZ` + six hex, and never contains a reserved word', () => {
+  // Deterministic in the id, so a rebuild is byte-identical and the metadata does not need
+  // to carry the name: `neutralName(meta.id, [meta.family, ...meta.rfn])` recomputes it.
+  const name = neutralName('lobster', ['Lobster'])
+  assert.match(name, /^LZ [0-9A-F]{6}$/)
+  assert.equal(neutralName('lobster', ['Lobster']), name)
+  assert.notEqual(neutralName('lobster-two', ['Lobster']), name)
+
+  // Six hex digits can spell a word — `facade`, `decade`, `defaced` — so a collision with a
+  // reserved name re-rolls with a salt rather than failing. Reserving this font's own first
+  // six digits makes that a real collision rather than a hypothetical one.
+  const first = createHash('sha256').update('lobster').digest('hex').slice(0, 6).toUpperCase()
+  assert.equal(name, `LZ ${first}`)
+  const dodged = neutralName('lobster', [first])
+  assert.match(dodged, /^LZ [0-9A-F]{6}$/)
+  assert.notEqual(dodged, name)
+  assert.ok(!squash(dodged).includes(squash(first)))
+})
+
+test('rule 3: renaming keeps attribution and drops everything else', () => {
+  const upstream = [
+    { platformID: 3, encodingID: 1, languageID: 0x409, nameID: 0, text: 'Copyright 2010 Impallari' },
+    { platformID: 3, encodingID: 1, languageID: 0x409, nameID: 1, text: 'Lobster' },
+    { platformID: 3, encodingID: 1, languageID: 0x409, nameID: 2, text: 'Regular' },
+    { platformID: 3, encodingID: 1, languageID: 0x409, nameID: 3, text: '2.000;IMPL;Lobster-Regular' },
+    { platformID: 3, encodingID: 1, languageID: 0x409, nameID: 4, text: 'Lobster' },
+    { platformID: 3, encodingID: 1, languageID: 0x409, nameID: 5, text: 'Lobster Version 2.100' },
+    { platformID: 3, encodingID: 1, languageID: 0x409, nameID: 6, text: 'Lobster-Regular' },
+    { platformID: 3, encodingID: 1, languageID: 0x409, nameID: 13, text: 'SIL Open Font License 1.1' },
+    { platformID: 3, encodingID: 1, languageID: 0x409, nameID: 14, text: 'https://openfontlicense.org' },
+    { platformID: 3, encodingID: 1, languageID: 0x409, nameID: 16, text: 'Lobster' },
+    { platformID: 3, encodingID: 1, languageID: 0x409, nameID: 256, text: 'Alternate Lobster a' },
+    // A language-tag record belongs to a format 1 table, which `writeNames` does not emit.
+    { platformID: 3, encodingID: 1, languageID: 0x8000, nameID: 1, text: 'Lobster' },
+  ]
+  const renamed = renameRecords(upstream, { name: 'LZ A2E1C4', version: 'Version 2.100' })
+  const by = (id) => renamed.filter((r) => r.nameID === id).map((r) => r.text)
+
+  // Attribution is untouched: rule 3 is a licence requirement, not a way to hide an author.
+  assert.deepEqual(by(0), ['Copyright 2010 Impallari'])
+  assert.deepEqual(by(13), ['SIL Open Font License 1.1'])
+  assert.deepEqual(by(14), ['https://openfontlicense.org'])
+  assert.deepEqual(by(1), ['LZ A2E1C4'])
+  assert.deepEqual(by(4), ['LZ A2E1C4'])
+  assert.deepEqual(by(3), ['LZ A2E1C4'], 'the unique id carried the family name too')
+  assert.deepEqual(by(6), ['LZA2E1C4'], 'a PostScript name may not contain a space')
+  assert.deepEqual(by(5), ['Version 2.100'], 'the version string carried the family name too')
+  assert.deepEqual(by(16), [], 'the typographic family is redundant once 1 and 2 are neutral')
+  assert.deepEqual(by(256), [], 'a feature name can name the family as well')
+  assert.equal(renamed.filter((r) => r.languageID >= 0x8000).length, 0)
+  assert.doesNotThrow(() => lintNames('lobster', renamed, ['Lobster']))
+
+  // A record the subset did not carry is still written, on the platform every engine reads.
+  const sparse = renameRecords([upstream[0]], { name: 'LZ A2E1C4', version: 'Version 2.100' })
+  assert.deepEqual(
+    sparse.map((r) => r.nameID).sort((a, b) => a - b),
+    [0, 1, 2, 3, 4, 5, 6],
+  )
+  for (const r of sparse) assert.equal(r.platformID, 3)
+})
+
+test('rule 3: a name record that still carries a reserved word fails the lint', () => {
+  const record = (nameID, text) => ({
+    platformID: 3,
+    encodingID: 1,
+    languageID: 0x409,
+    nameID,
+    text,
+  })
+  // Name 0 is exempt — it is the copyright, and the OFL requires it to survive.
+  assert.doesNotThrow(() =>
+    lintNames('lobster', [record(0, 'Copyright 2010, with Reserved Font Name "Lobster"')], ['Lobster']),
+  )
+  // Spaces and case are not what makes a name distinct, so neither hides one.
+  for (const leaked of ['Lobster', 'lobster', 'LOBSTER', 'Lob ster', 'Lobster-Regular']) {
+    assert.throws(
+      () => lintNames('lobster', [record(4, leaked)], ['Lobster']),
+      /lobster: name 4 .* still contains the reserved name "Lobster"/,
+      `"${leaked}" must not pass the lint`,
+    )
+  }
+  // The upstream family is on the list as well, even when it is not what is reserved:
+  // DM Serif Display reserves "Source", and "DM Serif Display" must still not ship.
+  assert.throws(
+    () => lintNames('dm-serif-display', [record(1, 'DMSerifDisplay')], ['DM Serif Display', 'Source']),
+    /still contains the reserved name "DM Serif Display"/,
+  )
+  // With nothing forbidden — a font that reserves no name — the lint is a no-op.
+  assert.doesNotThrow(() => lintNames('boldonse', [record(1, 'Boldonse')], []))
+})
+
+test('rule 3: the name table survives a rebuild', () => {
+  // `writeNames` is what makes renaming possible at all: neither subset-font nor hb-subset
+  // can rewrite name IDs 1-6, they can only choose which records to keep.
+  const records = [
+    { platformID: 3, encodingID: 1, languageID: 0x409, nameID: 1, text: 'LZ A2E1C4' },
+    { platformID: 3, encodingID: 1, languageID: 0x409, nameID: 4, text: 'LZ A2E1C4' },
+    { platformID: 1, encodingID: 0, languageID: 0, nameID: 1, text: 'LZ A2E1C4' },
+    { platformID: 3, encodingID: 1, languageID: 0x409, nameID: 0, text: 'Copyright © 2010 Ünïcødé' },
+  ]
+  const tables = [{ tag: 'name', data: Buffer.alloc(6) }]
+  assert.equal(writeNames(tables, records), 4)
+  const read = readNames(tables)
+  assert.deepEqual(
+    read.map((r) => [r.platformID, r.nameID, r.text]),
+    [
+      [1, 1, 'LZ A2E1C4'],
+      [3, 0, 'Copyright © 2010 Ünïcødé'],
+      [3, 1, 'LZ A2E1C4'],
+      [3, 4, 'LZ A2E1C4'],
+    ],
+    'records come back sorted by platform, encoding, language and name id',
+  )
+  // Records with the same string on the same platform share one run of storage, which is
+  // what keeps a rebuilt table from growing. Three runs survive here: the neutral name as
+  // UTF-16BE for the two Windows records, the same name as one byte per character for the
+  // Macintosh one, and the copyright.
+  const storage = 'LZ A2E1C4'.length * 2 + 'LZ A2E1C4'.length + 'Copyright © 2010 Ünïcødé'.length * 2
+  assert.equal(tables[0].data.length, 6 + 4 * 12 + storage)
 })
 
 test('rule 3: licenseId is one of the three allowed, and every shipped font ships a licence', async () => {
@@ -217,7 +399,49 @@ test('rule 3: licenseId is one of the three allowed, and every shipped font ship
     const text = await readFile(url(`fonts/licenses/${meta.id}.txt`), 'utf8')
     assert.ok(text.length > 0, `${meta.id}: the licence file is empty`)
     assert.match(text, /Copyright/, `${meta.id}: the licence file has no copyright statement`)
-    assert.equal(declaresReservedFontName(text, meta.copyright), false, `${meta.id}: shipped with an RFN`)
+    // Rule 4 of the rename: the licence file, the change notice and the source URL are
+    // untouched, so the original family is still credited by name.
+    assert.ok(text.includes(meta.family), `${meta.id}: the licence file does not name the family`)
+  }
+})
+
+test('rule 3: a reserved name is renamed rather than refused, and a font with none is untouched', async () => {
+  for (const meta of metas) {
+    const text = await readFile(url(`fonts/licenses/${meta.id}.txt`), 'utf8')
+    // The licence file carries name ID 0 as "Upstream copyright: …", so this is the same
+    // pair of strings the pipeline read when it decided whether to rename.
+    const reserved = reservedFontNames(text, meta.copyright)
+    // A meta written before the rename landed has no `rfn` key; it was built under the v1.0
+    // rule, which refused anything reserving a name, so it reserves nothing.
+    assert.deepEqual(meta.rfn ?? [], reserved, `${meta.id}: meta.rfn disagrees with the licence`)
+
+    const forbidden = reserved.length > 0 ? [meta.family, ...reserved] : []
+    for (const file of meta.files) {
+      const { tables } = parse(decode(await readFile(url(`fonts/files/${meta.id}.${file.id}.woff2`))))
+      const names = readNames(tables)
+      assert.ok(names.length > 0, `${meta.id}.${file.id}: no name table`)
+      assert.doesNotThrow(() => lintNames(meta.id, names, forbidden), `${meta.id}.${file.id}`)
+      const family = names.find((r) => r.nameID === 1)?.text ?? ''
+      if (reserved.length > 0) {
+        assert.equal(family, neutralName(meta.id, forbidden), `${meta.id}.${file.id}: not the neutral name`)
+      } else {
+        // Nothing is renamed gratuitously: the OFL requires it only of a reserved name, and
+        // a font that reserves none keeps whatever its upstream called it. (Which is not
+        // always `meta.family`: Instrument Serif Italic's name 1 is "Instrument Serif".)
+        assert.doesNotMatch(family, /^LZ [0-9A-F]{6}$/, `${meta.id}.${file.id}: renamed for no reason`)
+      }
+      // A rename leaves nothing but the six identity records and the attribution ones.
+      // Anything else — 16, 17, 21, 22, 25, or an `ssNN` feature name above 255 — can carry
+      // the family name too, so a rewriter that kept one would have leaked it.
+      if (reserved.length > 0) {
+        const ids = [...new Set(names.map((r) => r.nameID))].sort((a, b) => a - b)
+        assert.deepEqual(
+          ids.filter((n) => ![0, 1, 2, 3, 4, 5, 6, 13, 14].includes(n)),
+          [],
+          `${meta.id}.${file.id}: a renamed face kept a name record it should not have`,
+        )
+      }
+    }
   }
 })
 
