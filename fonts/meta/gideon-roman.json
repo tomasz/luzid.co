@@ -1,0 +1,101 @@
+{
+ "id": "gideon-roman",
+ "family": "Gideon Roman",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/gideonroman/GideonRoman-Regular.ttf",
+  "sha256": "8edd923657529e420382016e8f0a395d2d526c391328fc97cf4d42ed2d18bdce"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2009-2021 The Gideon Roman Project Authors (https://github.com/googlefonts/gideon)",
+ "archetype": [
+  "F"
+ ],
+ "traits": [
+  "deco",
+  "overlap",
+  "serif"
+ ],
+ "odds": 6,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 4280,
+   "sha256": "7566eea4d11ff376667e7538ff23be068457b2be1034ebbdcc8a9d00914ddce7",
+   "asc": 679,
+   "desc": 32,
+   "stem": 0.073,
+   "crossbar": 0.0158,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.231,
+    "H": 0.681,
+    "X": 0.013,
+    "top": 0.67
+   },
+   "w2": {
+    "W": 3.371,
+    "H": 0.685,
+    "X": 0.04,
+    "top": 0.672
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.006,
+    "H": 0.711,
+    "X": 0.013,
+    "top": 0.679
+   },
+   "w2": {
+    "W": 4.509,
+    "H": 0.692,
+    "X": 0.04,
+    "top": 0.672
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.053,
+    "H": 0.635,
+    "X": 0.018,
+    "top": 0.624
+   },
+   "w2": {
+    "W": 3.113,
+    "H": 0.68,
+    "X": 0.047,
+    "top": 0.667
+   }
+  }
+ ]
+}

@@ -1,0 +1,101 @@
+{
+ "id": "poiret-one",
+ "family": "Poiret One",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/poiretone/PoiretOne-Regular.ttf",
+  "sha256": "457f2d03263f58e5a6dbcc1b607b10dff6581e7cf9c4ebdf330ec3e6772a3558"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2011 The Poiret One Project Authors (https://github.com/alexeiva/poiretone)",
+ "archetype": [
+  "F"
+ ],
+ "traits": [
+  "deco",
+  "hairline",
+  "sans"
+ ],
+ "odds": 9,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 2284,
+   "sha256": "69880f2761a2599d4346e93ad405818d9ec2e30ff5bffd9f375925d0e0f9a3d2",
+   "asc": 770,
+   "desc": 20,
+   "stem": 0.033,
+   "crossbar": 0.029,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.873,
+    "H": 0.766,
+    "X": 0.021,
+    "top": 0.75
+   },
+   "w2": {
+    "W": 3.095,
+    "H": 0.79,
+    "X": 0.047,
+    "top": 0.77
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.86,
+    "H": 0.79,
+    "X": 0.021,
+    "top": 0.77
+   },
+   "w2": {
+    "W": 3.574,
+    "H": 0.79,
+    "X": 0.047,
+    "top": 0.77
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.745,
+    "H": 0.647,
+    "X": 0.053,
+    "top": 0.631
+   },
+   "w2": {
+    "W": 2.881,
+    "H": 0.766,
+    "X": 0.037,
+    "top": 0.75
+   }
+  }
+ ]
+}

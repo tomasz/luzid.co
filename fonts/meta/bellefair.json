@@ -1,0 +1,100 @@
+{
+ "id": "bellefair",
+ "family": "Bellefair",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bellefair/Bellefair-Regular.ttf",
+  "sha256": "5c0cd4d526e6dfcb189106af6b5e6ec99a54efb6d458dfd61626ce6dc0f03026"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2015 The Bellefair Project Authors (https://github.com/shinntype/bellefair)",
+ "archetype": [
+  "F"
+ ],
+ "traits": [
+  "deco",
+  "serif"
+ ],
+ "odds": 6,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 2420,
+   "sha256": "c0f70a828a22a2a25e38b57ec49e8d431e192539a453595d691483397761851a",
+   "asc": 740,
+   "desc": 12,
+   "stem": 0.072,
+   "crossbar": 0.0133,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.705,
+    "H": 0.7,
+    "X": 0.033,
+    "top": 0.688
+   },
+   "w2": {
+    "W": 2.8,
+    "H": 0.752,
+    "X": 0.064,
+    "top": 0.74
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.037,
+    "H": 0.732,
+    "X": 0.033,
+    "top": 0.72
+   },
+   "w2": {
+    "W": 4.304,
+    "H": 0.712,
+    "X": 0.064,
+    "top": 0.7
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.53,
+    "H": 0.472,
+    "X": 0.024,
+    "top": 0.46
+   },
+   "w2": {
+    "W": 2.544,
+    "H": 0.752,
+    "X": 0.04,
+    "top": 0.74
+   }
+  }
+ ]
+}

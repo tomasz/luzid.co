@@ -1,0 +1,314 @@
+{
+ "id": "cormorant-garamond",
+ "family": "Cormorant Garamond",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/cormorantgaramond/CormorantGaramond[wght].ttf",
+  "sha256": "b20b7d9626dd956b2c5e558692ad328b1f19e3275e2782db4fa07670d83f35e0"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2015 the Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+ "archetype": [
+  "F"
+ ],
+ "traits": [
+  "deco",
+  "overlap",
+  "serif"
+ ],
+ "odds": 8,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "w700",
+   "axes": {
+    "wght": 700
+   },
+   "bytes": 5148,
+   "sha256": "a2d729f976e4706b4d8878ea5239067b797afd197722d2f656b993f3421ad0b4",
+   "asc": 725,
+   "desc": 14,
+   "stem": 0.112,
+   "crossbar": 0.0163,
+   "glyphs": 23
+  },
+  {
+   "id": "w300",
+   "axes": {
+    "wght": 300
+   },
+   "bytes": 5272,
+   "sha256": "41d6b2de03cfe333e50d56ba75ff19f0bfd3aad4ed1e78100592fcb875ae9e93",
+   "asc": 725,
+   "desc": 13,
+   "stem": 0.054,
+   "crossbar": 0.0134,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-w700",
+   "file": "w700",
+   "case": "none",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.924,
+    "H": 0.667,
+    "X": 0.04,
+    "top": 0.654
+   },
+   "w2": {
+    "W": 3.043,
+    "H": 0.739,
+    "X": 0.049,
+    "top": 0.725
+   }
+  },
+  {
+   "id": "n-base-w300",
+   "file": "w300",
+   "case": "none",
+   "css": {
+    "weight": 300,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.874,
+    "H": 0.667,
+    "X": 0.037,
+    "top": 0.654
+   },
+   "w2": {
+    "W": 3.021,
+    "H": 0.738,
+    "X": 0.049,
+    "top": 0.725
+   }
+  },
+  {
+   "id": "u-base-w700",
+   "file": "w700",
+   "case": "uppercase",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.006,
+    "H": 0.669,
+    "X": 0.04,
+    "top": 0.657
+   },
+   "w2": {
+    "W": 4.249,
+    "H": 0.671,
+    "X": 0.049,
+    "top": 0.657
+   }
+  },
+  {
+   "id": "u-base-w300",
+   "file": "w300",
+   "case": "uppercase",
+   "css": {
+    "weight": 300,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.923,
+    "H": 0.669,
+    "X": 0.037,
+    "top": 0.657
+   },
+   "w2": {
+    "W": 4.181,
+    "H": 0.67,
+    "X": 0.049,
+    "top": 0.657
+   }
+  },
+  {
+   "id": "l-base-w700",
+   "file": "w700",
+   "case": "lowercase",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.716,
+    "H": 0.475,
+    "X": 0.023,
+    "top": 0.462
+   },
+   "w2": {
+    "W": 2.804,
+    "H": 0.739,
+    "X": 0.032,
+    "top": 0.725
+   }
+  },
+  {
+   "id": "l-base-w300",
+   "file": "w300",
+   "case": "lowercase",
+   "css": {
+    "weight": 300,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.659,
+    "H": 0.463,
+    "X": 0.041,
+    "top": 0.45
+   },
+   "w2": {
+    "W": 2.753,
+    "H": 0.738,
+    "X": 0.037,
+    "top": 0.725
+   }
+  },
+  {
+   "id": "n-ss03-w700",
+   "file": "w700",
+   "case": "none",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "\"ss03\" 1"
+   },
+   "w1": {
+    "W": 2.993,
+    "H": 0.668,
+    "X": 0.04,
+    "top": 0.654
+   },
+   "w2": {
+    "W": 3.043,
+    "H": 0.739,
+    "X": 0.049,
+    "top": 0.725
+   }
+  },
+  {
+   "id": "n-ss03-w300",
+   "file": "w300",
+   "case": "none",
+   "css": {
+    "weight": 300,
+    "style": "normal",
+    "feat": "\"ss03\" 1"
+   },
+   "w1": {
+    "W": 2.945,
+    "H": 0.667,
+    "X": 0.037,
+    "top": 0.654
+   },
+   "w2": {
+    "W": 3.021,
+    "H": 0.738,
+    "X": 0.049,
+    "top": 0.725
+   }
+  },
+  {
+   "id": "u-ss01-w700",
+   "file": "w700",
+   "case": "uppercase",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 3.971,
+    "H": 0.702,
+    "X": 0.04,
+    "top": 0.69
+   },
+   "w2": {
+    "W": 4.304,
+    "H": 0.669,
+    "X": 0.049,
+    "top": 0.657
+   }
+  },
+  {
+   "id": "u-ss01-w300",
+   "file": "w300",
+   "case": "uppercase",
+   "css": {
+    "weight": 300,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 3.888,
+    "H": 0.698,
+    "X": 0.037,
+    "top": 0.686
+   },
+   "w2": {
+    "W": 4.248,
+    "H": 0.67,
+    "X": 0.049,
+    "top": 0.657
+   }
+  },
+  {
+   "id": "l-smcp-w700",
+   "file": "w700",
+   "case": "lowercase",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "\"smcp\" 1"
+   },
+   "w1": {
+    "W": 3.128,
+    "H": 0.513,
+    "X": 0.025,
+    "top": 0.501
+   },
+   "w2": {
+    "W": 3.394,
+    "H": 0.514,
+    "X": 0.03,
+    "top": 0.501
+   }
+  },
+  {
+   "id": "l-smcp-w300",
+   "file": "w300",
+   "case": "lowercase",
+   "css": {
+    "weight": 300,
+    "style": "normal",
+    "feat": "\"smcp\" 1"
+   },
+   "w1": {
+    "W": 3.102,
+    "H": 0.513,
+    "X": 0.025,
+    "top": 0.501
+   },
+   "w2": {
+    "W": 3.394,
+    "H": 0.514,
+    "X": 0.037,
+    "top": 0.501
+   }
+  }
+ ]
+}

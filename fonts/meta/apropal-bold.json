@@ -1,0 +1,188 @@
+{
+ "id": "apropal-bold",
+ "family": "Apropal",
+ "src": {
+  "url": "https://raw.githubusercontent.com/warszawskie-kroje/apropal/c174a9c5066d126299cba6adf7f8d3ee0362d629/Apropal-Bold/Apropal-Bold.ttf",
+  "sha256": "eb1ba7686b1353ecedc25e33a4b1c09a085412e1520e78d6fc9e677d72d34e6c"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright © 2016 Stowarzyszenie Kulturotwórcze Miastodwa",
+ "archetype": [
+  "F"
+ ],
+ "traits": [
+  "deco",
+  "serif"
+ ],
+ "odds": 10,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 3084,
+   "sha256": "6cce3a118c455da4cb9cfee6be96a5139137698e9397c1fa9dcc789cd728a4ae",
+   "asc": 821,
+   "desc": 33,
+   "stem": 0.3,
+   "crossbar": 0.0871,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.411,
+    "H": 0.765,
+    "X": -0.006,
+    "top": 0.745
+   },
+   "w2": {
+    "W": 4.357,
+    "H": 0.854,
+    "X": 0.019,
+    "top": 0.821
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.558,
+    "H": 0.774,
+    "X": -0.006,
+    "top": 0.75
+   },
+   "w2": {
+    "W": 4.903,
+    "H": 0.77,
+    "X": 0.019,
+    "top": 0.749
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.334,
+    "H": 0.768,
+    "X": 0.008,
+    "top": 0.747
+   },
+   "w2": {
+    "W": 4.277,
+    "H": 0.854,
+    "X": 0.015,
+    "top": 0.821
+   }
+  },
+  {
+   "id": "n-salt-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"salt\" 1"
+   },
+   "w1": {
+    "W": 4.411,
+    "H": 0.765,
+    "X": -0.006,
+    "top": 0.745
+   },
+   "w2": {
+    "W": 4.425,
+    "H": 0.854,
+    "X": 0.019,
+    "top": 0.821
+   }
+  },
+  {
+   "id": "l-salt-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"salt\" 1"
+   },
+   "w1": {
+    "W": 4.334,
+    "H": 0.768,
+    "X": 0.008,
+    "top": 0.747
+   },
+   "w2": {
+    "W": 4.345,
+    "H": 0.854,
+    "X": 0.015,
+    "top": 0.821
+   }
+  },
+  {
+   "id": "n-ss02-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss02\" 1"
+   },
+   "w1": {
+    "W": 4.45,
+    "H": 0.765,
+    "X": -0.006,
+    "top": 0.745
+   },
+   "w2": {
+    "W": 4.357,
+    "H": 0.854,
+    "X": 0.019,
+    "top": 0.821
+   }
+  },
+  {
+   "id": "l-ss02-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss02\" 1"
+   },
+   "w1": {
+    "W": 4.373,
+    "H": 0.768,
+    "X": 0.008,
+    "top": 0.747
+   },
+   "w2": {
+    "W": 4.277,
+    "H": 0.854,
+    "X": 0.015,
+    "top": 0.821
+   }
+  }
+ ]
+}

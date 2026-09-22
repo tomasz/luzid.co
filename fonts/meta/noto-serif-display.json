@@ -1,0 +1,227 @@
+{
+ "id": "noto-serif-display",
+ "family": "Noto Serif Display",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/notoserifdisplay/NotoSerifDisplay[wdth,wght].ttf",
+  "sha256": "4b661adcf6a5d38bf5befdc4d976e8a7238a4aeb57e62c1c1a67775380a09df9"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2012 Google Inc. All Rights Reserved.",
+ "archetype": [
+  "F"
+ ],
+ "traits": [
+  "condensed",
+  "serif"
+ ],
+ "odds": 6,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "w900n",
+   "axes": {
+    "wght": 900,
+    "wdth": 100
+   },
+   "bytes": 3600,
+   "sha256": "cc94bebb28650ff89176af898f6d2492de80b7dace9dd020c03f03d0abfe1ba6",
+   "asc": 777,
+   "desc": 10,
+   "stem": 0.2,
+   "crossbar": 0.0102,
+   "glyphs": 23
+  },
+  {
+   "id": "w900c",
+   "axes": {
+    "wght": 900,
+    "wdth": 62.5
+   },
+   "bytes": 3608,
+   "sha256": "12b7a22cc16799fa2a9103e1144ba92be7a4c7f5ce2e72d8c082425cf47f5ea5",
+   "asc": 771,
+   "desc": 10,
+   "stem": 0.167,
+   "crossbar": 0.011,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-w900n",
+   "file": "w900n",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.964,
+    "H": 0.724,
+    "X": 0.003,
+    "top": 0.714
+   },
+   "w2": {
+    "W": 3.909,
+    "H": 0.787,
+    "X": 0.054,
+    "top": 0.777
+   }
+  },
+  {
+   "id": "n-base-w900c",
+   "file": "w900c",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.302,
+    "H": 0.724,
+    "X": 0.002,
+    "top": 0.714
+   },
+   "w2": {
+    "W": 3.26,
+    "H": 0.781,
+    "X": 0.045,
+    "top": 0.771
+   }
+  },
+  {
+   "id": "u-base-w900n",
+   "file": "w900n",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.509,
+    "H": 0.735,
+    "X": 0.003,
+    "top": 0.725
+   },
+   "w2": {
+    "W": 4.809,
+    "H": 0.735,
+    "X": 0.054,
+    "top": 0.725
+   }
+  },
+  {
+   "id": "u-base-w900c",
+   "file": "w900c",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.757,
+    "H": 0.735,
+    "X": 0.002,
+    "top": 0.725
+   },
+   "w2": {
+    "W": 4.012,
+    "H": 0.735,
+    "X": 0.045,
+    "top": 0.725
+   }
+  },
+  {
+   "id": "l-base-w900n",
+   "file": "w900n",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.737,
+    "H": 0.671,
+    "X": 0.022,
+    "top": 0.661
+   },
+   "w2": {
+    "W": 3.767,
+    "H": 0.787,
+    "X": 0.041,
+    "top": 0.777
+   }
+  },
+  {
+   "id": "l-base-w900c",
+   "file": "w900c",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.117,
+    "H": 0.67,
+    "X": 0.019,
+    "top": 0.66
+   },
+   "w2": {
+    "W": 3.141,
+    "H": 0.781,
+    "X": 0.034,
+    "top": 0.771
+   }
+  },
+  {
+   "id": "u-c2sc-w900n",
+   "file": "w900n",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"c2sc\" 1"
+   },
+   "w1": {
+    "W": 4.095,
+    "H": 0.588,
+    "X": 0.008,
+    "top": 0.58
+   },
+   "w2": {
+    "W": 4.349,
+    "H": 0.588,
+    "X": 0.046,
+    "top": 0.58
+   }
+  },
+  {
+   "id": "u-c2sc-w900c",
+   "file": "w900c",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"c2sc\" 1"
+   },
+   "w1": {
+    "W": 3.418,
+    "H": 0.588,
+    "X": 0.007,
+    "top": 0.58
+   },
+   "w2": {
+    "W": 3.628,
+    "H": 0.588,
+    "X": 0.038,
+    "top": 0.58
+   }
+  }
+ ]
+}

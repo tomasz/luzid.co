@@ -1,0 +1,166 @@
+{
+ "id": "viaoda-libre",
+ "family": "Viaoda Libre",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/viaodalibre/ViaodaLibre-Regular.ttf",
+  "sha256": "adb53ede25107c5ed4c45f993fd014a21ef82ac82b2327a564fe8e994e228942"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2020 The Viaodalibre Project Authors (https://github.com/bettergui/ViaodaLibre)",
+ "archetype": [
+  "F"
+ ],
+ "traits": [
+  "deco",
+  "serif"
+ ],
+ "odds": 8,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 3716,
+   "sha256": "8516072cc7f3e24d83d29ba329dc4651755cb40b64f21df9f32dd25a47969cfa",
+   "asc": 800,
+   "desc": 20,
+   "stem": 0.075,
+   "crossbar": 0.0135,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.94,
+    "H": 0.75,
+    "X": -0.01,
+    "top": 0.74
+   },
+   "w2": {
+    "W": 2.91,
+    "H": 0.82,
+    "X": 0.05,
+    "top": 0.8
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.806,
+    "H": 0.78,
+    "X": -0.01,
+    "top": 0.76
+   },
+   "w2": {
+    "W": 4.124,
+    "H": 0.78,
+    "X": 0.05,
+    "top": 0.76
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.724,
+    "H": 0.628,
+    "X": 0.01,
+    "top": 0.618
+   },
+   "w2": {
+    "W": 2.676,
+    "H": 0.81,
+    "X": 0.04,
+    "top": 0.8
+   }
+  },
+  {
+   "id": "u-salt-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"salt\" 1"
+   },
+   "w1": {
+    "W": 3.816,
+    "H": 0.78,
+    "X": -0.01,
+    "top": 0.76
+   },
+   "w2": {
+    "W": 4.144,
+    "H": 0.78,
+    "X": 0.05,
+    "top": 0.76
+   }
+  },
+  {
+   "id": "u-ss02-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss02\" 1"
+   },
+   "w1": {
+    "W": 3.778,
+    "H": 0.78,
+    "X": -0.01,
+    "top": 0.76
+   },
+   "w2": {
+    "W": 4.096,
+    "H": 0.78,
+    "X": 0.05,
+    "top": 0.76
+   }
+  },
+  {
+   "id": "u-ss03-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss03\" 1"
+   },
+   "w1": {
+    "W": 3.816,
+    "H": 0.78,
+    "X": -0.01,
+    "top": 0.76
+   },
+   "w2": {
+    "W": 4.124,
+    "H": 0.78,
+    "X": 0.05,
+    "top": 0.76
+   }
+  }
+ ]
+}

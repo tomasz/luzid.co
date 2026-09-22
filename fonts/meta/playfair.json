@@ -1,0 +1,231 @@
+{
+ "id": "playfair",
+ "family": "Playfair",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/playfair/Playfair[opsz,wdth,wght].ttf",
+  "sha256": "33cfecbc9948cf9eafe54dc9f36d19a03b393cf12221b20be235926d1ca1db61"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2005 The Playfair Project Authors (https://github.com/googlefonts/Playfair)",
+ "archetype": [
+  "F",
+  "A"
+ ],
+ "traits": [
+  "deco",
+  "overlap",
+  "serif"
+ ],
+ "odds": 9,
+ "upm": 1240,
+ "files": [
+  {
+   "id": "w900n",
+   "axes": {
+    "wght": 900,
+    "opsz": 30,
+    "wdth": 87.5
+   },
+   "bytes": 4688,
+   "sha256": "2bd52177af0caccd90851098436c459428d535f3db818c2c4b74d75f167fac5e",
+   "asc": 786,
+   "desc": 14,
+   "stem": 0.1637,
+   "crossbar": 0.0215,
+   "glyphs": 23
+  },
+  {
+   "id": "w900w",
+   "axes": {
+    "wght": 900,
+    "opsz": 30,
+    "wdth": 112.5
+   },
+   "bytes": 4752,
+   "sha256": "35334cbb8766ba0228f8e8345d030758a3c3a61011ad29d7fb07a927cbd3f381",
+   "asc": 789,
+   "desc": 14,
+   "stem": 0.1637,
+   "crossbar": 0.0214,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-w900n",
+   "file": "w900n",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.99194,
+    "H": 0.58226,
+    "X": 0.02581,
+    "top": 0.57097
+   },
+   "w2": {
+    "W": 2.99919,
+    "H": 0.64516,
+    "X": 0.02984,
+    "top": 0.63387
+   }
+  },
+  {
+   "id": "n-base-w900w",
+   "file": "w900w",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.61774,
+    "H": 0.58226,
+    "X": 0.03145,
+    "top": 0.57097
+   },
+   "w2": {
+    "W": 3.61129,
+    "H": 0.64758,
+    "X": 0.04194,
+    "top": 0.63629
+   }
+  },
+  {
+   "id": "u-base-w900n",
+   "file": "w900n",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.63387,
+    "H": 0.59355,
+    "X": 0.02581,
+    "top": 0.58226
+   },
+   "w2": {
+    "W": 3.87581,
+    "H": 0.59355,
+    "X": 0.02984,
+    "top": 0.58226
+   }
+  },
+  {
+   "id": "u-base-w900w",
+   "file": "w900w",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.35242,
+    "H": 0.59355,
+    "X": 0.03145,
+    "top": 0.58226
+   },
+   "w2": {
+    "W": 4.62339,
+    "H": 0.59355,
+    "X": 0.04194,
+    "top": 0.58226
+   }
+  },
+  {
+   "id": "l-base-w900n",
+   "file": "w900n",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.79194,
+    "H": 0.56048,
+    "X": -0.00484,
+    "top": 0.54919
+   },
+   "w2": {
+    "W": 2.82984,
+    "H": 0.64516,
+    "X": 0.03065,
+    "top": 0.63387
+   }
+  },
+  {
+   "id": "l-base-w900w",
+   "file": "w900w",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.37581,
+    "H": 0.56048,
+    "X": -0.00161,
+    "top": 0.54919
+   },
+   "w2": {
+    "W": 3.41129,
+    "H": 0.64758,
+    "X": 0.04516,
+    "top": 0.63629
+   }
+  },
+  {
+   "id": "l-smcp-w900n",
+   "file": "w900n",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"smcp\" 1"
+   },
+   "w1": {
+    "W": 3.39758,
+    "H": 0.5129,
+    "X": 0.02581,
+    "top": 0.50161
+   },
+   "w2": {
+    "W": 3.6379,
+    "H": 0.5129,
+    "X": 0.02823,
+    "top": 0.50161
+   }
+  },
+  {
+   "id": "l-smcp-w900w",
+   "file": "w900w",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"smcp\" 1"
+   },
+   "w1": {
+    "W": 4.11855,
+    "H": 0.5129,
+    "X": 0.03145,
+    "top": 0.50161
+   },
+   "w2": {
+    "W": 4.41129,
+    "H": 0.5129,
+    "X": 0.04113,
+    "top": 0.50161
+   }
+  }
+ ]
+}

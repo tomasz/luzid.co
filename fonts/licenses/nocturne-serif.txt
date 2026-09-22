@@ -1,0 +1,176 @@
+Modified by luzid.co: 23-glyph subset of Nocturne Serif Version 1.000; hinting removed; vertical metrics changed. Original: https://raw.githubusercontent.com/warszawskie-kroje/nocturne/4dfa961f2eed74e486f4959aca07337fd70debfe/Nocturne%20Serif/NocturneSerif-Regular.ttf
+
+Upstream copyright: Copyright © 2016 by Mateusz Machalski. All rights reserved.
+
+Warsaw Types presents:
+
+### Nocturne
+
+“Nocturne” font is inspired by the lettering on stone tablets commemorating the victims of World War II, and prewar Jewish shop signage. “Nocturne” is a text font that features clean geometrical shapes, high contrast and is modernist in character.![specimen](images/specimen.jpg)
+
+### Licence
+
+[SIL Open Font ](http://scripts.sil.org/OFL_web)
+
+Copyright ©  2016 Stowarzyszenie Kulturotwórcze Miastodwa
+
+
+
+### About the Author
+
+**Mateusz Machalski**
+
+Graduated from the Graphic Design Dept. on Warsaw Academy of Fine Arts. Specializes in corporate identity and type design. Designer of the visual identity of the Lech Wałęsa Solidarity Award and the family of 42 fonts for the Tupperware corporation. Art director of “Warsawholic” magazine.
+
+[website](http://www.machalski.wtf)
+
+
+
+### About Warsaw Types
+
+Warsaw Types is a series of typographic research and design workshops, that took place in 2016 in Warsaw. The result is 12 new typefaces, inspired by the Warsaw’s local urban typographic heritage, that until now, has gone largely unexplored. Fonts were created by young designers, who worked under the guidance of top most experienced Polish typographers and researchers.
+
+The goal of Warsaw Types is to contribute high quality, original fonts to the open source community. But we also want to put a spotlight on the vanishing handmade typo culture, which in our opinion is worth preserving and can become a fresh resource of design inspiration. During the research phase, participants took onto the streets to explore and document the most interesting cases of handcrafted signage, modernist neons, stone engravings, vintage murals, etc. This exploration, supported by archives, became the inspiration for new typefaces.
+
+All effects of our work will be available for free and for everyone to use on our website: [kroje.org](http://kroje.org)
+
+Workshop mentors:
+
+Michał Jarociński
+Viktoriya Grabowska
+Łukasz Dziedzic
+Adam Twardoch
+Jan Franciszek Cieślak
+Rene Wawrzkiewicz
+
+Guest speakers:
+
+Jarosław Zieliński
+Agata Szydłowska
+
+------
+
+Warsaw Types project  is organised and coordinated by:
+
+ [Miastodwa Culturemaking Association](https://www.facebook.com/miastodwa/). 
+
+![logo-strips-01](images/logos-01.png)
+
+------
+
+ The project is run in cooperation with, and cofunded by [The City of Warsaw](http://www.um.warszawa.pl/). 
+
+![logo-strips-04](images/logos-04.png)
+
+------
+
+Partners: 
+[The City of Warsaw](http://www.um.warszawa.pl/), [Muzeum Warszawy](http://muzeumwarszawy.pl/), [Warexpo](http://www.warexpo.pl/), [Transparent Shopping Collective](http://transparentshopping.com/)
+
+ ![logo-strips-02](images/logos-02.png)
+
+
+
+------
+
+Media Partners: 
+
+[Design Magazyn](http://www.designmagazyn.pl/), [Magazyn Miasta](http://publica.pl/kategoria-produktu/magazyn-miasta), [Gazeta Wyborcza Warszawa](http://warszawa.wyborcza.pl/), [Monitor Magazine](http://monitor-magazine.com/), [Notes na 6 Tygodni](http://notesna6tygodni.pl/), [Pańska Skórka](http://www.panskaskorka.com/)
+
+![logo-strips-03](images/logos-03.png)
+The Warsaw Types README above states the licence as the SIL Open Font License and
+carries the copyright line. The canonical OFL-1.1 text it refers to follows.
+
+Copyright © 2016 Stowarzyszenie Kulturotwórcze Miastodwa
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+https://scripts.sil.org/OFL
+
+
+-----------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
+
+PREAMBLE
+The goals of the Open Font License (OFL) are to stimulate worldwide
+development of collaborative font projects, to support the font creation
+efforts of academic and linguistic communities, and to provide a free and
+open framework in which fonts may be shared and improved in partnership
+with others.
+
+The OFL allows the licensed fonts to be used, studied, modified and
+redistributed freely as long as they are not sold by themselves. The
+fonts, including any derivative works, can be bundled, embedded, 
+redistributed and/or sold with any software provided that any reserved
+names are not used by derivative works. The fonts and derivatives,
+however, cannot be released under any other type of license. The
+requirement for fonts to remain under this license does not apply
+to any document created using the fonts or their derivatives.
+
+DEFINITIONS
+"Font Software" refers to the set of files released by the Copyright
+Holder(s) under this license and clearly marked as such. This may
+include source files, build scripts and documentation.
+
+"Reserved Font Name" refers to any names specified as such after the
+copyright statement(s).
+
+"Original Version" refers to the collection of Font Software components as
+distributed by the Copyright Holder(s).
+
+"Modified Version" refers to any derivative made by adding to, deleting,
+or substituting -- in part or in whole -- any of the components of the
+Original Version, by changing formats or by porting the Font Software to a
+new environment.
+
+"Author" refers to any designer, engineer, programmer, technical
+writer or other person who contributed to the Font Software.
+
+PERMISSION & CONDITIONS
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of the Font Software, to use, study, copy, merge, embed, modify,
+redistribute, and sell modified and unmodified copies of the Font
+Software, subject to the following conditions:
+
+1) Neither the Font Software nor any of its individual components,
+in Original or Modified Versions, may be sold by itself.
+
+2) Original or Modified Versions of the Font Software may be bundled,
+redistributed and/or sold with any software, provided that each copy
+contains the above copyright notice and this license. These can be
+included either as stand-alone text files, human-readable headers or
+in the appropriate machine-readable metadata fields within text or
+binary files as long as those fields can be easily viewed by the user.
+
+3) No Modified Version of the Font Software may use the Reserved Font
+Name(s) unless explicit written permission is granted by the corresponding
+Copyright Holder. This restriction only applies to the primary font name as
+presented to the users.
+
+4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
+Software shall not be used to promote, endorse or advertise any
+Modified Version, except to acknowledge the contribution(s) of the
+Copyright Holder(s) and the Author(s) or with their explicit written
+permission.
+
+5) The Font Software, modified or unmodified, in part or in whole,
+must be distributed entirely under this license, and must not be
+distributed under any other license. The requirement for fonts to
+remain under this license does not apply to any document created
+using the Font Software.
+
+TERMINATION
+This license becomes null and void if any of the above conditions are
+not met.
+
+DISCLAIMER
+THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
+DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
+OTHER DEALINGS IN THE FONT SOFTWARE.

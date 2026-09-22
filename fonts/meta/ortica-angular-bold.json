@@ -1,0 +1,100 @@
+{
+ "id": "ortica-angular-bold",
+ "family": "Ortica Angular",
+ "src": {
+  "url": "https://raw.githubusercontent.com/collletttivo/ortica/27bf44d3ea5057b7abcd09a8922d43d0b37a4f06/fonts/OrticaAngular-Bold.otf",
+  "sha256": "0ad5997ccb75e228e3946557e8ac83902c208be00e83fed35d61f070d296085f"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright © 2023, Collletttivo (https://www.collletttivo.it/)",
+ "archetype": [
+  "F"
+ ],
+ "traits": [
+  "deco",
+  "serif"
+ ],
+ "odds": 7,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 2820,
+   "sha256": "60237f4d17db6cbc4a135cf07be3240562ac9c4a6044c72356ad46e3b0c7ff3f",
+   "asc": 771,
+   "desc": 14,
+   "stem": 0.144,
+   "crossbar": 0.029,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.048,
+    "H": 0.717,
+    "X": 0.006,
+    "top": 0.705
+   },
+   "w2": {
+    "W": 4.018,
+    "H": 0.784,
+    "X": 0.05,
+    "top": 0.771
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.642,
+    "H": 0.732,
+    "X": 0.006,
+    "top": 0.72
+   },
+   "w2": {
+    "W": 4.89,
+    "H": 0.732,
+    "X": 0.05,
+    "top": 0.719
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.773,
+    "H": 0.642,
+    "X": 0.026,
+    "top": 0.63
+   },
+   "w2": {
+    "W": 3.858,
+    "H": 0.785,
+    "X": 0.044,
+    "top": 0.771
+   }
+  }
+ ]
+}

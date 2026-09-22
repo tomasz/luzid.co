@@ -1,0 +1,100 @@
+{
+ "id": "cormorant-upright-bold",
+ "family": "Cormorant Upright",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/cormorantupright/CormorantUpright-Bold.ttf",
+  "sha256": "4b691441a35a78ec69490c046596f3b326235e3a3f88a56d3b288b4f2844aa6f"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright (c) 2015, Christian Thalmann and the Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+ "archetype": [
+  "F"
+ ],
+ "traits": [
+  "deco",
+  "serif"
+ ],
+ "odds": 8,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 3676,
+   "sha256": "e8ec62bb15932ce27db403b9eee361a302d107a0193c64bb3af9d87ca346e2eb",
+   "asc": 725,
+   "desc": 14,
+   "stem": 0.11,
+   "crossbar": 0.0209,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.866,
+    "H": 0.667,
+    "X": 0.024,
+    "top": 0.653
+   },
+   "w2": {
+    "W": 2.912,
+    "H": 0.739,
+    "X": 0.036,
+    "top": 0.725
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.833,
+    "H": 0.668,
+    "X": 0.024,
+    "top": 0.656
+   },
+   "w2": {
+    "W": 4.263,
+    "H": 0.668,
+    "X": 0.036,
+    "top": 0.656
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.67,
+    "H": 0.48,
+    "X": 0.013,
+    "top": 0.466
+   },
+   "w2": {
+    "W": 2.661,
+    "H": 0.739,
+    "X": 0.024,
+    "top": 0.725
+   }
+  }
+ ]
+}

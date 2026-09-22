@@ -1,0 +1,123 @@
+{
+ "id": "cormorant-sc-bold",
+ "family": "Cormorant SC",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/cormorantsc/CormorantSC-Bold.ttf",
+  "sha256": "78f70c79b5c0a1e66641d4b4a2e2ed32e1a45774b3de94e56f8de68510219177"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2015 the Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+ "archetype": [
+  "F"
+ ],
+ "traits": [
+  "deco",
+  "overlap",
+  "serif"
+ ],
+ "odds": 7,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 4204,
+   "sha256": "18988ca687a85ca11a5cde99c044ca0800d9c0917688e9c1b22bc3077148ed18",
+   "asc": 725,
+   "desc": 14,
+   "stem": 0.112,
+   "crossbar": 0.0172,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.196,
+    "H": 0.666,
+    "X": 0.04,
+    "top": 0.654
+   },
+   "w2": {
+    "W": 3.514,
+    "H": 0.649,
+    "X": 0.049,
+    "top": 0.636
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.006,
+    "H": 0.668,
+    "X": 0.04,
+    "top": 0.656
+   },
+   "w2": {
+    "W": 4.237,
+    "H": 0.67,
+    "X": 0.049,
+    "top": 0.656
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.128,
+    "H": 0.512,
+    "X": 0.025,
+    "top": 0.5
+   },
+   "w2": {
+    "W": 3.394,
+    "H": 0.513,
+    "X": 0.03,
+    "top": 0.5
+   }
+  },
+  {
+   "id": "l-smcp-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "\"smcp\" 1"
+   },
+   "w1": {
+    "W": 2.716,
+    "H": 0.475,
+    "X": 0.023,
+    "top": 0.462
+   },
+   "w2": {
+    "W": 2.804,
+    "H": 0.739,
+    "X": 0.032,
+    "top": 0.725
+   }
+  }
+ ]
+}

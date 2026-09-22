@@ -1,0 +1,101 @@
+{
+ "id": "sprat-black",
+ "family": "Sprat",
+ "src": {
+  "url": "https://raw.githubusercontent.com/collletttivo/sprat/bdf9c50243d647290ecb21555b03a1aafba447ac/fonts/Sprat-Black.otf",
+  "sha256": "4d88bb3afb962ae96b958cdbe769a00f98c00df7c77b72fd2dbb5dc848bad137"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright © 2023, Collletttivo (https://www.collletttivo.it/)",
+ "archetype": [
+  "F"
+ ],
+ "traits": [
+  "deco",
+  "fat",
+  "serif"
+ ],
+ "odds": 9,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 2868,
+   "sha256": "f47dbefebf84f6ab73ceaa94ba0ad2c0cc5dc3a58468888b8fc828a2588de7fe",
+   "asc": 792,
+   "desc": 17,
+   "stem": 0.233,
+   "crossbar": 0.027,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.543,
+    "H": 0.715,
+    "X": 0.031,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 4.41,
+    "H": 0.807,
+    "X": 0.042,
+    "top": 0.792
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.487,
+    "H": 0.753,
+    "X": 0.031,
+    "top": 0.738
+   },
+   "w2": {
+    "W": 4.976,
+    "H": 0.73,
+    "X": 0.042,
+    "top": 0.715
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.402,
+    "H": 0.717,
+    "X": -0.003,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 4.27,
+    "H": 0.807,
+    "X": 0.025,
+    "top": 0.792
+   }
+  }
+ ]
+}

@@ -1,0 +1,100 @@
+{
+ "id": "luxurious-roman",
+ "family": "Luxurious Roman",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/luxuriousroman/LuxuriousRoman-Regular.ttf",
+  "sha256": "30d6bc4b25cf075560f0dd90a77a8ed8165bd280a863de1c3ab429fbf9ace58b"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2015-2021 The Luxurious Roman Project Authors (https://github.com/googlefonts/luxurious-roman)",
+ "archetype": [
+  "F"
+ ],
+ "traits": [
+  "deco",
+  "serif"
+ ],
+ "odds": 7,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 4448,
+   "sha256": "0ad4fffb5c4b2dcadfe5ae3b4d0ee3606f18d6508bbc2d094bc32a4f8ef82625",
+   "asc": 683,
+   "desc": 42,
+   "stem": 0.0811,
+   "crossbar": 0.0248,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.228,
+    "H": 0.689,
+    "X": 0.022,
+    "top": 0.674
+   },
+   "w2": {
+    "W": 3.456,
+    "H": 0.69,
+    "X": 0.028,
+    "top": 0.673
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.001,
+    "H": 0.725,
+    "X": 0.022,
+    "top": 0.683
+   },
+   "w2": {
+    "W": 4.575,
+    "H": 0.699,
+    "X": 0.028,
+    "top": 0.675
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.032,
+    "H": 0.643,
+    "X": 0.053,
+    "top": 0.628
+   },
+   "w2": {
+    "W": 3.188,
+    "H": 0.688,
+    "X": 0.052,
+    "top": 0.671
+   }
+  }
+ ]
+}

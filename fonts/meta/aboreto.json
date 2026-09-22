@@ -1,0 +1,57 @@
+{
+ "id": "aboreto",
+ "family": "Aboreto",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/aboreto/Aboreto-Regular.ttf",
+  "sha256": "fc702d535857fa2bda802647b9d55f82a07502d4acdfd95b47279b3bf479eaa1"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2022 The Aboreto Project Authors (https://github.com/domija/Aboreto)",
+ "archetype": [
+  "F"
+ ],
+ "traits": [
+  "capsOnly",
+  "deco",
+  "serif"
+ ],
+ "odds": 8,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 1696,
+   "sha256": "50576fcd609201f724ff27ca5792da91a5b6299b3dfcecf1a70accc1e27bd065",
+   "asc": 714,
+   "desc": 14,
+   "stem": 0.068,
+   "crossbar": 0.0259,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.169,
+    "H": 0.728,
+    "X": 0.032,
+    "top": 0.714
+   },
+   "w2": {
+    "W": 4.464,
+    "H": 0.728,
+    "X": 0.08,
+    "top": 0.714
+   }
+  }
+ ]
+}
