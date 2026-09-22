@@ -366,6 +366,28 @@ export function inkBox(img, hit, dpr) {
   }
 }
 
+/**
+ * The topmost ink row inside a horizontal band, in CSS pixels, or null when the band is
+ * empty. Used to ask where one line's ink sits relative to the box drawn for it, which is
+ * the quantity a vertical shaping divergence moves and a width-based ratio cannot see.
+ *
+ * @param {{width: number, height: number, data: Uint8Array}} img
+ * @param {number} dpr
+ * @param {number} y0 band top, CSS px
+ * @param {number} y1 band bottom, CSS px
+ */
+export function bandTop(img, dpr, y0, y1) {
+  const a = Math.max(0, Math.floor(y0 * dpr))
+  const z = Math.min(img.height, Math.ceil(y1 * dpr))
+  for (let y = a; y < z; y++) {
+    for (let x = 0; x < img.width; x++) {
+      const o = (y * img.width + x) * 4
+      if (isInk(img.data[o], img.data[o + 1], img.data[o + 2])) return y / dpr
+    }
+  }
+  return null
+}
+
 // --- §9.2 scope ---------------------------------------------------------------
 
 /** `changed` is the required PR check; `all` is the WP-50 sweep and `workflow_dispatch`. */

@@ -213,6 +213,88 @@ than a missed failure — but an ungated `test.fail` inverts it into "expected t
 passed" and turns CI red for the wrong reason, which is exactly what happened on the first
 CI run of this branch. A pin has to fire only where the condition it describes can exist.
 
+### F6 — `bungee.n-ss12-static` is off-centre on Linux WebKit
+
+**What the failure is.** `ink off-centre vertically`, WebKit only, one variant out of 692
+in the 147-font library. The fill ratio passes; only `dcy` against `CENTRE_TOL` fails.
+A vertical shift leaves every width alone, so `fill` is blind to it — which is precisely
+why the centre check exists as a separate assertion.
+
+**Why `ss12` and nothing else.** Bungee's `ss12` is not a substitution. It selects the
+same glyphs as `ss01` — identical glyph ids, identical 1000-unit advances, identical ink
+width — and moves them **down 0.208 em** with a GPOS y-placement. Host CoreText, measured
+directly on the decoded subset:
+
+```
+ss01  inkX=200 inkW=5600 inkY=-15   inkH=750     → ink top 735
+ss12  inkX=200 inkW=5600 inkY=-223  inkH=750     → ink top 527
+      glyphs both: g25 g23 g22 g18 g24 g27, 1000 each
+```
+
+`fonts/meta/bungee.json` records `top = 0.527` for `ss12` and `0.735` for every other
+bungee variant, so the build-time harfbuzz measurement and CoreText agree to the unit. The
+fit maths turns that into a line-height literal of `L = 0.545` where its siblings get
+`0.961`.
+
+It is the only variant in the library exposed this way. Scanning all 692 for pairs that
+share a font, a case and *identical widths* but differ in ink top finds exactly three:
+
+| pair | Δ ink top |
+|---|---|
+| `bungee` `n-ss01` vs `n-ss12` | **0.208 em** |
+| `matemasie` `l-base` vs `l-ss02` | 0.054 em |
+| `dyna-puff` `n-base-w700x` vs `n-ss01-w700x` | 0.020 em |
+
+An order of magnitude separates the first from the rest. A width-neutral vertical feature
+is rare, and this is the only one large enough to matter.
+
+**The mechanism, and its limits.** On this macOS host every engine places the ink where
+the metric says, and `ss12` is healthy everywhere:
+
+| engine (macOS) | line-1 ink top − box top | ink height vs block | `dcy` |
+|---|---|---|---|
+| chromium | −1.11 px | 105.0 vs 103.8 | −0.50 px · 0.059 % |
+| firefox | −1.1 px | 106.0 vs 103.8 | 0.00 px · 0.000 % |
+| webkit | −0.11 px | 105.0 vs 103.8 | +0.50 px · 0.059 % |
+
+All eight bungee variants sit at or below 0.118 % on all three engines here. So the
+divergence is not "WebKit": it is **Linux WebKit specifically**, and the reason is the same
+one behind F1 — the two WebKit ports do not share a shaping backend. The Mac port goes
+through CoreText, which applies the y-placement. The Linux port shapes through its own
+HarfBuzz path, and the vertical offset does not survive it. Chromium and Firefox on Linux
+also use HarfBuzz, but through their own shaping code, which is why the failure is
+WebKit-only *and* Linux-only.
+
+If the shift is dropped, the glyphs paint at `ss01`'s height — 0.208 em higher — and at
+390×844 that is 13.4 px on line 1 and 11.3 px on line 2, lifting the ink block bodily:
+
+```
+predicted ink 356.7 .. 462.4  → centre 409.5, viewport centre 422
+predicted dcy −12.5 px = 1.48 %   against a 1 % tolerance
+```
+
+which is the reported failure's signature exactly: width untouched, centre out by about
+one and a half tolerances.
+
+**This is a prediction, not a reproduction.** I cannot run Linux WebKit on this host, and I
+would rather say so than imply I measured it. So the pin carries a probe: the divergence
+test logs the line-1 ink-top-minus-box-top offset, the ink height and `dcy` on **every**
+engine and platform, pass or fail. macOS prints −0.11 px / −0.0017 em; if the mechanism
+above is right, the Linux leg will print about **−13.4 px / −0.208 em**. If it prints
+something else, the hypothesis is wrong and the number will say so.
+
+Pinned in `KNOWN_DIVERGENCE` gated to `webkit` **and** `linux`, the mirror of F1's `darwin`
+gate. Remedy, if it is confirmed and the owner wants it gone rather than carried: `ss12`
+is a duplicate of `ss01` in every dimension except a vertical offset no engine agrees on,
+so dropping it from bungee's `features` costs one variant and nothing else.
+
+**On `CENTRE_TOL`: it is not tight, and it should not move.** 1 % of 844 px is 8.4 px. On
+this host the entire library renders inside **0.47 %**, and all eight bungee variants
+inside 0.118 % — healthy renders sit two to eight times inside the tolerance. The predicted
+Linux offset is 1.48 %, which is not a pixel or two of rasterisation but a twelve-pixel
+displacement of the whole name. Widening the tolerance to admit it would blind the check to
+exactly the class of fault it was written for.
+
 ### F2 — `G = max(g, bt)` guarded only one direction · **fixed by R13**
 
 Measured before R13 landed, and kept because it is the corroboration for that change rather
