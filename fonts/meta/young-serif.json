@@ -1,0 +1,98 @@
+{
+ "id": "young-serif",
+ "family": "Young Serif",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/youngserif/YoungSerif-Regular.ttf",
+  "sha256": "42bb2602364b28569fdce5eeb6ab3d81cf8090ba81b211f1229ed69f33155523"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2023 The Young Serif Project Authors (https://github.com/noirblancrouge/YoungSerif)",
+ "archetype": [
+  "A"
+ ],
+ "traits": [
+  "serif",
+  "soft"
+ ],
+ "odds": 9,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 3552,
+   "sha256": "d8c2a9a42748addfa120ab6f8f2a24af012c772fb74dc1715a92fba4bfb58695",
+   "asc": 800,
+   "desc": 14,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.898,
+    "H": 0.778,
+    "X": 0.005,
+    "top": 0.764
+   },
+   "w2": {
+    "W": 3.867,
+    "H": 0.813,
+    "X": 0.035,
+    "top": 0.8
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.786,
+    "H": 0.779,
+    "X": 0.005,
+    "top": 0.766
+   },
+   "w2": {
+    "W": 4.9,
+    "H": 0.777,
+    "X": 0.035,
+    "top": 0.763
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.619,
+    "H": 0.684,
+    "X": 0.018,
+    "top": 0.67
+   },
+   "w2": {
+    "W": 3.635,
+    "H": 0.813,
+    "X": 0.027,
+    "top": 0.8
+   }
+  }
+ ]
+}

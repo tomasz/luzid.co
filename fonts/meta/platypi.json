@@ -1,0 +1,178 @@
+{
+ "id": "platypi",
+ "family": "Platypi",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/platypi/Platypi[wght].ttf",
+  "sha256": "c4a2f2525bd0deaed25ccca4e0be42d5dcbf2a4739e2cc32fe3e7603333b7d53"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2024 The Platypi Project Authors (https://github.com/d-sargent/platypi)",
+ "archetype": [
+  "A"
+ ],
+ "traits": [
+  "overlap",
+  "serif",
+  "soft"
+ ],
+ "odds": 7,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "w500",
+   "axes": {
+    "wght": 500
+   },
+   "bytes": 3180,
+   "sha256": "80ebaa96af426fdc216d94d536f62e7efe2331070bd6239a2062c33afbcfc761",
+   "asc": 765,
+   "desc": 16,
+   "glyphs": 23
+  },
+  {
+   "id": "w800",
+   "axes": {
+    "wght": 800
+   },
+   "bytes": 3116,
+   "sha256": "ca1ac2037df97a4a0b06391ce959825221db39eb841724491145ce6a39c8e990",
+   "asc": 765,
+   "desc": 16,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-w500",
+   "file": "w500",
+   "case": "none",
+   "css": {
+    "weight": 500,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.696,
+    "H": 0.714,
+    "X": 0.04,
+    "top": 0.701
+   },
+   "w2": {
+    "W": 3.578,
+    "H": 0.781,
+    "X": 0.04,
+    "top": 0.765
+   }
+  },
+  {
+   "id": "n-base-w800",
+   "file": "w800",
+   "case": "none",
+   "css": {
+    "weight": 800,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.992,
+    "H": 0.722,
+    "X": 0.032,
+    "top": 0.706
+   },
+   "w2": {
+    "W": 3.859,
+    "H": 0.781,
+    "X": 0.032,
+    "top": 0.765
+   }
+  },
+  {
+   "id": "u-base-w500",
+   "file": "w500",
+   "case": "uppercase",
+   "css": {
+    "weight": 500,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.351,
+    "H": 0.722,
+    "X": 0.04,
+    "top": 0.706
+   },
+   "w2": {
+    "W": 4.429,
+    "H": 0.722,
+    "X": 0.04,
+    "top": 0.706
+   }
+  },
+  {
+   "id": "u-base-w800",
+   "file": "w800",
+   "case": "uppercase",
+   "css": {
+    "weight": 800,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.604,
+    "H": 0.722,
+    "X": 0.032,
+    "top": 0.706
+   },
+   "w2": {
+    "W": 4.679,
+    "H": 0.722,
+    "X": 0.032,
+    "top": 0.706
+   }
+  },
+  {
+   "id": "l-base-w500",
+   "file": "w500",
+   "case": "lowercase",
+   "css": {
+    "weight": 500,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.568,
+    "H": 0.636,
+    "X": 0.012,
+    "top": 0.623
+   },
+   "w2": {
+    "W": 3.449,
+    "H": 0.778,
+    "X": 0.04,
+    "top": 0.765
+   }
+  },
+  {
+   "id": "l-base-w800",
+   "file": "w800",
+   "case": "lowercase",
+   "css": {
+    "weight": 800,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.806,
+    "H": 0.672,
+    "X": 0.009,
+    "top": 0.656
+   },
+   "w2": {
+    "W": 3.749,
+    "H": 0.781,
+    "X": 0.034,
+    "top": 0.765
+   }
+  }
+ ]
+}

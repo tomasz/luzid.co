@@ -1,0 +1,98 @@
+{
+ "id": "suez-one",
+ "family": "Suez One",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/suezone/SuezOne-Regular.ttf",
+  "sha256": "3ef86844aad0cf9db7dcbda326f3d2f54cc4ccfe56db949e9e0c60a17031bd41"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2016 Michal Sahar. All rights reserved.",
+ "archetype": [
+  "A"
+ ],
+ "traits": [
+  "fat",
+  "serif"
+ ],
+ "odds": 8,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 3024,
+   "sha256": "be99e6b37b213358cee74703dc8fb1ec348e45915609501c1b9332f943d0d7d0",
+   "asc": 785,
+   "desc": 19,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.647,
+    "H": 0.691,
+    "X": 0.028,
+    "top": 0.674
+   },
+   "w2": {
+    "W": 3.597,
+    "H": 0.8,
+    "X": 0.025,
+    "top": 0.785
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.222,
+    "H": 0.709,
+    "X": 0.028,
+    "top": 0.69
+   },
+   "w2": {
+    "W": 4.386,
+    "H": 0.704,
+    "X": 0.025,
+    "top": 0.689
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.46,
+    "H": 0.66,
+    "X": -0.02,
+    "top": 0.643
+   },
+   "w2": {
+    "W": 3.483,
+    "H": 0.799,
+    "X": 0.015,
+    "top": 0.785
+   }
+  }
+ ]
+}

@@ -1,0 +1,76 @@
+{
+ "id": "cherry-swash-bold",
+ "family": "Cherry Swash",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/cherryswash/CherrySwash-Bold.ttf",
+  "sha256": "5cca323c29a80e19400a06be7c0c46e19db8ff2966cbbff7e05eac33354124ba"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright (c) 2012, Natalia Kasatkina (kasatkinanataliya@gmail.com)",
+ "archetype": [
+  "A"
+ ],
+ "traits": [
+  "serif",
+  "soft"
+ ],
+ "odds": 7,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 2160,
+   "sha256": "bfa0ad6e6afe65440c19831a6828e9fd438c63b24a86c53f5b697a9eda8f6bd5",
+   "asc": 750,
+   "desc": 11,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.8,
+    "H": 0.71,
+    "X": -0.045,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 3.571,
+    "H": 0.761,
+    "X": 0.035,
+    "top": 0.75
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.361,
+    "H": 0.642,
+    "X": 0.02,
+    "top": 0.632
+   },
+   "w2": {
+    "W": 3.421,
+    "H": 0.761,
+    "X": 0.035,
+    "top": 0.75
+   }
+  }
+ ]
+}

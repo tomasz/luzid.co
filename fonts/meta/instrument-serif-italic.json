@@ -1,0 +1,143 @@
+{
+ "id": "instrument-serif-italic",
+ "family": "Instrument Serif Italic",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/instrumentserif/InstrumentSerif-Italic.ttf",
+  "sha256": "08939b8bdf534afec24ae0ef5e03f948940cd9a8fe08e7fecbad040e62327385"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2022 The Instrument Serif Project Authors (https://github.com/Instrument/instrument-serif)",
+ "archetype": [
+  "A",
+  "F"
+ ],
+ "traits": [
+  "condensed",
+  "serif"
+ ],
+ "odds": 7,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 3404,
+   "sha256": "cca54997003a6813080b91198653bf092ef56515ef711e92c63894ca9f85b518",
+   "asc": 743,
+   "desc": 10,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.683,
+    "H": 0.744,
+    "X": 0.051,
+    "top": 0.735
+   },
+   "w2": {
+    "W": 2.715,
+    "H": 0.753,
+    "X": 0.055,
+    "top": 0.743
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.98,
+    "H": 0.749,
+    "X": 0.051,
+    "top": 0.74
+   },
+   "w2": {
+    "W": 3.099,
+    "H": 0.749,
+    "X": 0.055,
+    "top": 0.74
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.573,
+    "H": 0.658,
+    "X": 0.03,
+    "top": 0.649
+   },
+   "w2": {
+    "W": 2.655,
+    "H": 0.753,
+    "X": 0.015,
+    "top": 0.743
+   }
+  },
+  {
+   "id": "n-ss01-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 2.683,
+    "H": 0.744,
+    "X": 0.051,
+    "top": 0.735
+   },
+   "w2": {
+    "W": 2.715,
+    "H": 0.753,
+    "X": 0.055,
+    "top": 0.743
+   }
+  },
+  {
+   "id": "l-ss01-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 2.573,
+    "H": 0.658,
+    "X": 0.03,
+    "top": 0.649
+   },
+   "w2": {
+    "W": 2.655,
+    "H": 0.753,
+    "X": 0.015,
+    "top": 0.743
+   }
+  }
+ ]
+}

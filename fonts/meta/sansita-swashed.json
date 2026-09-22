@@ -1,0 +1,310 @@
+{
+ "id": "sansita-swashed",
+ "family": "Sansita Swashed",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sansitaswashed/SansitaSwashed[wght].ttf",
+  "sha256": "a6ff6619f22d01eb9582fb00a38052d7afba404ff5868be9bddf37e2888a1c6a"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2020 The Sansita Swashed Project Authors (https://github.com/Omnibus-Type/Sansita-Swashed)",
+ "archetype": [
+  "A"
+ ],
+ "traits": [
+  "overlap",
+  "serif",
+  "soft"
+ ],
+ "odds": 9,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "w700",
+   "axes": {
+    "wght": 700
+   },
+   "bytes": 5732,
+   "sha256": "126b8f9687ba62f1ec5809ac5d4d055b92de1d9f3a18fa23f19b89eafc18329f",
+   "asc": 754,
+   "desc": 200,
+   "glyphs": 23
+  },
+  {
+   "id": "w900",
+   "axes": {
+    "wght": 900
+   },
+   "bytes": 5732,
+   "sha256": "afe95080512cff91c36c1639ce6277b80716c5fbeb8a987215495374656a5d66",
+   "asc": 756,
+   "desc": 219,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-w700",
+   "file": "w700",
+   "case": "none",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.516,
+    "H": 0.917,
+    "X": 0.036,
+    "top": 0.717
+   },
+   "w2": {
+    "W": 3.298,
+    "H": 0.954,
+    "X": 0.022,
+    "top": 0.754
+   }
+  },
+  {
+   "id": "n-base-w900",
+   "file": "w900",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.726,
+    "H": 0.923,
+    "X": 0.022,
+    "top": 0.723
+   },
+   "w2": {
+    "W": 3.528,
+    "H": 0.956,
+    "X": 0.019,
+    "top": 0.756
+   }
+  },
+  {
+   "id": "u-base-w700",
+   "file": "w700",
+   "case": "uppercase",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.338,
+    "H": 0.884,
+    "X": 0.036,
+    "top": 0.717
+   },
+   "w2": {
+    "W": 4.703,
+    "H": 0.914,
+    "X": 0.022,
+    "top": 0.715
+   }
+  },
+  {
+   "id": "u-base-w900",
+   "file": "w900",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.609,
+    "H": 0.919,
+    "X": 0.022,
+    "top": 0.723
+   },
+   "w2": {
+    "W": 5.045,
+    "H": 0.94,
+    "X": 0.019,
+    "top": 0.721
+   }
+  },
+  {
+   "id": "l-base-w700",
+   "file": "w700",
+   "case": "lowercase",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.269,
+    "H": 0.816,
+    "X": 0.04,
+    "top": 0.616
+   },
+   "w2": {
+    "W": 3.192,
+    "H": 0.954,
+    "X": 0.02,
+    "top": 0.754
+   }
+  },
+  {
+   "id": "l-base-w900",
+   "file": "w900",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.442,
+    "H": 0.821,
+    "X": 0.025,
+    "top": 0.621
+   },
+   "w2": {
+    "W": 3.393,
+    "H": 0.956,
+    "X": 0.012,
+    "top": 0.756
+   }
+  },
+  {
+   "id": "n-salt-w700",
+   "file": "w700",
+   "case": "none",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "\"salt\" 1"
+   },
+   "w1": {
+    "W": 3.296,
+    "H": 0.688,
+    "X": 0.027,
+    "top": 0.663
+   },
+   "w2": {
+    "W": 3.299,
+    "H": 0.779,
+    "X": 0.024,
+    "top": 0.754
+   }
+  },
+  {
+   "id": "n-salt-w900",
+   "file": "w900",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"salt\" 1"
+   },
+   "w1": {
+    "W": 3.474,
+    "H": 0.689,
+    "X": 0.014,
+    "top": 0.663
+   },
+   "w2": {
+    "W": 3.525,
+    "H": 0.782,
+    "X": 0.019,
+    "top": 0.756
+   }
+  },
+  {
+   "id": "u-salt-w700",
+   "file": "w700",
+   "case": "uppercase",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "\"salt\" 1"
+   },
+   "w1": {
+    "W": 3.605,
+    "H": 0.701,
+    "X": 0.027,
+    "top": 0.68
+   },
+   "w2": {
+    "W": 3.761,
+    "H": 0.701,
+    "X": 0.024,
+    "top": 0.68
+   }
+  },
+  {
+   "id": "u-salt-w900",
+   "file": "w900",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"salt\" 1"
+   },
+   "w1": {
+    "W": 3.82,
+    "H": 0.7,
+    "X": 0.014,
+    "top": 0.68
+   },
+   "w2": {
+    "W": 4.01,
+    "H": 0.7,
+    "X": 0.019,
+    "top": 0.68
+   }
+  },
+  {
+   "id": "l-salt-w700",
+   "file": "w700",
+   "case": "lowercase",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "\"salt\" 1"
+   },
+   "w1": {
+    "W": 3.244,
+    "H": 0.641,
+    "X": 0.04,
+    "top": 0.616
+   },
+   "w2": {
+    "W": 3.19,
+    "H": 0.779,
+    "X": 0.02,
+    "top": 0.754
+   }
+  },
+  {
+   "id": "l-salt-w900",
+   "file": "w900",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"salt\" 1"
+   },
+   "w1": {
+    "W": 3.409,
+    "H": 0.647,
+    "X": 0.025,
+    "top": 0.621
+   },
+   "w2": {
+    "W": 3.394,
+    "H": 0.782,
+    "X": 0.012,
+    "top": 0.756
+   }
+  }
+ ]
+}
