@@ -1,0 +1,82 @@
+{
+ "id": "smooch-sans",
+ "family": "Smooch Sans",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/smoochsans/SmoochSans[wght].ttf",
+  "sha256": "6d82f480d71365d9c6c4f96ad1f3cab44053ea3f0b63650b1e0e539d915aff49"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2016 The Smooch Sans Project Authors (https://github.com/googlefonts/smooch-sans)",
+ "archetype": [
+  "E"
+ ],
+ "traits": [
+  "condensed",
+  "overlap",
+  "rounded",
+  "sans"
+ ],
+ "odds": 6,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "w900",
+   "axes": {
+    "wght": 900
+   },
+   "bytes": 2208,
+   "sha256": "89991475177f9a1c745320e6cd21608dcc6e774392434980739692b9750a3c83",
+   "asc": 630,
+   "desc": 8,
+   "stem": 0.154,
+   "crossbar": 0.12,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-w900",
+   "file": "w900",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.357,
+    "H": 0.626,
+    "X": 0.008,
+    "top": 0.62
+   },
+   "w2": {
+    "W": 2.352,
+    "H": 0.638,
+    "X": 0.018,
+    "top": 0.63
+   }
+  },
+  {
+   "id": "l-base-w900",
+   "file": "w900",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.327,
+    "H": 0.564,
+    "X": 0.012,
+    "top": 0.558
+   },
+   "w2": {
+    "W": 2.354,
+    "H": 0.635,
+    "X": 0.019,
+    "top": 0.63
+   }
+  }
+ ]
+}

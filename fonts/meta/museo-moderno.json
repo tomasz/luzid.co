@@ -1,0 +1,314 @@
+{
+ "id": "museo-moderno",
+ "family": "MuseoModerno",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/museomoderno/MuseoModerno[wght].ttf",
+  "sha256": "d03b027cf5cf72d014c8a405a8ceb83ea1d5d8ae2c64a7f602b131d9973e3503"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2020 The MuseoModerno Project Authors (https://github.com/Omnibus-Type/MuseoModerno)",
+ "archetype": [
+  "E"
+ ],
+ "traits": [
+  "overlap",
+  "rounded",
+  "sans"
+ ],
+ "odds": 9,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "w900",
+   "axes": {
+    "wght": 900
+   },
+   "bytes": 3452,
+   "sha256": "49fbac9dbe5b18e1b0d68faca96da4ae325559d9dcd459756f5f8b095f959798",
+   "asc": 776,
+   "desc": 85,
+   "stem": 0.216,
+   "crossbar": 0.114,
+   "glyphs": 23
+  },
+  {
+   "id": "w400",
+   "axes": {
+    "wght": 400
+   },
+   "bytes": 3396,
+   "sha256": "2cfbfd3199008d7fac9899c8239a60896fd759970f5328c8c64ec1a07236f002",
+   "asc": 742,
+   "desc": 85,
+   "stem": 0.096,
+   "crossbar": 0.057,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-w900",
+   "file": "w900",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.746,
+    "H": 0.713,
+    "X": 0.015,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 3.446,
+    "H": 0.789,
+    "X": 0.026,
+    "top": 0.776
+   }
+  },
+  {
+   "id": "n-base-w400",
+   "file": "w400",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.723,
+    "H": 0.712,
+    "X": 0.023,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 3.315,
+    "H": 0.742,
+    "X": 0.03,
+    "top": 0.73
+   }
+  },
+  {
+   "id": "u-base-w900",
+   "file": "w900",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.529,
+    "H": 0.726,
+    "X": 0.015,
+    "top": 0.713
+   },
+   "w2": {
+    "W": 4.373,
+    "H": 0.726,
+    "X": 0.026,
+    "top": 0.713
+   }
+  },
+  {
+   "id": "u-base-w400",
+   "file": "w400",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.301,
+    "H": 0.726,
+    "X": 0.023,
+    "top": 0.713
+   },
+   "w2": {
+    "W": 4.226,
+    "H": 0.726,
+    "X": 0.03,
+    "top": 0.713
+   }
+  },
+  {
+   "id": "l-base-w900",
+   "file": "w900",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.634,
+    "H": 0.651,
+    "X": 0.014,
+    "top": 0.638
+   },
+   "w2": {
+    "W": 3.327,
+    "H": 0.789,
+    "X": 0.031,
+    "top": 0.776
+   }
+  },
+  {
+   "id": "l-base-w400",
+   "file": "w400",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.605,
+    "H": 0.65,
+    "X": 0.014,
+    "top": 0.638
+   },
+   "w2": {
+    "W": 3.198,
+    "H": 0.742,
+    "X": 0.045,
+    "top": 0.73
+   }
+  },
+  {
+   "id": "n-ss01-w900",
+   "file": "w900",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 3.713,
+    "H": 0.785,
+    "X": 0.015,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 3.671,
+    "H": 0.827,
+    "X": 0.026,
+    "top": 0.742
+   }
+  },
+  {
+   "id": "n-ss01-w400",
+   "file": "w400",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 3.616,
+    "H": 0.785,
+    "X": 0.023,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 3.535,
+    "H": 0.827,
+    "X": 0.03,
+    "top": 0.742
+   }
+  },
+  {
+   "id": "u-ss01-w900",
+   "file": "w900",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 4.491,
+    "H": 0.798,
+    "X": 0.015,
+    "top": 0.713
+   },
+   "w2": {
+    "W": 4.312,
+    "H": 0.785,
+    "X": 0.026,
+    "top": 0.7
+   }
+  },
+  {
+   "id": "u-ss01-w400",
+   "file": "w400",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 4.341,
+    "H": 0.797,
+    "X": 0.023,
+    "top": 0.712
+   },
+   "w2": {
+    "W": 4.105,
+    "H": 0.785,
+    "X": 0.03,
+    "top": 0.7
+   }
+  },
+  {
+   "id": "l-ss01-w900",
+   "file": "w900",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 3.691,
+    "H": 0.723,
+    "X": 0.014,
+    "top": 0.638
+   },
+   "w2": {
+    "W": 3.552,
+    "H": 0.827,
+    "X": 0.031,
+    "top": 0.742
+   }
+  },
+  {
+   "id": "l-ss01-w400",
+   "file": "w400",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 3.589,
+    "H": 0.723,
+    "X": 0.014,
+    "top": 0.638
+   },
+   "w2": {
+    "W": 3.418,
+    "H": 0.827,
+    "X": 0.045,
+    "top": 0.742
+   }
+  }
+ ]
+}

@@ -1,0 +1,125 @@
+{
+ "id": "montserrat-alternates-black",
+ "family": "Montserrat Alternates",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/montserratalternates/MontserratAlternates-Black.ttf",
+  "sha256": "6fa4bf87ef8927790cc11cc87b8bcadefe2d8a1326664b6d750f5b4e5e2cf943"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2011 The Montserrat Project Authors (https://github.com/JulietaUla/Montserrat)",
+ "archetype": [
+  "E",
+  "F"
+ ],
+ "traits": [
+  "fat",
+  "overlap",
+  "rounded",
+  "sans"
+ ],
+ "odds": 8,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 3052,
+   "sha256": "6e966fa34c795223b6540a67971818d6c23927612b0732f25db1ea82aada4f06",
+   "asc": 821,
+   "desc": 16,
+   "stem": 0.236,
+   "crossbar": 0.0952,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.197,
+    "H": 0.726,
+    "X": -0.018,
+    "top": 0.716
+   },
+   "w2": {
+    "W": 4.057,
+    "H": 0.837,
+    "X": 0.029,
+    "top": 0.821
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.881,
+    "H": 0.732,
+    "X": -0.018,
+    "top": 0.716
+   },
+   "w2": {
+    "W": 4.975,
+    "H": 0.732,
+    "X": 0.029,
+    "top": 0.716
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.92,
+    "H": 0.68,
+    "X": 0.048,
+    "top": 0.67
+   },
+   "w2": {
+    "W": 3.946,
+    "H": 0.831,
+    "X": 0.021,
+    "top": 0.821
+   }
+  },
+  {
+   "id": "u-c2sc-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"c2sc\" 1"
+   },
+   "w1": {
+    "W": 4.265,
+    "H": 0.612,
+    "X": -0.018,
+    "top": 0.597
+   },
+   "w2": {
+    "W": 4.356,
+    "H": 0.612,
+    "X": 0.024,
+    "top": 0.597
+   }
+  }
+ ]
+}

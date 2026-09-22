@@ -1,0 +1,169 @@
+{
+ "id": "winky-sans",
+ "family": "Winky Sans",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/winkysans/WinkySans[wght].ttf",
+  "sha256": "0df4bec6a75fc35f363d0163edd0e660365301dbc0d4bcd71cd916d38ea96135"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2024 The Winky Sans Project Authors (https://github.com/typofactur/winkysans)",
+ "archetype": [
+  "E"
+ ],
+ "traits": [
+  "overlap",
+  "rounded",
+  "sans"
+ ],
+ "odds": 7,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "w900",
+   "axes": {
+    "wght": 900
+   },
+   "bytes": 3676,
+   "sha256": "20e9ee6a987e613763c3bcabde2acc50783cdbccc71053a7d6dfcda2551edce6",
+   "asc": 770,
+   "desc": 50,
+   "stem": 0.2,
+   "crossbar": 0.1362,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-w900",
+   "file": "w900",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.23,
+    "H": 0.721,
+    "X": -0.005,
+    "top": 0.695
+   },
+   "w2": {
+    "W": 3.201,
+    "H": 0.799,
+    "X": -0.01,
+    "top": 0.77
+   }
+  },
+  {
+   "id": "u-base-w900",
+   "file": "w900",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.542,
+    "H": 0.726,
+    "X": -0.005,
+    "top": 0.695
+   },
+   "w2": {
+    "W": 3.772,
+    "H": 0.733,
+    "X": -0.01,
+    "top": 0.702
+   }
+  },
+  {
+   "id": "l-base-w900",
+   "file": "w900",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.185,
+    "H": 0.682,
+    "X": 0,
+    "top": 0.653
+   },
+   "w2": {
+    "W": 3.14,
+    "H": 0.799,
+    "X": 0.01,
+    "top": 0.77
+   }
+  },
+  {
+   "id": "n-salt-w900",
+   "file": "w900",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"salt\" 1"
+   },
+   "w1": {
+    "W": 3.206,
+    "H": 0.721,
+    "X": -0.005,
+    "top": 0.695
+   },
+   "w2": {
+    "W": 3.201,
+    "H": 0.799,
+    "X": -0.01,
+    "top": 0.77
+   }
+  },
+  {
+   "id": "u-salt-w900",
+   "file": "w900",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"salt\" 1"
+   },
+   "w1": {
+    "W": 3.47,
+    "H": 0.726,
+    "X": -0.005,
+    "top": 0.695
+   },
+   "w2": {
+    "W": 3.661,
+    "H": 0.767,
+    "X": -0.01,
+    "top": 0.717
+   }
+  },
+  {
+   "id": "l-salt-w900",
+   "file": "w900",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"salt\" 1"
+   },
+   "w1": {
+    "W": 3.161,
+    "H": 0.682,
+    "X": 0,
+    "top": 0.653
+   },
+   "w2": {
+    "W": 3.14,
+    "H": 0.799,
+    "X": 0.01,
+    "top": 0.77
+   }
+  }
+ ]
+}

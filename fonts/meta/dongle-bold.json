@@ -1,0 +1,167 @@
+{
+ "id": "dongle-bold",
+ "family": "Dongle",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/dongle/Dongle-Bold.ttf",
+  "sha256": "944c498c0d1a1832ab36f173b1b3aa5ae77b2a914e00c4d79e05338fae36472d"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2021 The Dongle Project Authors (https://github.com/yangheeryu/Dongle)",
+ "archetype": [
+  "E"
+ ],
+ "traits": [
+  "overlap",
+  "rounded",
+  "sans"
+ ],
+ "odds": 6,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 2872,
+   "sha256": "999754f4b39a13c27accd169c91d55912bbffca3737b2540ca0559a5e1163d31",
+   "asc": 440,
+   "desc": 10,
+   "stem": 0.09,
+   "crossbar": 0.0621,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.175,
+    "H": 0.415,
+    "X": 0.01,
+    "top": 0.405
+   },
+   "w2": {
+    "W": 2.085,
+    "H": 0.45,
+    "X": 0.025,
+    "top": 0.44
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.425,
+    "H": 0.425,
+    "X": 0.01,
+    "top": 0.415
+   },
+   "w2": {
+    "W": 2.535,
+    "H": 0.425,
+    "X": 0.025,
+    "top": 0.415
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.11,
+    "H": 0.425,
+    "X": 0.005,
+    "top": 0.415
+   },
+   "w2": {
+    "W": 2,
+    "H": 0.45,
+    "X": 0.02,
+    "top": 0.44
+   }
+  },
+  {
+   "id": "n-fwid-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "\"fwid\" 1"
+   },
+   "w1": {
+    "W": 3.297,
+    "H": 0.415,
+    "X": 0.145,
+    "top": 0.405
+   },
+   "w2": {
+    "W": 3.503,
+    "H": 0.45,
+    "X": 0.127,
+    "top": 0.44
+   }
+  },
+  {
+   "id": "u-fwid-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "\"fwid\" 1"
+   },
+   "w1": {
+    "W": 3.322,
+    "H": 0.425,
+    "X": 0.145,
+    "top": 0.415
+   },
+   "w2": {
+    "W": 3.695,
+    "H": 0.425,
+    "X": 0.127,
+    "top": 0.415
+   }
+  },
+  {
+   "id": "l-fwid-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "\"fwid\" 1"
+   },
+   "w1": {
+    "W": 3.25,
+    "H": 0.425,
+    "X": 0.192,
+    "top": 0.415
+   },
+   "w2": {
+    "W": 3.473,
+    "H": 0.45,
+    "X": 0.157,
+    "top": 0.44
+   }
+  }
+ ]
+}

@@ -1,0 +1,190 @@
+{
+ "id": "dosis",
+ "family": "Dosis",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/dosis/Dosis[wght].ttf",
+  "sha256": "b2238eef0b3464904fed097ef274c704bc63d21407369b7d7a5be7b0821a0e82"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2011 The Dosis Project Authors (https://github.com/googlefonts/dosis-vf)",
+ "archetype": [
+  "E"
+ ],
+ "traits": [
+  "rounded",
+  "sans"
+ ],
+ "odds": 6,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "w800",
+   "axes": {
+    "wght": 800
+   },
+   "bytes": 2736,
+   "sha256": "bf669db567fa009f77c81c3f2524ed43a11bb0e4e282a6ad3b07f5bbb4c537f9",
+   "asc": 748,
+   "desc": 10,
+   "stem": 0.156,
+   "crossbar": 0.113,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-w800",
+   "file": "w800",
+   "case": "none",
+   "css": {
+    "weight": 800,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.108,
+    "H": 0.741,
+    "X": 0.008,
+    "top": 0.731
+   },
+   "w2": {
+    "W": 3.094,
+    "H": 0.758,
+    "X": 0.046,
+    "top": 0.748
+   }
+  },
+  {
+   "id": "u-base-w800",
+   "file": "w800",
+   "case": "uppercase",
+   "css": {
+    "weight": 800,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.467,
+    "H": 0.747,
+    "X": 0.008,
+    "top": 0.737
+   },
+   "w2": {
+    "W": 3.53,
+    "H": 0.737,
+    "X": 0.046,
+    "top": 0.731
+   }
+  },
+  {
+   "id": "l-base-w800",
+   "file": "w800",
+   "case": "lowercase",
+   "css": {
+    "weight": 800,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.985,
+    "H": 0.693,
+    "X": 0.043,
+    "top": 0.683
+   },
+   "w2": {
+    "W": 2.992,
+    "H": 0.758,
+    "X": 0.028,
+    "top": 0.748
+   }
+  },
+  {
+   "id": "n-salt-w800",
+   "file": "w800",
+   "case": "none",
+   "css": {
+    "weight": 800,
+    "style": "normal",
+    "feat": "\"salt\" 1"
+   },
+   "w1": {
+    "W": 3.132,
+    "H": 0.741,
+    "X": 0.008,
+    "top": 0.731
+   },
+   "w2": {
+    "W": 3.099,
+    "H": 0.758,
+    "X": 0.046,
+    "top": 0.748
+   }
+  },
+  {
+   "id": "l-salt-w800",
+   "file": "w800",
+   "case": "lowercase",
+   "css": {
+    "weight": 800,
+    "style": "normal",
+    "feat": "\"salt\" 1"
+   },
+   "w1": {
+    "W": 3.009,
+    "H": 0.693,
+    "X": 0.043,
+    "top": 0.683
+   },
+   "w2": {
+    "W": 2.997,
+    "H": 0.758,
+    "X": 0.028,
+    "top": 0.748
+   }
+  },
+  {
+   "id": "n-ss01-w800",
+   "file": "w800",
+   "case": "none",
+   "css": {
+    "weight": 800,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 3.134,
+    "H": 0.741,
+    "X": 0.008,
+    "top": 0.731
+   },
+   "w2": {
+    "W": 3.094,
+    "H": 0.758,
+    "X": 0.046,
+    "top": 0.748
+   }
+  },
+  {
+   "id": "l-ss01-w800",
+   "file": "w800",
+   "case": "lowercase",
+   "css": {
+    "weight": 800,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 3.011,
+    "H": 0.693,
+    "X": 0.043,
+    "top": 0.683
+   },
+   "w2": {
+    "W": 2.992,
+    "H": 0.758,
+    "X": 0.028,
+    "top": 0.748
+   }
+  }
+ ]
+}

@@ -1,0 +1,101 @@
+{
+ "id": "madimi-one",
+ "family": "Madimi One",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/madimione/MadimiOne-Regular.ttf",
+  "sha256": "e70355081d3f4eb1fb3d523c4b803a8977669f6ba7c2c14ecee88d2d19fec690"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2023 The Madimi One Project Authors (https://github.com/TaVaTake/madimi)",
+ "archetype": [
+  "E"
+ ],
+ "traits": [
+  "fat",
+  "rounded",
+  "sans"
+ ],
+ "odds": 7,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 3044,
+   "sha256": "3e0e08919353e80997cfbff4911d4d4ac43af4c09867bc3f74e4cbfd6f5f7d31",
+   "asc": 762,
+   "desc": 8,
+   "stem": 0.144,
+   "crossbar": 0.1039,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.191,
+    "H": 0.708,
+    "X": 0.004,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 3.078,
+    "H": 0.77,
+    "X": 0.048,
+    "top": 0.762
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.738,
+    "H": 0.719,
+    "X": 0.004,
+    "top": 0.711
+   },
+   "w2": {
+    "W": 3.653,
+    "H": 0.719,
+    "X": 0.048,
+    "top": 0.711
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.175,
+    "H": 0.691,
+    "X": 0.012,
+    "top": 0.683
+   },
+   "w2": {
+    "W": 3.073,
+    "H": 0.77,
+    "X": 0.033,
+    "top": 0.762
+   }
+  }
+ ]
+}

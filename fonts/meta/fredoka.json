@@ -1,0 +1,185 @@
+{
+ "id": "fredoka",
+ "family": "Fredoka",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/fredoka/Fredoka[wdth,wght].ttf",
+  "sha256": "2ba02e68b152868aef9ba28e24b3648c7d457fe6f25c761f2c2c53fb61a73fc8"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2016 The Fredoka Project Authors (https://github.com/hafontia/Fredoka-One)",
+ "archetype": [
+  "E"
+ ],
+ "traits": [
+  "fat",
+  "overlap",
+  "rounded",
+  "sans"
+ ],
+ "odds": 9,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "w700x",
+   "axes": {
+    "wght": 700,
+    "wdth": 125
+   },
+   "bytes": 3248,
+   "sha256": "cda46c9b852f9e8c5e557c2a178e63b3a013f32151cd035ee923fb852b93dc1f",
+   "asc": 730,
+   "desc": 30,
+   "stem": 0.183,
+   "crossbar": 0.14,
+   "glyphs": 23
+  },
+  {
+   "id": "w700n",
+   "axes": {
+    "wght": 700,
+    "wdth": 100
+   },
+   "bytes": 3160,
+   "sha256": "b4097965ecbd0e46372f90f60b0e257117994bb29b965c4b7cd720346aae31a0",
+   "asc": 730,
+   "desc": 25,
+   "stem": 0.183,
+   "crossbar": 0.1339,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-w700x",
+   "file": "w700x",
+   "case": "none",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.767,
+    "H": 0.71,
+    "X": 0.025,
+    "top": 0.692
+   },
+   "w2": {
+    "W": 4.838,
+    "H": 0.749,
+    "X": 0.025,
+    "top": 0.73
+   }
+  },
+  {
+   "id": "n-base-w700n",
+   "file": "w700n",
+   "case": "none",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.399,
+    "H": 0.71,
+    "X": 0.015,
+    "top": 0.692
+   },
+   "w2": {
+    "W": 3.514,
+    "H": 0.749,
+    "X": 0.014,
+    "top": 0.73
+   }
+  },
+  {
+   "id": "u-base-w700x",
+   "file": "w700x",
+   "case": "uppercase",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 5.857,
+    "H": 0.734,
+    "X": 0.025,
+    "top": 0.704
+   },
+   "w2": {
+    "W": 6.283,
+    "H": 0.729,
+    "X": 0.025,
+    "top": 0.704
+   }
+  },
+  {
+   "id": "u-base-w700n",
+   "file": "w700n",
+   "case": "uppercase",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.902,
+    "H": 0.727,
+    "X": 0.015,
+    "top": 0.702
+   },
+   "w2": {
+    "W": 4.12,
+    "H": 0.719,
+    "X": 0.014,
+    "top": 0.699
+   }
+  },
+  {
+   "id": "l-base-w700x",
+   "file": "w700x",
+   "case": "lowercase",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.616,
+    "H": 0.685,
+    "X": 0.015,
+    "top": 0.667
+   },
+   "w2": {
+    "W": 4.558,
+    "H": 0.748,
+    "X": 0.024,
+    "top": 0.73
+   }
+  },
+  {
+   "id": "l-base-w700n",
+   "file": "w700n",
+   "case": "lowercase",
+   "css": {
+    "weight": 700,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.313,
+    "H": 0.685,
+    "X": 0.01,
+    "top": 0.667
+   },
+   "w2": {
+    "W": 3.375,
+    "H": 0.748,
+    "X": 0.025,
+    "top": 0.73
+   }
+  }
+ ]
+}

@@ -1,0 +1,317 @@
+{
+ "id": "tilt-neon",
+ "family": "Tilt Neon",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/tiltneon/TiltNeon[XROT,YROT].ttf",
+  "sha256": "c22333dfd1cd14c2a612b36ea1c50ea13e5e9244181e5129a63c944a165823a0"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2019 The Tilt Project Authors (https://github.com/googlefonts/Tilt-Fonts)",
+ "archetype": [
+  "E"
+ ],
+ "traits": [
+  "inline",
+  "overlap",
+  "rounded",
+  "sans"
+ ],
+ "odds": 7,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "flat",
+   "axes": {
+    "XROT": 0,
+    "YROT": 0
+   },
+   "bytes": 4080,
+   "sha256": "4e8918c35c493afa6ebd79c8547b453831aa519ee2f0b0db75fcf379d999e90b",
+   "asc": 746,
+   "desc": 22,
+   "stem": 0.09,
+   "crossbar": 0.0868,
+   "glyphs": 23
+  },
+  {
+   "id": "tilt",
+   "axes": {
+    "XROT": -30,
+    "YROT": 30
+   },
+   "bytes": 4832,
+   "sha256": "6b7557ace00d2c09cf3594f37443d62800a3be3e89cb708f352248d2155af33b",
+   "asc": 618,
+   "desc": 30,
+   "stem": 0.0888,
+   "crossbar": 0.0826,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-flat",
+   "file": "flat",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.317,
+    "H": 0.702,
+    "X": 0.022,
+    "top": 0.68
+   },
+   "w2": {
+    "W": 3.21,
+    "H": 0.768,
+    "X": 0.045,
+    "top": 0.746
+   }
+  },
+  {
+   "id": "n-base-tilt",
+   "file": "tilt",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.788,
+    "H": 0.638,
+    "X": -0.118,
+    "top": 0.608
+   },
+   "w2": {
+    "W": 2.645,
+    "H": 0.648,
+    "X": -0.056,
+    "top": 0.618
+   }
+  },
+  {
+   "id": "u-base-flat",
+   "file": "flat",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.689,
+    "H": 0.71,
+    "X": 0.022,
+    "top": 0.696
+   },
+   "w2": {
+    "W": 3.873,
+    "H": 0.702,
+    "X": 0.045,
+    "top": 0.691
+   }
+  },
+  {
+   "id": "u-base-tilt",
+   "file": "tilt",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.113,
+    "H": 0.632,
+    "X": -0.118,
+    "top": 0.608
+   },
+   "w2": {
+    "W": 3.151,
+    "H": 0.607,
+    "X": -0.056,
+    "top": 0.584
+   }
+  },
+  {
+   "id": "l-base-flat",
+   "file": "flat",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.226,
+    "H": 0.661,
+    "X": 0.006,
+    "top": 0.639
+   },
+   "w2": {
+    "W": 3.091,
+    "H": 0.768,
+    "X": 0.039,
+    "top": 0.746
+   }
+  },
+  {
+   "id": "l-base-tilt",
+   "file": "tilt",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.687,
+    "H": 0.552,
+    "X": -0.092,
+    "top": 0.522
+   },
+   "w2": {
+    "W": 2.532,
+    "H": 0.648,
+    "X": -0.044,
+    "top": 0.618
+   }
+  },
+  {
+   "id": "n-ss01-flat",
+   "file": "flat",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 3.256,
+    "H": 0.693,
+    "X": 0.022,
+    "top": 0.68
+   },
+   "w2": {
+    "W": 3.21,
+    "H": 0.768,
+    "X": 0.045,
+    "top": 0.746
+   }
+  },
+  {
+   "id": "n-ss01-tilt",
+   "file": "tilt",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 2.739,
+    "H": 0.634,
+    "X": -0.118,
+    "top": 0.608
+   },
+   "w2": {
+    "W": 2.645,
+    "H": 0.648,
+    "X": -0.056,
+    "top": 0.618
+   }
+  },
+  {
+   "id": "l-ss01-flat",
+   "file": "flat",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 3.165,
+    "H": 0.652,
+    "X": 0.006,
+    "top": 0.639
+   },
+   "w2": {
+    "W": 3.091,
+    "H": 0.768,
+    "X": 0.039,
+    "top": 0.746
+   }
+  },
+  {
+   "id": "l-ss01-tilt",
+   "file": "tilt",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 2.638,
+    "H": 0.548,
+    "X": -0.092,
+    "top": 0.522
+   },
+   "w2": {
+    "W": 2.532,
+    "H": 0.648,
+    "X": -0.044,
+    "top": 0.618
+   }
+  },
+  {
+   "id": "n-ss03-flat",
+   "file": "flat",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss03\" 1"
+   },
+   "w1": {
+    "W": 3.317,
+    "H": 0.702,
+    "X": 0.022,
+    "top": 0.68
+   },
+   "w2": {
+    "W": 3.202,
+    "H": 0.768,
+    "X": 0.045,
+    "top": 0.746
+   }
+  },
+  {
+   "id": "n-ss03-tilt",
+   "file": "tilt",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss03\" 1"
+   },
+   "w1": {
+    "W": 2.788,
+    "H": 0.638,
+    "X": -0.118,
+    "top": 0.608
+   },
+   "w2": {
+    "W": 2.639,
+    "H": 0.648,
+    "X": -0.056,
+    "top": 0.618
+   }
+  }
+ ]
+}

@@ -1,0 +1,101 @@
+{
+ "id": "megrim",
+ "family": "Megrim",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/megrim/Megrim.ttf",
+  "sha256": "88d30544a63121ab021f4cf60f57257c81caaeddeeb2eb4d6ec1a600ae779cfd"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright (c) 2009, 2010, 2011 Daniel Johnson (<il.basso.buffo@gmail.com>).",
+ "archetype": [
+  "E"
+ ],
+ "traits": [
+  "deco",
+  "hairline",
+  "sans"
+ ],
+ "odds": 6,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 1560,
+   "sha256": "2190e32c771140fb39859c63a17ff03d1fd1ff6b5d92e4c642b17b6687a9b8e3",
+   "asc": 710,
+   "desc": 13,
+   "stem": 0.03,
+   "crossbar": 0.03,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 500,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.293,
+    "H": 0.713,
+    "X": 0.015,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 3.319,
+    "H": 0.72,
+    "X": 0.077,
+    "top": 0.71
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 500,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.389,
+    "H": 0.72,
+    "X": 0.015,
+    "top": 0.71
+   },
+   "w2": {
+    "W": 3.533,
+    "H": 0.72,
+    "X": 0.077,
+    "top": 0.71
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 500,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.248,
+    "H": 0.605,
+    "X": 0.02,
+    "top": 0.592
+   },
+   "w2": {
+    "W": 3.276,
+    "H": 0.6,
+    "X": 0.07,
+    "top": 0.59
+   }
+  }
+ ]
+}

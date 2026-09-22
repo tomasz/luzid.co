@@ -1,0 +1,102 @@
+{
+ "id": "gruppo",
+ "family": "Gruppo",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/gruppo/Gruppo-Regular.ttf",
+  "sha256": "b14da5eb049a6dd097c79b0a7d55450542ad0ff213cdfea492815a79c58244a7"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2010 The Gruppo Project Authors (https://github.com/googlefonts/GruppoFont)",
+ "archetype": [
+  "E",
+  "F"
+ ],
+ "traits": [
+  "deco",
+  "hairline",
+  "sans"
+ ],
+ "odds": 6,
+ "upm": 2048,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 3036,
+   "sha256": "3105e581e8173ffd1125f885896cc19b5e709a7835d51fbedfd85ed785c093ea",
+   "asc": 1135,
+   "desc": 21,
+   "stem": 0.0415,
+   "crossbar": 0.0342,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.48242,
+    "H": 0.54883,
+    "X": 0.00879,
+    "top": 0.54395
+   },
+   "w2": {
+    "W": 3.31006,
+    "H": 0.56445,
+    "X": 0.06006,
+    "top": 0.5542
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.35938,
+    "H": 0.56445,
+    "X": 0.00879,
+    "top": 0.5542
+   },
+   "w2": {
+    "W": 4.68604,
+    "H": 0.56445,
+    "X": 0.06006,
+    "top": 0.5542
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.33301,
+    "H": 0.51709,
+    "X": 0.03369,
+    "top": 0.51221
+   },
+   "w2": {
+    "W": 3.13721,
+    "H": 0.54883,
+    "X": 0.05859,
+    "top": 0.54395
+   }
+  }
+ ]
+}

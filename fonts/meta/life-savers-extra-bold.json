@@ -1,0 +1,146 @@
+{
+ "id": "life-savers-extra-bold",
+ "family": "Life Savers",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/lifesavers/LifeSavers-ExtraBold.ttf",
+  "sha256": "a7392b6a21ec8f22e5019d0adf9945fc4acba8761d4ff1e53eec65c9a230b454"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2012 The Life Savers Project Authors (https://github.com/googlefonts/life-savers)",
+ "archetype": [
+  "E",
+  "F"
+ ],
+ "traits": [
+  "deco",
+  "rounded",
+  "serif"
+ ],
+ "odds": 7,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 5388,
+   "sha256": "73422b57e8ed8274f307af115c94fd10cb2601ca1c5a474269e96ee377822245",
+   "asc": 838,
+   "desc": 55,
+   "stem": 0.0913,
+   "crossbar": 0.0632,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 800,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.264,
+    "H": 0.851,
+    "X": 0.013,
+    "top": 0.821
+   },
+   "w2": {
+    "W": 3.371,
+    "H": 0.868,
+    "X": 0.034,
+    "top": 0.838
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 800,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.369,
+    "H": 0.893,
+    "X": 0.013,
+    "top": 0.838
+   },
+   "w2": {
+    "W": 4.423,
+    "H": 0.854,
+    "X": 0.034,
+    "top": 0.838
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 800,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.14,
+    "H": 0.651,
+    "X": -0.018,
+    "top": 0.621
+   },
+   "w2": {
+    "W": 3.222,
+    "H": 0.851,
+    "X": 0.026,
+    "top": 0.821
+   }
+  },
+  {
+   "id": "n-salt-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 800,
+    "style": "normal",
+    "feat": "\"salt\" 1"
+   },
+   "w1": {
+    "W": 3.316,
+    "H": 0.842,
+    "X": 0.013,
+    "top": 0.821
+   },
+   "w2": {
+    "W": 3.371,
+    "H": 0.868,
+    "X": 0.034,
+    "top": 0.838
+   }
+  },
+  {
+   "id": "l-salt-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 800,
+    "style": "normal",
+    "feat": "\"salt\" 1"
+   },
+   "w1": {
+    "W": 3.192,
+    "H": 0.642,
+    "X": -0.018,
+    "top": 0.621
+   },
+   "w2": {
+    "W": 3.218,
+    "H": 0.851,
+    "X": 0.026,
+    "top": 0.821
+   }
+  }
+ ]
+}

@@ -1,0 +1,233 @@
+{
+ "id": "kiwi-maru-medium",
+ "family": "Kiwi Maru",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/kiwimaru/KiwiMaru-Medium.ttf",
+  "sha256": "b2659f300a7d48c3f29eb273ffc5e1b26cc416ac8c37ff6bb2f3e43c2f4d235a"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2020 The Kiwi Maru Project Authors (https://github.com/Kiwi-KawagotoKajiru/Kiwi-Maru)",
+ "archetype": [
+  "E"
+ ],
+ "traits": [
+  "jp",
+  "rounded",
+  "serif"
+ ],
+ "odds": 6,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 7140,
+   "sha256": "4f023c869128879dc1d8a2e6497b41c1ea3a759284b1a8d7c8e862038b8dff2a",
+   "asc": 744,
+   "desc": 27,
+   "stem": 0.09,
+   "crossbar": 0.0714,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 500,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.938,
+    "H": 0.755,
+    "X": 0.051,
+    "top": 0.728
+   },
+   "w2": {
+    "W": 4.015,
+    "H": 0.77,
+    "X": 0.061,
+    "top": 0.744
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 500,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.47,
+    "H": 0.763,
+    "X": 0.051,
+    "top": 0.738
+   },
+   "w2": {
+    "W": 4.802,
+    "H": 0.764,
+    "X": 0.061,
+    "top": 0.739
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 500,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.703,
+    "H": 0.755,
+    "X": 0.023,
+    "top": 0.728
+   },
+   "w2": {
+    "W": 3.819,
+    "H": 0.77,
+    "X": 0.045,
+    "top": 0.744
+   }
+  },
+  {
+   "id": "n-fwid-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 500,
+    "style": "normal",
+    "feat": "\"fwid\" 1"
+   },
+   "w1": {
+    "W": 5.527,
+    "H": 0.755,
+    "X": 0.202,
+    "top": 0.728
+   },
+   "w2": {
+    "W": 6.063,
+    "H": 0.77,
+    "X": 0.161,
+    "top": 0.744
+   }
+  },
+  {
+   "id": "u-fwid-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 500,
+    "style": "normal",
+    "feat": "\"fwid\" 1"
+   },
+   "w1": {
+    "W": 5.604,
+    "H": 0.763,
+    "X": 0.202,
+    "top": 0.738
+   },
+   "w2": {
+    "W": 6.365,
+    "H": 0.765,
+    "X": 0.161,
+    "top": 0.739
+   }
+  },
+  {
+   "id": "l-fwid-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 500,
+    "style": "normal",
+    "feat": "\"fwid\" 1"
+   },
+   "w1": {
+    "W": 5.397,
+    "H": 0.755,
+    "X": 0.332,
+    "top": 0.728
+   },
+   "w2": {
+    "W": 5.973,
+    "H": 0.77,
+    "X": 0.251,
+    "top": 0.744
+   }
+  },
+  {
+   "id": "n-hwid-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 500,
+    "style": "normal",
+    "feat": "\"hwid\" 1"
+   },
+   "w1": {
+    "W": 2.913,
+    "H": 0.754,
+    "X": 0.037,
+    "top": 0.728
+   },
+   "w2": {
+    "W": 3.363,
+    "H": 0.769,
+    "X": 0.043,
+    "top": 0.744
+   }
+  },
+  {
+   "id": "u-hwid-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 500,
+    "style": "normal",
+    "feat": "\"hwid\" 1"
+   },
+   "w1": {
+    "W": 2.935,
+    "H": 0.764,
+    "X": 0.037,
+    "top": 0.737
+   },
+   "w2": {
+    "W": 3.575,
+    "H": 0.765,
+    "X": 0.043,
+    "top": 0.739
+   }
+  },
+  {
+   "id": "l-hwid-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 500,
+    "style": "normal",
+    "feat": "\"hwid\" 1"
+   },
+   "w1": {
+    "W": 2.883,
+    "H": 0.754,
+    "X": 0.067,
+    "top": 0.728
+   },
+   "w2": {
+    "W": 3.361,
+    "H": 0.769,
+    "X": 0.045,
+    "top": 0.744
+   }
+  }
+ ]
+}

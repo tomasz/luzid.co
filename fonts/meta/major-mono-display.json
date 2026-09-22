@@ -1,0 +1,58 @@
+{
+ "id": "major-mono-display",
+ "family": "Major Mono Display",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/majormonodisplay/MajorMonoDisplay-Regular.ttf",
+  "sha256": "3f2ee71c2b8464f065bf960a148be81d68fcc13385df87737928f948208dffc6"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2018 The Major Mono Project Authors (https://github.com/googlefonts/majormono)",
+ "archetype": [
+  "E"
+ ],
+ "traits": [
+  "hairline",
+  "mono",
+  "rounded",
+  "unicase"
+ ],
+ "odds": 7,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 2052,
+   "sha256": "2f538d4144bf9c241c925a810d7afcadd2d0084c1dce24e1c179b626013c6ecb",
+   "asc": 712,
+   "desc": 15,
+   "stem": 0.036,
+   "crossbar": 0.037,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.24,
+    "H": 0.727,
+    "X": 0.089,
+    "top": 0.712
+   },
+   "w2": {
+    "W": 5.014,
+    "H": 0.726,
+    "X": 0.083,
+    "top": 0.711
+   }
+  }
+ ]
+}
