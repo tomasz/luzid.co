@@ -1,0 +1,123 @@
+{
+ "id": "bungee-outline",
+ "family": "Bungee Outline",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bungeeoutline/BungeeOutline-Regular.ttf",
+  "sha256": "9232000ff85fdbb68987007305f2de877486d63d31450f81b403461bbe721f1f"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2023 The Bungee Project Authors (https://github.com/djrrb/Bungee)",
+ "archetype": [
+  "B"
+ ],
+ "traits": [
+  "capsOnly",
+  "fat",
+  "hairline",
+  "inline",
+  "sans"
+ ],
+ "odds": 9,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 5064,
+   "sha256": "bfc9331ef8723dc5be30647b82449f045e05a3f63a6271bd8156e58ec9d580fc",
+   "asc": 745,
+   "desc": 25,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.223,
+    "H": 0.77,
+    "X": 0.018,
+    "top": 0.745
+   },
+   "w2": {
+    "W": 4.731,
+    "H": 0.77,
+    "X": 0.048,
+    "top": 0.745
+   }
+  },
+  {
+   "id": "n-salt-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"salt\" 1"
+   },
+   "w1": {
+    "W": 4.45,
+    "H": 0.77,
+    "X": 0.018,
+    "top": 0.745
+   },
+   "w2": {
+    "W": 4.412,
+    "H": 0.77,
+    "X": 0.048,
+    "top": 0.745
+   }
+  },
+  {
+   "id": "n-ss01-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 5.62,
+    "H": 0.77,
+    "X": 0.19,
+    "top": 0.745
+   },
+   "w2": {
+    "W": 6.628,
+    "H": 0.77,
+    "X": 0.186,
+    "top": 0.745
+   }
+  },
+  {
+   "id": "n-ss02-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss02\" 1"
+   },
+   "w1": {
+    "W": 4.45,
+    "H": 0.77,
+    "X": 0.018,
+    "top": 0.745
+   },
+   "w2": {
+    "W": 4.731,
+    "H": 0.77,
+    "X": 0.048,
+    "top": 0.745
+   }
+  }
+ ]
+}

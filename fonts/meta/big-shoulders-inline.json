@@ -1,0 +1,213 @@
+{
+ "id": "big-shoulders-inline",
+ "family": "Big Shoulders Inline",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bigshouldersinline/BigShouldersInline[opsz,wght].ttf",
+  "sha256": "417c1d07898a6648faa9e3a95d7302aa44ee614e2236a2b336e16922569d1fa3"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2019 The Big Shoulders Project Authors (https://github.com/xotypeco/big_shoulders)",
+ "archetype": [
+  "B"
+ ],
+ "traits": [
+  "condensed",
+  "hairline",
+  "inline",
+  "sans"
+ ],
+ "odds": 8,
+ "upm": 4000,
+ "files": [
+  {
+   "id": "w900",
+   "axes": {
+    "wght": 900,
+    "opsz": 72
+   },
+   "bytes": 8904,
+   "sha256": "acc6e9be265fe72ca4db2f4211753729f15b33b137b8da90177828012bae34cd",
+   "asc": 3240,
+   "desc": 42,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-w900",
+   "file": "w900",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.93375,
+    "H": 0.8105,
+    "X": 0.0035,
+    "top": 0.8
+   },
+   "w2": {
+    "W": 2.997,
+    "H": 0.8205,
+    "X": 0.03125,
+    "top": 0.81
+   }
+  },
+  {
+   "id": "u-base-w900",
+   "file": "w900",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.03275,
+    "H": 0.82,
+    "X": 0.0035,
+    "top": 0.81
+   },
+   "w2": {
+    "W": 3.07775,
+    "H": 0.82,
+    "X": 0.03125,
+    "top": 0.81
+   }
+  },
+  {
+   "id": "l-base-w900",
+   "file": "w900",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.88825,
+    "H": 0.7805,
+    "X": 0.02,
+    "top": 0.77
+   },
+   "w2": {
+    "W": 2.9685,
+    "H": 0.8105,
+    "X": 0.0325,
+    "top": 0.8
+   }
+  },
+  {
+   "id": "n-salt-w900",
+   "file": "w900",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"salt\" 1"
+   },
+   "w1": {
+    "W": 2.931,
+    "H": 0.81,
+    "X": 0.0035,
+    "top": 0.8
+   },
+   "w2": {
+    "W": 2.997,
+    "H": 0.8205,
+    "X": 0.03125,
+    "top": 0.81
+   }
+  },
+  {
+   "id": "l-salt-w900",
+   "file": "w900",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"salt\" 1"
+   },
+   "w1": {
+    "W": 2.8855,
+    "H": 0.78,
+    "X": 0.02,
+    "top": 0.77
+   },
+   "w2": {
+    "W": 2.9685,
+    "H": 0.8105,
+    "X": 0.0325,
+    "top": 0.8
+   }
+  },
+  {
+   "id": "n-ss01-w900",
+   "file": "w900",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 2.931,
+    "H": 0.81,
+    "X": 0.0035,
+    "top": 0.8
+   },
+   "w2": {
+    "W": 2.997,
+    "H": 0.8205,
+    "X": 0.03125,
+    "top": 0.81
+   }
+  },
+  {
+   "id": "l-smcp-w900",
+   "file": "w900",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"smcp\" 1"
+   },
+   "w1": {
+    "W": 2.81475,
+    "H": 0.714,
+    "X": 0.01,
+    "top": 0.705
+   },
+   "w2": {
+    "W": 2.87225,
+    "H": 0.71425,
+    "X": 0.03225,
+    "top": 0.70525
+   }
+  },
+  {
+   "id": "l-ss01-w900",
+   "file": "w900",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 2.8855,
+    "H": 0.78,
+    "X": 0.02,
+    "top": 0.77
+   },
+   "w2": {
+    "W": 2.9685,
+    "H": 0.8105,
+    "X": 0.0325,
+    "top": 0.8
+   }
+  }
+ ]
+}

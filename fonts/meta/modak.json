@@ -1,0 +1,100 @@
+{
+ "id": "modak",
+ "family": "Modak",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/modak/Modak-Regular.ttf",
+  "sha256": "9a96ba056ddcbb7d0c937c52f744ff5d71004a97689b1fd2cdbd678f314db245"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright (c) 2015 Ek Type (www.ektype.in)",
+ "archetype": [
+  "D"
+ ],
+ "traits": [
+  "fat",
+  "groovy",
+  "rounded",
+  "sans"
+ ],
+ "odds": 10,
+ "upm": 2048,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 3756,
+   "sha256": "898e02e33d268c6e18717af4f61f53f1cc751253088c5f52106cc346a187577d",
+   "asc": 1493,
+   "desc": 32,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.50977,
+    "H": 0.64502,
+    "X": 0.00342,
+    "top": 0.62988
+   },
+   "w2": {
+    "W": 3.50781,
+    "H": 0.74414,
+    "X": 0.01074,
+    "top": 0.729
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.75,
+    "H": 0.66113,
+    "X": 0.00342,
+    "top": 0.64551
+   },
+   "w2": {
+    "W": 3.9126,
+    "H": 0.66113,
+    "X": 0.01074,
+    "top": 0.64551
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.39014,
+    "H": 0.67871,
+    "X": 0.00586,
+    "top": 0.66357
+   },
+   "w2": {
+    "W": 3.41406,
+    "H": 0.74414,
+    "X": 0.00977,
+    "top": 0.729
+   }
+  }
+ ]
+}

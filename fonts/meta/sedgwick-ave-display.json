@@ -1,0 +1,99 @@
+{
+ "id": "sedgwick-ave-display",
+ "family": "Sedgwick Ave Display",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sedgwickavedisplay/SedgwickAveDisplay-Regular.ttf",
+  "sha256": "3b9c295a146bafb93c8a12c1dde38a2fe47512777daf1458825e291752469a38"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2017 The Sedgwick Ave Project Authors (https://github.com/googlefonts/sedgwickave)",
+ "archetype": [
+  "C"
+ ],
+ "traits": [
+  "brush",
+  "overlap",
+  "script"
+ ],
+ "odds": 8,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 4144,
+   "sha256": "3eed60885a17f9f1df313dead14ee77115e118f81399c3264fcae404f424078f",
+   "asc": 890,
+   "desc": 21,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.968,
+    "H": 0.812,
+    "X": -0.039,
+    "top": 0.814
+   },
+   "w2": {
+    "W": 2.938,
+    "H": 0.899,
+    "X": 0.033,
+    "top": 0.878
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.499,
+    "H": 0.883,
+    "X": -0.039,
+    "top": 0.865
+   },
+   "w2": {
+    "W": 3.442,
+    "H": 0.911,
+    "X": 0.033,
+    "top": 0.89
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.803,
+    "H": 0.814,
+    "X": 0.036,
+    "top": 0.815
+   },
+   "w2": {
+    "W": 2.895,
+    "H": 0.876,
+    "X": 0.006,
+    "top": 0.878
+   }
+  }
+ ]
+}

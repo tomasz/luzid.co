@@ -1,0 +1,99 @@
+{
+ "id": "barriecito",
+ "family": "Barriecito",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/barriecito/Barriecito-Regular.ttf",
+  "sha256": "ff32a099b68e0eb5e236adcb9a58141d00fbdf196586e421d1c6a0d1859f75b8"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2018 The Barriecito Project Authors (https://github.com/Omnibus-Type/Barrio/Barriecito)",
+ "archetype": [
+  "D"
+ ],
+ "traits": [
+  "fat",
+  "groovy",
+  "sans"
+ ],
+ "odds": 7,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 7344,
+   "sha256": "3c12c3edd771a9eca68231ebbb913167052b8dd45590905b0d2a45dc3c058799",
+   "asc": 773,
+   "desc": 27,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.369,
+    "H": 0.725,
+    "X": 0.014,
+    "top": 0.703
+   },
+   "w2": {
+    "W": 2.962,
+    "H": 0.795,
+    "X": 0.037,
+    "top": 0.773
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.415,
+    "H": 0.76,
+    "X": 0.014,
+    "top": 0.733
+   },
+   "w2": {
+    "W": 3.541,
+    "H": 0.736,
+    "X": 0.037,
+    "top": 0.714
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.139,
+    "H": 0.73,
+    "X": 0.015,
+    "top": 0.708
+   },
+   "w2": {
+    "W": 2.916,
+    "H": 0.795,
+    "X": 0.037,
+    "top": 0.773
+   }
+  }
+ ]
+}

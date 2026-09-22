@@ -1,0 +1,77 @@
+{
+ "id": "damion",
+ "family": "Damion",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/damion/Damion-Regular.ttf",
+  "sha256": "a51fd6c3c517feb9924b98139c2e902a7317caee52c22a2ec9682973969562bf"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2014 The Damion Project Authors (https://github.com/googlefonts/damionFont)",
+ "archetype": [
+  "C"
+ ],
+ "traits": [
+  "brush",
+  "connected",
+  "script"
+ ],
+ "odds": 9,
+ "upm": 2048,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 4432,
+   "sha256": "cf4bd0c557c99121028880ac708da3353f0142d830c76c558a6214734d081a4d",
+   "asc": 1443,
+   "desc": 446,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.66699,
+    "H": 0.92236,
+    "X": 0.12305,
+    "top": 0.70459
+   },
+   "w2": {
+    "W": 2.82666,
+    "H": 0.92236,
+    "X": 0.07129,
+    "top": 0.70459
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.62158,
+    "H": 0.79492,
+    "X": 0.02148,
+    "top": 0.57715
+   },
+   "w2": {
+    "W": 2.6875,
+    "H": 0.86816,
+    "X": 0.01807,
+    "top": 0.65039
+   }
+  }
+ ]
+}

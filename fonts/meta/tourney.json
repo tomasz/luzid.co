@@ -1,0 +1,313 @@
+{
+ "id": "tourney",
+ "family": "Tourney",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/tourney/Tourney[wdth,wght].ttf",
+  "sha256": "ee686a1a657ca9397d4d1e9ba3ada1c10a5d9b6da53aeb94411cd62b1b793377"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2020 The Tourney Project Authors (https://github.com/Etcetera-Type-Co/Tourney)",
+ "archetype": [
+  "B"
+ ],
+ "traits": [
+  "fat",
+  "overlap",
+  "sans",
+  "wide"
+ ],
+ "odds": 7,
+ "upm": 2000,
+ "files": [
+  {
+   "id": "w900x",
+   "axes": {
+    "wght": 900,
+    "wdth": 125
+   },
+   "bytes": 2836,
+   "sha256": "8afed9d72183c68f95a6895d0e6168963280377a625ccaab54fca6eeaeb6cba3",
+   "asc": 1500,
+   "desc": 0,
+   "glyphs": 23
+  },
+  {
+   "id": "w900n",
+   "axes": {
+    "wght": 900,
+    "wdth": 100
+   },
+   "bytes": 2832,
+   "sha256": "7624eb8173b6c9531f3cd5f0569f20f9d80bdff8bbc2530e974d2e106494d07f",
+   "asc": 1500,
+   "desc": 0,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-w900x",
+   "file": "w900x",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.434,
+    "H": 0.7,
+    "X": 0.045,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 4.4765,
+    "H": 0.75,
+    "X": 0.06,
+    "top": 0.75
+   }
+  },
+  {
+   "id": "n-base-w900n",
+   "file": "w900n",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.5835,
+    "H": 0.7,
+    "X": 0.0375,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 3.664,
+    "H": 0.75,
+    "X": 0.0525,
+    "top": 0.75
+   }
+  },
+  {
+   "id": "u-base-w900x",
+   "file": "w900x",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.7905,
+    "H": 0.7,
+    "X": 0.045,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 5.07,
+    "H": 0.7,
+    "X": 0.06,
+    "top": 0.7
+   }
+  },
+  {
+   "id": "u-base-w900n",
+   "file": "w900n",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.853,
+    "H": 0.7,
+    "X": 0.0375,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 4.1145,
+    "H": 0.7,
+    "X": 0.0525,
+    "top": 0.7
+   }
+  },
+  {
+   "id": "l-base-w900x",
+   "file": "w900x",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.385,
+    "H": 0.677,
+    "X": 0.03,
+    "top": 0.677
+   },
+   "w2": {
+    "W": 4.4545,
+    "H": 0.75,
+    "X": 0.0625,
+    "top": 0.75
+   }
+  },
+  {
+   "id": "l-base-w900n",
+   "file": "w900n",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.588,
+    "H": 0.677,
+    "X": 0.0225,
+    "top": 0.677
+   },
+   "w2": {
+    "W": 3.642,
+    "H": 0.75,
+    "X": 0.055,
+    "top": 0.75
+   }
+  },
+  {
+   "id": "n-ss01-w900x",
+   "file": "w900x",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 4.434,
+    "H": 0.7,
+    "X": 0.045,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 4.1405,
+    "H": 0.75,
+    "X": 0.06,
+    "top": 0.75
+   }
+  },
+  {
+   "id": "n-ss01-w900n",
+   "file": "w900n",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 3.5835,
+    "H": 0.7,
+    "X": 0.0375,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 3.4345,
+    "H": 0.75,
+    "X": 0.0525,
+    "top": 0.75
+   }
+  },
+  {
+   "id": "u-ss01-w900x",
+   "file": "w900x",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 4.7945,
+    "H": 0.7,
+    "X": 0.045,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 4.7015,
+    "H": 0.7,
+    "X": 0.06,
+    "top": 0.7
+   }
+  },
+  {
+   "id": "u-ss01-w900n",
+   "file": "w900n",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 3.8645,
+    "H": 0.7,
+    "X": 0.0375,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 3.879,
+    "H": 0.7,
+    "X": 0.0525,
+    "top": 0.7
+   }
+  },
+  {
+   "id": "l-ss01-w900x",
+   "file": "w900x",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 4.3525,
+    "H": 0.677,
+    "X": 0.03,
+    "top": 0.677
+   },
+   "w2": {
+    "W": 4.1185,
+    "H": 0.75,
+    "X": 0.0625,
+    "top": 0.75
+   }
+  },
+  {
+   "id": "l-ss01-w900n",
+   "file": "w900n",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 3.5555,
+    "H": 0.677,
+    "X": 0.0225,
+    "top": 0.677
+   },
+   "w2": {
+    "W": 3.4125,
+    "H": 0.75,
+    "X": 0.055,
+    "top": 0.75
+   }
+  }
+ ]
+}

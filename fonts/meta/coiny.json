@@ -1,0 +1,100 @@
+{
+ "id": "coiny",
+ "family": "Coiny",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/coiny/Coiny-Regular.ttf",
+  "sha256": "ef02d723a54abe4819bea54ea8b2ecf72d77d258010bb336cd4862a37705eac7"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2015 Marcelo Magalhaes (marcelommp@gmail.com @marcelommp)",
+ "archetype": [
+  "D",
+  "E"
+ ],
+ "traits": [
+  "fat",
+  "rounded",
+  "sans"
+ ],
+ "odds": 7,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 4728,
+   "sha256": "cd46081947194538e54d51fa1f4eef5804a5a98451275085357aa6689a8f5420",
+   "asc": 692,
+   "desc": 8,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.761,
+    "H": 0.693,
+    "X": 0.049,
+    "top": 0.685
+   },
+   "w2": {
+    "W": 3.899,
+    "H": 0.7,
+    "X": 0.051,
+    "top": 0.692
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.478,
+    "H": 0.699,
+    "X": 0.049,
+    "top": 0.692
+   },
+   "w2": {
+    "W": 4.632,
+    "H": 0.699,
+    "X": 0.051,
+    "top": 0.692
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.676,
+    "H": 0.652,
+    "X": 0.028,
+    "top": 0.644
+   },
+   "w2": {
+    "W": 3.749,
+    "H": 0.7,
+    "X": 0.04,
+    "top": 0.692
+   }
+  }
+ ]
+}

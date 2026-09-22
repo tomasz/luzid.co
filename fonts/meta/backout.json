@@ -1,0 +1,274 @@
+{
+ "id": "backout",
+ "family": "BackOut",
+ "src": {
+  "url": "https://gitlab.com/velvetyne/backout/-/raw/4f894ca0bf7d46e12a1e818d24a1234660e5848b/fonts/BackOut.ttf",
+  "sha256": "07eb28e21bec97eec99b64750ac2ea178ed2fd864bc35883ade494e347735fb4"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Created by Frank ADEBIAYE, edited by Ariel Martín Pérez (Velvetyne Type Foundry).",
+ "archetype": [
+  "B"
+ ],
+ "traits": [
+  "sans",
+  "stencil"
+ ],
+ "odds": 8,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 5124,
+   "sha256": "c2b09bd133c044e59988ffe2ecb47b33505cbebf724d5519b12eb8a31fa6d306",
+   "asc": 1066,
+   "desc": 363,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 500,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.802,
+    "H": 0.873,
+    "X": 0.032,
+    "top": 0.862
+   },
+   "w2": {
+    "W": 2.861,
+    "H": 0.874,
+    "X": 0.032,
+    "top": 0.863
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 500,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.948,
+    "H": 0.882,
+    "X": 0.032,
+    "top": 0.872
+   },
+   "w2": {
+    "W": 3.367,
+    "H": 0.936,
+    "X": 0.032,
+    "top": 0.926
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 500,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.721,
+    "H": 0.811,
+    "X": 0.032,
+    "top": 0.8
+   },
+   "w2": {
+    "W": 2.777,
+    "H": 0.874,
+    "X": 0.032,
+    "top": 0.863
+   }
+  },
+  {
+   "id": "n-ss01-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 500,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 2.671,
+    "H": 0.863,
+    "X": 0.032,
+    "top": 0.862
+   },
+   "w2": {
+    "W": 2.572,
+    "H": 0.864,
+    "X": 0.042,
+    "top": 0.863
+   }
+  },
+  {
+   "id": "u-ss01-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 500,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 3.247,
+    "H": 0.864,
+    "X": 0.032,
+    "top": 0.863
+   },
+   "w2": {
+    "W": 3.004,
+    "H": 0.926,
+    "X": 0.042,
+    "top": 0.926
+   }
+  },
+  {
+   "id": "l-ss01-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 500,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 2.582,
+    "H": 0.801,
+    "X": 0.032,
+    "top": 0.8
+   },
+   "w2": {
+    "W": 2.585,
+    "H": 0.864,
+    "X": 0.042,
+    "top": 0.863
+   }
+  },
+  {
+   "id": "n-ss02-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 500,
+    "style": "normal",
+    "feat": "\"ss02\" 1"
+   },
+   "w1": {
+    "W": 2.798,
+    "H": 1.077,
+    "X": -0.132,
+    "top": 1.066
+   },
+   "w2": {
+    "W": 2.861,
+    "H": 0.874,
+    "X": 0.032,
+    "top": 0.863
+   }
+  },
+  {
+   "id": "u-ss02-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 500,
+    "style": "normal",
+    "feat": "\"ss02\" 1"
+   },
+   "w1": {
+    "W": 3.339,
+    "H": 1.429,
+    "X": -0.132,
+    "top": 1.066
+   },
+   "w2": {
+    "W": 3.192,
+    "H": 0.927,
+    "X": 0.032,
+    "top": 0.926
+   }
+  },
+  {
+   "id": "l-ss03-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 500,
+    "style": "normal",
+    "feat": "\"ss03\" 1"
+   },
+   "w1": {
+    "W": 2.785,
+    "H": 0.811,
+    "X": 0.032,
+    "top": 0.8
+   },
+   "w2": {
+    "W": 2.777,
+    "H": 0.874,
+    "X": 0.032,
+    "top": 0.863
+   }
+  },
+  {
+   "id": "n-ss03-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 500,
+    "style": "normal",
+    "feat": "\"ss03\" 1"
+   },
+   "w1": {
+    "W": 2.866,
+    "H": 0.873,
+    "X": 0.032,
+    "top": 0.862
+   },
+   "w2": {
+    "W": 2.861,
+    "H": 0.874,
+    "X": 0.032,
+    "top": 0.863
+   }
+  },
+  {
+   "id": "u-ss03-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 500,
+    "style": "normal",
+    "feat": "\"ss03\" 1"
+   },
+   "w1": {
+    "W": 4.006,
+    "H": 0.882,
+    "X": 0.032,
+    "top": 0.872
+   },
+   "w2": {
+    "W": 3.367,
+    "H": 0.936,
+    "X": 0.032,
+    "top": 0.926
+   }
+  }
+ ]
+}

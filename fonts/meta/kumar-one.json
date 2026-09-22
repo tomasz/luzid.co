@@ -1,0 +1,98 @@
+{
+ "id": "kumar-one",
+ "family": "Kumar One",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/kumarone/KumarOne-Regular.ttf",
+  "sha256": "04d6479721639f0d00aa34cfaa18d940eacf84060b427433edb70100b6d01100"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright (c) 2015 Indian Type Foundry (info@indiantypefoundry.com)",
+ "archetype": [
+  "D"
+ ],
+ "traits": [
+  "fat",
+  "sans"
+ ],
+ "odds": 7,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 1836,
+   "sha256": "05d8bc1db1e474fd549214586b563849e8e6333f368040b37e60717ade4e9cf5",
+   "asc": 985,
+   "desc": 10,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.568,
+    "H": 0.81,
+    "X": 0.05,
+    "top": 0.8
+   },
+   "w2": {
+    "W": 4.31,
+    "H": 0.985,
+    "X": 0.05,
+    "top": 0.985
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.975,
+    "H": 0.82,
+    "X": 0.05,
+    "top": 0.81
+   },
+   "w2": {
+    "W": 4.909,
+    "H": 0.81,
+    "X": 0.05,
+    "top": 0.81
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.313,
+    "H": 0.78,
+    "X": 0.01,
+    "top": 0.77
+   },
+   "w2": {
+    "W": 4.205,
+    "H": 0.985,
+    "X": 0.04,
+    "top": 0.985
+   }
+  }
+ ]
+}

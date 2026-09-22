@@ -1,0 +1,77 @@
+{
+ "id": "yellowtail",
+ "family": "Yellowtail",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/yellowtail/Yellowtail-Regular.ttf",
+  "sha256": "3e06841b13000975f3cc38aa84e326e601a4378a4c52d50b5e9fee3598c5d236"
+ },
+ "licenseId": "Apache-2.0",
+ "copyright": "Copyright (c) 2011 by Brian J. Bonislawsky DBA Astigmatic (AOETI). All rights reserved.",
+ "archetype": [
+  "C"
+ ],
+ "traits": [
+  "brush",
+  "connected",
+  "script"
+ ],
+ "odds": 9,
+ "upm": 2048,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 4016,
+   "sha256": "15a53a97ac87e02fcf3ecc94034e901b53d174e041f044bd3472c90f1d20476b",
+   "asc": 1501,
+   "desc": 49,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.56982,
+    "H": 0.74707,
+    "X": 0.16113,
+    "top": 0.72314
+   },
+   "w2": {
+    "W": 2.52197,
+    "H": 0.75293,
+    "X": 0.08008,
+    "top": 0.73291
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.35449,
+    "H": 0.64746,
+    "X": 0.02441,
+    "top": 0.62891
+   },
+   "w2": {
+    "W": 2.37646,
+    "H": 0.75293,
+    "X": 0.02197,
+    "top": 0.73291
+   }
+  }
+ ]
+}

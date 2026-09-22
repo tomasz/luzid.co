@@ -1,0 +1,165 @@
+{
+ "id": "style-script",
+ "family": "Style Script",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/stylescript/StyleScript-Regular.ttf",
+  "sha256": "4f285aa7b2e87de9ea8fc3d3a571cc428257c42ac77b5f786d99d9949ac4ed9a"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2013 The Style Script Project Authors (https://github.com/googlefonts/style-script)",
+ "archetype": [
+  "C"
+ ],
+ "traits": [
+  "brush",
+  "connected",
+  "script"
+ ],
+ "odds": 7,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 9152,
+   "sha256": "080fa00a6517ccf6c842efb826380fc36a7cf450c28ce47fa7e533e6a4cccfde",
+   "asc": 764,
+   "desc": 367,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.629,
+    "H": 1.081,
+    "X": 0.01,
+    "top": 0.714
+   },
+   "w2": {
+    "W": 2.49,
+    "H": 1.128,
+    "X": 0.036,
+    "top": 0.761
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.14,
+    "H": 0.965,
+    "X": -0.004,
+    "top": 0.598
+   },
+   "w2": {
+    "W": 2.13,
+    "H": 1.128,
+    "X": 0.025,
+    "top": 0.761
+   }
+  },
+  {
+   "id": "n-ss01-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 2.298,
+    "H": 0.71,
+    "X": 0.011,
+    "top": 0.679
+   },
+   "w2": {
+    "W": 2.285,
+    "H": 0.779,
+    "X": 0.019,
+    "top": 0.761
+   }
+  },
+  {
+   "id": "l-ss01-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 2.009,
+    "H": 0.61,
+    "X": 0.002,
+    "top": 0.593
+   },
+   "w2": {
+    "W": 2.047,
+    "H": 0.776,
+    "X": 0.025,
+    "top": 0.761
+   }
+  },
+  {
+   "id": "n-ss02-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss02\" 1"
+   },
+   "w1": {
+    "W": 2.445,
+    "H": 1.046,
+    "X": 0.011,
+    "top": 0.679
+   },
+   "w2": {
+    "W": 2.345,
+    "H": 1.131,
+    "X": 0.019,
+    "top": 0.764
+   }
+  },
+  {
+   "id": "l-ss02-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss02\" 1"
+   },
+   "w1": {
+    "W": 2.162,
+    "H": 0.965,
+    "X": -0.004,
+    "top": 0.598
+   },
+   "w2": {
+    "W": 2.107,
+    "H": 1.131,
+    "X": 0.025,
+    "top": 0.764
+   }
+  }
+ ]
+}

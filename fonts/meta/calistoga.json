@@ -1,0 +1,99 @@
+{
+ "id": "calistoga",
+ "family": "Calistoga",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/calistoga/Calistoga-Regular.ttf",
+  "sha256": "85a5accb2453368357d432fd0edf4701545cac7551946711c06085677fd1399f"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2019 The Calistoga Project Authors (https://github.com/SorkinType/Calistoga)",
+ "archetype": [
+  "A"
+ ],
+ "traits": [
+  "fat",
+  "serif",
+  "soft"
+ ],
+ "odds": 9,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 3596,
+   "sha256": "736edfc8676fd0b7d86dc4a763be8d2d72e4997cc19e0e114c4c32ecb1159e4a",
+   "asc": 801,
+   "desc": 16,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.548,
+    "H": 0.723,
+    "X": 0.008,
+    "top": 0.71
+   },
+   "w2": {
+    "W": 3.402,
+    "H": 0.815,
+    "X": 0.025,
+    "top": 0.801
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.076,
+    "H": 0.726,
+    "X": 0.008,
+    "top": 0.71
+   },
+   "w2": {
+    "W": 4.032,
+    "H": 0.726,
+    "X": 0.025,
+    "top": 0.71
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.309,
+    "H": 0.714,
+    "X": 0.01,
+    "top": 0.701
+   },
+   "w2": {
+    "W": 3.289,
+    "H": 0.816,
+    "X": 0.029,
+    "top": 0.801
+   }
+  }
+ ]
+}

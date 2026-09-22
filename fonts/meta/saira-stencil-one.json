@@ -1,0 +1,98 @@
+{
+ "id": "saira-stencil-one",
+ "family": "Saira Stencil One",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sairastencilone/SairaStencilOne-Regular.ttf",
+  "sha256": "781496fdaf8e04cf6741b31025f6b4ba84f66021b097a8e0d85cbea2180cf223"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2019 The Saira Stencil Project Authors (https://github.com/Omnibus-Type/Saira/SairaStencil)",
+ "archetype": [
+  "B"
+ ],
+ "traits": [
+  "sans",
+  "stencil"
+ ],
+ "odds": 7,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 2612,
+   "sha256": "cb0efb06191b1f8c3cabe9a0f9d5ea41c388a5819005e4a2c07a75809a5f91dd",
+   "asc": 743,
+   "desc": 8,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.516,
+    "H": 0.696,
+    "X": 0.009,
+    "top": 0.688
+   },
+   "w2": {
+    "W": 3.347,
+    "H": 0.751,
+    "X": 0.047,
+    "top": 0.743
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.032,
+    "H": 0.704,
+    "X": 0.009,
+    "top": 0.696
+   },
+   "w2": {
+    "W": 4.031,
+    "H": 0.704,
+    "X": 0.047,
+    "top": 0.696
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.378,
+    "H": 0.666,
+    "X": 0.018,
+    "top": 0.658
+   },
+   "w2": {
+    "W": 3.249,
+    "H": 0.751,
+    "X": 0.042,
+    "top": 0.743
+   }
+  }
+ ]
+}

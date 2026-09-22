@@ -39,7 +39,14 @@ import { decode } from '../scripts/woff2.mjs'
 const url = (p) => new URL(`../${p}`, import.meta.url)
 const readJson = async (p) => JSON.parse(await readFile(url(p), 'utf8'))
 
-const sources = await readJson('fonts/sources/seed.json')
+// Every batch, not just the seed set: once a Wave-2 batch ships, its metas are on disk
+// and a seed-only source list makes every cross-check below compare two different worlds.
+const sources = []
+for (const name of (await readdir(url('fonts/sources'))).filter((f) => f.endsWith('.json')).sort()) {
+  sources.push(...(await readJson(`fonts/sources/${name}`)))
+}
+/** A known-good row for the negative cases below, found by id rather than by position. */
+const seedRow = sources.find((r) => r.id === 'boldonse')
 const metas = []
 for (const name of (await readdir(url('fonts/meta'))).filter((f) => f.endsWith('.json')).sort()) {
   metas.push(await readJson(`fonts/meta/${name}`))
@@ -60,7 +67,7 @@ function stub(overrides = {}) {
 // ---------------------------------------------------------------- rule 1: never the css2 API
 
 test('rule 1: the Google css2 API is never a source, and neither is a zip', () => {
-  const base = sources[1]
+  const base = seedRow
   assert.throws(
     () => validateRow({ ...base, url: 'https://fonts.googleapis.com/css2?family=Boldonse&text=Tomasz' }),
     /css2 API is never a source/,
@@ -95,6 +102,8 @@ test('rule 1: a source without an immutable commit ships the original alongside 
 
   const committed = await readdir(url('fonts/upstream'))
   for (const row of sources) {
+    // A queued row has no hash yet, so there is nothing on disk to compare it against.
+    if (row.sha256 === '') continue
     const { original } = upstreamPaths(row)
     if (pinnedToCommit(row.url)) {
       assert.ok(!committed.includes(original), `${row.id}: pinned to a commit, so it needs no committed copy`)
@@ -198,7 +207,7 @@ test('rule 3: a Reserved Font Name is rejected, and the OFL body is not a false 
 
 test('rule 3: licenseId is one of the three allowed, and every shipped font ships a licence', async () => {
   assert.deepEqual([...LICENSE_IDS].sort(), ['Apache-2.0', 'GUST', 'OFL-1.1'])
-  assert.throws(() => validateRow({ ...sources[1], licenseId: 'MIT' }), /licenseId MIT is not allowed/)
+  assert.throws(() => validateRow({ ...seedRow, licenseId: 'MIT' }), /licenseId MIT is not allowed/)
   for (const meta of metas) {
     assert.ok(LICENSE_IDS.has(meta.licenseId), `${meta.id}: ${meta.licenseId}`)
     const text = await readFile(url(`fonts/licenses/${meta.id}.txt`), 'utf8')
@@ -305,10 +314,10 @@ test('rule 5: the written metrics are the ones the metadata promises', async () 
       const m = readMetrics(tables)
       const where = `${meta.id}.${file.id}`
       assert.equal(m.ascender, file.asc, `${where}: hhea.ascender`)
-      assert.equal(m.descender, -file.desc, `${where}: hhea.descender`)
+      assert.equal(m.descender, file.desc === 0 ? 0 : -file.desc, `${where}: hhea.descender`)
       assert.equal(m.lineGap, 0, `${where}: hhea.lineGap`)
       assert.equal(m.sTypoAscender, file.asc, `${where}: sTypoAscender`)
-      assert.equal(m.sTypoDescender, -file.desc, `${where}: sTypoDescender`)
+      assert.equal(m.sTypoDescender, file.desc === 0 ? 0 : -file.desc, `${where}: sTypoDescender`)
       assert.equal(m.sTypoLineGap, 0, `${where}: sTypoLineGap`)
       assert.equal(m.usWinAscent, file.asc, `${where}: usWinAscent`)
       assert.equal(m.usWinDescent, file.desc, `${where}: usWinDescent`)
@@ -327,11 +336,15 @@ test('§5.2: the metadata records the em grid its metrics are on', async () => {
       assert.ok(!('upem' in file), `${meta.id}.${file.id}: upm is recorded once, at the top level`)
     }
   }
-  // The seed set deliberately spans three grids, so a hard-coded 1000 cannot pass.
-  assert.deepEqual(
-    [...new Set(metas.map((m) => m.upm))].sort((a, b) => a - b),
-    [1000, 2000, 2048],
+  // More than one em grid must be in play, so a hard-coded 1000 cannot pass. The exact set
+  // is not pinned: which grids appear depends on which batches have shipped, and the
+  // contract asks only for a positive integer equal to head.unitsPerEm.
+  const grids = [...new Set(metas.map((m) => m.upm))]
+  assert.ok(
+    grids.every((g) => Number.isInteger(g) && g > 0),
+    `upm must be a positive integer: ${grids}`,
   )
+  assert.ok(grids.length > 1, `expected more than one em grid across the library, got ${grids}`)
 })
 
 test('rule 5: the metrics keep every emitted line-height positive', () => {
@@ -413,9 +426,9 @@ test('source rows validate, with disjoint ids', () => {
   const seen = new Set()
   for (const row of sources) validateRow(row, seen)
   assert.equal(seen.size, sources.length)
-  assert.throws(() => validateRow(sources[0], seen), /duplicate id/)
+  assert.throws(() => validateRow(seedRow, seen), /duplicate id/)
 
-  const base = sources[1]
+  const base = seedRow
   assert.throws(() => validateRow({ ...base, id: 'Not Kebab' }), /kebab-case/)
   assert.throws(() => validateRow({ ...base, odds: 17 }), /odds must be an integer 0-16/)
   assert.throws(() => validateRow({ ...base, archetype: ['Z'] }), /unknown archetype Z/)
@@ -499,6 +512,7 @@ test('every shipped font agrees with its own source row', () => {
   // The metadata is the merge, so anything the row declared has to survive into it.
   for (const meta of metas) {
     const row = sources.find((r) => r.id === meta.id)
+    assert.ok(row, `${meta.id} has no source row`)
     for (const trait of row.traits) {
       assert.ok(meta.traits.includes(trait), `${meta.id}: declared ${trait} is missing from the metadata`)
     }
@@ -509,7 +523,10 @@ test('every shipped font agrees with its own source row', () => {
 test('the metadata describes exactly what is on disk', async () => {
   const files = new Set((await readdir(url('fonts/files'))).filter((f) => f.endsWith('.woff2')))
   const licenses = new Set((await readdir(url('fonts/licenses'))).filter((f) => f.endsWith('.txt')))
-  assert.equal(metas.length, sources.length, 'every source row must have produced metadata')
+  // Not every row ships: a batch agent drops a font whose licence reserves its name, whose
+  // Ł does not read, or that does not belong to its archetype. The invariant is the other
+  // direction — nothing on disk may lack a row.
+  assert.ok(metas.length <= sources.length, `${metas.length} metas from ${sources.length} rows`)
 
   for (const meta of metas) {
     const row = sources.find((r) => r.id === meta.id)
@@ -546,8 +563,10 @@ test('the metadata describes exactly what is on disk', async () => {
 
 test('the eight seed fonts cover the eight risky branches', () => {
   const byId = Object.fromEntries(metas.map((m) => [m.id, m]))
+  // The seed set is what proves each branch of the pipeline; it is not the whole catalogue.
+  // Wave-2 batches add to it, so assert the eight are PRESENT rather than alone.
   const ids = ['fraunces', 'boldonse', 'pacifico', 'cyklop', 'syncopate', 'coconat', 'bungee', 'unbounded']
-  assert.deepEqual(Object.keys(byId).sort(), [...ids].sort())
+  for (const id of ids) assert.ok(byId[id], `the ${id} seed font is missing from the catalogue`)
 
   assert.equal(byId.fraunces.files.length, 2, 'Fraunces ships static stops of a four-axis source')
   assert.deepEqual(Object.keys(byId.fraunces.files[0].axes).sort(), ['SOFT', 'WONK', 'opsz', 'wght'])

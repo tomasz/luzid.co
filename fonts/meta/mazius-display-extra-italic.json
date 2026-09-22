@@ -1,0 +1,99 @@
+{
+ "id": "mazius-display-extra-italic",
+ "family": "Mazius Display",
+ "src": {
+  "url": "https://raw.githubusercontent.com/collletttivo/mazius-display/5798d69b14f0b7c1691f031f2ecb98ebdb709b54/fonts/MaziusDisplay-Extraitalic.otf",
+  "sha256": "8f6a5b0559e36bfcfc8b4433cf0480d45477127620213d343cfe400fe1bb0adf"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright © 2023, Collletttivo (https://www.collletttivo.it/)",
+ "archetype": [
+  "A",
+  "F"
+ ],
+ "traits": [
+  "fat",
+  "serif"
+ ],
+ "odds": 7,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 2680,
+   "sha256": "84a3bca9246f794485e7443255eecb1061dac068fc49ad198e9ddb3f08a870ec",
+   "asc": 766,
+   "desc": 28,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.8,
+    "H": 0.728,
+    "X": 0.082,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 2.849,
+    "H": 0.794,
+    "X": 0.05,
+    "top": 0.766
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.646,
+    "H": 0.73,
+    "X": 0.082,
+    "top": 0.714
+   },
+   "w2": {
+    "W": 3.872,
+    "H": 0.728,
+    "X": 0.05,
+    "top": 0.714
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.641,
+    "H": 0.656,
+    "X": 0.018,
+    "top": 0.628
+   },
+   "w2": {
+    "W": 2.688,
+    "H": 0.794,
+    "X": 0.011,
+    "top": 0.766
+   }
+  }
+ ]
+}

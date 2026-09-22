@@ -1,0 +1,125 @@
+{
+ "id": "kablammo",
+ "family": "Kablammo",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/kablammo/Kablammo[MORF].ttf",
+  "sha256": "900c8c183efc8d913da30dceb9e4e9886888bbd48847455343f12ce85a334925"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2023 The Kablammo Project Authors (https://github.com/Vectro-Type-Foundry/kablammo)",
+ "archetype": [
+  "D"
+ ],
+ "traits": [
+  "capsOnly",
+  "fat",
+  "groovy",
+  "overlap",
+  "sans"
+ ],
+ "odds": 7,
+ "upm": 2000,
+ "files": [
+  {
+   "id": "m0",
+   "axes": {
+    "MORF": 0
+   },
+   "bytes": 8984,
+   "sha256": "d8b69c98d7e3d3913351b712b524d14cdf3c772c9087903110b6a45599c02045",
+   "asc": 1618,
+   "desc": 230,
+   "glyphs": 23
+  },
+  {
+   "id": "m30",
+   "axes": {
+    "MORF": 30
+   },
+   "bytes": 6456,
+   "sha256": "1496abeabb17b8bd7f8762b230ed9710c2efedbf4fd8b7776c4b00e923ec77e1",
+   "asc": 1598,
+   "desc": 244,
+   "glyphs": 23
+  },
+  {
+   "id": "m60",
+   "axes": {
+    "MORF": 60
+   },
+   "bytes": 8976,
+   "sha256": "9aea7133cef248f2fec8d2632047ab5beb2e1cbdd07e66cae94e88e22814a5b5",
+   "asc": 1610,
+   "desc": 251,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-m0",
+   "file": "m0",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.4155,
+    "H": 0.851,
+    "X": 0,
+    "top": 0.736
+   },
+   "w2": {
+    "W": 3.791,
+    "H": 0.9015,
+    "X": 0.04,
+    "top": 0.809
+   }
+  },
+  {
+   "id": "n-base-m30",
+   "file": "m30",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.431,
+    "H": 0.921,
+    "X": 0.0035,
+    "top": 0.799
+   },
+   "w2": {
+    "W": 3.836,
+    "H": 0.914,
+    "X": -0.0045,
+    "top": 0.799
+   }
+  },
+  {
+   "id": "n-base-m60",
+   "file": "m60",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.434,
+    "H": 0.9305,
+    "X": 0.002,
+    "top": 0.805
+   },
+   "w2": {
+    "W": 3.7975,
+    "H": 0.923,
+    "X": 0.0245,
+    "top": 0.805
+   }
+  }
+ ]
+}

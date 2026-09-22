@@ -1,0 +1,100 @@
+{
+ "id": "chewy",
+ "family": "Chewy",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/chewy/Chewy-Regular.ttf",
+  "sha256": "7cf75ea288f82fd20badea8ab4da7a656a96a7277c170811e813b3d3d6294147"
+ },
+ "licenseId": "Apache-2.0",
+ "copyright": "Copyright License. Subject to the terms and conditions of",
+ "archetype": [
+  "C",
+  "D"
+ ],
+ "traits": [
+  "brush",
+  "rounded",
+  "script"
+ ],
+ "odds": 7,
+ "upm": 1024,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 3236,
+   "sha256": "87cda5ff7d50ad0720ce4007ade042e78ea9c871471b0ebf0820b9db7d121fa9",
+   "asc": 801,
+   "desc": 49,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.79297,
+    "H": 0.76563,
+    "X": -0.0498,
+    "top": 0.73535
+   },
+   "w2": {
+    "W": 2.83691,
+    "H": 0.83008,
+    "X": 0.00488,
+    "top": 0.78223
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.04199,
+    "H": 0.7998,
+    "X": -0.0498,
+    "top": 0.76172
+   },
+   "w2": {
+    "W": 3.37891,
+    "H": 0.79883,
+    "X": 0.00488,
+    "top": 0.75098
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.78125,
+    "H": 0.76855,
+    "X": -0.03516,
+    "top": 0.7334
+   },
+   "w2": {
+    "W": 2.77832,
+    "H": 0.81055,
+    "X": 0.00977,
+    "top": 0.78223
+   }
+  }
+ ]
+}

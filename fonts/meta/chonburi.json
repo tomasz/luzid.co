@@ -1,0 +1,99 @@
+{
+ "id": "chonburi",
+ "family": "Chonburi",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/chonburi/Chonburi-Regular.ttf",
+  "sha256": "aa0dac4df08af10785ba1dc10121492227f8e4288f0a23d11dd1d1f5a7f6ebfa"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright (c) 2015, Cadson Demak (info@cadsondemak.com)",
+ "archetype": [
+  "A"
+ ],
+ "traits": [
+  "fat",
+  "serif",
+  "soft"
+ ],
+ "odds": 8,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 2260,
+   "sha256": "6925973300d229e973284226f223b1179e5e5327ce5b9e28da64a996a54c6a55",
+   "asc": 730,
+   "desc": 12,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.258,
+    "H": 0.712,
+    "X": 0.026,
+    "top": 0.7
+   },
+   "w2": {
+    "W": 4.164,
+    "H": 0.742,
+    "X": 0.056,
+    "top": 0.73
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.658,
+    "H": 0.724,
+    "X": 0.026,
+    "top": 0.712
+   },
+   "w2": {
+    "W": 4.884,
+    "H": 0.724,
+    "X": 0.056,
+    "top": 0.712
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.984,
+    "H": 0.681,
+    "X": 0.022,
+    "top": 0.669
+   },
+   "w2": {
+    "W": 4.052,
+    "H": 0.742,
+    "X": 0.05,
+    "top": 0.73
+   }
+  }
+ ]
+}

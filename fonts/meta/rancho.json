@@ -1,0 +1,76 @@
+{
+ "id": "rancho",
+ "family": "Rancho",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/rancho/Rancho-Regular.ttf",
+  "sha256": "1add7ee1a98ace8d687935b2a1735e1c53efc8a2108b73c8828db2df8a231306"
+ },
+ "licenseId": "Apache-2.0",
+ "copyright": "Copyright License. Subject to the terms and conditions of",
+ "archetype": [
+  "C"
+ ],
+ "traits": [
+  "brush",
+  "script"
+ ],
+ "odds": 8,
+ "upm": 1024,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 4004,
+   "sha256": "464cbf2a4c742f3c69ef6141af7733eeec45aa6f314d7bdba494cbaa4e42df2a",
+   "asc": 690,
+   "desc": 88,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.27734,
+    "H": 0.74414,
+    "X": -0.01953,
+    "top": 0.66309
+   },
+   "w2": {
+    "W": 2.18359,
+    "H": 0.75977,
+    "X": 0.00977,
+    "top": 0.67383
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.15918,
+    "H": 0.66504,
+    "X": -0.05469,
+    "top": 0.6377
+   },
+   "w2": {
+    "W": 2.03418,
+    "H": 0.69238,
+    "X": 0.01172,
+    "top": 0.66504
+   }
+  }
+ ]
+}

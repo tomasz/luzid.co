@@ -1,0 +1,98 @@
+{
+ "id": "permanent-marker",
+ "family": "Permanent Marker",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/permanentmarker/PermanentMarker-Regular.ttf",
+  "sha256": "28f82c8a7943cb8e9d599f8554da1d4fc75dbcf69b9885ad6c0611d20c6946c5"
+ },
+ "licenseId": "Apache-2.0",
+ "copyright": "Copyright License. Subject to the terms and conditions of",
+ "archetype": [
+  "C"
+ ],
+ "traits": [
+  "brush",
+  "script"
+ ],
+ "odds": 8,
+ "upm": 1024,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 5432,
+   "sha256": "6b7d42e924bfe3342f0335243adba6604fd74e0d3f4755bb415e088429f54539",
+   "asc": 763,
+   "desc": 41,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.67676,
+    "H": 0.76855,
+    "X": 0,
+    "top": 0.72949
+   },
+   "w2": {
+    "W": 3.69043,
+    "H": 0.75879,
+    "X": -0.00098,
+    "top": 0.71973
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.30176,
+    "H": 0.78516,
+    "X": 0,
+    "top": 0.74512
+   },
+   "w2": {
+    "W": 4.41895,
+    "H": 0.78516,
+    "X": -0.00098,
+    "top": 0.74512
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.54883,
+    "H": 0.65527,
+    "X": 0,
+    "top": 0.61621
+   },
+   "w2": {
+    "W": 3.59277,
+    "H": 0.65527,
+    "X": -0.00098,
+    "top": 0.61621
+   }
+  }
+ ]
+}

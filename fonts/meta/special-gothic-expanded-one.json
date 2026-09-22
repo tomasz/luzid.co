@@ -1,0 +1,99 @@
+{
+ "id": "special-gothic-expanded-one",
+ "family": "Special Gothic Expanded One",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/specialgothicexpandedone/SpecialGothicExpandedOne-Regular.ttf",
+  "sha256": "b6c347c00c607f9ca562e6054cadf87fb3ea20dbe2cc482bad3086fa4de48027"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2023 The Special Gothic Project Authors (https://github.com/AlistairMcCready/Special-Gothic/)",
+ "archetype": [
+  "B"
+ ],
+ "traits": [
+  "fat",
+  "sans",
+  "wide"
+ ],
+ "odds": 9,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 2456,
+   "sha256": "6c0b67dd27d4d791eed920f30060b163d4f20e65ee98765cae95d17b41a7a682",
+   "asc": 722,
+   "desc": 13,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.453,
+    "H": 0.722,
+    "X": 0.016,
+    "top": 0.71
+   },
+   "w2": {
+    "W": 4.498,
+    "H": 0.734,
+    "X": 0.031,
+    "top": 0.721
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 5.329,
+    "H": 0.734,
+    "X": 0.016,
+    "top": 0.722
+   },
+   "w2": {
+    "W": 5.345,
+    "H": 0.735,
+    "X": 0.031,
+    "top": 0.722
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.378,
+    "H": 0.685,
+    "X": 0.01,
+    "top": 0.673
+   },
+   "w2": {
+    "W": 4.317,
+    "H": 0.732,
+    "X": 0.027,
+    "top": 0.72
+   }
+  }
+ ]
+}

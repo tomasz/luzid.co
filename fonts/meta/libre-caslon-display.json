@@ -1,0 +1,120 @@
+{
+ "id": "libre-caslon-display",
+ "family": "Libre Caslon Display",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/librecaslondisplay/LibreCaslonDisplay-Regular.ttf",
+  "sha256": "2340c497181e9446fcbb235e1c3780558dc62879ffe0ef47906d3f7f35cf5f35"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2012 The Libre Caslon Display Authors (https://github.com/impallari/Libre-Caslon-Display)",
+ "archetype": [
+  "A",
+  "F"
+ ],
+ "traits": [
+  "serif"
+ ],
+ "odds": 6,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 3024,
+   "sha256": "8906ac15d63287a7daae5fab86559348fb42867481deed4cf2956dc701110044",
+   "asc": 721,
+   "desc": 16,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.722,
+    "H": 0.716,
+    "X": 0.024,
+    "top": 0.706
+   },
+   "w2": {
+    "W": 2.871,
+    "H": 0.737,
+    "X": 0.052,
+    "top": 0.721
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.99,
+    "H": 0.722,
+    "X": 0.024,
+    "top": 0.706
+   },
+   "w2": {
+    "W": 4.166,
+    "H": 0.722,
+    "X": 0.052,
+    "top": 0.706
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.456,
+    "H": 0.53,
+    "X": 0.024,
+    "top": 0.52
+   },
+   "w2": {
+    "W": 2.613,
+    "H": 0.731,
+    "X": 0.04,
+    "top": 0.721
+   }
+  },
+  {
+   "id": "u-ss01-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "\"ss01\" 1"
+   },
+   "w1": {
+    "W": 3.989,
+    "H": 0.722,
+    "X": 0.024,
+    "top": 0.706
+   },
+   "w2": {
+    "W": 4.166,
+    "H": 0.722,
+    "X": 0.052,
+    "top": 0.706
+   }
+  }
+ ]
+}

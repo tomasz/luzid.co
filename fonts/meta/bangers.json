@@ -1,0 +1,57 @@
+{
+ "id": "bangers",
+ "family": "Bangers",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bangers/Bangers-Regular.ttf",
+  "sha256": "4160a7311de9342674cce9160cde9fcbb30f48190397d86ff1b70b455af65824"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2010 The Bangers Project Authors (https://github.com/googlefonts/bangers)",
+ "archetype": [
+  "D"
+ ],
+ "traits": [
+  "condensed",
+  "connected",
+  "fat",
+  "sans",
+  "unicase"
+ ],
+ "odds": 8,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 2284,
+   "sha256": "4f411920db53b736a5de160bdb126b85e4bebfdce2a233171dd3efe1d624f16a",
+   "asc": 755,
+   "desc": 18,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.779,
+    "H": 0.759,
+    "X": 0.09,
+    "top": 0.755
+   },
+   "w2": {
+    "W": 2.737,
+    "H": 0.766,
+    "X": 0.039,
+    "top": 0.748
+   }
+  }
+ ]
+}

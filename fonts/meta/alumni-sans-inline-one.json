@@ -1,0 +1,99 @@
+{
+ "id": "alumni-sans-inline-one",
+ "family": "Alumni Sans Inline One",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/alumnisansinlineone/AlumniSansInlineOne-Regular.ttf",
+  "sha256": "e77a9db5e63f9316840cab59d1364cd40334d6cd441c0b43fe2a18b2521e0e7e"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2014 The Alumni Sans Inline Project Authors (https://github.com/googlefonts/alumni-sans-inline)",
+ "archetype": [
+  "B"
+ ],
+ "traits": [
+  "condensed",
+  "inline",
+  "sans"
+ ],
+ "odds": 7,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 3432,
+   "sha256": "375cd926363ac111068f0e89e2a4af4e967a6efd284ebb79b39b1e842b1a1950",
+   "asc": 695,
+   "desc": 14,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.339,
+    "H": 0.605,
+    "X": 0.008,
+    "top": 0.591
+   },
+   "w2": {
+    "W": 2.342,
+    "H": 0.707,
+    "X": 0.02,
+    "top": 0.695
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.382,
+    "H": 0.612,
+    "X": 0.008,
+    "top": 0.6
+   },
+   "w2": {
+    "W": 2.426,
+    "H": 0.612,
+    "X": 0.02,
+    "top": 0.6
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.328,
+    "H": 0.599,
+    "X": 0.002,
+    "top": 0.585
+   },
+   "w2": {
+    "W": 2.328,
+    "H": 0.707,
+    "X": 0.02,
+    "top": 0.695
+   }
+  }
+ ]
+}

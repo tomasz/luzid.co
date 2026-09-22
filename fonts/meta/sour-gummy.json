@@ -1,0 +1,271 @@
+{
+ "id": "sour-gummy",
+ "family": "Sour Gummy",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sourgummy/SourGummy[wdth,wght].ttf",
+  "sha256": "a9a710e4a90795f006b83fcf2ff3e036fc851d32c3c65762228df3c825675fd6"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2018 The Sour Gummy Project Authors (https://github.com/eifetx/Sour-Gummy-Fonts)",
+ "archetype": [
+  "D",
+  "E"
+ ],
+ "traits": [
+  "fat",
+  "groovy",
+  "overlap",
+  "rounded",
+  "sans"
+ ],
+ "odds": 8,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "w900x",
+   "axes": {
+    "wght": 900,
+    "wdth": 125
+   },
+   "bytes": 3796,
+   "sha256": "322995a76725128a476f010f4da0cdcfd7223d8d632448d153340fab058632d8",
+   "asc": 692,
+   "desc": 12,
+   "glyphs": 23
+  },
+  {
+   "id": "w900n",
+   "axes": {
+    "wght": 900,
+    "wdth": 100
+   },
+   "bytes": 3676,
+   "sha256": "ca297356cd5199faf7345ca4ead662023dbd45660f762439dda038dc5b753aef",
+   "asc": 692,
+   "desc": 12,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-w900x",
+   "file": "w900x",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 5.556,
+    "H": 0.665,
+    "X": 0.042,
+    "top": 0.657
+   },
+   "w2": {
+    "W": 5.154,
+    "H": 0.699,
+    "X": 0.042,
+    "top": 0.692
+   }
+  },
+  {
+   "id": "n-base-w900n",
+   "file": "w900n",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.664,
+    "H": 0.665,
+    "X": 0.028,
+    "top": 0.657
+   },
+   "w2": {
+    "W": 3.407,
+    "H": 0.699,
+    "X": 0.028,
+    "top": 0.692
+   }
+  },
+  {
+   "id": "u-base-w900x",
+   "file": "w900x",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 5.52,
+    "H": 0.664,
+    "X": 0.042,
+    "top": 0.657
+   },
+   "w2": {
+    "W": 5.779,
+    "H": 0.663,
+    "X": 0.042,
+    "top": 0.656
+   }
+  },
+  {
+   "id": "u-base-w900n",
+   "file": "w900n",
+   "case": "uppercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.631,
+    "H": 0.664,
+    "X": 0.028,
+    "top": 0.657
+   },
+   "w2": {
+    "W": 3.822,
+    "H": 0.663,
+    "X": 0.028,
+    "top": 0.656
+   }
+  },
+  {
+   "id": "l-base-w900x",
+   "file": "w900x",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 5.515,
+    "H": 0.661,
+    "X": 0.042,
+    "top": 0.653
+   },
+   "w2": {
+    "W": 5.023,
+    "H": 0.704,
+    "X": 0.041,
+    "top": 0.692
+   }
+  },
+  {
+   "id": "l-base-w900n",
+   "file": "w900n",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.641,
+    "H": 0.661,
+    "X": 0.028,
+    "top": 0.653
+   },
+   "w2": {
+    "W": 3.32,
+    "H": 0.704,
+    "X": 0.027,
+    "top": 0.692
+   }
+  },
+  {
+   "id": "n-hist-w900x",
+   "file": "w900x",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"hist\" 1"
+   },
+   "w1": {
+    "W": 5.506,
+    "H": 0.66,
+    "X": 0.042,
+    "top": 0.657
+   },
+   "w2": {
+    "W": 5.154,
+    "H": 0.699,
+    "X": 0.042,
+    "top": 0.692
+   }
+  },
+  {
+   "id": "n-hist-w900n",
+   "file": "w900n",
+   "case": "none",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"hist\" 1"
+   },
+   "w1": {
+    "W": 3.628,
+    "H": 0.66,
+    "X": 0.028,
+    "top": 0.657
+   },
+   "w2": {
+    "W": 3.407,
+    "H": 0.699,
+    "X": 0.028,
+    "top": 0.692
+   }
+  },
+  {
+   "id": "l-hist-w900x",
+   "file": "w900x",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"hist\" 1"
+   },
+   "w1": {
+    "W": 5.465,
+    "H": 0.656,
+    "X": 0.042,
+    "top": 0.653
+   },
+   "w2": {
+    "W": 5.023,
+    "H": 0.704,
+    "X": 0.041,
+    "top": 0.692
+   }
+  },
+  {
+   "id": "l-hist-w900n",
+   "file": "w900n",
+   "case": "lowercase",
+   "css": {
+    "weight": 900,
+    "style": "normal",
+    "feat": "\"hist\" 1"
+   },
+   "w1": {
+    "W": 3.605,
+    "H": 0.656,
+    "X": 0.028,
+    "top": 0.653
+   },
+   "w2": {
+    "W": 3.32,
+    "H": 0.704,
+    "X": 0.027,
+    "top": 0.692
+   }
+  }
+ ]
+}

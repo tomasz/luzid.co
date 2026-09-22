@@ -1,0 +1,78 @@
+{
+ "id": "fontdiner-swanky",
+ "family": "Fontdiner Swanky",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/fontdinerswanky/FontdinerSwanky-Regular.ttf",
+  "sha256": "847229fbf58c7f7479f93fd7cf9fc269b54c0c9f6465abcb65a206fb261be41b"
+ },
+ "licenseId": "Apache-2.0",
+ "copyright": "Copyright (c) 2010 by Stuart Sandler. All rights reserved.",
+ "archetype": [
+  "D"
+ ],
+ "traits": [
+  "connected",
+  "fat",
+  "groovy",
+  "sans"
+ ],
+ "odds": 7,
+ "upm": 1024,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 2656,
+   "sha256": "a7a334c7c47c672c2fa7a602a00c0ae0d4842a1d9c46a329330c3581e0d1278a",
+   "asc": 918,
+   "desc": 169,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 4.10547,
+    "H": 0.70801,
+    "X": 0.04004,
+    "top": 0.67188
+   },
+   "w2": {
+    "W": 4.0791,
+    "H": 1.02344,
+    "X": 0.01953,
+    "top": 0.8584
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.82324,
+    "H": 0.93262,
+    "X": -0.00977,
+    "top": 0.89648
+   },
+   "w2": {
+    "W": 3.8916,
+    "H": 1.02344,
+    "X": 0.03027,
+    "top": 0.8584
+   }
+  }
+ ]
+}

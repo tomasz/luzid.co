@@ -1,0 +1,100 @@
+{
+ "id": "rakkas",
+ "family": "Rakkas",
+ "src": {
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rakkas/Rakkas-Regular.ttf",
+  "sha256": "54278882e4774c14d50c3b555f127d0fe586366d5b787316ebbcbd8108829e60"
+ },
+ "licenseId": "OFL-1.1",
+ "copyright": "Copyright 2016 Zeynep Akay",
+ "archetype": [
+  "D"
+ ],
+ "traits": [
+  "fat",
+  "groovy",
+  "overlap",
+  "sans"
+ ],
+ "odds": 7,
+ "upm": 1000,
+ "files": [
+  {
+   "id": "static",
+   "axes": {},
+   "bytes": 2640,
+   "sha256": "d8c7c93fe98eea87d89420141dead4c93834477a3e225f44393cd7ca3cb36c2d",
+   "asc": 708,
+   "desc": 17,
+   "glyphs": 23
+  }
+ ],
+ "variants": [
+  {
+   "id": "n-base-static",
+   "file": "static",
+   "case": "none",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.001,
+    "H": 0.687,
+    "X": 0.002,
+    "top": 0.67
+   },
+   "w2": {
+    "W": 3,
+    "H": 0.723,
+    "X": 0.024,
+    "top": 0.708
+   }
+  },
+  {
+   "id": "u-base-static",
+   "file": "static",
+   "case": "uppercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 3.932,
+    "H": 0.7,
+    "X": 0.002,
+    "top": 0.685
+   },
+   "w2": {
+    "W": 4.145,
+    "H": 0.7,
+    "X": 0.024,
+    "top": 0.685
+   }
+  },
+  {
+   "id": "l-base-static",
+   "file": "static",
+   "case": "lowercase",
+   "css": {
+    "weight": 400,
+    "style": "normal",
+    "feat": "normal"
+   },
+   "w1": {
+    "W": 2.769,
+    "H": 0.615,
+    "X": 0.008,
+    "top": 0.598
+   },
+   "w2": {
+    "W": 2.816,
+    "H": 0.723,
+    "X": 0.022,
+    "top": 0.708
+   }
+  }
+ ]
+}
