@@ -227,8 +227,31 @@ function shape(font, text, tags = []) {
   return glyphs
 }
 
-const signature = (glyphs) =>
-  glyphs.map((g) => `${g.codepoint}/${g.xAdvance ?? 0}/${g.xOffset ?? 0}/${g.yOffset ?? 0}`).join(' ')
+const outlineCache = new WeakMap()
+
+/** A glyph's outline, cached per font: the same gid is asked for many times per run. */
+function outlineOf(font, gid) {
+  let cache = outlineCache.get(font)
+  if (!cache) {
+    cache = new Map()
+    outlineCache.set(font, cache)
+  }
+  if (!cache.has(gid)) cache.set(gid, font.glyphToPath(gid))
+  return cache.get(gid)
+}
+
+/**
+ * What a word actually draws: outlines and positions, deliberately not glyph ids.
+ *
+ * A feature that swaps one glyph for another that is drawn identically has changed the
+ * glyph stream and changed nothing a reader can see. Boldonse's `ss01` in lowercase and
+ * Instrument Serif Italic's do exactly that, and both shipped a variant indistinguishable
+ * from plain text because the comparison was on ids.
+ */
+const rendered = (font, word, feats = []) =>
+  shape(font, word, feats)
+    .map((g) => `${outlineOf(font, g.codepoint)}@${g.xAdvance ?? 0},${g.xOffset ?? 0},${g.yOffset ?? 0}`)
+    .join(' ')
 
 // ---------------------------------------------------------------- gates
 
@@ -382,19 +405,40 @@ function contours(font, gid) {
   return out
 }
 
-/** Widths of the ink runs a horizontal line at `y` cuts out of a set of closed contours. */
-function scanline(rings, y) {
-  const xs = []
+/**
+ * Widths of the ink runs a line cuts out of a set of closed contours, by the non-zero
+ * winding rule. `axis` 1 scans horizontally at height `at`, 0 scans vertically at `at`.
+ *
+ * Winding rather than pairing up crossings, because pairing is exactly wrong on the one
+ * condition rule 5 goes out of its way to flag: two contours that overlap. Baloo Bhaijaan
+ * 2's capital I is two stems overlapping over a third of their height, so every scanline
+ * crosses at 65, 65, 240, 240 — paired off that is two runs of zero width, and the stem
+ * measures 0.000 em. Accumulating direction gives the one 175-unit stem that is really
+ * there, and gives the same answer as pairing on every non-overlapping glyph.
+ */
+function scanline(rings, at, axis = 1) {
+  const along = axis === 1 ? 0 : 1
+  const crossings = []
   for (const ring of rings) {
     for (let i = 0; i < ring.length; i++) {
       const a = ring[i]
       const b = ring[(i + 1) % ring.length]
-      if ((a[1] - y) * (b[1] - y) < 0) xs.push(a[0] + ((b[0] - a[0]) * (y - a[1])) / (b[1] - a[1]))
+      if ((a[axis] - at) * (b[axis] - at) >= 0) continue
+      crossings.push({
+        at: a[along] + ((b[along] - a[along]) * (at - a[axis])) / (b[axis] - a[axis]),
+        direction: b[axis] > a[axis] ? 1 : -1,
+      })
     }
   }
-  xs.sort((p, q) => p - q)
+  crossings.sort((p, q) => p.at - q.at)
   const runs = []
-  for (let i = 0; i + 1 < xs.length; i += 2) runs.push(xs[i + 1] - xs[i])
+  let winding = 0
+  let start = 0
+  for (const crossing of crossings) {
+    if (winding === 0) start = crossing.at
+    winding += crossing.direction
+    if (winding === 0 && crossing.at > start) runs.push(crossing.at - start)
+  }
   return runs
 }
 
@@ -411,10 +455,13 @@ function scanline(rings, y) {
  * with holes punched through it, and pooling every run through the holes makes it look like
  * a hairline. The widest run on a scanline is the stroke itself in both cases.
  */
-function measureHairline({ font, upem }) {
+const median = (values) => [...values].sort((a, b) => a - b)[Math.floor(values.length / 2)]
+
+/** Stem width in em, from the capital I — the one letter that is nothing but a stem. */
+export function measureStem({ font, upem }) {
   const gid = font.nominalGlyph('I'.codePointAt(0))
   const extents = font.glyphExtents(gid)
-  if (!extents) return false
+  if (!extents) return null
   const top = extents.yBearing
   const bottom = extents.yBearing + extents.height
   const rings = contours(font, gid)
@@ -422,11 +469,51 @@ function measureHairline({ font, upem }) {
     .map((at) => scanline(rings, bottom + (top - bottom) * at))
     .filter((runs) => runs.length > 0)
     .map((runs) => Math.max(...runs))
-  if (widest.length === 0) return false
-  widest.sort((a, b) => a - b)
+  return widest.length === 0 ? null : median(widest) / upem
+}
+
+/**
+ * The narrowest stroke anywhere in Ł and ł, in em.
+ *
+ * On these two letters that is the crossbar, and it is the number that decides whether a
+ * stroke, an inline or a hollow outline closes the letter up into a blob. Gloock and Rozha
+ * One are the shape of the problem: a thick stem with a hairline crossbar, which a stem
+ * measurement calls robust and which `outline-hollow` fills in solid.
+ *
+ * Scanned both ways — a horizontal cut measures an upright stroke, a vertical one measures
+ * a flat crossbar — over the middle 90% of each axis, because the outermost slices catch
+ * the tapering tip of a curve rather than a stroke. The tenth percentile rather than the
+ * minimum for the same reason.
+ */
+export function measureCrossbar({ font, upem }) {
+  const runs = []
+  for (const ch of ['Ł', 'ł']) {
+    const gid = font.nominalGlyph(ch.codePointAt(0))
+    const extents = font.glyphExtents(gid)
+    if (!extents) continue
+    const rings = contours(font, gid)
+    const box = {
+      1: [extents.yBearing + extents.height, extents.yBearing],
+      0: [extents.xBearing, extents.xBearing + extents.width],
+    }
+    for (const axis of [1, 0]) {
+      const [low, high] = box[axis]
+      for (let step = 0; step <= 40; step++) {
+        const at = low + (high - low) * (0.05 + (0.9 * step) / 40)
+        runs.push(...scanline(rings, at, axis))
+      }
+    }
+  }
+  if (runs.length === 0) return null
+  runs.sort((a, b) => a - b)
+  return runs[Math.floor(runs.length * 0.1)] / upem
+}
+
+function measureHairline(opened) {
+  const stem = measureStem(opened)
   // A regular sans sits near 0.08 em and a light weight at 0.055 to 0.07; below 0.05 is a
   // hairline in the sense the effects care about (it cannot carry a stroke or an inline).
-  return widest[Math.floor(widest.length / 2)] / upem < 0.05
+  return stem !== null && stem < 0.05
 }
 
 const crosses = (a, b, c, d) => {
@@ -544,18 +631,53 @@ export function effectiveFeatures(font, caseName, candidates) {
     for (const word of WORDS[caseName]) {
       const before = shape(font, word)
       const after = shape(font, word, [tag])
-      if (signature(before) !== signature(after)) differs = true
+      if (rendered(font, word) !== rendered(font, word, [tag])) differs = true
       if (before.length !== after.length) {
         everyLetter = false
       } else {
         for (let i = 0; i < before.length; i++) {
-          if (before[i].codepoint === after[i].codepoint) everyLetter = false
+          const same = outlineOf(font, before[i].codepoint) === outlineOf(font, after[i].codepoint)
+          if (same) everyLetter = false
         }
       }
     }
     if (!differs) continue
     if (CASE_FEATURES.includes(tag) && !everyLetter) continue
     kept.push(tag)
+  }
+  return kept
+}
+
+/**
+ * Drop feature tags whose variant would shape the two words exactly like a variant that is
+ * already being kept. Rule 4's on-versus-off test only ever compares a tag against plain
+ * text, which lets three kinds of duplicate through, all of them seen in the batches:
+ *
+ *  - alias tags. `salt` and `ss01` are the same substitution in Playball, Moon Dance,
+ *    Tagger and four of batch A, so both passed the on-versus-off test and shipped
+ *    byte-identical files under two names;
+ *  - a tag that only repeats what `text-transform` has already done;
+ *  - `uppercase` + `c2sc` against `lowercase` + `smcp`, which arrive at the same small
+ *    caps from opposite directions, so any font carrying both shipped a guaranteed pair.
+ *
+ * The plain variant of every case is seeded first and therefore always wins. After that the
+ * order follows `planVariants` — round by round, cases in their given order — so the tag
+ * that survives a collision is the one whose variant would have come first anyway.
+ */
+export function dedupeCombos(font, cases, featuresByCase) {
+  const shaped = (caseName, feats) => WORDS[caseName].map((word) => rendered(font, word, feats)).join(' | ')
+  const seen = new Set(cases.map((c) => shaped(c, [])))
+  const kept = Object.fromEntries(cases.map((c) => [c, []]))
+  const rounds = Math.max(0, ...cases.map((c) => featuresByCase[c].length))
+  for (let round = 0; round < rounds; round++) {
+    for (const caseName of cases) {
+      const tag = featuresByCase[caseName][round]
+      if (tag === undefined) continue
+      const key = shaped(caseName, [tag])
+      if (seen.has(key)) continue
+      seen.add(key)
+      kept[caseName].push(tag)
+    }
   }
   return kept
 }
@@ -743,7 +865,7 @@ export function planVariants({ cases, featuresByCase, stops }) {
 }
 
 /** Subset one stop, normalize it, set the overlap flags and pack it. Returns the WOFF2. */
-async function buildFile({ id, original, axes, keepFeatures, metrics }) {
+async function subsetStop({ original, axes, keepFeatures }) {
   const sfnt = await subsetFont(original, TEXT, {
     targetFormat: 'sfnt',
     noHinting: true,
@@ -754,12 +876,52 @@ async function buildFile({ id, original, axes, keepFeatures, metrics }) {
   })
   const parsed = parse(sfnt)
   setOverlapFlags(parsed.tables)
-  if (!metrics) return { sfnt: build(parsed), parsed }
+  // The ink has to be measured before the metrics can be derived, and the metrics have to
+  // be written before the file can be weighed, so the subset is handed back in between.
+  return { parsed, sfnt: build(parsed) }
+}
+
+/**
+ * PLAN §5.5 rule 7's ladder. Run `attempt`; if it comes back over budget, shed the last
+ * effective feature of every case, then whole stops, then give up and let the font be
+ * dropped. Anything that is not a budget failure propagates untouched.
+ *
+ * `attempt` has to be the *whole* build, down to weighing the packed file, or the ladder
+ * never runs: the budget is only knowable at the last step, so a build that stops short of
+ * it and weighs the file afterwards throws from outside the `try` and takes the batch down
+ * with it. That is precisely what used to happen, and it is why this is one function with
+ * the attempt passed in rather than a loop wrapped around part of the work.
+ */
+export async function shedToBudget({ id, cases, featuresByCase, stops, log = () => {} }, attempt) {
+  const state = { featuresByCase: { ...featuresByCase }, stops }
+  for (;;) {
+    try {
+      return await attempt(state)
+    } catch (error) {
+      if (!/over the .* budget/.test(error.message)) throw error
+      const over = error.message.replace(`${id}: `, '')
+      if (cases.some((c) => state.featuresByCase[c].length > 0)) {
+        for (const c of cases) state.featuresByCase[c] = state.featuresByCase[c].slice(0, -1)
+        log(`${id}: ${over}; dropped the last effective feature`)
+        continue
+      }
+      if (state.stops.length > 1) {
+        state.stops = state.stops.slice(0, -1)
+        log(`${id}: ${over}; dropped a stop`)
+        continue
+      }
+      throw new Error(`${id}: ${over} with nothing left to trim — drop the font`)
+    }
+  }
+}
+
+/** Write the derived metrics into a subset, pack it, and weigh it against rule 7's budget. */
+function packStop(id, parsed, metrics) {
   normalizeMetrics(parsed.tables, metrics)
   const finished = build(parsed)
   const woff2 = encode(finished)
   checkBudget(id, woff2.length)
-  return { sfnt: finished, woff2, parsed }
+  return { sfnt: finished, woff2 }
 }
 
 /** Re-open what will actually ship and prove it, rather than trusting the encoder. */
@@ -828,82 +990,73 @@ async function processRow(row, dirs, log) {
     else if (connected) cases = cases.filter((c) => c !== 'uppercase')
 
     const candidates = candidateFeatures(upstream.face, row.features)
-    const featuresByCase = Object.fromEntries(
-      cases.map((c) => [c, effectiveFeatures(upstream.font, c, candidates)]),
+    // Rule 4 keeps a tag that changes the words; the dedupe then drops the ones that all
+    // change them the same way. Both are needed: the first is per tag, the second per pair.
+    const featuresByCase = dedupeCombos(
+      upstream.font,
+      cases,
+      Object.fromEntries(cases.map((c) => [c, effectiveFeatures(upstream.font, c, candidates)])),
     )
 
-    // Rule 7's ladder: drop features that buy nothing, then stops, then the font.
-    let keptStops = stops
-    let variants
-    let files
-    for (;;) {
-      const tags = [...new Set(cases.flatMap((c) => featuresByCase[c]))].sort()
-      variants = planVariants({ cases, featuresByCase, stops: keptStops })
-      const used = [...new Set(variants.map((v) => v.stop))].sort((a, b) => a - b)
+    /**
+     * One full attempt: subset every stop, measure the ink on those subsets, derive the
+     * metrics from those measurements, write them back and weigh the result.
+     *
+     * It is one function because rule 7's budget is only knowable at the very last step —
+     * the file cannot be weighed until the metrics are in it — and the ladder below has to
+     * be able to catch that and try again with less.
+     */
+    const attempt = async (state) => {
+      const tags = [...new Set(cases.flatMap((c) => state.featuresByCase[c]))].sort()
       const keepFeatures = [...BASE_FEATURES, ...tags]
-      try {
-        files = []
-        for (const index of used) {
-          const stop = keptStops[index]
-          const draft = await buildFile({ id, original, axes: stop.axes, keepFeatures })
-          files.push({ index, stop, draft })
+      const plan = planVariants({ cases, featuresByCase: state.featuresByCase, stops: state.stops })
+      const used = [...new Set(plan.map((v) => v.stop))].sort((a, b) => a - b)
+      const built = []
+      const measured = new Map()
+
+      for (const index of used) {
+        const stop = state.stops[index]
+        const file = { index, stop, ...(await subsetStop({ original, axes: stop.axes, keepFeatures })) }
+        const instance = open(file.sfnt)
+        try {
+          for (const variant of plan.filter((v) => v.stop === index)) {
+            const words = WORDS[variant.case].map((word) => {
+              const box = inkBox(instance.font, shape(instance.font, word, variant.feats))
+              if (!box) fail(id, `variant ${variant.id} shapes "${word}" to nothing`)
+              return box
+            })
+            measured.set(variant.id, { words, upem: instance.upem })
+          }
+          file.upem = instance.upem
+          // Stroke widths are read off the shipped instance, so a pinned wght is included.
+          file.stroke = { stem: measureStem(instance), crossbar: measureCrossbar(instance) }
+          // referenceTable hands back a Uint8Array; usWeightClass is OS/2 offset 4.
+          const os2 = instance.face.referenceTable('OS/2')
+          file.weight = os2 ? (os2[4] << 8) | os2[5] : undefined
+        } finally {
+          instance.close()
         }
-      } catch (error) {
-        if (!/over the .* budget/.test(error.message)) throw error
-        const droppable = cases.find((c) => featuresByCase[c].length > 0)
-        if (droppable) {
-          for (const c of cases) featuresByCase[c] = featuresByCase[c].slice(0, -1)
-          log(`${id}: over budget, dropped the last effective feature`)
-          continue
-        }
-        if (keptStops.length > 1) {
-          keptStops = keptStops.slice(0, -1)
-          log(`${id}: over budget, dropped a stop`)
-          continue
-        }
-        fail(id, `${error.message} — drop the font`)
+        built.push(file)
       }
-      break
+
+      // PLAN §5.2: one pair of metrics per file, over every variant that uses it.
+      for (const file of built) {
+        const mine = plan.filter((v) => v.stop === file.index).map((v) => measured.get(v.id))
+        file.metrics = deriveMetrics({
+          upm: file.upem,
+          tops: mine.flatMap((m) => m.words.map((w) => w.top)),
+          depths: mine.flatMap((m) => m.words.map((w) => -w.bottom)),
+        })
+        file.woff2 = packStop(id, file.parsed, file.metrics).woff2
+        file.checked = verifyFile(id, file.woff2, file.metrics)
+      }
+      return { variants: plan, files: built, measurements: measured }
     }
 
-    // Ink measurement happens on the subset, so the numbers describe exactly what ships.
-    const measurements = new Map()
-    for (const file of files) {
-      const instance = open(file.draft.sfnt)
-      try {
-        for (const variant of variants.filter((v) => v.stop === file.index)) {
-          const words = WORDS[variant.case].map((word) => {
-            const box = inkBox(instance.font, shape(instance.font, word, variant.feats))
-            if (!box) fail(id, `variant ${variant.id} shapes "${word}" to nothing`)
-            return box
-          })
-          measurements.set(variant.id, { words, upem: instance.upem })
-        }
-        file.upem = instance.upem
-        // referenceTable hands back a Uint8Array; usWeightClass is OS/2 offset 4.
-        const os2 = instance.face.referenceTable('OS/2')
-        file.weight = os2 ? (os2[4] << 8) | os2[5] : undefined
-      } finally {
-        instance.close()
-      }
-    }
-
-    // PLAN §5.2: one pair of metrics per file, over every variant that uses it.
-    for (const file of files) {
-      const mine = variants.filter((v) => v.stop === file.index).map((v) => measurements.get(v.id))
-      const tops = mine.flatMap((m) => m.words.map((w) => w.top))
-      const depths = mine.flatMap((m) => m.words.map((w) => -w.bottom))
-      file.metrics = deriveMetrics({ upm: file.upem, tops, depths })
-      const built = await buildFile({
-        id,
-        original,
-        axes: file.stop.axes,
-        keepFeatures: [...BASE_FEATURES, ...new Set(cases.flatMap((c) => featuresByCase[c]))].sort(),
-        metrics: file.metrics,
-      })
-      file.woff2 = built.woff2
-      file.checked = verifyFile(id, built.woff2, file.metrics)
-    }
+    const { variants, files, measurements } = await shedToBudget(
+      { id, cases, featuresByCase, stops, log },
+      attempt,
+    )
 
     // PLAN §5.2 converts the written asc/desc back to em, so the grid they are on is part of
     // the contract. It belongs to the face, not to a pinned instance: pinning an axis cannot
@@ -937,6 +1090,11 @@ async function processRow(row, dirs, log) {
           sha256: sha256(f.woff2),
           asc: f.metrics.asc,
           desc: f.metrics.desc,
+          // Both in em, both per stop because pinning wght moves them a long way. `stem` is
+          // the capital I; `crossbar` is the narrowest stroke in Ł and ł, which is what
+          // decides whether a stroke or a hollow outline closes the letter into a blob.
+          stem: f.stroke.stem === null ? null : Number(f.stroke.stem.toFixed(4)),
+          crossbar: f.stroke.crossbar === null ? null : Number(f.stroke.crossbar.toFixed(4)),
           glyphs: f.checked.glyphs,
         })),
         variants: variants.map((v) => {
@@ -1057,8 +1215,19 @@ async function main() {
   const log = (line) => console.log(line)
   if (values.traits) return await auditTraits(rows, dirs, log)
   const filled = new Map()
+  // A row that cannot be built is still a hard failure — nothing is written for it and the
+  // run exits non-zero — but the rest of the batch is built anyway. A curator needs the
+  // whole list of fonts to replace, not just the first one that stopped the run.
+  const refused = []
   for (const { row } of rows) {
-    const out = await processRow(row, dirs, log)
+    let out
+    try {
+      out = await processRow(row, dirs, log)
+    } catch (error) {
+      refused.push(error.message)
+      log(`${error.message}`)
+      continue
+    }
     if (out.filled) filled.set(row.id, out.filled)
     const sizes = out.meta.files.map((f) => `${f.id} ${f.bytes} B`).join(' · ')
     log(`${row.id}: ${out.meta.files.length} file(s), ${out.meta.variants.length} variants — ${sizes}`)
@@ -1075,6 +1244,11 @@ async function main() {
   if (filled.size > 0) {
     log('\nFill these sha256 values into the source rows and commit them:')
     for (const [id, digest] of filled) log(`  ${id}  ${digest}`)
+  }
+  if (refused.length > 0) {
+    log(`\n${refused.length} of ${rows.length} rows were refused:`)
+    for (const why of refused) log(`  ${why}`)
+    process.exitCode = 1
   }
 }
 
