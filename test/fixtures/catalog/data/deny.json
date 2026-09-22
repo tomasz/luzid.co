@@ -1,0 +1,6 @@
+{
+ "deny": [
+  { "p": "fx-dusk", "e": "depth-extrude" },
+  { "f": "fx-sans", "v": "lo", "e": "depth-extrude" }
+ ]
+}
