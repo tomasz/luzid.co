@@ -30,6 +30,8 @@
    "sha256": "2ec596905e8bafc38af03421bec51b44aee0592c223684d1e385978ab0bc2b97",
    "asc": 1484,
    "desc": 34,
+   "stem": 0.1405,
+   "crossbar": 0.0557,
    "glyphs": 23
   },
   {
@@ -44,6 +46,8 @@
    "sha256": "3679aba74362d08a559bc7ea46a81e39252218adb3176fd2adca278fd791b7f2",
    "asc": 1510,
    "desc": 36,
+   "stem": 0.2155,
+   "crossbar": 0.0702,
    "glyphs": 23
   }
  ],
@@ -206,50 +210,6 @@
    "id": "n-case-w900",
    "file": "w900",
    "case": "none",
-   "css": {
-    "weight": 900,
-    "style": "normal",
-    "feat": "\"case\" 1"
-   },
-   "w1": {
-    "W": 4.2905,
-    "H": 0.7365,
-    "X": 0.0075,
-    "top": 0.7185
-   },
-   "w2": {
-    "W": 4.1755,
-    "H": 0.773,
-    "X": 0.0255,
-    "top": 0.755
-   }
-  },
-  {
-   "id": "l-case-w600",
-   "file": "w600",
-   "case": "lowercase",
-   "css": {
-    "weight": 600,
-    "style": "normal",
-    "feat": "\"case\" 1"
-   },
-   "w1": {
-    "W": 3.9775,
-    "H": 0.7355,
-    "X": 0.0115,
-    "top": 0.7195
-   },
-   "w2": {
-    "W": 3.896,
-    "H": 0.758,
-    "X": 0.0285,
-    "top": 0.742
-   }
-  },
-  {
-   "id": "l-case-w900",
-   "file": "w900",
-   "case": "lowercase",
    "css": {
     "weight": 900,
     "style": "normal",

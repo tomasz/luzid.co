@@ -270,48 +270,35 @@ test('rule 4: a substitution nobody can see is not a variant', async () => {
 })
 
 test('rule 4: a feature that only moves the glyphs is not a variant', async () => {
-  const font = new hb.Font(
-    new hb.Face(new hb.Blob(decode(await readFile(url('fonts/files/bungee.static.woff2'))))),
-  )
-  const shaped = (feats) => {
-    const buffer = new hb.Buffer()
-    buffer.addText('Tomasz')
-    buffer.guessSegmentProperties()
-    buffer.setDirection(hb.Direction.LTR)
-    buffer.setScript('Latn')
-    buffer.setLanguage('pl')
-    hb.shape(
-      font,
-      buffer,
-      feats.map((t) => hb.Feature.fromString(`${t}=1`)),
-    )
-    return buffer.getGlyphInfosAndPositions()
-  }
-
-  // What Bungee's ss12 is: ss01's glyphs, ss01's advances, moved down about 0.208 em. It is
-  // invisible once the fit pins the ink box, and Linux WebKit applies the placement with
-  // the opposite sign, so it was the one variant that put the name 12 px off centre.
-  const ss01 = shaped(['ss01'])
-  const ss12 = shaped(['ss12'])
-  assert.deepEqual(
-    ss12.map((g) => g.codepoint),
-    ss01.map((g) => g.codepoint),
-    'ss12 must select exactly ss01 glyphs, or this is not the case under test',
-  )
-  assert.deepEqual(
-    ss12.map((g) => g.xAdvance),
-    ss01.map((g) => g.xAdvance),
-  )
+  // Bungee's ss12 selected ss01's exact glyphs and advances and moved them down about
+  // 0.208 em. Invisible once the fit pins the ink box -- and Linux WebKit applied the
+  // placement with the opposite sign, which put the name 12 px off centre there while
+  // leaving every width, and so the fill ratio, correct.
+  //
+  // This asserts the OUTCOME rather than the mechanism on purpose. The obvious test --
+  // shape the shipped subset with ss12 and compare against ss01 -- cannot survive its own
+  // rule: once the feature is rejected the subset no longer carries it, so the guard reads
+  // base glyphs and fails. The mechanism is covered by `dedupeCombos` on synthetic input
+  // above; what is worth protecting here is that the variant stays gone.
+  const bungee = await readJson('fonts/meta/bungee.json')
+  const feats = bungee.variants.map((v) => v.css.feat)
   assert.ok(
-    ss12.every((g, i) => g.yOffset !== ss01[i].yOffset),
-    'ss12 must differ from ss01 by a y-placement',
+    !feats.some((f) => f.includes('ss12')),
+    `bungee must ship no ss12 variant, got ${feats.join(' | ')}`,
   )
-  assert.deepEqual(dedupeCombos(font, ['none'], { none: ['ss01', 'ss12'] }), { none: ['ss01'] })
-
-  // The shift is not uniform — it runs from 200 to 216 units — so "differs by a constant
-  // translation" would not have caught it. The rule is that placement alone is not a look.
-  const shifts = new Set(ss12.map((g, i) => g.yOffset - ss01[i].yOffset))
-  assert.ok(shifts.size > 1, 'the per-glyph shifts are expected to vary')
+  assert.deepEqual(
+    bungee.variants.map((v) => v.id),
+    [
+      'n-base-static',
+      'n-salt-static',
+      'n-ss01-static',
+      'n-ss02-static',
+      'n-ss04-static',
+      'n-ss05-static',
+      'n-ss11-static',
+    ],
+    'bungee keeps every feature that changes a glyph, and only those',
+  )
 })
 
 test('rule 4: a substitution that merely matches in width still counts', async () => {

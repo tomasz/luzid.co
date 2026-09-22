@@ -23,10 +23,12 @@
    "axes": {
     "wght": 700
    },
-   "bytes": 5732,
-   "sha256": "126b8f9687ba62f1ec5809ac5d4d055b92de1d9f3a18fa23f19b89eafc18329f",
+   "bytes": 5720,
+   "sha256": "2b88eb9c51572b59a5ed491681865a0718384e4c318f4222ed6607abc480b468",
    "asc": 754,
    "desc": 200,
+   "stem": 0.1851,
+   "crossbar": 0.0837,
    "glyphs": 23
   },
   {
@@ -34,10 +36,12 @@
    "axes": {
     "wght": 900
    },
-   "bytes": 5732,
-   "sha256": "afe95080512cff91c36c1639ce6277b80716c5fbeb8a987215495374656a5d66",
+   "bytes": 5704,
+   "sha256": "c551171b6fb0dff2341db03cc283ad9c18666d9eb1dd159c57c39791d8d49593",
    "asc": 756,
    "desc": 219,
+   "stem": 0.2312,
+   "crossbar": 0.0889,
    "glyphs": 23
   }
  ],

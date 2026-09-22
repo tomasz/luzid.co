@@ -20,10 +20,12 @@
   {
    "id": "static",
    "axes": {},
-   "bytes": 3384,
-   "sha256": "049d5dcc5fa35736f0c40a17549dfc9bc202f27a1ab27828b5434a47c0c3a9b6",
+   "bytes": 3348,
+   "sha256": "9e105a58a206ed9333672694634a616d0e1fce1d89b474236dbda134e8947637",
    "asc": 716,
    "desc": 16,
+   "stem": 0.37,
+   "crossbar": 0.067,
    "glyphs": 23
   }
  ],
@@ -161,28 +163,6 @@
    }
   },
   {
-   "id": "n-ss01-static",
-   "file": "static",
-   "case": "none",
-   "css": {
-    "weight": 400,
-    "style": "normal",
-    "feat": "\"ss01\" 1"
-   },
-   "w1": {
-    "W": 5.142,
-    "H": 0.716,
-    "X": 0.038,
-    "top": 0.7
-   },
-   "w2": {
-    "W": 5.248,
-    "H": 0.732,
-    "X": 0.038,
-    "top": 0.716
-   }
-  },
-  {
    "id": "u-salt-static",
    "file": "static",
    "case": "uppercase",
@@ -202,72 +182,6 @@
     "H": 0.732,
     "X": 0.038,
     "top": 0.716
-   }
-  },
-  {
-   "id": "l-smcp-static",
-   "file": "static",
-   "case": "lowercase",
-   "css": {
-    "weight": 400,
-    "style": "normal",
-    "feat": "\"smcp\" 1"
-   },
-   "w1": {
-    "W": 4.796,
-    "H": 0.542,
-    "X": 0.038,
-    "top": 0.526
-   },
-   "w2": {
-    "W": 5.143,
-    "H": 0.542,
-    "X": 0.038,
-    "top": 0.526
-   }
-  },
-  {
-   "id": "u-ss01-static",
-   "file": "static",
-   "case": "uppercase",
-   "css": {
-    "weight": 400,
-    "style": "normal",
-    "feat": "\"ss01\" 1"
-   },
-   "w1": {
-    "W": 5.513,
-    "H": 0.732,
-    "X": 0.038,
-    "top": 0.716
-   },
-   "w2": {
-    "W": 5.99,
-    "H": 0.732,
-    "X": 0.038,
-    "top": 0.716
-   }
-  },
-  {
-   "id": "l-ss01-static",
-   "file": "static",
-   "case": "lowercase",
-   "css": {
-    "weight": 400,
-    "style": "normal",
-    "feat": "\"ss01\" 1"
-   },
-   "w1": {
-    "W": 4.849,
-    "H": 0.716,
-    "X": 0.075,
-    "top": 0.7
-   },
-   "w2": {
-    "W": 5.082,
-    "H": 0.726,
-    "X": 0.038,
-    "top": 0.71
    }
   }
  ]
