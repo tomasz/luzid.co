@@ -39,6 +39,7 @@ import {
   parse,
   readMetrics,
   setOverlapFlags,
+  unitsPerEm,
 } from './sfnt.mjs'
 import { decode, encode } from './woff2.mjs'
 
@@ -131,8 +132,15 @@ export const TRAITS = new Set([
   'jp',
 ])
 
-/** Traits the pipeline measures. A source row that hand-sets one of these is rejected. */
+/**
+ * Traits the pipeline measures from the outlines. A source row may still declare one — a
+ * reader of a batch file should be able to see that a face is caps-only without building
+ * it — but the two have to agree; see `reconcileTraits`.
+ */
 export const MEASURED_TRAITS = ['capsOnly', 'unicase', 'connected', 'hairline', 'overlap']
+
+/** The two labels for one measurement: the lowercase letters are the capitals. */
+export const CASE_TRAITS = ['capsOnly', 'unicase']
 
 export const ARCHETYPES = new Set(['A', 'B', 'C', 'D', 'E', 'F', 'X'])
 
@@ -270,14 +278,25 @@ const CASE_PAIRS = [
 ]
 
 /**
- * `capsOnly` when every lowercase letter draws exactly its capital, so `text-transform` is
- * a no-op; `unicase` when the lowercase letters are different shapes but cap height, which
- * is the same reason not to randomise case over them.
+ * Whether the lowercase letters are the capitals: `capsOnly` when every pair draws exactly
+ * the same glyph, `unicase` when they are cap height but some are drawn differently. Either
+ * way `text-transform` stops being worth randomising over, which is what the pipeline uses
+ * this for.
+ *
+ * The single test is that no lowercase letter is meaningfully shorter than its capital.
+ * Measured over the catalogue, a bicameral face lands at 0.69 to 0.82 of cap height and a
+ * small-caps face at 0.71 to 0.86 — both well clear of the 0.95 line, and both of them
+ * cases where case randomisation is worth having.
+ *
+ * Extents cannot reliably split `capsOnly` from `unicase`: Vina Sans, a caps-only face,
+ * redraws three of its eleven lowercase letters a percent or two off, while Syncopate, a
+ * true unicase, keeps seven of eleven byte-identical. `reconcileTraits` therefore accepts
+ * either label against either finding rather than pretending to a precision it has not got.
  */
 function measureCase({ font }) {
   const box = (ch) => font.glyphExtents(font.nominalGlyph(ch.codePointAt(0)))
   let identical = 0
-  let capHeight = 0
+  let shortest = Number.POSITIVE_INFINITY
   for (const [upper, lower] of CASE_PAIRS) {
     const u = box(upper)
     const l = box(lower)
@@ -290,13 +309,22 @@ function measureCase({ font }) {
     ) {
       identical++
     }
-    if (Math.abs(l.height) >= 0.9 * Math.abs(u.height)) capHeight++
+    shortest = Math.min(shortest, Math.abs(l.height) / Math.abs(u.height))
   }
-  const capsOnly = identical === CASE_PAIRS.length
-  return { capsOnly, unicase: !capsOnly && capHeight / CASE_PAIRS.length >= 0.8 }
+  const unicameral = shortest >= 0.95
+  const capsOnly = unicameral && identical === CASE_PAIRS.length
+  return { capsOnly, unicase: unicameral && !capsOnly }
 }
 
-/** A connected script is one whose adjacent letters actually touch when shaped. */
+/**
+ * A connected script is one whose adjacent letters overlap when shaped.
+ *
+ * Known limit: this measures ink boxes, not ink, so a face whose letters are drawn as
+ * horizontally offset pieces reads as connected even though nothing joins — Rubik Glitch
+ * overlaps on all six pairs. The cost is one lost case axis on such a font, and the
+ * alternatives are worse: neither `curs` nor the positional features separate them
+ * (Licorice and Tagger are connected and have none of them).
+ */
 function measureConnected({ font, upem }) {
   const glyphs = shape(font, WORDS.lowercase[1])
   let pen = 0
@@ -315,15 +343,6 @@ function measureConnected({ font, upem }) {
     pen += g.xAdvance ?? 0
   }
   return pairs > 0 && joined / pairs >= 0.6
-}
-
-/** Stem width taken from the narrowest of I and l, the two letters that are just a stem. */
-function measureHairline({ font, upem }) {
-  const widths = ['I', 'l']
-    .map((ch) => font.glyphExtents(font.nominalGlyph(ch.codePointAt(0))))
-    .filter(Boolean)
-    .map((e) => e.width / upem)
-  return widths.length > 0 && Math.min(...widths) < 0.05
 }
 
 const FLATTEN_STEPS = 8
@@ -363,6 +382,53 @@ function contours(font, gid) {
   return out
 }
 
+/** Widths of the ink runs a horizontal line at `y` cuts out of a set of closed contours. */
+function scanline(rings, y) {
+  const xs = []
+  for (const ring of rings) {
+    for (let i = 0; i < ring.length; i++) {
+      const a = ring[i]
+      const b = ring[(i + 1) % ring.length]
+      if ((a[1] - y) * (b[1] - y) < 0) xs.push(a[0] + ((b[0] - a[0]) * (y - a[1])) / (b[1] - a[1]))
+    }
+  }
+  xs.sort((p, q) => p - q)
+  const runs = []
+  for (let i = 0; i + 1 < xs.length; i += 2) runs.push(xs[i + 1] - xs[i])
+  return runs
+}
+
+/**
+ * Stem width, from the capital I — the one letter that is nothing but a stem.
+ *
+ * Measured across the outline, not around it: the ink bounding box is not the stem. In an
+ * inline, outline or looped-script face the box spans the whole letter while the strokes
+ * themselves are hairlines, which is how Bungee Hairline (stem 0.010 em, box 0.318 em) and
+ * Rubik Scribble (0.012 vs 0.309) both read as heavyweight if you measure the box.
+ *
+ * Three scanlines across the middle, widest run on each, median of the three. Widest rather
+ * than median-of-all because a textured face — Rubik Burned, Rubik Dirt — is a fat letter
+ * with holes punched through it, and pooling every run through the holes makes it look like
+ * a hairline. The widest run on a scanline is the stroke itself in both cases.
+ */
+function measureHairline({ font, upem }) {
+  const gid = font.nominalGlyph('I'.codePointAt(0))
+  const extents = font.glyphExtents(gid)
+  if (!extents) return false
+  const top = extents.yBearing
+  const bottom = extents.yBearing + extents.height
+  const rings = contours(font, gid)
+  const widest = [0.4, 0.5, 0.6]
+    .map((at) => scanline(rings, bottom + (top - bottom) * at))
+    .filter((runs) => runs.length > 0)
+    .map((runs) => Math.max(...runs))
+  if (widest.length === 0) return false
+  widest.sort((a, b) => a - b)
+  // A regular sans sits near 0.08 em and a light weight at 0.055 to 0.07; below 0.05 is a
+  // hairline in the sense the effects care about (it cannot carry a stroke or an inline).
+  return widest[Math.floor(widest.length / 2)] / upem < 0.05
+}
+
 const crosses = (a, b, c, d) => {
   const side = (p, q, r) => Math.sign((q[0] - p[0]) * (r[1] - p[1]) - (q[1] - p[1]) * (r[0] - p[0]))
   return side(a, b, c) * side(a, b, d) < 0 && side(c, d, a) * side(c, d, b) < 0
@@ -397,6 +463,70 @@ function measureOverlap({ font }) {
     }
   }
   return false
+}
+
+/**
+ * The five traits the outlines can settle, as a record so a declaration can be diffed.
+ *
+ * `axes` is the stop that will ship. It matters: a variable font's default instance is
+ * often nowhere near the weight we pin it to, and measuring Big Shoulders at its default
+ * rather than at its Black stop calls it a hairline. Measured through a throwaway font so
+ * the caller's own font keeps its default variations for feature shaping.
+ */
+export function measureTraits({ face, upem }, axes = {}) {
+  const font = new hb.Font(face)
+  // `hb.Variation` instances, not plain objects: setVariations serializes them itself.
+  const variations = Object.entries(axes).map(([tag, value]) => new hb.Variation(tag, value))
+  if (variations.length > 0) font.setVariations(variations)
+  try {
+    const { capsOnly, unicase } = measureCase({ font })
+    return {
+      capsOnly,
+      unicase,
+      connected: measureConnected({ font, upem }),
+      hairline: measureHairline({ font, upem }),
+      overlap: measureOverlap({ font }),
+    }
+  } finally {
+    font.destroy?.()
+  }
+}
+
+/**
+ * Merge a source row's traits with the measured ones.
+ *
+ * A row may declare a measured trait, because a batch file should read as a description of
+ * the face and not only as build input. The pipeline measures it anyway and the two have to
+ * agree: a curator who believes a font is caps-only when it is not has made an error worth
+ * surfacing, so a disagreement is a hard failure rather than a silent override in either
+ * direction. Traits the row leaves out are filled in from the measurement.
+ */
+/** Every measured trait the row declares that the outlines do not bear out. */
+export function traitDisagreements(declared, measured) {
+  return MEASURED_TRAITS.filter((trait) => {
+    if (!declared.includes(trait)) return false
+    // `capsOnly` and `unicase` are one measurement under two names; see `measureCase`.
+    const accepts = CASE_TRAITS.includes(trait) ? CASE_TRAITS : [trait]
+    return !accepts.some((t) => measured[t])
+  })
+}
+
+export function reconcileTraits(id, declared, measured) {
+  const wrong = traitDisagreements(declared, measured)
+  if (wrong.length > 0) {
+    const found = MEASURED_TRAITS.filter((t) => measured[t])
+    fail(
+      id,
+      `the source row declares ${wrong.join(', ')}, the outlines measure ${wrong.length > 1 ? 'them' : 'it'} ` +
+        `false (measured: ${found.join(', ') || 'none of the five'})`,
+    )
+  }
+  const filled = MEASURED_TRAITS.filter((t) => measured[t])
+  // When the row has already named one of the two case labels, keep its word for it.
+  const named = declared.some((t) => CASE_TRAITS.includes(t))
+  return [
+    ...new Set([...declared, ...(named ? filled.filter((t) => !CASE_TRAITS.includes(t)) : filled)]),
+  ].sort()
 }
 
 // ---------------------------------------------------------------- features
@@ -476,25 +606,46 @@ export function validateRow(row, seen) {
     fail(id, 'archetype must be a non-empty array')
   for (const a of row.archetype) if (!ARCHETYPES.has(a)) fail(id, `unknown archetype ${a}`)
   if (!Array.isArray(row.traits)) fail(id, 'traits must be an array')
-  for (const t of row.traits) {
-    if (!TRAITS.has(t)) fail(id, `unknown trait ${t}`)
-    if (MEASURED_TRAITS.includes(t)) fail(id, `trait ${t} is measured by the pipeline, not hand-set`)
-  }
+  // A measured trait is allowed here and checked against the outlines by `reconcileTraits`.
+  for (const t of row.traits) if (!TRAITS.has(t)) fail(id, `unknown trait ${t}`)
   if (!Number.isInteger(row.odds) || row.odds < 0 || row.odds > 16) fail(id, 'odds must be an integer 0-16')
   if (row.stops !== undefined) {
     if (!Array.isArray(row.stops) || row.stops.length === 0) fail(id, 'stops must be a non-empty array')
     if (row.stops.length > MAX_STOPS) fail(id, `at most ${MAX_STOPS} stops, got ${row.stops.length}`)
+    // The stop id becomes the shipped filename, so it has to be present and unique.
+    const ids = new Set()
+    for (const stop of row.stops) {
+      if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(stop.id ?? '')) fail(id, `stop id ${stop.id} must be kebab-case`)
+      if (ids.has(stop.id)) fail(id, `duplicate stop id ${stop.id}`)
+      ids.add(stop.id)
+      if (Object.keys(stop).filter((k) => k !== 'id').length === 0) fail(id, `stop ${stop.id} pins no axis`)
+    }
   }
   if (row.cases !== undefined) {
     for (const c of row.cases) if (!(c in WORDS)) fail(id, `unknown case ${c}`)
   }
-  // A source with no immutable commit behind it must ship the original alongside the hash.
-  const immutable = /^https:\/\/raw\.githubusercontent\.com\/[^/]+\/[^/]+\/[0-9a-f]{40}\//.test(row.url)
-  if (!immutable && !row.upstream) {
-    fail(id, 'url is not a raw file at a commit, so the original must be committed under fonts/upstream')
-  }
   return row
 }
+
+/**
+ * PLAN §5.5 rule 1: a source with no immutable commit behind it — GUST on CTAN, a foundry
+ * download — has to ship the original too, because the hash alone cannot reproduce the
+ * build once the file moves. A full 40-character hash somewhere in the path is what makes
+ * a raw URL immutable; the host is not the point, and GitHub, GitLab, Codeberg and
+ * sourcehut all spell the rest of it differently.
+ */
+export const pinnedToCommit = (url) => /^https:\/\/[^/]+\/\S*\/[0-9a-f]{40}\//.test(url)
+
+/**
+ * Where a committed original lives, and where extra licence material to append to it lives
+ * (the upstream MANIFEST that rule 8 asks for on GUST fonts). Both are found by id rather
+ * than named in the row: the source-row schema is fixed by §5.5 and shared with every other
+ * batch, and a file that has to exist under a known name does not also need declaring.
+ */
+export const upstreamPaths = (row) => ({
+  original: `${row.id}${(row.url.match(/\.(otf|ttf)(\?|$)/i) ?? ['.ttf'])[0].toLowerCase()}`,
+  notice: `${row.id}.notice.txt`,
+})
 
 // ---------------------------------------------------------------- fetching
 
@@ -506,13 +657,17 @@ async function fetchBinary(url) {
   return Buffer.from(await response.arrayBuffer())
 }
 
-/** Upstream original, from `fonts/upstream` when committed, else from a sha-keyed cache. */
-async function source(row, dirs) {
-  if (row.upstream) {
-    const path = join(dirs.upstream, row.upstream)
+/**
+ * Upstream original, from `fonts/upstream` when committed, else from a sha-keyed cache.
+ * `readOnly` keeps the auditor from committing another batch's original into this branch.
+ */
+async function source(row, dirs, readOnly = false) {
+  if (!pinnedToCommit(row.url)) {
+    const path = join(dirs.upstream, upstreamPaths(row).original)
     const buffer = await readFile(path).catch(() => null)
     if (buffer) return buffer
     const fetched = await fetchBinary(row.url)
+    if (readOnly) return fetched
     await mkdir(dirs.upstream, { recursive: true })
     await writeFile(path, fetched)
     return fetched
@@ -527,11 +682,10 @@ async function source(row, dirs) {
   return fetched
 }
 
-async function licenseText(row) {
+async function licenseText(row, dirs) {
   await mkdir(cacheDir, { recursive: true })
-  const urls = [row.licenseUrl, ...(row.noticeUrls ?? [])]
   const parts = []
-  for (const url of urls) {
+  for (const url of [row.licenseUrl]) {
     const key = join(cacheDir, `${createHash('sha256').update(url).digest('hex')}.txt`)
     let text = await readFile(key, 'utf8').catch(() => null)
     if (text === null) {
@@ -540,15 +694,25 @@ async function licenseText(row) {
     }
     parts.push(text.replace(/\r\n/g, '\n').trimEnd())
   }
+  // Rule 8 wants the upstream MANIFEST appended for GUST fonts. It is committed rather
+  // than fetched: CTAN has no immutable URLs, so a build must not depend on reaching it.
+  const notice = await readFile(join(dirs.upstream, upstreamPaths(row).notice), 'utf8').catch(() => null)
+  if (notice) parts.push(notice.replace(/\r\n/g, '\n').trimEnd())
   return parts
 }
 
 // ---------------------------------------------------------------- the pipeline
 
-const stopId = (axes) => {
-  const keys = Object.keys(axes).sort()
-  if (keys.length === 0) return 'static'
-  return keys.map((k) => `${k === 'wght' ? 'w' : k.toLowerCase()}${axes[k]}`).join('-')
+/**
+ * A source row's stop is `{id, ...axes}` — the curator names it, because the name ends up
+ * in the shipped filename and `w900x` reads better than `wght900-wdth200`. A font with no
+ * axes has one implicit stop, `static`.
+ */
+export function normalizeStops(row) {
+  return (row.stops ?? [{}]).map((stop) => {
+    const { id, ...axes } = stop
+    return { id: id ?? 'static', axes }
+  })
 }
 
 const CASE_SHORT = { none: 'n', uppercase: 'u', lowercase: 'l' }
@@ -564,10 +728,10 @@ export function planVariants({ cases, featuresByCase, stops }) {
     for (const caseName of cases) {
       const feats = round === 0 ? [] : featuresByCase[caseName].slice(round - 1, round)
       if (round > 0 && feats.length === 0) continue
-      for (const [index, axes] of stops.entries()) {
+      for (const [index, stop] of stops.entries()) {
         if (out.length >= MAX_VARIANTS) return out
         out.push({
-          id: `${CASE_SHORT[caseName]}-${feats.length ? feats.join('-') : 'base'}-${stopId(axes)}`,
+          id: `${CASE_SHORT[caseName]}-${feats.length ? feats.join('-') : 'base'}-${stop.id}`,
           case: caseName,
           feats,
           stop: index,
@@ -612,7 +776,7 @@ function verifyFile(id, woff2, metrics) {
   try {
     const covered = checkCoverage(id, opened)
     if (covered !== 23) fail(id, `the shipped file maps ${covered} code points, expected 23`)
-    return { glyphs: covered, overlap }
+    return { glyphs: covered, overlap, upm: unitsPerEm(tables) }
   } finally {
     opened.close()
   }
@@ -632,38 +796,33 @@ async function processRow(row, dirs, log) {
     checkCoverage(id, upstream)
 
     // Licence gate, PLAN §5.5 rule 3.
-    const [license, ...notices] = await licenseText(row)
+    const [license, ...notices] = await licenseText(row, dirs)
     const name0 = upstream.face.getName(0, 'en')
     if (declaresReservedFontName(license, name0)) fail(id, 'the licence declares a Reserved Font Name')
     if (!/Copyright|Prawa autorskie|©/i.test(license + name0)) fail(id, 'no copyright statement found')
 
     const axes = axisTags(parse(original).tables)
-    const stops = row.stops ?? [{}]
+    const stops = normalizeStops(row)
     if (axes.length > 0 && !row.stops) fail(id, 'a variable font must list its static stops')
     for (const stop of stops) {
-      const pinned = Object.keys(stop).sort().join(',')
+      const pinned = Object.keys(stop.axes).sort().join(',')
       const wanted = axes
         .map((a) => a.tag)
         .sort()
         .join(',')
-      if (pinned !== wanted) fail(id, `stop pins {${pinned}}, the font has axes {${wanted}}`)
+      if (pinned !== wanted) fail(id, `stop ${stop.id} pins {${pinned}}, the font has axes {${wanted}}`)
       for (const a of axes) {
-        if (stop[a.tag] < a.min || stop[a.tag] > a.max) {
-          fail(id, `${a.tag}=${stop[a.tag]} is outside [${a.min}, ${a.max}]`)
+        if (stop.axes[a.tag] < a.min || stop.axes[a.tag] > a.max) {
+          fail(id, `stop ${stop.id}: ${a.tag}=${stop.axes[a.tag]} is outside [${a.min}, ${a.max}]`)
         }
       }
     }
 
     // Measured traits and the cases that are worth randomising over.
-    const { capsOnly, unicase } = measureCase(upstream)
-    const connected = measureConnected(upstream)
-    const measured = [
-      capsOnly && 'capsOnly',
-      unicase && 'unicase',
-      connected && 'connected',
-      measureHairline(upstream) && 'hairline',
-      measureOverlap(upstream) && 'overlap',
-    ].filter(Boolean)
+    // Traits describe the font as it ships, so they are measured at its first stop.
+    const measured = measureTraits(upstream, stops[0].axes)
+    const { capsOnly, unicase, connected } = measured
+    const traits = reconcileTraits(id, row.traits, measured)
     let cases = row.cases ?? ['none', 'uppercase', 'lowercase']
     if (capsOnly || unicase) cases = ['none']
     else if (connected) cases = cases.filter((c) => c !== 'uppercase')
@@ -685,9 +844,9 @@ async function processRow(row, dirs, log) {
       try {
         files = []
         for (const index of used) {
-          const axesOf = keptStops[index]
-          const draft = await buildFile({ id, original, axes: axesOf, keepFeatures })
-          files.push({ index, axes: axesOf, draft })
+          const stop = keptStops[index]
+          const draft = await buildFile({ id, original, axes: stop.axes, keepFeatures })
+          files.push({ index, stop, draft })
         }
       } catch (error) {
         if (!/over the .* budget/.test(error.message)) throw error
@@ -738,12 +897,22 @@ async function processRow(row, dirs, log) {
       const built = await buildFile({
         id,
         original,
-        axes: file.axes,
+        axes: file.stop.axes,
         keepFeatures: [...BASE_FEATURES, ...new Set(cases.flatMap((c) => featuresByCase[c]))].sort(),
         metrics: file.metrics,
       })
       file.woff2 = built.woff2
       file.checked = verifyFile(id, built.woff2, file.metrics)
+    }
+
+    // PLAN §5.2 converts the written asc/desc back to em, so the grid they are on is part of
+    // the contract. It belongs to the face, not to a pinned instance: pinning an axis cannot
+    // change it, and the renderer should never have to ask which file it is looking at.
+    const upm = files[0].checked.upm
+    for (const file of files) {
+      if (file.checked.upm !== upm)
+        fail(id, `unitsPerEm differs between stops (${upm} and ${file.checked.upm})`)
+      if (file.upem !== upm) fail(id, `unitsPerEm changed under subsetting (${file.upem} became ${upm})`)
     }
 
     const version = (upstream.face.getName(5, 'en').match(/Version\s+[\d.]+/) ?? ['unknown version'])[0]
@@ -758,16 +927,16 @@ async function processRow(row, dirs, log) {
         licenseId: row.licenseId,
         copyright: row.copyright,
         archetype: row.archetype,
-        traits: [...new Set([...row.traits, ...measured])].sort(),
+        traits,
         odds: row.odds,
+        upm,
         files: files.map((f) => ({
-          id: stopId(f.axes),
-          axes: f.axes,
+          id: f.stop.id,
+          axes: f.stop.axes,
           bytes: f.woff2.length,
           sha256: sha256(f.woff2),
           asc: f.metrics.asc,
           desc: f.metrics.desc,
-          upem: f.upem,
           glyphs: f.checked.glyphs,
         })),
         variants: variants.map((v) => {
@@ -781,10 +950,10 @@ async function processRow(row, dirs, log) {
           })
           return {
             id: v.id,
-            file: stopId(file.axes),
+            file: file.stop.id,
             case: v.case,
             css: {
-              weight: file.axes.wght ?? file.weight ?? 400,
+              weight: file.stop.axes.wght ?? file.weight ?? 400,
               style: row.italic ? 'italic' : 'normal',
               feat: v.feats.length ? v.feats.map((t) => `"${t}" 1`).join(',') : 'normal',
             },
@@ -794,13 +963,60 @@ async function processRow(row, dirs, log) {
         }),
       },
       license: [notice, '', `Upstream copyright: ${name0}`, '', ...[license, ...notices]].join('\n'),
-      files: files.map((f) => ({ name: `${id}.${stopId(f.axes)}.woff2`, data: f.woff2 })),
+      files: files.map((f) => ({ name: `${id}.${f.stop.id}.woff2`, data: f.woff2 })),
       filled,
     }
   } finally {
     upstream.close()
   }
   return result
+}
+
+/**
+ * `--traits`: download every selected source, measure the five geometric traits and diff
+ * them against what the rows declare. It never subsets and never writes, so a whole batch
+ * of curated lists can be checked in a couple of minutes before the build agents start.
+ */
+async function auditTraits(rows, dirs, log) {
+  const disagreements = []
+  const unreadable = []
+  const added = new Map()
+  for (const { row, batch } of rows) {
+    let opened = null
+    try {
+      const original = await source(row, dirs, true)
+      const digest = sha256(original)
+      if (row.sha256 && row.sha256 !== digest) throw new Error(`sha256 mismatch, file is ${digest}`)
+      opened = open(original)
+      checkCoverage(row.id, opened)
+      const measured = measureTraits(opened, normalizeStops(row)[0].axes)
+      // Deliberately the same call the build makes, so the audit cannot drift away from it.
+      try {
+        reconcileTraits(row.id, row.traits, measured)
+      } catch (error) {
+        disagreements.push({ batch, id: row.id, why: error.message.replace(`${row.id}: `, '') })
+      }
+      for (const trait of MEASURED_TRAITS) {
+        if (!row.traits.includes(trait) && measured[trait]) added.set(trait, (added.get(trait) ?? 0) + 1)
+      }
+    } catch (error) {
+      unreadable.push({ batch, id: row.id, why: error.message.replace(`${row.id}: `, '') })
+    } finally {
+      opened?.close()
+    }
+  }
+
+  log(`\nChecked ${rows.length} rows.`)
+  log(`Traits the rows declare and the outlines disagree with: ${disagreements.length}`)
+  for (const d of disagreements) log(`  ${d.batch} ${d.id}: ${d.why}`)
+  log(
+    `Traits the rows leave out and the pipeline fills in: ${[...added].map(([t, n]) => `${t} ${n}`).join(', ')}`,
+  )
+  if (unreadable.length > 0) {
+    log(`Rows that could not be read at all: ${unreadable.length}`)
+    for (const u of unreadable) log(`  ${u.batch} ${u.id}: ${u.why}`)
+  }
+  if (disagreements.length > 0 || unreadable.length > 0) process.exitCode = 1
 }
 
 // ---------------------------------------------------------------- entry point
@@ -812,6 +1028,7 @@ async function main() {
       batch: { type: 'string', multiple: true },
       id: { type: 'string', multiple: true },
       check: { type: 'boolean', default: false },
+      traits: { type: 'boolean', default: false },
     },
   })
   const root = resolve(values.root)
@@ -838,6 +1055,7 @@ async function main() {
   if (rows.length === 0) throw new Error('no source rows selected')
 
   const log = (line) => console.log(line)
+  if (values.traits) return await auditTraits(rows, dirs, log)
   const filled = new Map()
   for (const { row } of rows) {
     const out = await processRow(row, dirs, log)

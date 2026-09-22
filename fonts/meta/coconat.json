@@ -17,6 +17,7 @@
   "serif"
  ],
  "odds": 4,
+ "upm": 1000,
  "files": [
   {
    "id": "static",
@@ -25,7 +26,6 @@
    "sha256": "513dafaac554871130527f8698a8e52a4f1996d77ee19466a82d106b8874e914",
    "asc": 756,
    "desc": 18,
-   "upem": 1000,
    "glyphs": 23
   }
  ],

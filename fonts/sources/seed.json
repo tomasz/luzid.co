@@ -7,12 +7,29 @@
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/ac502d8eff76ef4d9477cdcc8ef7d0c84fde5372/ofl/fraunces/OFL.txt",
     "copyright": "Copyright 2020 The Fraunces Project Authors (github.com/undercasetype/Fraunces)",
-    "archetype": ["A"],
-    "traits": ["serif", "soft"],
+    "archetype": [
+      "A"
+    ],
+    "traits": [
+      "serif",
+      "soft"
+    ],
     "odds": 4,
     "stops": [
-      { "opsz": 144, "wght": 600, "SOFT": 100, "WONK": 1 },
-      { "opsz": 144, "wght": 900, "SOFT": 100, "WONK": 1 }
+      {
+        "id": "w600",
+        "opsz": 144,
+        "wght": 600,
+        "SOFT": 100,
+        "WONK": 1
+      },
+      {
+        "id": "w900",
+        "opsz": 144,
+        "wght": 900,
+        "SOFT": 100,
+        "WONK": 1
+      }
     ]
   },
   {
@@ -23,8 +40,13 @@
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/5bf2c8330ab94bf00b354e40e5675f11ac819d4a/ofl/boldonse/OFL.txt",
     "copyright": "Copyright 2024 The Boldonse Project Authors (https://github.com/googlefonts/boldonse)",
-    "archetype": ["B"],
-    "traits": ["sans", "fat"],
+    "archetype": [
+      "B"
+    ],
+    "traits": [
+      "sans",
+      "fat"
+    ],
     "odds": 4
   },
   {
@@ -35,8 +57,13 @@
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/34ce35e2b6d7a1467c0ecfd9cd13082a87ffd23e/ofl/pacifico/OFL.txt",
     "copyright": "Copyright 2018 The Pacifico Project Authors (https://github.com/googlefonts/Pacifico)",
-    "archetype": ["C"],
-    "traits": ["script", "brush"],
+    "archetype": [
+      "C"
+    ],
+    "traits": [
+      "script",
+      "brush"
+    ],
     "odds": 4
   },
   {
@@ -44,13 +71,16 @@
     "family": "Cyklop",
     "url": "https://mirrors.ctan.org/fonts/cyklop/fonts/opentype/public/cyklop/cyklop-regular.otf",
     "sha256": "dec04a1ed2805a2d41251ad1253831169c00d8617904b91558cffab762281c1d",
-    "upstream": "cyklop-regular.otf",
     "licenseId": "GUST",
     "licenseUrl": "https://mirrors.ctan.org/fonts/cyklop/doc/fonts/cyklop/GUST-FONT-LICENSE.txt",
-    "noticeUrls": ["https://mirrors.ctan.org/fonts/cyklop/doc/fonts/cyklop/MANIFEST.txt"],
     "copyright": "Copyright (c) 2008, Digitized by Janusz M. Nowacki - 2007-2008, Grudziadz, Poland",
-    "archetype": ["B"],
-    "traits": ["sans", "fat"],
+    "archetype": [
+      "B"
+    ],
+    "traits": [
+      "sans",
+      "fat"
+    ],
     "odds": 5
   },
   {
@@ -61,8 +91,13 @@
     "licenseId": "Apache-2.0",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/56cadf2effb0b99c13c520ac4b05ec12580f707d/apache/syncopate/LICENSE.txt",
     "copyright": "Copyright (c) 2010 by Brian J. Bonislawsky DBA Astigmatic (AOETI)",
-    "archetype": ["E"],
-    "traits": ["sans", "wide"],
+    "archetype": [
+      "E"
+    ],
+    "traits": [
+      "sans",
+      "wide"
+    ],
     "odds": 4
   },
   {
@@ -73,8 +108,14 @@
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/collletttivo/coconat/75f0bf21470de362ebee2f173e99505b7a7e977b/LICENSE.txt",
     "copyright": "© 2023, Collletttivo & Sara Lavazza",
-    "archetype": ["A", "F"],
-    "traits": ["serif", "deco"],
+    "archetype": [
+      "A",
+      "F"
+    ],
+    "traits": [
+      "serif",
+      "deco"
+    ],
     "odds": 4
   },
   {
@@ -85,8 +126,13 @@
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/6bc4f73e2ba5dddbf82aa93e4d6a57abebdc6940/ofl/bungee/OFL.txt",
     "copyright": "Copyright 2023 The Bungee Project Authors (https://github.com/djrrb/Bungee)",
-    "archetype": ["B"],
-    "traits": ["sans", "fat"],
+    "archetype": [
+      "B"
+    ],
+    "traits": [
+      "sans",
+      "fat"
+    ],
     "odds": 4
   },
   {
@@ -97,9 +143,23 @@
     "licenseId": "OFL-1.1",
     "licenseUrl": "https://raw.githubusercontent.com/google/fonts/8b80d4f3f73cfe02b69a6f0dc71da5a1cc574bd3/ofl/unbounded/OFL.txt",
     "copyright": "Copyright 2022 The Unbounded Project Authors (https://github.com/googlefonts/unbounded)",
-    "archetype": ["B"],
-    "traits": ["sans", "fat"],
+    "archetype": [
+      "B"
+    ],
+    "traits": [
+      "sans",
+      "fat"
+    ],
     "odds": 4,
-    "stops": [{ "wght": 400 }, { "wght": 900 }]
+    "stops": [
+      {
+        "id": "w400",
+        "wght": 400
+      },
+      {
+        "id": "w900",
+        "wght": 900
+      }
+    ]
   }
 ]

@@ -150,6 +150,13 @@ export function normalizeMetrics(tables, { asc, desc }) {
   return { asc, desc }
 }
 
+/** `head.unitsPerEm`: the grid every metric and ink measurement in the metadata is in. */
+export function unitsPerEm(tables) {
+  const head = tables.find((t) => t.tag === 'head')
+  if (!head || head.data.length < 20) throw new Error('sfnt: cannot read head.unitsPerEm')
+  return head.data.readUInt16BE(18)
+}
+
 /** Read back what `normalizeMetrics` wrote, for verification. */
 export function readMetrics(tables) {
   const hhea = tables.find((t) => t.tag === 'hhea')

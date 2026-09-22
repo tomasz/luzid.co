@@ -16,6 +16,7 @@
   "wide"
  ],
  "odds": 4,
+ "upm": 2048,
  "files": [
   {
    "id": "static",
@@ -24,7 +25,6 @@
    "sha256": "72851507791d165bd7de3d944af657dd442d6e845dc2d9d47eefc101501a01d9",
    "asc": 1409,
    "desc": 39,
-   "upem": 2048,
    "glyphs": 23
   }
  ],

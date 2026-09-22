@@ -16,9 +16,10 @@
   "soft"
  ],
  "odds": 4,
+ "upm": 2000,
  "files": [
   {
-   "id": "soft100-wonk1-opsz144-w600",
+   "id": "w600",
    "axes": {
     "opsz": 144,
     "wght": 600,
@@ -29,11 +30,10 @@
    "sha256": "2ec596905e8bafc38af03421bec51b44aee0592c223684d1e385978ab0bc2b97",
    "asc": 1484,
    "desc": 34,
-   "upem": 2000,
    "glyphs": 23
   },
   {
-   "id": "soft100-wonk1-opsz144-w900",
+   "id": "w900",
    "axes": {
     "opsz": 144,
     "wght": 900,
@@ -44,14 +44,13 @@
    "sha256": "3679aba74362d08a559bc7ea46a81e39252218adb3176fd2adca278fd791b7f2",
    "asc": 1510,
    "desc": 36,
-   "upem": 2000,
    "glyphs": 23
   }
  ],
  "variants": [
   {
-   "id": "n-base-soft100-wonk1-opsz144-w600",
-   "file": "soft100-wonk1-opsz144-w600",
+   "id": "n-base-w600",
+   "file": "w600",
    "case": "none",
    "css": {
     "weight": 600,
@@ -72,8 +71,8 @@
    }
   },
   {
-   "id": "n-base-soft100-wonk1-opsz144-w900",
-   "file": "soft100-wonk1-opsz144-w900",
+   "id": "n-base-w900",
+   "file": "w900",
    "case": "none",
    "css": {
     "weight": 900,
@@ -94,8 +93,8 @@
    }
   },
   {
-   "id": "u-base-soft100-wonk1-opsz144-w600",
-   "file": "soft100-wonk1-opsz144-w600",
+   "id": "u-base-w600",
+   "file": "w600",
    "case": "uppercase",
    "css": {
     "weight": 600,
@@ -116,8 +115,8 @@
    }
   },
   {
-   "id": "u-base-soft100-wonk1-opsz144-w900",
-   "file": "soft100-wonk1-opsz144-w900",
+   "id": "u-base-w900",
+   "file": "w900",
    "case": "uppercase",
    "css": {
     "weight": 900,
@@ -138,8 +137,8 @@
    }
   },
   {
-   "id": "l-base-soft100-wonk1-opsz144-w600",
-   "file": "soft100-wonk1-opsz144-w600",
+   "id": "l-base-w600",
+   "file": "w600",
    "case": "lowercase",
    "css": {
     "weight": 600,
@@ -160,8 +159,8 @@
    }
   },
   {
-   "id": "l-base-soft100-wonk1-opsz144-w900",
-   "file": "soft100-wonk1-opsz144-w900",
+   "id": "l-base-w900",
+   "file": "w900",
    "case": "lowercase",
    "css": {
     "weight": 900,
@@ -182,8 +181,8 @@
    }
   },
   {
-   "id": "n-case-soft100-wonk1-opsz144-w600",
-   "file": "soft100-wonk1-opsz144-w600",
+   "id": "n-case-w600",
+   "file": "w600",
    "case": "none",
    "css": {
     "weight": 600,
@@ -204,8 +203,8 @@
    }
   },
   {
-   "id": "n-case-soft100-wonk1-opsz144-w900",
-   "file": "soft100-wonk1-opsz144-w900",
+   "id": "n-case-w900",
+   "file": "w900",
    "case": "none",
    "css": {
     "weight": 900,
@@ -226,8 +225,8 @@
    }
   },
   {
-   "id": "l-case-soft100-wonk1-opsz144-w600",
-   "file": "soft100-wonk1-opsz144-w600",
+   "id": "l-case-w600",
+   "file": "w600",
    "case": "lowercase",
    "css": {
     "weight": 600,
@@ -248,8 +247,8 @@
    }
   },
   {
-   "id": "l-case-soft100-wonk1-opsz144-w900",
-   "file": "soft100-wonk1-opsz144-w900",
+   "id": "l-case-w900",
+   "file": "w900",
    "case": "lowercase",
    "css": {
     "weight": 900,

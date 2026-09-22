@@ -16,13 +16,24 @@ import {
   MAX_STOPS,
   MAX_VARIANTS,
   MEASURED_TRAITS,
+  pinnedToCommit,
   planVariants,
+  reconcileTraits,
   TEXT,
   TRAITS,
+  traitDisagreements,
+  upstreamPaths,
   validateRow,
   WORDS,
 } from '../scripts/fonts.mjs'
-import { deriveMetrics, hasOverlapFlags, normalizeMetrics, parse, readMetrics } from '../scripts/sfnt.mjs'
+import {
+  deriveMetrics,
+  hasOverlapFlags,
+  normalizeMetrics,
+  parse,
+  readMetrics,
+  unitsPerEm,
+} from '../scripts/sfnt.mjs'
 import { decode } from '../scripts/woff2.mjs'
 
 const url = (p) => new URL(`../${p}`, import.meta.url)
@@ -64,18 +75,58 @@ test('rule 1: the Google css2 API is never a source, and neither is a zip', () =
   }
 })
 
-test('rule 1: a source without an immutable commit must ship the original', async () => {
+test('rule 1: a source without an immutable commit ships the original alongside it', async () => {
   // CTAN has no VCS behind it, so the hash alone is not enough to reproduce the build.
-  const cyklop = sources.find((r) => r.id === 'cyklop')
-  assert.ok(cyklop.upstream, 'the CTAN source must name a committed original')
-  assert.throws(
-    () => validateRow({ ...cyklop, upstream: undefined }),
-    /must be committed under fonts\/upstream/,
+  assert.equal(pinnedToCommit('https://mirrors.ctan.org/fonts/cyklop/cyklop-regular.otf'), false)
+  assert.equal(
+    pinnedToCommit(
+      'https://raw.githubusercontent.com/google/fonts/5bf2c8330ab94bf00b354e40e5675f11ac819d4a/x.ttf',
+    ),
+    true,
   )
+  // GitLab, Codeberg and sourcehut spell a raw URL differently; the commit is the point.
+  assert.equal(
+    pinnedToCommit(
+      'https://gitlab.com/velvetyne/backout/-/raw/4f894ca0bf7d46e12a1e818d24a1234660e5848b/a.ttf',
+    ),
+    true,
+  )
+  assert.equal(pinnedToCommit('https://gitlab.com/velvetyne/backout/-/raw/main/a.ttf'), false)
+
   const committed = await readdir(url('fonts/upstream'))
-  assert.ok(committed.includes(cyklop.upstream), `fonts/upstream/${cyklop.upstream} is missing`)
-  const original = await readFile(url(`fonts/upstream/${cyklop.upstream}`))
-  assert.equal(createHash('sha256').update(original).digest('hex'), cyklop.sha256)
+  for (const row of sources) {
+    const { original } = upstreamPaths(row)
+    if (pinnedToCommit(row.url)) {
+      assert.ok(!committed.includes(original), `${row.id}: pinned to a commit, so it needs no committed copy`)
+      continue
+    }
+    assert.ok(committed.includes(original), `fonts/upstream/${original} is missing`)
+    const bytes = await readFile(url(`fonts/upstream/${original}`))
+    assert.equal(createHash('sha256').update(bytes).digest('hex'), row.sha256, `${row.id}: committed copy`)
+  }
+})
+
+test('the source rows carry only the keys §5.5 defines', () => {
+  // The schema is shared with every other batch, so anything the pipeline needs beyond it
+  // is found by id under fonts/upstream instead of being bolted onto the row.
+  const allowed = new Set([
+    'id',
+    'family',
+    'url',
+    'sha256',
+    'licenseId',
+    'licenseUrl',
+    'copyright',
+    'archetype',
+    'traits',
+    'odds',
+    'stops',
+    'features',
+    'cases',
+  ])
+  for (const row of sources) {
+    for (const key of Object.keys(row)) assert.ok(allowed.has(key), `${row.id}: unknown key "${key}"`)
+  }
 })
 
 // ---------------------------------------------------------------- rule 2: the 22 letters
@@ -170,7 +221,7 @@ test('rule 4: a feature that does not change the two words is dropped', async ()
 test('rule 4: a case-like feature is kept only when it changes every letter, Ł included', async () => {
   // Cyklop's small caps reach every lowercase letter, so they only qualify in lowercase:
   // in "Tomasz" the T is already a capital and stays put.
-  const font = new hb.Font(new hb.Face(new hb.Blob(await readFile(url('fonts/upstream/cyklop-regular.otf')))))
+  const font = new hb.Font(new hb.Face(new hb.Blob(await readFile(url('fonts/upstream/cyklop.otf')))))
   assert.deepEqual(effectiveFeatures(font, 'lowercase', ['smcp']), ['smcp'])
   assert.deepEqual(effectiveFeatures(font, 'none', ['smcp']), [])
 })
@@ -265,14 +316,32 @@ test('rule 5: the written metrics are the ones the metadata promises', async () 
   }
 })
 
+test('§5.2: the metadata records the em grid its metrics are on', async () => {
+  // The fit maths converts asc/desc back to em, so `upm` is part of the contract rather
+  // than something the renderer may assume. It belongs to the face: pinning cannot move it.
+  for (const meta of metas) {
+    assert.ok(Number.isInteger(meta.upm) && meta.upm > 0, `${meta.id}: upm must be a positive integer`)
+    for (const file of meta.files) {
+      const { tables } = parse(decode(await readFile(url(`fonts/files/${meta.id}.${file.id}.woff2`))))
+      assert.equal(unitsPerEm(tables), meta.upm, `${meta.id}.${file.id}: head.unitsPerEm is not meta.upm`)
+      assert.ok(!('upem' in file), `${meta.id}.${file.id}: upm is recorded once, at the top level`)
+    }
+  }
+  // The seed set deliberately spans three grids, so a hard-coded 1000 cannot pass.
+  assert.deepEqual(
+    [...new Set(metas.map((m) => m.upm))].sort((a, b) => a - b),
+    [1000, 2000, 2048],
+  )
+})
+
 test('rule 5: the metrics keep every emitted line-height positive', () => {
   // The renderer emits L = 2·top − ASC + DESC per line (PLAN §5.2). If that can go to zero
   // or below, a line collapses and the effect copies stop lining up with the real text.
   for (const meta of metas) {
     for (const variant of meta.variants) {
       const file = meta.files.find((f) => f.id === variant.file)
-      const asc = file.asc / file.upem
-      const desc = file.desc / file.upem
+      const asc = file.asc / meta.upm
+      const desc = file.desc / meta.upm
       for (const word of [variant.w1, variant.w2]) {
         const lineHeight = 2 * word.top - asc + desc
         assert.ok(lineHeight > 0, `${meta.id}/${variant.id}: line-height ${lineHeight} is not positive`)
@@ -356,12 +425,84 @@ test('source rows validate, with disjoint ids', () => {
     () => validateRow({ ...base, stops: Array.from({ length: MAX_STOPS + 1 }, () => ({})) }),
     /at most 4 stops/,
   )
+  // A measured trait is legal in a row: the batch files are read by people, and the check
+  // is against the outlines, not against the schema.
   for (const trait of MEASURED_TRAITS) {
-    assert.throws(
-      () => validateRow({ ...base, traits: [trait] }),
-      new RegExp(`trait ${trait} is measured by the pipeline`),
-      `${trait} must not be hand-settable`,
-    )
+    assert.doesNotThrow(() => validateRow({ ...base, traits: [trait] }), `${trait} must be declarable`)
+  }
+})
+
+// ---------------------------------------------------------------- declared vs measured traits
+
+const measurement = (overrides = {}) => ({
+  capsOnly: false,
+  unicase: false,
+  connected: false,
+  hairline: false,
+  overlap: false,
+  ...overrides,
+})
+
+test('a row that agrees with the outlines passes, and the measurement fills in the rest', () => {
+  const measured = measurement({ connected: true, overlap: true })
+  assert.deepEqual(reconcileTraits('agrees', ['script', 'connected'], measured), [
+    'connected',
+    'overlap',
+    'script',
+  ])
+  // Declaring nothing measured is fine; the pipeline supplies all five.
+  assert.deepEqual(reconcileTraits('silent', ['script'], measured), ['connected', 'overlap', 'script'])
+  assert.deepEqual(traitDisagreements(['script', 'connected'], measured), [])
+})
+
+test('a row that disagrees with the outlines is a hard failure naming the trait', () => {
+  const bicameral = measurement({ overlap: true })
+  assert.throws(
+    () => reconcileTraits('cinzel', ['serif', 'unicase'], bicameral),
+    /cinzel: the source row declares unicase, the outlines measure it false \(measured: overlap\)/,
+  )
+  assert.throws(
+    () => reconcileTraits('rancho', ['script', 'connected'], measurement()),
+    /rancho: the source row declares connected, the outlines measure it false \(measured: none of the five\)/,
+  )
+  // Every one of the five is checked, and all of them are named at once.
+  for (const trait of MEASURED_TRAITS) {
+    assert.deepEqual(traitDisagreements([trait], measurement()), [trait])
+  }
+  assert.deepEqual(traitDisagreements(['hairline', 'overlap'], measurement()), ['hairline', 'overlap'])
+  assert.throws(
+    () => reconcileTraits('both', ['hairline', 'overlap'], measurement()),
+    /declares hairline, overlap, the outlines measure them false/,
+  )
+})
+
+test('capsOnly and unicase are one measurement, so either label satisfies either finding', () => {
+  // Extents cannot split them: Vina Sans is caps-only with three redrawn lowercase letters,
+  // Syncopate is unicase with seven identical ones. Both collapse the case axis, which is
+  // the only thing the pipeline does with the answer.
+  for (const declared of ['capsOnly', 'unicase']) {
+    for (const found of ['capsOnly', 'unicase']) {
+      assert.deepEqual(
+        traitDisagreements([declared], measurement({ [found]: true })),
+        [],
+        `declaring ${declared} against a measured ${found} must be accepted`,
+      )
+      // The row's own word for it is what the metadata keeps.
+      assert.deepEqual(reconcileTraits('case', [declared], measurement({ [found]: true })), [declared])
+    }
+  }
+  // It is still a failure when the face is plainly bicameral.
+  assert.deepEqual(traitDisagreements(['capsOnly'], measurement()), ['capsOnly'])
+})
+
+test('every shipped font agrees with its own source row', () => {
+  // The metadata is the merge, so anything the row declared has to survive into it.
+  for (const meta of metas) {
+    const row = sources.find((r) => r.id === meta.id)
+    for (const trait of row.traits) {
+      assert.ok(meta.traits.includes(trait), `${meta.id}: declared ${trait} is missing from the metadata`)
+    }
+    for (const trait of meta.traits) assert.ok(TRAITS.has(trait), `${meta.id}: unknown trait ${trait}`)
   }
 })
 
