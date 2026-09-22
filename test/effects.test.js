@@ -156,7 +156,10 @@ function lintCss(css, where, { shape, mode }) {
         for (const layer of topSplit(value, ',')) {
           const lengths = [
             ...layer.matchAll(
-              /calc\(\s*(-?\d*\.?\d+)\s*\*\s*(?:(cos|sin)\(\s*(-?\d*\.?\d+)deg\s*\)\s*\*\s*)?var\(--u\)\s*\)|(?<![\w.])(0)(?![\w.])/g,
+              // The bare `0` alternative must not fire on a percentage: `color-mix(…, var(--bg) 0%, …)`
+              // is a colour stop, not a shadow length, and counting it shifted every later
+              // length in the layer by one — which read a blur radius as an offset.
+              /calc\(\s*(-?\d*\.?\d+)\s*\*\s*(?:(cos|sin)\(\s*(-?\d*\.?\d+)deg\s*\)\s*\*\s*)?var\(--u\)\s*\)|(?<![\w.])(0)(?![\w.%])/g,
             ),
           ]
           const blur = lengths[2]

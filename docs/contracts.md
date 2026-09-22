@@ -73,7 +73,7 @@ a.n:focus-visible{outline:max(3px,.35vmin) solid var(--fg);outline-offset:max(4p
    rotate:90deg;translate:calc(-1*DY*var(--u)) calc(DX*var(--u))}}
 ```
 
-Literals per pick: `1u` = 1% of block width. `F_i` = font-size divisor (`stack-fit`: `F_i = W_i`, each line fills the width; `stack-eq`: `F_1 = F_2 = max(W_1, W_2)`). `G = max(g, bt)` with `g` a layout param `[4,10,2]` u and `bt` the effect's top bleed (stops line 2's shadow painting over line 1). `R = H_1/F_1 + H_2/F_2 + G/100`, `BH = 100·R`, `Y2 = 100·H_1/F_1 + G`. `K1 = 1 + (bl+br)/100`, `K2 = R + (bt+bb)/100`, `DX = (bl−br)/2`, `DY = (bt−bb)/2`. `translate` acts in screen space, hence the swapped pair under `rotate`. `--bh`/`--y` let one gradient span both lines: `background-size:100% calc(var(--bh)*var(--u)); background-position:0 calc(-1*var(--y)*var(--u))`.
+Literals per pick: `1u` = 1% of block width. `F_i` = font-size divisor (`stack-fit`: `F_i = W_i`, each line fills the width; `stack-eq`: `F_1 = F_2 = max(W_1, W_2)`). `G = max(g, bt, bb)` with `g` a layout param `[4,10,2]` u and `bt`/`bb` the effect's top and bottom bleed. The gap clears ink travelling both ways: the two lines paint in tree order, so line 2's upward ink would cover line 1's glyphs and line 2's glyphs would cover line 1's downward ink. It is `max`, not `bt + bb` — the two inks may meet inside the gap, they just may not reach the other line's glyphs. `R = H_1/F_1 + H_2/F_2 + G/100`, `BH = 100·R`, `Y2 = 100·H_1/F_1 + G`. `K1 = 1 + (bl+br)/100`, `K2 = R + (bt+bb)/100`, `DX = (bl−br)/2`, `DY = (bt−bb)/2`. `translate` acts in screen space, hence the swapped pair under `rotate`. `--bh`/`--y` let one gradient span both lines: `background-size:100% calc(var(--bh)*var(--u)); background-position:0 calc(-1*var(--y)*var(--u))`.
 
 Layouts in v1.0: `stack-fit` (odds 12), `stack-eq` (odds 4), plus independent keyed flag `side` (p = .25). A one-line layout is deliberately absent: it only wins above ~4.7:1, wider than any real display. If the 3-engine pixel scan (§9.2) rejects a font, the font is dropped, not fixed.
 
@@ -320,7 +320,7 @@ file entry but no `upm`. The engine divides by `font.upm` when the font meta car
 treats `asc` / `desc` as already-em otherwise. **WP-11 should emit `upm` at the top level of
 each font meta.** Everything else the renderer reads (`w1`, `w2`) is already in em.
 
-`G = max(g, bleed.t)` while `bleed(p, m)` takes `m`, which contains `G` — a cycle. It is
+`G = max(g, bleed.t, bleed.b)` while `bleed(p, m)` takes `m`, which contains `G` — a cycle. It is
 broken by two passes: `bleed()` receives an `m` computed with `G = g`, and `css()` and
 `hover()` receive the final `m`. A bleed that reads `m.G` is therefore reading the layout
 gap, not the resolved gap.
@@ -339,3 +339,21 @@ Only the data-derived parts of the comment (font family, copyright, colour names
 of hyphens collapsed. The canonical tuple does not: `10--` is an ordinary role-set id and
 the point of the colophon is that it can be copied straight into a bug report. `<` and `>`
 are stripped from the whole line, which makes `-->` unconstructible.
+
+### R13 — the gap clears downward ink too
+
+All four Wave-2 effect families independently reported the same gap: `G = max(g, bleed.t)`
+had no counterpart for ink falling out of line 1 into line 2, so line 2's glyphs painted
+over line 1's shade. The only workaround available to an effect was to declare a top bleed
+it never painted into, purely to widen the gap — dead space above line 1, measured at 3-7%
+of block width at phone size. Six of the eight retro-print effects took that deal.
+
+`G = max(g, bleed.t, bleed.b)` removes the need for it. Effects that declared a phantom
+top bleed should drop it.
+
+### R14 — `drop-shadow()` reaches about 1.5x its radius
+
+`filter: drop-shadow(x y r c)` uses r as a Gaussian *diameter* hint, with sigma = r/2, and
+a Gaussian is visible to roughly 3 sigma. The painted tail therefore reaches about 1.5r
+beyond the offset, not r. Budget bleed accordingly: at the 4-pass cap a chain budgeted at
+1x clips its own outer edge.
