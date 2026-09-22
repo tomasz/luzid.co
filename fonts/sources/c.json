@@ -1,0 +1,641 @@
+[
+  {
+    "id": "arizonia",
+    "family": "Arizonia",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/arizonia/Arizonia-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/arizonia/OFL.txt",
+    "copyright": "Copyright 2007-2021 The Arizonia Project Authors (https://github.com/googlefonts/arizonia)",
+    "archetype": [
+      "C"
+    ],
+    "traits": [
+      "script",
+      "connected"
+    ],
+    "odds": 6,
+    "cases": [
+      "none",
+      "lowercase"
+    ]
+  },
+  {
+    "id": "bajaderka",
+    "family": "Bajaderka",
+    "url": "https://raw.githubusercontent.com/warszawskie-kroje/bajaderka/dec61220711c42fffe4f60f5abc41560159952c9/Bajaderka-Regular/Bajaderka-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/warszawskie-kroje/bajaderka/dec61220711c42fffe4f60f5abc41560159952c9/README.md",
+    "copyright": "Copyright © 2016 Stowarzyszenie Kulturotwórcze Miastodwa",
+    "archetype": [
+      "C"
+    ],
+    "traits": [
+      "script",
+      "connected"
+    ],
+    "odds": 10,
+    "cases": [
+      "none",
+      "lowercase"
+    ]
+  },
+  {
+    "id": "birthstone-bounce",
+    "family": "Birthstone Bounce",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/birthstonebounce/BirthstoneBounce-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/birthstonebounce/OFL.txt",
+    "copyright": "Copyright 2019 The Birthstone Bounce Project Authors (https://github.com/googlefonts/birthstone-bounce)",
+    "archetype": [
+      "C"
+    ],
+    "traits": [
+      "script",
+      "connected"
+    ],
+    "odds": 6,
+    "features": [
+      "ss01",
+      "ss02",
+      "salt",
+      "titl"
+    ],
+    "cases": [
+      "none",
+      "lowercase"
+    ]
+  },
+  {
+    "id": "caveat-brush",
+    "family": "Caveat Brush",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/caveatbrush/CaveatBrush-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/caveatbrush/OFL.txt",
+    "copyright": "Copyright 2015 Google Inc. All Rights Reserved.",
+    "archetype": [
+      "C"
+    ],
+    "traits": [
+      "script",
+      "brush"
+    ],
+    "odds": 8
+  },
+  {
+    "id": "chewy",
+    "family": "Chewy",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/chewy/Chewy-Regular.ttf",
+    "sha256": "",
+    "licenseId": "Apache-2.0",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/chewy/LICENSE.txt",
+    "copyright": "Copyright License. Subject to the terms and conditions of",
+    "archetype": [
+      "C",
+      "D"
+    ],
+    "traits": [
+      "script",
+      "brush",
+      "rounded"
+    ],
+    "odds": 7
+  },
+  {
+    "id": "damion",
+    "family": "Damion",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/damion/Damion-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/damion/OFL.txt",
+    "copyright": "Copyright 2014 The Damion Project Authors (https://github.com/googlefonts/damionFont)",
+    "archetype": [
+      "C"
+    ],
+    "traits": [
+      "script",
+      "brush",
+      "connected"
+    ],
+    "odds": 9,
+    "cases": [
+      "none",
+      "lowercase"
+    ]
+  },
+  {
+    "id": "grechen-fuemen",
+    "family": "Grechen Fuemen",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/grechenfuemen/GrechenFuemen-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/grechenfuemen/OFL.txt",
+    "copyright": "Copyright 2003-2021 The Grechen Fuemen Project Authors (https://github.com/googlefonts/grechen-fuemen)",
+    "archetype": [
+      "C"
+    ],
+    "traits": [
+      "script",
+      "brush",
+      "connected"
+    ],
+    "odds": 6,
+    "cases": [
+      "none",
+      "lowercase"
+    ]
+  },
+  {
+    "id": "hurricane",
+    "family": "Hurricane",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/hurricane/Hurricane-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/hurricane/OFL.txt",
+    "copyright": "Copyright 2016-2021 The Hurricane Project Authors (https://github.com/googlefonts/hurricane)",
+    "archetype": [
+      "C"
+    ],
+    "traits": [
+      "script",
+      "connected",
+      "hairline"
+    ],
+    "odds": 6,
+    "features": [
+      "ss01",
+      "ss02",
+      "ss03",
+      "ss04"
+    ],
+    "cases": [
+      "none",
+      "lowercase"
+    ]
+  },
+  {
+    "id": "just-another-hand",
+    "family": "Just Another Hand",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/justanotherhand/JustAnotherHand-Regular.ttf",
+    "sha256": "",
+    "licenseId": "Apache-2.0",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/justanotherhand/LICENSE.txt",
+    "copyright": "Copyright License. Subject to the terms and conditions of",
+    "archetype": [
+      "C"
+    ],
+    "traits": [
+      "script",
+      "brush",
+      "condensed"
+    ],
+    "odds": 6
+  },
+  {
+    "id": "kolker-brush",
+    "family": "Kolker Brush",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/kolkerbrush/KolkerBrush-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/kolkerbrush/OFL.txt",
+    "copyright": "Copyright 2004 The Kolker Brush Project Authors (https://github.com/googlefonts/kolker-brush)",
+    "archetype": [
+      "C"
+    ],
+    "traits": [
+      "script",
+      "brush",
+      "connected"
+    ],
+    "odds": 7,
+    "features": [
+      "ss01",
+      "salt"
+    ],
+    "cases": [
+      "none",
+      "lowercase"
+    ]
+  },
+  {
+    "id": "licorice",
+    "family": "Licorice",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/licorice/Licorice-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/licorice/OFL.txt",
+    "copyright": "Copyright 2004 The Licorice Project Authors (https://github.com/googlefonts/licorice)",
+    "archetype": [
+      "C"
+    ],
+    "traits": [
+      "script",
+      "connected",
+      "hairline"
+    ],
+    "odds": 5,
+    "cases": [
+      "none",
+      "lowercase"
+    ]
+  },
+  {
+    "id": "momo-signature",
+    "family": "Momo Signature",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/momosignature/MomoSignature-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/momosignature/OFL.txt",
+    "copyright": "Copyright 2024 The MoMo Signature Project Authors (https://github.com/typeassociates/MomoSignature)",
+    "archetype": [
+      "C"
+    ],
+    "traits": [
+      "script",
+      "brush",
+      "connected"
+    ],
+    "odds": 7,
+    "features": [
+      "ss01",
+      "ss02",
+      "ss03"
+    ],
+    "cases": [
+      "none",
+      "lowercase"
+    ]
+  },
+  {
+    "id": "moon-dance",
+    "family": "Moon Dance",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/moondance/MoonDance-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/moondance/OFL.txt",
+    "copyright": "Copyright 2004 The Moon Dance Project Authors (https://github.com/googlefonts/moondance)",
+    "archetype": [
+      "C"
+    ],
+    "traits": [
+      "script",
+      "connected",
+      "hairline"
+    ],
+    "odds": 5,
+    "features": [
+      "ss01",
+      "salt"
+    ],
+    "cases": [
+      "none",
+      "lowercase"
+    ]
+  },
+  {
+    "id": "norican",
+    "family": "Norican",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/norican/Norican-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/norican/OFL.txt",
+    "copyright": "Copyright 2011 The Norican Project Authors (https://github.com/googlefonts/NoricanFont)",
+    "archetype": [
+      "C"
+    ],
+    "traits": [
+      "script",
+      "brush",
+      "connected"
+    ],
+    "odds": 8,
+    "cases": [
+      "none",
+      "lowercase"
+    ]
+  },
+  {
+    "id": "permanent-marker",
+    "family": "Permanent Marker",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/permanentmarker/PermanentMarker-Regular.ttf",
+    "sha256": "",
+    "licenseId": "Apache-2.0",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/permanentmarker/LICENSE.txt",
+    "copyright": "Copyright License. Subject to the terms and conditions of",
+    "archetype": [
+      "C"
+    ],
+    "traits": [
+      "script",
+      "brush"
+    ],
+    "odds": 8
+  },
+  {
+    "id": "playball",
+    "family": "Playball",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/playball/Playball-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/playball/OFL.txt",
+    "copyright": "Copyright 2011 The Playball Project Authors (https://github.com/googlefonts/play-ball)",
+    "archetype": [
+      "C"
+    ],
+    "traits": [
+      "script",
+      "connected"
+    ],
+    "odds": 8,
+    "features": [
+      "ss01",
+      "ss02",
+      "swsh",
+      "salt"
+    ],
+    "cases": [
+      "none",
+      "lowercase"
+    ]
+  },
+  {
+    "id": "rancho",
+    "family": "Rancho",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/rancho/Rancho-Regular.ttf",
+    "sha256": "",
+    "licenseId": "Apache-2.0",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/rancho/LICENSE.txt",
+    "copyright": "Copyright License. Subject to the terms and conditions of",
+    "archetype": [
+      "C"
+    ],
+    "traits": [
+      "script",
+      "brush",
+      "connected"
+    ],
+    "odds": 8,
+    "cases": [
+      "none",
+      "lowercase"
+    ]
+  },
+  {
+    "id": "rochester",
+    "family": "Rochester",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/rochester/Rochester-Regular.ttf",
+    "sha256": "",
+    "licenseId": "Apache-2.0",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/rochester/LICENSE.txt",
+    "copyright": "Copyright License. Subject to the terms and conditions of",
+    "archetype": [
+      "C"
+    ],
+    "traits": [
+      "script",
+      "connected"
+    ],
+    "odds": 7,
+    "cases": [
+      "none",
+      "lowercase"
+    ]
+  },
+  {
+    "id": "ruthie",
+    "family": "Ruthie",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/ruthie/Ruthie-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/ruthie/OFL.txt",
+    "copyright": "Copyright 2014 The Ruthie Project Authors (https://github.com/googlefonts/ruthie)",
+    "archetype": [
+      "C"
+    ],
+    "traits": [
+      "script",
+      "connected",
+      "hairline"
+    ],
+    "odds": 5,
+    "features": [
+      "ss01",
+      "salt"
+    ],
+    "cases": [
+      "none",
+      "lowercase"
+    ]
+  },
+  {
+    "id": "satisfy",
+    "family": "Satisfy",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/satisfy/Satisfy-Regular.ttf",
+    "sha256": "",
+    "licenseId": "Apache-2.0",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/satisfy/LICENSE.txt",
+    "copyright": "Copyright License. Subject to the terms and conditions of",
+    "archetype": [
+      "C"
+    ],
+    "traits": [
+      "script",
+      "brush",
+      "connected"
+    ],
+    "odds": 9,
+    "cases": [
+      "none",
+      "lowercase"
+    ]
+  },
+  {
+    "id": "sedgwick-ave-display",
+    "family": "Sedgwick Ave Display",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sedgwickavedisplay/SedgwickAveDisplay-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sedgwickavedisplay/OFL.txt",
+    "copyright": "Copyright 2017 The Sedgwick Ave Project Authors (https://github.com/googlefonts/sedgwickave)",
+    "archetype": [
+      "C"
+    ],
+    "traits": [
+      "script",
+      "brush"
+    ],
+    "odds": 8
+  },
+  {
+    "id": "splash",
+    "family": "Splash",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/splash/Splash-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/splash/OFL.txt",
+    "copyright": "Copyright 2017-2021 The Splash Project Authors (https://github.com/googlefonts/splash)",
+    "archetype": [
+      "C"
+    ],
+    "traits": [
+      "script",
+      "brush",
+      "connected"
+    ],
+    "odds": 6,
+    "features": [
+      "ss01",
+      "ss02",
+      "ss03",
+      "salt"
+    ],
+    "cases": [
+      "none",
+      "lowercase"
+    ]
+  },
+  {
+    "id": "sriracha",
+    "family": "Sriracha",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sriracha/Sriracha-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sriracha/OFL.txt",
+    "copyright": "Copyright (c) 2015, Cadson Demak (info@cadsondemak.com), Copyright (c) 2014, Pablo Impallari (www.impallari.com|impallari@gmail.com)",
+    "archetype": [
+      "C"
+    ],
+    "traits": [
+      "script",
+      "brush"
+    ],
+    "odds": 7
+  },
+  {
+    "id": "story-script",
+    "family": "Story Script",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/storyscript/StoryScript-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/storyscript/OFL.txt",
+    "copyright": "Copyright 2022 The Story Script Project Authors (https://github.com/lroulh/story-script)",
+    "archetype": [
+      "C"
+    ],
+    "traits": [
+      "script",
+      "brush",
+      "connected"
+    ],
+    "odds": 7,
+    "features": [
+      "ss01",
+      "ss02"
+    ],
+    "cases": [
+      "none",
+      "lowercase"
+    ]
+  },
+  {
+    "id": "style-script",
+    "family": "Style Script",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/stylescript/StyleScript-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/stylescript/OFL.txt",
+    "copyright": "Copyright 2013 The Style Script Project Authors (https://github.com/googlefonts/style-script)",
+    "archetype": [
+      "C"
+    ],
+    "traits": [
+      "script",
+      "brush",
+      "connected"
+    ],
+    "odds": 7,
+    "features": [
+      "ss01",
+      "ss02",
+      "swsh"
+    ],
+    "cases": [
+      "none",
+      "lowercase"
+    ]
+  },
+  {
+    "id": "tagger",
+    "family": "Tagger",
+    "url": "https://raw.githubusercontent.com/warszawskie-kroje/tagger/a283c4bb3d583b308c074c06fb8291f6be352598/Tagger-Regular/Tagger-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/warszawskie-kroje/tagger/a283c4bb3d583b308c074c06fb8291f6be352598/README.md",
+    "copyright": "Copyright © 2016 Stowarzyszenie Kulturotwórcze Miastodwa",
+    "archetype": [
+      "C"
+    ],
+    "traits": [
+      "script",
+      "brush",
+      "connected"
+    ],
+    "odds": 10,
+    "features": [
+      "ss01",
+      "ss02",
+      "salt"
+    ],
+    "cases": [
+      "none",
+      "lowercase"
+    ]
+  },
+  {
+    "id": "water-brush",
+    "family": "Water Brush",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/waterbrush/WaterBrush-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/waterbrush/OFL.txt",
+    "copyright": "Copyright 2004-2021 The Water Brush Project Authors (https://github.com/googlefonts/water-brush)",
+    "archetype": [
+      "C"
+    ],
+    "traits": [
+      "script",
+      "brush",
+      "connected"
+    ],
+    "odds": 7,
+    "cases": [
+      "none",
+      "lowercase"
+    ]
+  },
+  {
+    "id": "yellowtail",
+    "family": "Yellowtail",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/yellowtail/Yellowtail-Regular.ttf",
+    "sha256": "",
+    "licenseId": "Apache-2.0",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/yellowtail/LICENSE.txt",
+    "copyright": "Copyright (c) 2011 by Brian J. Bonislawsky DBA Astigmatic (AOETI). All rights reserved.",
+    "archetype": [
+      "C"
+    ],
+    "traits": [
+      "script",
+      "brush",
+      "connected"
+    ],
+    "odds": 9,
+    "cases": [
+      "none",
+      "lowercase"
+    ]
+  }
+]

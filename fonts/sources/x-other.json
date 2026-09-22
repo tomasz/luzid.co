@@ -1,0 +1,541 @@
+[
+  {
+    "id": "dot-gothic-16",
+    "family": "DotGothic16",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/dotgothic16/DotGothic16-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/dotgothic16/OFL.txt",
+    "copyright": "Copyright 2020 The DotGothic16 Project Authors (https://github.com/fontworks-fonts/DotGothic16)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "mono",
+      "jp"
+    ],
+    "odds": 6
+  },
+  {
+    "id": "grenze-gotisch",
+    "family": "Grenze Gotisch",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/grenzegotisch/GrenzeGotisch[wght].ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/grenzegotisch/OFL.txt",
+    "copyright": "Copyright 2020 The Grenze Gotisch Project Authors (https://github.com/Omnibus-Type/Grenze-Gotisch)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "blackletter",
+      "condensed"
+    ],
+    "odds": 8,
+    "stops": [
+      {
+        "id": "w900",
+        "wght": 900
+      },
+      {
+        "id": "w400",
+        "wght": 400
+      }
+    ],
+    "features": [
+      "ss01",
+      "salt"
+    ]
+  },
+  {
+    "id": "jacquard-24",
+    "family": "Jacquard 24",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/jacquard24/Jacquard24-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/jacquard24/OFL.txt",
+    "copyright": "Copyright 2023 The Soft Type Project Authors (https://github.com/scfried/soft-type-jacquard)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "blackletter",
+      "mono"
+    ],
+    "odds": 6
+  },
+  {
+    "id": "manufacturing-consent",
+    "family": "Manufacturing Consent",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/manufacturingconsent/ManufacturingConsent-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/manufacturingconsent/OFL.txt",
+    "copyright": "Copyright 2019 The Manufacturing Consent Project Authors (https://github.com/googlefonts/manufacturing-consent-font)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "blackletter",
+      "condensed"
+    ],
+    "odds": 6,
+    "features": [
+      "salt"
+    ]
+  },
+  {
+    "id": "paprika",
+    "family": "Paprika",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/paprika/Paprika-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/paprika/OFL.txt",
+    "copyright": "Copyright 2012 The Paprika Project Authors (https://github.com/etunni/paprika)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "serif",
+      "deco"
+    ],
+    "odds": 5
+  },
+  {
+    "id": "potta-one",
+    "family": "Potta One",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/pottaone/PottaOne-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/pottaone/OFL.txt",
+    "copyright": "Copyright 2020 The Potta Project Authors (https://github.com/go108go/Potta)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "fat",
+      "jp"
+    ],
+    "odds": 8
+  },
+  {
+    "id": "protest-guerrilla",
+    "family": "Protest Guerrilla",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/protestguerrilla/ProtestGuerrilla-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/protestguerrilla/OFL.txt",
+    "copyright": "Copyright 2013 The Protest Project Authors (https://github.com/octaviopardo/Protest)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "brush"
+    ],
+    "odds": 7
+  },
+  {
+    "id": "protest-revolution",
+    "family": "Protest Revolution",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/protestrevolution/ProtestRevolution-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/protestrevolution/OFL.txt",
+    "copyright": "Copyright 2013 The Protest Project Authors (https://github.com/octaviopardo/Protest)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "script",
+      "brush"
+    ],
+    "odds": 7
+  },
+  {
+    "id": "protest-riot",
+    "family": "Protest Riot",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/protestriot/ProtestRiot-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/protestriot/OFL.txt",
+    "copyright": "Copyright 2013 The Protest Project Authors (https://github.com/octaviopardo/Protest)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "brush",
+      "condensed"
+    ],
+    "odds": 7
+  },
+  {
+    "id": "rampart-one",
+    "family": "Rampart One",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rampartone/RampartOne-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rampartone/OFL.txt",
+    "copyright": "Copyright 2020 The Rampart Project Authors (https://github.com/fontworks-fonts/Rampart)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "fat",
+      "shaded",
+      "jp"
+    ],
+    "odds": 8
+  },
+  {
+    "id": "reggae-one",
+    "family": "Reggae One",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/reggaeone/ReggaeOne-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/reggaeone/OFL.txt",
+    "copyright": "Copyright 2020 The Reggae Project Authors (https://github.com/fontworks-fonts/Reggae)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "fat",
+      "jp"
+    ],
+    "odds": 8
+  },
+  {
+    "id": "rocknroll-one",
+    "family": "RocknRoll One",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rocknrollone/RocknRollOne-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rocknrollone/OFL.txt",
+    "copyright": "Copyright 2020 The RocknRoll Project Authors (https://github.com/fontworks-fonts/RocknRoll)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "rounded",
+      "jp"
+    ],
+    "odds": 8
+  },
+  {
+    "id": "rowdies-bold",
+    "family": "Rowdies",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rowdies/Rowdies-Bold.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rowdies/OFL.txt",
+    "copyright": "Copyright 2018 The Rowdies Project Authors (https://github.com/magictype/rowdy)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "fat"
+    ],
+    "odds": 6
+  },
+  {
+    "id": "rubik-beastly",
+    "family": "Rubik Beastly",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikbeastly/RubikBeastly-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikbeastly/OFL.txt",
+    "copyright": "Copyright 2020 The Rubik Filtered Project Authors (https://https://github.com/NaN-xyz/Rubik-Filtered)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "fat",
+      "groovy"
+    ],
+    "odds": 6
+  },
+  {
+    "id": "rubik-burned",
+    "family": "Rubik Burned",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikburned/RubikBurned-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikburned/OFL.txt",
+    "copyright": "Copyright 2020 The Rubik Filtered Project Authors (https://https://github.com/NaN-xyz/Rubik-Filtered)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "fat"
+    ],
+    "odds": 6
+  },
+  {
+    "id": "rubik-dirt",
+    "family": "Rubik Dirt",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikdirt/RubikDirt-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikdirt/OFL.txt",
+    "copyright": "Copyright 2020 The Rubik Filtered Project Authors (https://https://github.com/NaN-xyz/Rubik-Filtered)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "fat"
+    ],
+    "odds": 6
+  },
+  {
+    "id": "rubik-distressed",
+    "family": "Rubik Distressed",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikdistressed/RubikDistressed-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikdistressed/OFL.txt",
+    "copyright": "Copyright 2020 The Rubik Filtered Project Authors (https://https://github.com/NaN-xyz/Rubik-Filtered)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "fat"
+    ],
+    "odds": 6
+  },
+  {
+    "id": "rubik-gemstones",
+    "family": "Rubik Gemstones",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikgemstones/RubikGemstones-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikgemstones/OFL.txt",
+    "copyright": "Copyright 2020 The Rubik Filtered Project Authors (https://https://github.com/NaN-xyz/Rubik-Filtered)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "inline"
+    ],
+    "odds": 6
+  },
+  {
+    "id": "rubik-glitch",
+    "family": "Rubik Glitch",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikglitch/RubikGlitch-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikglitch/OFL.txt",
+    "copyright": "Copyright 2020 The Rubik Filtered Project Authors (https://https://github.com/NaN-xyz/Rubik-Filtered)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "fat",
+      "overlap"
+    ],
+    "odds": 6
+  },
+  {
+    "id": "rubik-iso",
+    "family": "Rubik Iso",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikiso/RubikIso-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikiso/OFL.txt",
+    "copyright": "Copyright 2020 The Rubik Filtered Project Authors (https://https://github.com/NaN-xyz/Rubik-Filtered)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "fat",
+      "shaded"
+    ],
+    "odds": 7
+  },
+  {
+    "id": "rubik-marker-hatch",
+    "family": "Rubik Marker Hatch",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikmarkerhatch/RubikMarkerHatch-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikmarkerhatch/OFL.txt",
+    "copyright": "Copyright 2020 The Rubik Filtered Project Authors (https://https://github.com/NaN-xyz/Rubik-Filtered)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "fat"
+    ],
+    "odds": 6
+  },
+  {
+    "id": "rubik-moonrocks",
+    "family": "Rubik Moonrocks",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikmoonrocks/RubikMoonrocks-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikmoonrocks/OFL.txt",
+    "copyright": "Copyright 2020 The Rubik Filtered Project Authors (https://https://github.com/NaN-xyz/Rubik-Filtered)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "fat",
+      "groovy"
+    ],
+    "odds": 6
+  },
+  {
+    "id": "rubik-scribble",
+    "family": "Rubik Scribble",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikscribble/RubikScribble-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikscribble/OFL.txt",
+    "copyright": "Copyright 2020 The Rubik Filtered Project Authors (https://https://github.com/NaN-xyz/Rubik-Filtered)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "hairline"
+    ],
+    "odds": 5
+  },
+  {
+    "id": "rubik-spray-paint",
+    "family": "Rubik Spray Paint",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikspraypaint/RubikSprayPaint-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikspraypaint/OFL.txt",
+    "copyright": "Copyright 2020 The Rubik Filtered Project Authors (https://https://github.com/NaN-xyz/Rubik-Filtered)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "brush"
+    ],
+    "odds": 6
+  },
+  {
+    "id": "rubik-storm",
+    "family": "Rubik Storm",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikstorm/RubikStorm-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikstorm/OFL.txt",
+    "copyright": "Copyright 2020 The Rubik Filtered Project Authors (https://https://github.com/NaN-xyz/Rubik-Filtered)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "fat"
+    ],
+    "odds": 5
+  },
+  {
+    "id": "rubik-vinyl",
+    "family": "Rubik Vinyl",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikvinyl/RubikVinyl-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikvinyl/OFL.txt",
+    "copyright": "Copyright 2020 The Rubik Filtered Project Authors (https://https://github.com/NaN-xyz/Rubik-Filtered)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "fat",
+      "inline"
+    ],
+    "odds": 7
+  },
+  {
+    "id": "rubik-wet-paint",
+    "family": "Rubik Wet Paint",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikwetpaint/RubikWetPaint-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikwetpaint/OFL.txt",
+    "copyright": "Copyright 2020 The Rubik Filtered Project Authors (https://https://github.com/NaN-xyz/Rubik-Filtered)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "sans",
+      "fat"
+    ],
+    "odds": 6
+  },
+  {
+    "id": "yuji-boku",
+    "family": "Yuji Boku",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/yujiboku/YujiBoku-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/yujiboku/OFL.txt",
+    "copyright": "Copyright 2021 The Yuji Project Authors (https://github.com/Kinutafontfactory/Yuji)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "brush",
+      "jp"
+    ],
+    "odds": 7
+  },
+  {
+    "id": "yuji-mai",
+    "family": "Yuji Mai",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/yujimai/YujiMai-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/yujimai/OFL.txt",
+    "copyright": "Copyright 2021 The Yuji Project Authors (https://github.com/Kinutafontfactory/Yuji)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "brush",
+      "jp"
+    ],
+    "odds": 7
+  },
+  {
+    "id": "yuji-syuku",
+    "family": "Yuji Syuku",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/yujisyuku/YujiSyuku-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/yujisyuku/OFL.txt",
+    "copyright": "Copyright 2021 The Yuji Project Authors (https://github.com/Kinutafontfactory/Yuji)",
+    "archetype": [
+      "X"
+    ],
+    "traits": [
+      "brush",
+      "jp"
+    ],
+    "odds": 7
+  }
+]

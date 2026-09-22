@@ -1,0 +1,38 @@
+{
+ "id": "fx-sans",
+ "family": "FX Sans",
+ "upm": 1000,
+ "src": { "url": "https://example.invalid/fx-sans.ttf", "sha256": "" },
+ "licenseId": "OFL-1.1",
+ "copyright": "2026 The FX Sans Project Authors",
+ "archetype": ["B", "X"],
+ "traits": ["sans", "fat"],
+ "odds": 8,
+ "files": [{ "id": "w700", "axes": { "wght": 700 }, "asc": 760, "desc": 240, "glyphs": 23 }],
+ "variants": [
+  {
+   "id": "as",
+   "file": "w700",
+   "case": "none",
+   "css": { "weight": 700, "style": "normal", "feat": "\"ss01\" 1" },
+   "w1": { "W": 3.268, "H": 0.714, "X": 0.025, "top": 0.714 },
+   "w2": { "W": 3.955, "H": 0.744, "X": 0.029, "top": 0.744 }
+  },
+  {
+   "id": "lo",
+   "file": "w700",
+   "case": "lowercase",
+   "css": { "weight": 700, "style": "normal", "feat": "normal" },
+   "w1": { "W": 3.104, "H": 0.536, "X": 0.022, "top": 0.536 },
+   "w2": { "W": 3.842, "H": 0.742, "X": 0.026, "top": 0.742 }
+  },
+  {
+   "id": "up",
+   "file": "w700",
+   "case": "uppercase",
+   "css": { "weight": 700, "style": "normal", "feat": "normal" },
+   "w1": { "W": 3.412, "H": 0.712, "X": 0.028, "top": 0.712 },
+   "w2": { "W": 4.086, "H": 0.738, "X": 0.031, "top": 0.738 }
+  }
+ ]
+}

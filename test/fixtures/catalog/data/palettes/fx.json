@@ -1,0 +1,39 @@
+[
+ {
+  "id": "fx-ink",
+  "src": "fixture",
+  "tier": "editorial",
+  "odds": 4,
+  "names": ["Ink", "Paper"],
+  "hex": ["#1d1b18", "#f3efe6"],
+  "roles": [
+   { "o": "10--", "dark": false, "n": 2, "derivedBg": null },
+   { "o": "01--", "dark": true, "n": 2, "derivedBg": null }
+  ]
+ },
+ {
+  "id": "fx-dusk",
+  "src": "fixture",
+  "tier": "historical",
+  "odds": 6,
+  "names": ["Dusk", "Coral", "Sand", "Slate"],
+  "hex": ["#241f3a", "#ef6a5a", "#e7d7b1", "#6c7a89"],
+  "roles": [
+   { "o": "012-", "dark": true, "n": 3, "derivedBg": null },
+   { "o": "0123", "dark": true, "n": 4, "derivedBg": null },
+   { "o": "2103", "dark": false, "n": 4, "derivedBg": null }
+  ]
+ },
+ {
+  "id": "fx-ground",
+  "src": "fixture",
+  "tier": "historical",
+  "odds": 4,
+  "names": ["Moss", "Olive"],
+  "hex": ["#5d6b45", "#7a8452", "#f7f5ef", "#171a12"],
+  "roles": [
+   { "o": "w01-", "dark": false, "n": 3, "derivedBg": "w" },
+   { "o": "k10-", "dark": true, "n": 3, "derivedBg": "k" }
+  ]
+ }
+]

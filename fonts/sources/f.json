@@ -1,0 +1,767 @@
+[
+  {
+    "id": "aboreto",
+    "family": "Aboreto",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/aboreto/Aboreto-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/aboreto/OFL.txt",
+    "copyright": "Copyright 2022 The Aboreto Project Authors (https://github.com/domija/Aboreto)",
+    "archetype": [
+      "F"
+    ],
+    "traits": [
+      "serif",
+      "deco",
+      "capsOnly"
+    ],
+    "odds": 8,
+    "cases": [
+      "none"
+    ]
+  },
+  {
+    "id": "apropal-bold",
+    "family": "Apropal",
+    "url": "https://raw.githubusercontent.com/warszawskie-kroje/apropal/c174a9c5066d126299cba6adf7f8d3ee0362d629/Apropal-Bold/Apropal-Bold.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/warszawskie-kroje/apropal/c174a9c5066d126299cba6adf7f8d3ee0362d629/README.md",
+    "copyright": "Copyright © 2016 Stowarzyszenie Kulturotwórcze Miastodwa",
+    "archetype": [
+      "F"
+    ],
+    "traits": [
+      "serif",
+      "deco"
+    ],
+    "odds": 10,
+    "features": [
+      "ss01",
+      "ss02",
+      "ss03",
+      "salt"
+    ]
+  },
+  {
+    "id": "bellefair",
+    "family": "Bellefair",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bellefair/Bellefair-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bellefair/OFL.txt",
+    "copyright": "Copyright 2015 The Bellefair Project Authors (https://github.com/shinntype/bellefair)",
+    "archetype": [
+      "F"
+    ],
+    "traits": [
+      "serif",
+      "deco"
+    ],
+    "odds": 6
+  },
+  {
+    "id": "belleza",
+    "family": "Belleza",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/belleza/Belleza-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/belleza/OFL.txt",
+    "copyright": "Copyright 2012 The Belleza Project Authors (https://github.com/etunni/belleza)",
+    "archetype": [
+      "F"
+    ],
+    "traits": [
+      "sans",
+      "deco"
+    ],
+    "odds": 6
+  },
+  {
+    "id": "bellota-bold",
+    "family": "Bellota",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bellota/Bellota-Bold.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bellota/OFL.txt",
+    "copyright": "Copyright 2019 The Bellota Project Authors (https://github.com/kemie/Bellota-Font)",
+    "archetype": [
+      "F",
+      "A"
+    ],
+    "traits": [
+      "serif",
+      "deco"
+    ],
+    "odds": 7,
+    "features": [
+      "ss01",
+      "ss02",
+      "swsh",
+      "salt"
+    ]
+  },
+  {
+    "id": "bodoni-moda",
+    "family": "Bodoni Moda",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bodonimoda/BodoniModa[opsz,wght].ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bodonimoda/OFL.txt",
+    "copyright": "Copyright 2020 The Bodoni Moda Project Authors (https://github.com/indestructible-type/Bodoni)",
+    "archetype": [
+      "F"
+    ],
+    "traits": [
+      "serif",
+      "deco"
+    ],
+    "odds": 9,
+    "stops": [
+      {
+        "id": "w900d",
+        "wght": 900,
+        "opsz": 96
+      },
+      {
+        "id": "w400t",
+        "wght": 400,
+        "opsz": 11
+      }
+    ],
+    "features": [
+      "ss01",
+      "ss02",
+      "ss03",
+      "smcp"
+    ]
+  },
+  {
+    "id": "cantique",
+    "family": "Cantique",
+    "url": "https://gitlab.com/velvetyne/cantique/-/raw/ff74dccdf7af6c3c4d1af70f44732ef87d75ce61/fonts/Cantique-Normal.otf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://gitlab.com/velvetyne/cantique/-/raw/ff74dccdf7af6c3c4d1af70f44732ef87d75ce61/LICENSE.txt",
+    "copyright": "Copyright Sébastien Hayez, 2018 (Velvetyne Type Foundry).",
+    "archetype": [
+      "F"
+    ],
+    "traits": [
+      "serif",
+      "deco"
+    ],
+    "odds": 8,
+    "features": [
+      "ss01",
+      "ss02",
+      "ss03",
+      "salt"
+    ]
+  },
+  {
+    "id": "cinzel",
+    "family": "Cinzel",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/cinzel/Cinzel[wght].ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/cinzel/OFL.txt",
+    "copyright": "Copyright 2020 The Cinzel Project Authors (https://github.com/NDISCOVER/Cinzel)",
+    "archetype": [
+      "F"
+    ],
+    "traits": [
+      "serif",
+      "deco",
+      "unicase"
+    ],
+    "odds": 8,
+    "stops": [
+      {
+        "id": "w900",
+        "wght": 900
+      },
+      {
+        "id": "w400",
+        "wght": 400
+      }
+    ],
+    "features": [
+      "ss01",
+      "ss02"
+    ]
+  },
+  {
+    "id": "cormorant-garamond",
+    "family": "Cormorant Garamond",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/cormorantgaramond/CormorantGaramond[wght].ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/cormorantgaramond/OFL.txt",
+    "copyright": "Copyright 2015 the Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+    "archetype": [
+      "F"
+    ],
+    "traits": [
+      "serif",
+      "deco"
+    ],
+    "odds": 8,
+    "stops": [
+      {
+        "id": "w700",
+        "wght": 700
+      },
+      {
+        "id": "w300",
+        "wght": 300
+      }
+    ],
+    "features": [
+      "ss01",
+      "ss03",
+      "ss04",
+      "smcp"
+    ]
+  },
+  {
+    "id": "cormorant-sc-bold",
+    "family": "Cormorant SC",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/cormorantsc/CormorantSC-Bold.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/cormorantsc/OFL.txt",
+    "copyright": "Copyright 2015 the Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+    "archetype": [
+      "F"
+    ],
+    "traits": [
+      "serif",
+      "unicase",
+      "deco"
+    ],
+    "odds": 7,
+    "features": [
+      "ss12",
+      "ss13",
+      "smcp"
+    ]
+  },
+  {
+    "id": "cormorant-upright-bold",
+    "family": "Cormorant Upright",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/cormorantupright/CormorantUpright-Bold.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/cormorantupright/OFL.txt",
+    "copyright": "Copyright (c) 2015, Christian Thalmann and the Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+    "archetype": [
+      "F"
+    ],
+    "traits": [
+      "serif",
+      "deco"
+    ],
+    "odds": 8,
+    "features": [
+      "ss01",
+      "ss02",
+      "ss03",
+      "salt"
+    ]
+  },
+  {
+    "id": "gideon-roman",
+    "family": "Gideon Roman",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/gideonroman/GideonRoman-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/gideonroman/OFL.txt",
+    "copyright": "Copyright 2009-2021 The Gideon Roman Project Authors (https://github.com/googlefonts/gideon)",
+    "archetype": [
+      "F"
+    ],
+    "traits": [
+      "serif",
+      "deco"
+    ],
+    "odds": 6,
+    "features": [
+      "smcp",
+      "c2sc"
+    ]
+  },
+  {
+    "id": "girassol",
+    "family": "Girassol",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/girassol/Girassol-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/girassol/OFL.txt",
+    "copyright": "Copyright 2019 The Girassol Project Authors (https://github.com/liamspradlin/Girassol-Display)",
+    "archetype": [
+      "F"
+    ],
+    "traits": [
+      "serif",
+      "deco"
+    ],
+    "odds": 7
+  },
+  {
+    "id": "halibut-expanded",
+    "family": "Halibut",
+    "url": "https://raw.githubusercontent.com/collletttivo/halibut/13df8fd7ea926f9a47049ec1426fcce186909ee8/fonts/Halibut-ExpandedRegular.otf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/collletttivo/halibut/13df8fd7ea926f9a47049ec1426fcce186909ee8/LICENSE.txt",
+    "copyright": "Copyright © 2023, Collletttivo (https://www.collletttivo.it/)",
+    "archetype": [
+      "F"
+    ],
+    "traits": [
+      "serif",
+      "deco",
+      "wide"
+    ],
+    "odds": 7
+  },
+  {
+    "id": "imbue",
+    "family": "Imbue",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/imbue/Imbue[opsz,wght].ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/imbue/OFL.txt",
+    "copyright": "Copyright 2020 The Imbue Project Authors (https://github.com/Etcetera-Type-Co/Imbue)",
+    "archetype": [
+      "F"
+    ],
+    "traits": [
+      "serif",
+      "condensed",
+      "deco"
+    ],
+    "odds": 7,
+    "stops": [
+      {
+        "id": "w900d",
+        "wght": 900,
+        "opsz": 100
+      },
+      {
+        "id": "w400t",
+        "wght": 400,
+        "opsz": 10
+      }
+    ],
+    "features": [
+      "smcp",
+      "c2sc"
+    ]
+  },
+  {
+    "id": "kalnia",
+    "family": "Kalnia",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/kalnia/Kalnia[wdth,wght].ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/kalnia/OFL.txt",
+    "copyright": "Copyright 2022 The Kalnia Project Authors (https://github.com/fridamedrano/Kalnia-Typeface.git)",
+    "archetype": [
+      "F",
+      "A"
+    ],
+    "traits": [
+      "serif",
+      "deco"
+    ],
+    "odds": 8,
+    "stops": [
+      {
+        "id": "w700x",
+        "wght": 700,
+        "wdth": 125
+      },
+      {
+        "id": "w700n",
+        "wght": 700,
+        "wdth": 100
+      }
+    ]
+  },
+  {
+    "id": "libertinus-serif-display",
+    "family": "Libertinus Serif Display",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/libertinusserifdisplay/LibertinusSerifDisplay-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/libertinusserifdisplay/OFL.txt",
+    "copyright": "Copyright 2025 The Libertinus Serif Display Project Authors (https://github.com/googlefonts/libertinus)",
+    "archetype": [
+      "F"
+    ],
+    "traits": [
+      "serif",
+      "deco"
+    ],
+    "odds": 6
+  },
+  {
+    "id": "libre-bodoni",
+    "family": "Libre Bodoni",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/librebodoni/LibreBodoni[wght].ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/librebodoni/OFL.txt",
+    "copyright": "Copyright 2012 The Libre Bodoni Project Authors (https://github.com/googlefonts/Libre-Bodoni/)",
+    "archetype": [
+      "F"
+    ],
+    "traits": [
+      "serif",
+      "deco"
+    ],
+    "odds": 7,
+    "stops": [
+      {
+        "id": "w700",
+        "wght": 700
+      }
+    ]
+  },
+  {
+    "id": "luxurious-roman",
+    "family": "Luxurious Roman",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/luxuriousroman/LuxuriousRoman-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/luxuriousroman/OFL.txt",
+    "copyright": "Copyright 2015-2021 The Luxurious Roman Project Authors (https://github.com/googlefonts/luxurious-roman)",
+    "archetype": [
+      "F"
+    ],
+    "traits": [
+      "serif",
+      "deco",
+      "hairline"
+    ],
+    "odds": 7
+  },
+  {
+    "id": "nocturne-serif",
+    "family": "Nocturne Serif",
+    "url": "https://raw.githubusercontent.com/warszawskie-kroje/nocturne/4dfa961f2eed74e486f4959aca07337fd70debfe/Nocturne%20Serif/NocturneSerif-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/warszawskie-kroje/nocturne/4dfa961f2eed74e486f4959aca07337fd70debfe/README.md",
+    "copyright": "Copyright © 2016 Stowarzyszenie Kulturotwórcze Miastodwa",
+    "archetype": [
+      "F"
+    ],
+    "traits": [
+      "serif",
+      "deco"
+    ],
+    "odds": 10,
+    "features": [
+      "smcp",
+      "c2sc"
+    ]
+  },
+  {
+    "id": "noto-serif-display",
+    "family": "Noto Serif Display",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/notoserifdisplay/NotoSerifDisplay[wdth,wght].ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/notoserifdisplay/OFL.txt",
+    "copyright": "Copyright 2012 Google Inc. All Rights Reserved.",
+    "archetype": [
+      "F"
+    ],
+    "traits": [
+      "serif",
+      "condensed"
+    ],
+    "odds": 6,
+    "stops": [
+      {
+        "id": "w900n",
+        "wght": 900,
+        "wdth": 100
+      },
+      {
+        "id": "w900c",
+        "wght": 900,
+        "wdth": 62.5
+      }
+    ],
+    "features": [
+      "smcp",
+      "c2sc"
+    ]
+  },
+  {
+    "id": "old-standard",
+    "family": "Old Standard TT",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/oldstandardtt/OldStandard-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/oldstandardtt/OFL.txt",
+    "copyright": "Copyright 2011 The Old Standard Project Authors (amkryukov@gmail.com)",
+    "archetype": [
+      "F"
+    ],
+    "traits": [
+      "serif"
+    ],
+    "odds": 5
+  },
+  {
+    "id": "olympic-light",
+    "family": "Olympic",
+    "url": "https://raw.githubusercontent.com/warszawskie-kroje/olympic/16653295b28b8b9e6cfe73360d4487ca37bd0c70/Olympic-Light/Olympic-Light.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/warszawskie-kroje/olympic/16653295b28b8b9e6cfe73360d4487ca37bd0c70/README.md",
+    "copyright": "Copyright © 2016 Stowarzyszenie Kulturotwórcze Miastodwa",
+    "archetype": [
+      "F"
+    ],
+    "traits": [
+      "serif",
+      "deco",
+      "hairline"
+    ],
+    "odds": 10
+  },
+  {
+    "id": "ortica-angular-bold",
+    "family": "Ortica Angular",
+    "url": "https://raw.githubusercontent.com/collletttivo/ortica/27bf44d3ea5057b7abcd09a8922d43d0b37a4f06/fonts/OrticaAngular-Bold.otf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/collletttivo/ortica/27bf44d3ea5057b7abcd09a8922d43d0b37a4f06/LICENSE.txt",
+    "copyright": "Copyright © 2023, Collletttivo (https://www.collletttivo.it/)",
+    "archetype": [
+      "F"
+    ],
+    "traits": [
+      "serif",
+      "deco"
+    ],
+    "odds": 7
+  },
+  {
+    "id": "playfair",
+    "family": "Playfair",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/playfair/Playfair[opsz,wdth,wght].ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/playfair/OFL.txt",
+    "copyright": "Copyright 2005 The Playfair Project Authors (https://github.com/googlefonts/Playfair)",
+    "archetype": [
+      "F",
+      "A"
+    ],
+    "traits": [
+      "serif",
+      "deco"
+    ],
+    "odds": 9,
+    "stops": [
+      {
+        "id": "w900d",
+        "wght": 900,
+        "opsz": 1200,
+        "wdth": 87.5
+      },
+      {
+        "id": "w900w",
+        "wght": 900,
+        "opsz": 1200,
+        "wdth": 112.5
+      }
+    ],
+    "features": [
+      "ss05",
+      "ss10",
+      "ss11",
+      "smcp"
+    ]
+  },
+  {
+    "id": "poiret-one",
+    "family": "Poiret One",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/poiretone/PoiretOne-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/poiretone/OFL.txt",
+    "copyright": "Copyright 2011 The Poiret One Project Authors (https://github.com/alexeiva/poiretone)",
+    "archetype": [
+      "F"
+    ],
+    "traits": [
+      "sans",
+      "deco",
+      "hairline"
+    ],
+    "odds": 9,
+    "features": [
+      "ss01",
+      "salt"
+    ]
+  },
+  {
+    "id": "praho-black",
+    "family": "Praho",
+    "url": "https://raw.githubusercontent.com/warszawskie-kroje/praho/9bcc8b6e22eacc0f5f1540dd7483fd97d42259df/Praho-Black/Praho-Black.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/warszawskie-kroje/praho/9bcc8b6e22eacc0f5f1540dd7483fd97d42259df/README.md",
+    "copyright": "Copyright © 2016 Stowarzyszenie Kulturotwórcze Miastodwa",
+    "archetype": [
+      "F"
+    ],
+    "traits": [
+      "serif",
+      "fat",
+      "deco"
+    ],
+    "odds": 10
+  },
+  {
+    "id": "sprat-black",
+    "family": "Sprat",
+    "url": "https://raw.githubusercontent.com/collletttivo/sprat/bdf9c50243d647290ecb21555b03a1aafba447ac/fonts/Sprat-Black.otf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/collletttivo/sprat/bdf9c50243d647290ecb21555b03a1aafba447ac/LICENSE.txt",
+    "copyright": "Copyright © 2023, Collletttivo (https://www.collletttivo.it/)",
+    "archetype": [
+      "F"
+    ],
+    "traits": [
+      "serif",
+      "fat",
+      "deco"
+    ],
+    "odds": 9
+  },
+  {
+    "id": "sprat-extended-black",
+    "family": "Sprat",
+    "url": "https://raw.githubusercontent.com/collletttivo/sprat/bdf9c50243d647290ecb21555b03a1aafba447ac/fonts/Sprat-ExtendedBlack.otf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/collletttivo/sprat/bdf9c50243d647290ecb21555b03a1aafba447ac/LICENSE.txt",
+    "copyright": "Copyright © 2023, Collletttivo (https://www.collletttivo.it/)",
+    "archetype": [
+      "F"
+    ],
+    "traits": [
+      "serif",
+      "fat",
+      "deco",
+      "wide"
+    ],
+    "odds": 9
+  },
+  {
+    "id": "tagesschrift",
+    "family": "Tagesschrift",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/tagesschrift/Tagesschrift-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/tagesschrift/OFL.txt",
+    "copyright": "Copyright 2024 The Tagesschrift Project Authors (https://github.com/yanone/tagesschrift)",
+    "archetype": [
+      "F"
+    ],
+    "traits": [
+      "serif",
+      "deco"
+    ],
+    "odds": 6
+  },
+  {
+    "id": "trickster",
+    "family": "Trickster",
+    "url": "https://gitlab.com/velvetyne/Trickster/-/raw/751b1fa5fd5293614d0eb4df4962ec195fa243ab/fonts/Trickster-Reg.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://gitlab.com/velvetyne/Trickster/-/raw/751b1fa5fd5293614d0eb4df4962ec195fa243ab/LICENSE.txt",
+    "copyright": "Copyright Jean-Baptiste Morizot (Velvetyne Type Foundry).",
+    "archetype": [
+      "F"
+    ],
+    "traits": [
+      "serif",
+      "deco"
+    ],
+    "odds": 8,
+    "features": [
+      "ss01",
+      "ss02",
+      "ss03",
+      "swsh"
+    ]
+  },
+  {
+    "id": "viaoda-libre",
+    "family": "Viaoda Libre",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/viaodalibre/ViaodaLibre-Regular.ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/viaodalibre/OFL.txt",
+    "copyright": "Copyright 2020 The Viaodalibre Project Authors (https://github.com/bettergui/ViaodaLibre)",
+    "archetype": [
+      "F"
+    ],
+    "traits": [
+      "serif",
+      "deco"
+    ],
+    "odds": 8,
+    "features": [
+      "ss01",
+      "ss02",
+      "ss03",
+      "salt"
+    ]
+  },
+  {
+    "id": "ysabeau-sc",
+    "family": "Ysabeau SC",
+    "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/ysabeausc/YsabeauSC[wght].ttf",
+    "sha256": "",
+    "licenseId": "OFL-1.1",
+    "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/ysabeausc/OFL.txt",
+    "copyright": "Copyright 2023 The Ysabeau Project Authors (https://github.com/CatharsisFonts/Ysabeau)",
+    "archetype": [
+      "F",
+      "E"
+    ],
+    "traits": [
+      "sans",
+      "unicase",
+      "deco"
+    ],
+    "odds": 7,
+    "stops": [
+      {
+        "id": "w900",
+        "wght": 900
+      },
+      {
+        "id": "w300",
+        "wght": 300
+      }
+    ],
+    "features": [
+      "ss01",
+      "ss02"
+    ]
+  }
+]
