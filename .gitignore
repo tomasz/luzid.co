@@ -8,3 +8,5 @@ playwright-report/
 sheets/
 .pr.md
 .DS_Store
+.env*
+.dev.vars*
