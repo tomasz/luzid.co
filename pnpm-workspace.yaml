@@ -4,3 +4,8 @@ allowBuilds:
   esbuild: true
   workerd: true
   fsevents: false
+
+# Supply chain: install only releases at least a day old. Dependabot's cooldown (7 days)
+# stays above this, so every version it proposes installs; security updates skip the
+# cooldown, which is why this gate stays short.
+minimumReleaseAge: 1440
