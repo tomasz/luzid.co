@@ -67,7 +67,8 @@ PORT=$((8800 + <wp number>))        export it; never use 8787 while others are r
    `git push origin HEAD` (never `-u`), then `gh pr create --head <branch>`.
 
 **Agents never merge.** The orchestrator merges in dependency order after the path guard
-and the required `ci` check pass.
+and the required `ci` check pass. The one exception is Dependabot: its minor and patch
+updates auto-merge once `ci` is green; majors wait for the owner.
 
 ## Branch, commit and PR rules
 
@@ -77,7 +78,8 @@ and the required `ci` check pass.
   takes the commit message for single-commit PRs, which keeps the trailer intact.
 - Commit trailer `Co-Authored-By: Claude <noreply@anthropic.com>`; PR bodies end with
   `🤖 Generated with [Claude Code](https://claude.com/claude-code)`.
-- One PR per work package. Squash merge. Never force-push, never `git push -u`.
+- One PR per work package. Squash merge (the only method the `main` ruleset allows; it
+  also requires signed commits). Never force-push, never `git push -u`.
 - Never touch DNS, Cloudflare settings, secrets, or anything under `.github/` unless that
   is your work package.
 - `.claude/settings.json` denies `wrangler deploy` outright, including `--dry-run`, because
