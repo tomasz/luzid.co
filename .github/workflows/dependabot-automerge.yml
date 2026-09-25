@@ -8,7 +8,7 @@ jobs:
   automerge:
     # Only Dependabot's own PRs on this repo; fork PRs can't impersonate this login.
     if: github.event.pull_request.user.login == 'dependabot[bot]' && github.repository == 'tomasz/luzid.co'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     timeout-minutes: 5
     permissions:
       contents: write
