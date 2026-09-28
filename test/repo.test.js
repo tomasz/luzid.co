@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
-import { test } from 'node:test'
+import { test } from 'vite-plus/test'
 
 const read = (p) => readFile(new URL(`../${p}`, import.meta.url), 'utf8')
 
@@ -25,12 +25,13 @@ test('the pnpm version is pinned identically everywhere', async () => {
   const wanted = pkg.devEngines.packageManager.version
   assert.match(wanted, /^\d+\.\d+\.\d+$/, 'devEngines.packageManager.version must be exact')
 
+  // setup-vp in CI pins pnpm through these two variables: VP_PACKAGE_MANAGER for
+  // `vp install`, VP_PNPM_VERSION for `pnpm`.
   for (const file of ['.github/workflows/ci.yml', '.github/workflows/deploy.yml']) {
     const yml = await read(file)
-    const setups = [...yml.matchAll(/pnpm\/action-setup@[^\n]*\n\s*with:\n\s*version:\s*(\S+)/g)]
-    const bare = (yml.match(/pnpm\/action-setup@/g) ?? []).length
-    assert.equal(setups.length, bare, `${file}: every pnpm/action-setup needs an explicit version`)
-    for (const [, v] of setups) assert.equal(v, wanted, `${file} pins pnpm ${v}, package.json says ${wanted}`)
+    assert.match(yml, new RegExp(`VP_PACKAGE_MANAGER: "?pnpm@${wanted}"?\\n`), `${file} VP_PACKAGE_MANAGER`)
+    assert.match(yml, new RegExp(`VP_PNPM_VERSION: "?${wanted}"?\\n`), `${file} VP_PNPM_VERSION`)
+    assert.equal(yml.includes('pnpm/action-setup'), false, `${file}: setup-vp provides pnpm`)
   }
 
   // onFail must stay "ignore": any other value adds the second lockfile document (see above).
@@ -56,6 +57,16 @@ test('dependency versions are pinned exactly', async () => {
   for (const [name, range] of Object.entries(pkg.devDependencies)) {
     assert.match(range, /^\d+\.\d+\.\d+$/, `${name} must be pinned exactly, got "${range}"`)
   }
+  assert.equal('packageManager' in pkg, false, 'packageManager would add a second lockfile document')
+  assert.equal('runtime' in pkg.devEngines, false, 'devEngines.runtime makes pnpm manage Node alongside vp env')
+
+  // Vite+ requires overrides for vite and vitest; they must match what vite-plus bundles
+  // (docs/guide/local-cli.md in the vite-plus package), so they move with it, never alone.
+  const ws = await read('pnpm-workspace.yaml')
+  const vp = pkg.devDependencies['vite-plus']
+  assert.match(ws, new RegExp(`\\n  vite: npm:@voidzero-dev/vite-plus-core@${vp}\\n`), 'vite override ≠ vite-plus')
+  const bundled = JSON.parse(await read('node_modules/vite-plus/package.json')).dependencies.vitest
+  assert.match(ws, new RegExp(`\\n  vitest: ${bundled.replaceAll('.', '\\.')}\\n`), `vitest override ≠ ${bundled}`)
 })
 
 test('no template in src/ can emit an inline style attribute', async () => {
@@ -78,7 +89,9 @@ test('wrangler config keeps the routing invariants', async () => {
   assert.ok(!('run_worker_first' in cfg.assets), 'run_worker_first must stay unset on the Free plan')
   assert.ok(!('cache' in cfg), 'Workers Cache would freeze one look for every visitor')
   assert.deepEqual(cfg.routes, [{ pattern: 'luzid.co', custom_domain: true }])
-  assert.ok(Array.isArray(cfg.build.watch_dir) && cfg.build.watch_dir.length > 0)
+  // The catalog plugin in vite.config.js builds and watches instead; a custom build here
+  // would run beside it.
+  assert.ok(!('build' in cfg), 'wrangler must not run its own build')
 })
 
 test('public/ has no index.html', async () => {

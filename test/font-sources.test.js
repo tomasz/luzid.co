@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { glob, readFile } from 'node:fs/promises'
-import { test } from 'node:test'
+import { test } from 'vite-plus/test'
 
 // §5.5 source-row schema. These files are hand-written data consumed by the Wave-2 batch
 // agents and then by `scripts/fonts.mjs`; a bad row there stalls an agent or fails a build

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { glob, readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
-import { test } from 'node:test'
+import { test } from 'vite-plus/test'
 import { draw, flag, h32, mix32, round4, step, weighted } from '../src/rand.js'
 
 const hex = (n) => n.toString(16).padStart(8, '0')
