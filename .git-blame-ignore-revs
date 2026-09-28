@@ -1,0 +1,3 @@
+# Mechanical reformats; `git blame` skips them (GitHub reads this file too).
+# treewide: reformat with oxfmt defaults
+0d058615c0c5d202cfd910faec929866217b7bba

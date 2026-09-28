@@ -16,11 +16,11 @@
     "source=${localEnv:HOME}/.gitconfig,target=/home/vp/.gitconfig,type=bind,readonly"
   ],
   "postCreateCommand": "vp install --frozen-lockfile && pnpm exec playwright install --with-deps",
-  "forwardPorts": [8787],
+  "forwardPorts": [5173],
   "customizations": {
     "vscode": {
-      "extensions": ["biomejs.biome"],
-      "settings": { "editor.defaultFormatter": "biomejs.biome" }
+      "extensions": ["oxc.oxc-vscode"],
+      "settings": { "editor.defaultFormatter": "oxc.oxc-vscode" }
     }
   }
 }
