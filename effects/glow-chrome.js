@@ -23,17 +23,17 @@
  * is `max(g, bleed.t)` and has no bottom counterpart. It does not need one here: the wall
  * is at most 2.1u deep against a layout gap of at least 4u.
  */
-const pc = (x) => `${Math.round(x * 10) / 10}%`
+const pc = (x) => `${Math.round(x * 10) / 10}%`;
 
 export default {
-  id: 'glow-chrome',
-  family: 'glow',
-  shape: 'A',
+  id: "glow-chrome",
+  family: "glow",
+  shape: "A",
   colors: 3,
-  bg: 'any',
+  bg: "any",
   odds: 4,
-  fonts: { deny: ['hairline', 'inline', 'shaded'], prefer: ['fat', 'wide'] },
-  palettes: { prefer: ['n3'] },
+  fonts: { deny: ["hairline", "inline", "shaded"], prefer: ["fat", "wide"] },
+  palettes: { prefer: ["n3"] },
   // z = horizon, as a percentage of the *ink*, not of the block: `css()` maps it past the
   // gap using `m`, because a horizon that lands between the two lines is a horizon nobody
   // sees. s = tint strength. d = total bevel depth in tenths of a u. k = keyline width in
@@ -56,8 +56,8 @@ export default {
    * @param {{d: number, k: number}} p
    */
   bleed: (p) => {
-    const side = (1.5 * p.k) / 100
-    return { t: side, r: side, b: p.d / 10 + side, l: side }
+    const side = (1.5 * p.k) / 100;
+    return { t: side, r: side, b: p.d / 10 + side, l: side };
   },
 
   /**
@@ -68,13 +68,13 @@ export default {
   css: (p, h, m) => {
     // Map the horizon from a fraction of the ink to a percentage of the background box,
     // stepping over the inter-line gap so it always crosses a letter.
-    const bh = m.R * 100
-    const ink = (m.H[0] + m.H[1]) * (p.z / 100)
-    const z = (100 * (ink <= m.H[0] ? ink : ink + m.G)) / bh
-    const pu = 100 / bh // one u, as a percentage of the background box
-    const sky = h.mix('var(--a1)', 'var(--fg)', p.s)
-    const haze = h.mix('var(--a1)', 'var(--fg)', p.s * 0.4)
-    const line = h.mix('var(--a1)', 'var(--fg)', p.s + 20)
+    const bh = m.R * 100;
+    const ink = (m.H[0] + m.H[1]) * (p.z / 100);
+    const z = (100 * (ink <= m.H[0] ? ink : ink + m.G)) / bh;
+    const pu = 100 / bh; // one u, as a percentage of the background box
+    const sky = h.mix("var(--a1)", "var(--fg)", p.s);
+    const haze = h.mix("var(--a1)", "var(--fg)", p.s * 0.4);
+    const line = h.mix("var(--a1)", "var(--fg)", p.s + 20);
     const stops = [
       `${sky} 0%`,
       `${haze} ${pc(z - 6 * pu)}`,
@@ -84,22 +84,22 @@ export default {
       `${line} ${pc(z + 2.6 * pu)}`,
       `${haze} ${pc(z + 9 * pu)}`,
       `${sky} 100%`,
-    ]
+    ];
     return (
-      `.n{-webkit-text-stroke:${h.u(p.k / 100)} ${h.mix('var(--fg)', 'var(--a1)', 80)};` +
+      `.n{-webkit-text-stroke:${h.u(p.k / 100)} ${h.mix("var(--fg)", "var(--a1)", 80)};` +
       `filter:${raise(p, h)}}` +
-      `.l{background-image:linear-gradient(180deg,${stops.join(',')});` +
+      `.l{background-image:linear-gradient(180deg,${stops.join(",")});` +
       `background-size:100% calc(var(--bh)*var(--u));` +
       `background-position:0 calc(-1*var(--y)*var(--u));background-repeat:no-repeat;` +
       `-webkit-background-clip:text;background-clip:text;` +
       `-webkit-text-fill-color:transparent;color:transparent}`
-    )
+    );
   },
 
   /** @param {{d: number}} p @param {typeof import('../src/helpers.js').helpers} h */
   hover: (p, h) => `filter:${raise(p, h)} brightness(1.06)`,
   motion: null,
-}
+};
 
 /**
  * The raised wall under the face, as a binary-doubling drop-shadow chain (R06): each pass
@@ -114,10 +114,10 @@ export default {
  * @param {typeof import('../src/helpers.js').helpers} h
  */
 function raise(p, h) {
-  const b = p.d / 70
-  const wall = h.mix('var(--bg)', 'var(--a1)', 35)
+  const b = p.d / 70;
+  const wall = h.mix("var(--bg)", "var(--a1)", 35);
   return (
     `drop-shadow(0 ${h.u(b)} 0 ${wall}) drop-shadow(0 ${h.u(2 * b)} 0 ${wall}) ` +
     `drop-shadow(0 ${h.u(4 * b)} 0 ${wall})`
-  )
+  );
 }

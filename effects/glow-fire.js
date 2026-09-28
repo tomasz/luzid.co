@@ -18,14 +18,14 @@
  * bloom is only the radius — smaller than the 4u floor on the layout gap.
  */
 export default {
-  id: 'glow-fire',
-  family: 'glow',
-  shape: 'A',
+  id: "glow-fire",
+  family: "glow",
+  shape: "A",
   colors: 3,
-  bg: 'dark',
+  bg: "dark",
   odds: 3,
-  fonts: { deny: ['hairline', 'inline', 'shaded'], prefer: ['fat', 'condensed'] },
-  palettes: { prefer: ['dark'] },
+  fonts: { deny: ["hairline", "inline", "shaded"], prefer: ["fat", "condensed"] },
+  palettes: { prefer: ["dark"] },
   // r = widest bloom radius in tenths of a u (1.6u–2.5u; 2.5u is the measured cap).
   // l = rise, as a fraction of that radius in tenths. It stays *under* the radius on
   // purpose: the moment a layer's offset outruns its own blur it stops being a flame and
@@ -34,8 +34,8 @@ export default {
 
   /** @param {{r: number, l: number}} p */
   bleed: (p) => {
-    const r = p.r / 10
-    return { t: r * (0.85 * (p.l / 10) + 1), r: r * 1.1, b: r, l: r * 1.06 }
+    const r = p.r / 10;
+    return { t: r * (0.85 * (p.l / 10) + 1), r: r * 1.1, b: r, l: r * 1.06 };
   },
 
   /**
@@ -43,11 +43,11 @@ export default {
    * @param {typeof import('../src/helpers.js').helpers} h
    */
   css: (p, h) => {
-    const r = p.r / 10
-    const y = (r * p.l) / 10
-    const core = h.mix('var(--a1)', 'var(--fg)', 15)
-    const body = h.mix('var(--a1)', 'var(--fg)', 45)
-    const tip = h.mix('var(--a1)', 'var(--bg)', 60)
+    const r = p.r / 10;
+    const y = (r * p.l) / 10;
+    const core = h.mix("var(--a1)", "var(--fg)", 15);
+    const body = h.mix("var(--a1)", "var(--fg)", 45);
+    const tip = h.mix("var(--a1)", "var(--bg)", 60);
     // The small sideways offsets are the lean of R58's sketch: without them four centred
     // layers stack into a symmetrical column, which no flame has ever been.
     return (
@@ -55,9 +55,9 @@ export default {
       `${h.u(r * 0.06)} ${h.u(-y * 0.3)} ${h.u(r * 0.55)} ${body},` +
       `${h.u(-r * 0.06)} ${h.u(-y * 0.55)} ${h.u(r * 0.8)} var(--a1),` +
       `${h.u(r * 0.1)} ${h.u(-y * 0.85)} ${h.u(r)} ${tip}}`
-    )
+    );
   },
 
-  hover: () => 'filter:brightness(1.14)',
+  hover: () => "filter:brightness(1.14)",
   motion: null,
-}
+};

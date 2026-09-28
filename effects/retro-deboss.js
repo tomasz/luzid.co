@@ -30,19 +30,19 @@
  * @param {number} shade the shaded near wall, likewise
  */
 const press = (p, h, lit, shade) =>
-  `${h.u(p.k)} ${h.u(p.k)} 0 ${h.mix('var(--fg)', 'var(--bg)', lit)},` +
-  `${h.u(-1.6 * p.k)} ${h.u(-1.6 * p.k)} ${h.u(p.s)} ${h.mix('var(--fg)', 'var(--bg)', shade)}`
+  `${h.u(p.k)} ${h.u(p.k)} 0 ${h.mix("var(--fg)", "var(--bg)", lit)},` +
+  `${h.u(-1.6 * p.k)} ${h.u(-1.6 * p.k)} ${h.u(p.s)} ${h.mix("var(--fg)", "var(--bg)", shade)}`;
 
 export default {
-  id: 'retro-deboss',
-  family: 'retro',
-  shape: 'A',
+  id: "retro-deboss",
+  family: "retro",
+  shape: "A",
   colors: 2,
-  bg: 'light',
+  bg: "light",
   odds: 3,
   fonts: {
-    deny: ['hairline', 'inline', 'shaded', 'stencil'],
-    prefer: ['fat', 'slab', 'sans', 'wide'],
+    deny: ["hairline", "inline", "shaded", "stencil"],
+    prefer: ["fat", "slab", "sans", "wide"],
   },
   palettes: { prefer: [] },
   // k = how deep the press is; s = how far the sheet rolls at the shaded wall. Both in u.
@@ -87,4 +87,4 @@ export default {
   hover: (p, h) => `text-shadow:${press(p, h, 28, 54)}`,
 
   motion: null,
-}
+};

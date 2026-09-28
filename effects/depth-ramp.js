@@ -26,7 +26,9 @@
  * @param {(t: number) => string} tint
  */
 const ramp = (h, n, a, d, tint) =>
-  Array.from({ length: n }, (_, i) => h.stack(1, a, (d * (i + 1)) / n, tint((i + 1) / n))).join(',')
+  Array.from({ length: n }, (_, i) => h.stack(1, a, (d * (i + 1)) / n, tint((i + 1) / n))).join(
+    ",",
+  );
 
 /**
  * @param {number} a
@@ -37,16 +39,16 @@ const dir = (a, d) => ({
   r: a < 90 || a > 270 ? d : 0,
   b: a > 0 && a < 180 ? d : 0,
   l: a > 90 && a < 270 ? d : 0,
-})
+});
 
 export default {
-  id: 'depth-ramp',
-  family: 'depth',
-  shape: 'A',
+  id: "depth-ramp",
+  family: "depth",
+  shape: "A",
   colors: 3,
-  bg: 'any',
+  bg: "any",
   odds: 4,
-  fonts: { deny: ['hairline', 'script', 'shaded'], prefer: ['fat', 'slab'] },
+  fonts: { deny: ["hairline", "script", "shaded"], prefer: ["fat", "slab"] },
   palettes: { prefer: [] },
   // `s` is the ramp strength: how much ground colour the far end has taken on, in percent.
   params: { d: [4, 10, 2], a: [45, 315, 90], s: [20, 60, 20] },
@@ -59,11 +61,11 @@ export default {
    * @param {typeof import('../src/helpers.js').helpers} h
    */
   css: (p, h) => {
-    const n = Math.min(64, Math.round(8 * p.d))
-    const tint = (t) => (t === 0 ? 'var(--a1)' : h.mix('var(--bg)', 'var(--a1)', p.s * t))
-    return `.n{text-shadow:${ramp(h, n, p.a, p.d, tint)}}`
+    const n = Math.min(64, Math.round(8 * p.d));
+    const tint = (t) => (t === 0 ? "var(--a1)" : h.mix("var(--bg)", "var(--a1)", p.s * t));
+    return `.n{text-shadow:${ramp(h, n, p.a, p.d, tint)}}`;
   },
 
-  hover: () => 'filter:brightness(1.06)',
+  hover: () => "filter:brightness(1.06)",
   motion: null,
-}
+};

@@ -23,21 +23,21 @@ const DIR = [
   [-1, 1],
   [-1, -1],
   [1, -1],
-]
+];
 
 /** Outward allowance per unit of stroke width; see `outline-hollow.js` for the derivation. */
-const MITER = 0.8
+const MITER = 0.8;
 
 export default {
-  id: 'outline-misprint',
-  family: 'outline',
-  shape: 'B',
+  id: "outline-misprint",
+  family: "outline",
+  shape: "B",
   colors: 3,
-  bg: 'any',
+  bg: "any",
   odds: 4,
   fonts: {
-    deny: ['overlap', 'hairline', 'script', 'brush', 'connected', 'inline', 'shaded'],
-    prefer: ['fat', 'sans', 'slab'],
+    deny: ["overlap", "hairline", "script", "brush", "connected", "inline", "shaded"],
+    prefer: ["fat", "sans", "slab"],
   },
   palettes: { prefer: [] },
   // R15: a .008-.025em keyline offset .02-.08em. 1em is 24-33u here (1em = 100/W1 u), so a
@@ -46,14 +46,14 @@ export default {
 
   /** @param {{sw: number, o: number, q: number}} p */
   bleed: (p) => {
-    const [sx, sy] = DIR[p.q]
-    const s = MITER * p.sw
+    const [sx, sy] = DIR[p.q];
+    const s = MITER * p.sw;
     return {
       t: s + (sy < 0 ? p.o : 0),
       r: s + (sx > 0 ? p.o : 0),
       b: s + (sy > 0 ? p.o : 0),
       l: s + (sx < 0 ? p.o : 0),
-    }
+    };
   },
 
   /**
@@ -61,12 +61,12 @@ export default {
    * @param {typeof import('../src/helpers.js').helpers} h
    */
   css: (p, h) => {
-    const [sx, sy] = DIR[p.q]
+    const [sx, sy] = DIR[p.q];
     return (
       `.l::after{content:attr(data-t) / "";-webkit-text-fill-color:transparent;` +
       `-webkit-text-stroke:${h.u(p.sw)} var(--a1);` +
       `translate:${h.u(sx * p.o)} ${h.u(sy * p.o)}}`
-    )
+    );
   },
 
   /**
@@ -75,8 +75,8 @@ export default {
    * it leaves the face `--fg` — a hover state must not trade away the guaranteed contrast.
    */
   hover: (p, h) => {
-    const [sx, sy] = DIR[p.q]
-    return `text-shadow:${h.u(sx * p.o)} ${h.u(sy * p.o)} 0 ${h.mix('var(--a1)', 'var(--bg)', 40)}`
+    const [sx, sy] = DIR[p.q];
+    return `text-shadow:${h.u(sx * p.o)} ${h.u(sy * p.o)} 0 ${h.mix("var(--a1)", "var(--bg)", 40)}`;
   },
   motion: null,
-}
+};

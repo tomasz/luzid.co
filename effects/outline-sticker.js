@@ -21,28 +21,28 @@
  */
 
 /** Outward allowance per unit of stroke width; see `outline-hollow.js` for the derivation. */
-const MITER = 0.8
+const MITER = 0.8;
 
 /** Hover grows the drop by this much: the sticker lifts further off the page. */
-const LIFT = 1.5
+const LIFT = 1.5;
 
 /**
  * How far a blurred shadow actually paints past its offset. CSS gives `drop-shadow()` a
  * Gaussian of σ = radius/2, which reaches ~3σ, so the budget is 1.5× the radius — not the
  * radius itself, or the faint tail clips against the viewport edge at the widest settings.
  */
-const TAIL = 1.5
+const TAIL = 1.5;
 
 export default {
-  id: 'outline-sticker',
-  family: 'outline',
-  shape: 'A',
+  id: "outline-sticker",
+  family: "outline",
+  shape: "A",
   colors: 2,
-  bg: 'any',
+  bg: "any",
   odds: 5,
   fonts: {
-    deny: ['hairline', 'script', 'brush', 'connected', 'inline', 'shaded', 'stencil'],
-    prefer: ['fat', 'rounded', 'soft'],
+    deny: ["hairline", "script", "brush", "connected", "inline", "shaded", "stencil"],
+    prefer: ["fat", "rounded", "soft"],
   },
   palettes: { prefer: [] },
   // R20: a .08-.2em paper border over a .02-.06em drop, at 1em = 100/W1 u (24-33u here).
@@ -55,9 +55,9 @@ export default {
    * @param {{sw: number, dy: number}} p
    */
   bleed: (p) => {
-    const s = MITER * p.sw
-    const tail = TAIL * LIFT * p.dy
-    return { t: s + tail, r: s + tail, b: s + LIFT * p.dy + tail, l: s + tail }
+    const s = MITER * p.sw;
+    const tail = TAIL * LIFT * p.dy;
+    return { t: s + tail, r: s + tail, b: s + LIFT * p.dy + tail, l: s + tail };
   },
 
   /**
@@ -65,12 +65,12 @@ export default {
    * @param {typeof import('../src/helpers.js').helpers} h
    */
   css: (p, h) => {
-    const paper = h.mix('var(--fg)', 'var(--bg)', 30)
-    const shade = h.mix('var(--fg)', 'var(--bg)', 45)
+    const paper = h.mix("var(--fg)", "var(--bg)", 30);
+    const shade = h.mix("var(--fg)", "var(--bg)", 45);
     return (
       `.n{-webkit-text-stroke:${h.u(p.sw)} ${paper};paint-order:stroke fill;` +
       `filter:drop-shadow(0 ${h.u(p.dy)} ${h.u(p.dy)} ${shade})}`
-    )
+    );
   },
 
   /**
@@ -78,8 +78,8 @@ export default {
    * @param {typeof import('../src/helpers.js').helpers} h
    */
   hover: (p, h) => {
-    const shade = h.mix('var(--fg)', 'var(--bg)', 45)
-    return `filter:drop-shadow(0 ${h.u(LIFT * p.dy)} ${h.u(LIFT * p.dy)} ${shade})`
+    const shade = h.mix("var(--fg)", "var(--bg)", 45);
+    return `filter:drop-shadow(0 ${h.u(LIFT * p.dy)} ${h.u(LIFT * p.dy)} ${shade})`;
   },
   motion: null,
-}
+};

@@ -18,15 +18,15 @@
  * purpose: that one is a press into paper, this is cut into stone.
  */
 export default {
-  id: 'retro-carve',
-  family: 'retro',
-  shape: 'A',
+  id: "retro-carve",
+  family: "retro",
+  shape: "A",
   colors: 3,
-  bg: 'light',
+  bg: "light",
   odds: 3,
   fonts: {
-    deny: ['hairline', 'inline', 'shaded', 'stencil'],
-    prefer: ['serif', 'slab', 'fat', 'deco'],
+    deny: ["hairline", "inline", "shaded", "stencil"],
+    prefer: ["serif", "slab", "fat", "deco"],
   },
   palettes: { prefer: [] },
   // k = the width of the bevel; s = how soft the shadow in the cut is. Both in u.
@@ -57,10 +57,10 @@ export default {
    * @param {typeof import('../src/helpers.js').helpers} h
    */
   css: (p, h) =>
-    `.n{text-shadow:${h.u(p.k)} ${h.u(p.k)} 0 ${h.mix('var(--fg)', 'var(--bg)', 16)},` +
-    `${h.u(-p.k)} ${h.u(-p.k)} 0 ${h.mix('var(--fg)', 'var(--bg)', 58)},` +
-    `${h.u(-2.2 * p.k)} ${h.u(-2.4 * p.k)} ${h.u(p.s)} ${h.mix('var(--a1)', 'var(--bg)', 46)}}`,
+    `.n{text-shadow:${h.u(p.k)} ${h.u(p.k)} 0 ${h.mix("var(--fg)", "var(--bg)", 16)},` +
+    `${h.u(-p.k)} ${h.u(-p.k)} 0 ${h.mix("var(--fg)", "var(--bg)", 58)},` +
+    `${h.u(-2.2 * p.k)} ${h.u(-2.4 * p.k)} ${h.u(p.s)} ${h.mix("var(--a1)", "var(--bg)", 46)}}`,
 
-  hover: () => 'filter:contrast(1.06)',
+  hover: () => "filter:contrast(1.06)",
   motion: null,
-}
+};

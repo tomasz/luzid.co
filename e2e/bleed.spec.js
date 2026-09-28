@@ -20,7 +20,7 @@
  * is black on white and the scan needs no colour reasoning.
  */
 
-import { expect, test } from '@playwright/test'
+import { expect, test } from "@playwright/test";
 
 import {
   corners,
@@ -39,11 +39,11 @@ import {
   scope,
   shoot,
   url,
-} from './fit-lib.js'
+} from "./fit-lib.js";
 
 /** §9.2 names Fraunces as the effect-sweep face; it is denied by no effect. */
-const FONT = FONTS.find((f) => f.id === 'fraunces')
-const VARIANT = FONT.variants.find((v) => v.id === 'n-base-w600') ?? FONT.variants[0]
+const FONT = FONTS.find((f) => f.id === "fraunces");
+const VARIANT = FONT.variants.find((v) => v.id === "n-base-w600") ?? FONT.variants[0];
 
 /**
  * The envelope check below measures overshoot in `u`, and `u` is 1% of the block width —
@@ -52,7 +52,7 @@ const VARIANT = FONT.variants.find((v) => v.id === 'n-base-w600') ?? FONT.varian
  * safe-box check is unconditional; the sharper envelope check only runs where the block is
  * big enough to express the quantity it is about.
  */
-const ENVELOPE_MIN_U = 6
+const ENVELOPE_MIN_U = 6;
 
 /**
  * The envelope's outer edge is the block box itself wherever an effect declares a zero
@@ -71,11 +71,11 @@ const ENVELOPE_MIN_U = 6
  * applies to all 30 equally, and ALLOWANCE stays the place where a real under-declaration
  * is recorded.
  */
-const ENVELOPE_SLACK = SLACK + 2
+const ENVELOPE_SLACK = SLACK + 2;
 
 /** White ground: `qa-bw` role `10--` is `--bg:#ffffff`, and every accent aliases the face. */
-const GROUND = /** @type {[number, number, number]} */ ([255, 255, 255])
-const isPaint = notGround(GROUND)
+const GROUND = /** @type {[number, number, number]} */ ([255, 255, 255]);
+const isPaint = notGround(GROUND);
 
 /**
  * R14: `drop-shadow()` and `text-shadow` read the blur radius as a Gaussian *diameter*
@@ -88,11 +88,11 @@ const isPaint = notGround(GROUND)
  * ink as well, and `depth-float`'s only predicted overshoot is in the hover shadow.
  */
 const WATCHLIST = [
-  { id: 'retro-deboss', params: { k: 0.3, s: 1.8 }, predicted: '1.92u on r, b' },
-  { id: 'glow-neon', params: { r: 25, t: 60 }, predicted: '1.25u on all four' },
-  { id: 'glow-fire', params: { r: 25, l: 6 }, predicted: '1.25u on l, r, t' },
-  { id: 'depth-float', params: { y: 10, o: 18 }, hover: true, predicted: '0.09u on t (hover)' },
-]
+  { id: "retro-deboss", params: { k: 0.3, s: 1.8 }, predicted: "1.92u on r, b" },
+  { id: "glow-neon", params: { r: 25, t: 60 }, predicted: "1.25u on all four" },
+  { id: "glow-fire", params: { r: 25, l: 6 }, predicted: "1.25u on l, r, t" },
+  { id: "depth-float", params: { y: 10, o: 18 }, hover: true, predicted: "0.09u on t (hover)" },
+];
 
 /**
  * §9.2 asks for changed effects only, at `{min, max}`. With 30 effects and 463 parameter
@@ -104,20 +104,20 @@ const WATCHLIST = [
  * exercises `render.js`'s rotated `translate`, which no effect change would ever flag as
  * changed. Widening a proof is safe; narrowing one is not.
  */
-const changedEffects = new Set(scope().effects)
+const changedEffects = new Set(scope().effects);
 
 const SUITE = EFFECTS.map((e) => {
-  const all = corners(e)
-  const watched = WATCHLIST.filter((w) => w.id === e.id).map((w) => w.params)
-  const ends = all.length > 1 ? [all[0], all[all.length - 1]] : all
-  const wide = SCOPE === 'all' || changedEffects.has(e.id)
-  const picked = wide ? all : [...ends, ...watched]
+  const all = corners(e);
+  const watched = WATCHLIST.filter((w) => w.id === e.id).map((w) => w.params);
+  const ends = all.length > 1 ? [all[0], all[all.length - 1]] : all;
+  const wide = SCOPE === "all" || changedEffects.has(e.id);
+  const picked = wide ? all : [...ends, ...watched];
   // De-duplicate: a watchlist corner may already be an end.
   return {
     effect: e,
     corners: [...new Map(picked.map((c) => [JSON.stringify(c), c])).values()],
-  }
-})
+  };
+});
 
 /**
  * Effects whose declaration is known to be off by less than the quantisation floor at the
@@ -126,15 +126,15 @@ const SUITE = EFFECTS.map((e) => {
  * that tells real ink from rounding, because real ink holds its value in `u` and rounding
  * does not.
  */
-const RESOLVE = ['glow-neon-outline', 'glow-foil', ...WATCHLIST.map((w) => w.id)]
-const RESOLVE_VP = { w: 3840, h: 2160 }
+const RESOLVE = ["glow-neon-outline", "glow-foil", ...WATCHLIST.map((w) => w.id)];
+const RESOLVE_VP = { w: 3840, h: 2160 };
 
 /** The canonical corner label: sorted, so a title and a lookup key can never disagree. */
 const label = (params) =>
   Object.entries(params)
     .sort(([a], [b]) => (a < b ? -1 : 1))
     .map(([k, v]) => `${k}=${v}`)
-    .join(',')
+    .join(",");
 
 /**
  * Effects that paint outside the `bleed()` they declare, with the worst overshoot this
@@ -153,14 +153,14 @@ const label = (params) =>
 const ALLOWANCE = {
   // Real ink, and the largest: 0.83u l · 0.69u r · 0.66u b · 0.50u t, holding its value in
   // u from a 1270 px block to a 3360 px one. Also reaches the inter-line band.
-  'glow-neon-outline': 0.9,
+  "glow-neon-outline": 0.9,
   // Real ink: 0.26u at 1440x900 and 0.32u at 3840x2160, again u-constant. Below the
   // quantisation floor at the sweep's own viewports, which is why RESOLVE exists.
-  'glow-foil': 0.35,
-}
+  "glow-foil": 0.35,
+};
 
 /** Same idea for the inter-line band: an upward bleed that under-declares reaches it. */
-const BAND_ALLOWANCE = { 'glow-neon-outline': 0.7 }
+const BAND_ALLOWANCE = { "glow-neon-outline": 0.7 };
 
 /**
  * A seed that draws exactly these params, and the wanted `side` flag and gap. Params, the
@@ -178,58 +178,62 @@ function seedFor(effect, params, side, g) {
       a.side === side &&
       (g === undefined || a.g === g) &&
       Object.entries(params).every(([k, v]) => paramsOf(s, effect)[k] === v),
-  )
+  );
 }
 
 /**
  * @param {import('@playwright/test').Page} page
  * @param {object} o
  */
-async function paint(page, { effect, params, seed, layout = 'stack-fit', vp, hover = false }) {
-  const href = url({ seed, f: FONT.id, v: VARIANT.id, l: layout, e: effect.id })
-  const { pick, probe, img } = await shoot(page, href, vp, { hover })
-  const side = probe.rotate !== 'none'
-  const u = probe.bw / 100
+async function paint(page, { effect, params, seed, layout = "stack-fit", vp, hover = false }) {
+  const href = url({ seed, f: FONT.id, v: VARIANT.id, l: layout, e: effect.id });
+  const { pick, probe, img } = await shoot(page, href, vp, { hover });
+  const side = probe.rotate !== "none";
+  const u = probe.bw / 100;
   // Anchored on the `l:` segment: an effect may have a param called `g` too (and
   // `retro-relief-gap` does), which a bare /g=(\d+)/ would read as the layout gap.
-  const g = Number(/\sl:[a-z-]+\([^)]*?\bg=(\d+(?:\.\d+)?)/.exec(pick)?.[1])
-  const want = expectedFit(FONT, VARIANT, layout, g, effect, params)
-  const box = inkBox(img, isPaint, probe.dpr)
-  const where = `${vp.w}x${vp.h} ${href} [${pick}]`
-  expect(box, `nothing painted · ${where}`).not.toBeNull()
-  return { pick, probe, img, side, u, g, want, box, where, vp }
+  const g = Number(/\sl:[a-z-]+\([^)]*?\bg=(\d+(?:\.\d+)?)/.exec(pick)?.[1]);
+  const want = expectedFit(FONT, VARIANT, layout, g, effect, params);
+  const box = inkBox(img, isPaint, probe.dpr);
+  const where = `${vp.w}x${vp.h} ${href} [${pick}]`;
+  expect(box, `nothing painted · ${where}`).not.toBeNull();
+  return { pick, probe, img, side, u, g, want, box, where, vp };
 }
 
-test.describe('the declared bleed bounds every painted pixel', () => {
+test.describe("the declared bleed bounds every painted pixel", () => {
   for (const { effect, corners: cs } of SUITE) {
     for (const params of cs) {
-      const tag = label(params)
+      const tag = label(params);
 
       for (const [mode, wantSide, viewports] of [
-        ['upright', false, PR_VIEWPORTS],
+        ["upright", false, PR_VIEWPORTS],
         // One portrait viewport is enough for `side`: what it proves is the rotated
         // `translate`, which is a property of the emitted CSS and not of the aspect ratio.
         // The largest portrait viewport is the one chosen, because the envelope check
         // below needs a block big enough to resolve a fraction of a u — see ENVELOPE_MIN_U.
-        ['side', true, PORTRAIT.slice(-1)],
+        ["side", true, PORTRAIT.slice(-1)],
       ]) {
-        test(`${effect.id}${tag ? `(${tag})` : ''} · ${mode}`, async ({ page }) => {
-          const seed = seedFor(effect, params, wantSide)
+        test(`${effect.id}${tag ? `(${tag})` : ""} · ${mode}`, async ({ page }) => {
+          const seed = seedFor(effect, params, wantSide);
           for (const vp of viewports) {
-            const r = await paint(page, { effect, params, seed, vp })
-            const { box, want, u, side, where } = r
+            const r = await paint(page, { effect, params, seed, vp });
+            const { box, want, u, side, where } = r;
 
             // The rotated block only exists below 4/5; above it the media query is inert
             // and this is simply a second upright measurement.
-            expect(side, `expected side=${wantSide} · ${where}`).toBe(wantSide && vp.w / vp.h <= 0.8)
+            expect(side, `expected side=${wantSide} · ${where}`).toBe(
+              wantSide && vp.w / vp.h <= 0.8,
+            );
 
             // 1 — the fit contract: nothing outside the safe box.
-            const { aw, ah } = safeBox(vp.w, vp.h, side)
-            const pw = side ? box.h : box.w
-            const ph = side ? box.w : box.h
-            const d = `paint=${pw.toFixed(1)}x${ph.toFixed(1)} safe=${aw.toFixed(1)}x${ah.toFixed(1)} · ${where}`
-            expect.soft(pw, `paint wider than the safe box · ${d}`).toBeLessThanOrEqual(aw + SLACK)
-            expect.soft(ph, `paint taller than the safe box · ${d}`).toBeLessThanOrEqual(ah + SLACK)
+            const { aw, ah } = safeBox(vp.w, vp.h, side);
+            const pw = side ? box.h : box.w;
+            const ph = side ? box.w : box.h;
+            const d = `paint=${pw.toFixed(1)}x${ph.toFixed(1)} safe=${aw.toFixed(1)}x${ah.toFixed(1)} · ${where}`;
+            expect.soft(pw, `paint wider than the safe box · ${d}`).toBeLessThanOrEqual(aw + SLACK);
+            expect
+              .soft(ph, `paint taller than the safe box · ${d}`)
+              .toBeLessThanOrEqual(ah + SLACK);
 
             // 2 — the declaration itself, where the block can resolve it. The painted
             // envelope is the block grown by the
@@ -238,56 +242,56 @@ test.describe('the declared bleed bounds every painted pixel', () => {
             // two dimensions swap, which is the pair the review flagged: a `translate`
             // that forgot to swap and negate would move the envelope off centre by up to
             // `2·max(|DX|,|DY|)` u and land here first.
-            const ew = r.probe.bw * want.K1
-            const eh = r.probe.bw * want.K2
-            const [sw, sh] = side ? [eh, ew] : [ew, eh]
-            const resolvable = u >= ENVELOPE_MIN_U
-            const env = `env=${sw.toFixed(1)}x${sh.toFixed(1)} at centre · box=[${box.x0.toFixed(1)},${box.y0.toFixed(1)},${box.x1.toFixed(1)},${box.y1.toFixed(1)}] · ${where}`
+            const ew = r.probe.bw * want.K1;
+            const eh = r.probe.bw * want.K2;
+            const [sw, sh] = side ? [eh, ew] : [ew, eh];
+            const resolvable = u >= ENVELOPE_MIN_U;
+            const env = `env=${sw.toFixed(1)}x${sh.toFixed(1)} at centre · box=[${box.x0.toFixed(1)},${box.y0.toFixed(1)},${box.x1.toFixed(1)},${box.y1.toFixed(1)}] · ${where}`;
             // `box` holds the *outer* edges of the first and last covered pixels, so an
             // extent lying exactly on a fractional envelope edge still lights the pixel it
             // touches. Quantizing the envelope to whole pixels removes that sub-pixel
             // bookkeeping from the comparison and leaves SLACK to mean only what §9.2 says
             // it means — integer ascent rounding and half-leading flooring.
             if (resolvable) {
-              const allow = (ALLOWANCE[effect.id] ?? 0) * u
-              const cx = vp.w / 2
-              const cy = vp.h / 2
+              const allow = (ALLOWANCE[effect.id] ?? 0) * u;
+              const cx = vp.w / 2;
+              const cy = vp.h / 2;
               const sides = [
-                ['left', Math.floor(cx - sw / 2 - allow) - ENVELOPE_SLACK - box.x0],
-                ['right', box.x1 - (Math.ceil(cx + sw / 2 + allow) + ENVELOPE_SLACK)],
-                ['above', Math.floor(cy - sh / 2 - allow) - ENVELOPE_SLACK - box.y0],
-                ['below', box.y1 - (Math.ceil(cy + sh / 2 + allow) + ENVELOPE_SLACK)],
-              ]
+                ["left", Math.floor(cx - sw / 2 - allow) - ENVELOPE_SLACK - box.x0],
+                ["right", box.x1 - (Math.ceil(cx + sw / 2 + allow) + ENVELOPE_SLACK)],
+                ["above", Math.floor(cy - sh / 2 - allow) - ENVELOPE_SLACK - box.y0],
+                ["below", box.y1 - (Math.ceil(cy + sh / 2 + allow) + ENVELOPE_SLACK)],
+              ];
               for (const [name, excess] of sides) {
-                const overU = (excess + allow) / u
+                const overU = (excess + allow) / u;
                 expect
                   .soft(
                     excess,
                     `paint ${name} of its declared envelope by ${overU.toFixed(2)}u ` +
                       `(budget ${(allow / u).toFixed(2)}u) · ${env}`,
                   )
-                  .toBeLessThanOrEqual(0)
+                  .toBeLessThanOrEqual(0);
               }
             }
 
             // 3a — the emitted gap is the resolved G, not the drawn g. Read off the
             // untransformed rects, so only the upright runs can answer it.
             if (!side) {
-              const gap = r.probe.l2.top - r.probe.l1.bottom
+              const gap = r.probe.l2.top - r.probe.l1.bottom;
               expect
                 .soft(
                   Math.abs(gap - want.G * u),
                   `G ≠ max(g,bt,bb): gap=${gap.toFixed(2)}px, expected ${(want.G * u).toFixed(2)}px ` +
                     `(G=${want.G}, g=${r.g}, bt=${want.bleed.t}, bb=${want.bleed.b}) · ${where}`,
                 )
-                .toBeLessThanOrEqual(1)
+                .toBeLessThanOrEqual(1);
             }
           }
-        })
+        });
       }
     }
   }
-})
+});
 
 /**
  * R13 — the gap clears ink travelling both ways. This package measured the one-directional
@@ -296,74 +300,74 @@ test.describe('the declared bleed bounds every painted pixel', () => {
  * is kept, now as a plain requirement rather than an expected failure, so a regression to
  * `max(g, bt)` is caught on the corner that showed it.
  */
-test.describe('the gap clears ink in both directions', () => {
-  const effect = EFFECTS.find((e) => e.id === 'depth-extrude')
+test.describe("the gap clears ink in both directions", () => {
+  const effect = EFFECTS.find((e) => e.id === "depth-extrude");
   for (const params of [
     { a: 45, d: 9 },
     { a: 225, d: 9 },
   ]) {
     test(`depth-extrude(a=${params.a},d=9) with g=4 · G covers both bleeds`, async ({ page }) => {
-      test.skip(!effect, 'depth-extrude is not in the catalog')
-      const seed = seedFor(effect, params, false, 4)
-      const r = await paint(page, { effect, params, seed, vp: { w: 1440, h: 900 } })
-      const gap = r.probe.l2.top - r.probe.l1.bottom
-      const reach = Math.max(r.want.bleed.t, r.want.bleed.b) * r.u
+      test.skip(!effect, "depth-extrude is not in the catalog");
+      const seed = seedFor(effect, params, false, 4);
+      const r = await paint(page, { effect, params, seed, vp: { w: 1440, h: 900 } });
+      const gap = r.probe.l2.top - r.probe.l1.bottom;
+      const reach = Math.max(r.want.bleed.t, r.want.bleed.b) * r.u;
       expect(
         reach,
         `line 1 declares ${r.want.bleed.b}u down and line 2 ${r.want.bleed.t}u up, but the ` +
           `gap is only ${(gap / r.u).toFixed(2)}u (G=${r.want.G}, g=${r.g}) · ${r.where}`,
-      ).toBeLessThanOrEqual(gap + SLACK)
-    })
+      ).toBeLessThanOrEqual(gap + SLACK);
+    });
   }
-})
+});
 
 // What R13 exists to prevent, measured rather than argued: the band between the two lines,
 // minus the reach each of them declares into it, must contain no paint at all. It catches
 // an under-declared bleed in either direction, which is the half the envelope test cannot
 // see — a shadow that overshoots *into* the block still sits inside the envelope.
-test.describe('neither line paints into the other', () => {
+test.describe("neither line paints into the other", () => {
   const upward = EFFECTS.flatMap((effect) =>
     corners(effect)
       .map((params) => ({
         effect,
         params,
-        b: expectedFit(FONT, VARIANT, 'stack-fit', 4, effect, params).bleed,
+        b: expectedFit(FONT, VARIANT, "stack-fit", 4, effect, params).bleed,
       }))
       .filter((x) => x.b.t > 0 || x.b.b > 0)
       // One corner per effect keeps this affordable across 30 effects; the envelope test
       // above already crosses every effect with its parameter ends.
       .slice(0, 1),
-  )
+  );
 
   for (const { effect, params } of upward) {
-    const tag = label(params)
+    const tag = label(params);
     test(`${effect.id}(${tag}) leaves the gap band clean`, async ({ page }) => {
       // g = 10 is the widest drawn gap, which leaves the largest band for the scan to
       // inspect; with g below the top bleed the band closes and there is nothing to check.
-      const seed = seedFor(effect, params, false, 10)
+      const seed = seedFor(effect, params, false, 10);
       for (const vp of [
         { w: 1440, h: 900 },
         { w: 2560, h: 1080 },
       ]) {
-        const r = await paint(page, { effect, params, seed, vp })
-        const { probe, img, u, want, where } = r
+        const r = await paint(page, { effect, params, seed, vp });
+        const { probe, img, u, want, where } = r;
 
-        const allow = (BAND_ALLOWANCE[effect.id] ?? 0) * u
-        const top = probe.l1.bottom + want.bleed.b * u + allow + SLACK
-        const bottom = probe.l2.top - want.bleed.t * u - allow - SLACK
-        if (bottom - top < 2) continue
+        const allow = (BAND_ALLOWANCE[effect.id] ?? 0) * u;
+        const top = probe.l1.bottom + want.bleed.b * u + allow + SLACK;
+        const bottom = probe.l2.top - want.bleed.t * u - allow - SLACK;
+        if (bottom - top < 2) continue;
 
-        const dpr = probe.dpr
-        const y0 = Math.ceil(top * dpr)
-        const y1 = Math.floor(bottom * dpr)
-        let painted = 0
-        let firstY = -1
+        const dpr = probe.dpr;
+        const y0 = Math.ceil(top * dpr);
+        const y1 = Math.floor(bottom * dpr);
+        let painted = 0;
+        let firstY = -1;
         for (let y = y0; y < y1; y++) {
           for (let x = 0; x < img.width; x++) {
-            const o = (y * img.width + x) * 4
+            const o = (y * img.width + x) * 4;
             if (isPaint(img.data[o], img.data[o + 1], img.data[o + 2])) {
-              painted++
-              if (firstY < 0) firstY = y
+              painted++;
+              if (firstY < 0) firstY = y;
             }
           }
         }
@@ -374,11 +378,11 @@ test.describe('neither line paints into the other', () => {
               `(y ${top.toFixed(1)}..${bottom.toFixed(1)}, first hit at ${firstY / dpr}) · ` +
               `G=${want.G} bt=${want.bleed.t} u=${u.toFixed(2)} · ${where}`,
           )
-          .toBe(0)
+          .toBe(0);
       }
-    })
+    });
   }
-})
+});
 
 /**
  * The R14 watchlist in its hover state. §5.6: `bleed()` "must bound ALL painted ink incl.
@@ -386,38 +390,42 @@ test.describe('neither line paints into the other', () => {
  * shadow pulls the offset in to `0.18y` while keeping `0.7x` of the blur, which is the one
  * combination where the upward tail can clear the offset.
  */
-test.describe('the declared bleed bounds the hover state too', () => {
+test.describe("the declared bleed bounds the hover state too", () => {
   for (const w of WATCHLIST.filter((x) => x.hover)) {
-    const effect = EFFECTS.find((e) => e.id === w.id)
+    const effect = EFFECTS.find((e) => e.id === w.id);
     test(`${w.id}(${label(w.params)}) · hover`, async ({ page }) => {
-      test.skip(!effect, `${w.id} is not in the catalog`)
-      const seed = seedFor(effect, w.params, false)
+      test.skip(!effect, `${w.id} is not in the catalog`);
+      const seed = seedFor(effect, w.params, false);
       for (const vp of PR_VIEWPORTS) {
-        const r = await paint(page, { effect, params: w.params, seed, vp, hover: true })
-        const { box, want, where } = r
-        const ew = r.probe.bw * want.K1
-        const eh = r.probe.bw * want.K2
-        const env = `env=${ew.toFixed(1)}x${eh.toFixed(1)} · box=[${box.x0.toFixed(1)},${box.y0.toFixed(1)},${box.x1.toFixed(1)},${box.y1.toFixed(1)}] · predicted ${w.predicted} · ${where}`
+        const r = await paint(page, { effect, params: w.params, seed, vp, hover: true });
+        const { box, want, where } = r;
+        const ew = r.probe.bw * want.K1;
+        const eh = r.probe.bw * want.K2;
+        const env = `env=${ew.toFixed(1)}x${eh.toFixed(1)} · box=[${box.x0.toFixed(1)},${box.y0.toFixed(1)},${box.x1.toFixed(1)},${box.y1.toFixed(1)}] · predicted ${w.predicted} · ${where}`;
         expect
           .soft(box.x0, `hover paint left of its envelope · ${env}`)
-          .toBeGreaterThanOrEqual(Math.floor(vp.w / 2 - ew / 2) - ENVELOPE_SLACK)
+          .toBeGreaterThanOrEqual(Math.floor(vp.w / 2 - ew / 2) - ENVELOPE_SLACK);
         expect
           .soft(box.x1, `hover paint right of its envelope · ${env}`)
-          .toBeLessThanOrEqual(Math.ceil(vp.w / 2 + ew / 2) + ENVELOPE_SLACK)
+          .toBeLessThanOrEqual(Math.ceil(vp.w / 2 + ew / 2) + ENVELOPE_SLACK);
         expect
           .soft(box.y0, `hover paint above its envelope · ${env}`)
-          .toBeGreaterThanOrEqual(Math.floor(vp.h / 2 - eh / 2) - ENVELOPE_SLACK)
+          .toBeGreaterThanOrEqual(Math.floor(vp.h / 2 - eh / 2) - ENVELOPE_SLACK);
         expect
           .soft(box.y1, `hover paint below its envelope · ${env}`)
-          .toBeLessThanOrEqual(Math.ceil(vp.h / 2 + eh / 2) + ENVELOPE_SLACK)
+          .toBeLessThanOrEqual(Math.ceil(vp.h / 2 + eh / 2) + ENVELOPE_SLACK);
 
-        const { aw, ah } = safeBox(vp.w, vp.h, false)
-        expect.soft(box.w, `hover paint wider than the safe box · ${env}`).toBeLessThanOrEqual(aw + SLACK)
-        expect.soft(box.h, `hover paint taller than the safe box · ${env}`).toBeLessThanOrEqual(ah + SLACK)
+        const { aw, ah } = safeBox(vp.w, vp.h, false);
+        expect
+          .soft(box.w, `hover paint wider than the safe box · ${env}`)
+          .toBeLessThanOrEqual(aw + SLACK);
+        expect
+          .soft(box.h, `hover paint taller than the safe box · ${env}`)
+          .toBeLessThanOrEqual(ah + SLACK);
       }
-    })
+    });
   }
-})
+});
 
 /**
  * The recorded under-declarations, re-measured on a 3360 px block where `ENVELOPE_SLACK`
@@ -425,27 +433,27 @@ test.describe('the declared bleed bounds the hover state too', () => {
  * sweep's viewports a 0.3u overshoot is four pixels and indistinguishable from rounding,
  * and here it is ten.
  */
-test.describe('recorded overshoots hold their budget at full resolution', () => {
+test.describe("recorded overshoots hold their budget at full resolution", () => {
   for (const id of [...new Set(RESOLVE)]) {
-    const effect = EFFECTS.find((e) => e.id === id)
-    if (!effect) continue
-    const cs = corners(effect)
-    const params = cs[cs.length - 1]
+    const effect = EFFECTS.find((e) => e.id === id);
+    if (!effect) continue;
+    const cs = corners(effect);
+    const params = cs[cs.length - 1];
     test(`${id}(${label(params)}) · 3840x2160`, async ({ page }) => {
-      const seed = seedFor(effect, params, false)
-      const r = await paint(page, { effect, params, seed, vp: RESOLVE_VP })
-      const { box, want, u, where } = r
-      const allow = (ALLOWANCE[id] ?? 0) * u
-      const ew = r.probe.bw * want.K1
-      const eh = r.probe.bw * want.K2
-      const cx = RESOLVE_VP.w / 2
-      const cy = RESOLVE_VP.h / 2
+      const seed = seedFor(effect, params, false);
+      const r = await paint(page, { effect, params, seed, vp: RESOLVE_VP });
+      const { box, want, u, where } = r;
+      const allow = (ALLOWANCE[id] ?? 0) * u;
+      const ew = r.probe.bw * want.K1;
+      const eh = r.probe.bw * want.K2;
+      const cx = RESOLVE_VP.w / 2;
+      const cy = RESOLVE_VP.h / 2;
       const sides = [
-        ['left', Math.floor(cx - ew / 2 - allow) - ENVELOPE_SLACK - box.x0],
-        ['right', box.x1 - (Math.ceil(cx + ew / 2 + allow) + ENVELOPE_SLACK)],
-        ['above', Math.floor(cy - eh / 2 - allow) - ENVELOPE_SLACK - box.y0],
-        ['below', box.y1 - (Math.ceil(cy + eh / 2 + allow) + ENVELOPE_SLACK)],
-      ]
+        ["left", Math.floor(cx - ew / 2 - allow) - ENVELOPE_SLACK - box.x0],
+        ["right", box.x1 - (Math.ceil(cx + ew / 2 + allow) + ENVELOPE_SLACK)],
+        ["above", Math.floor(cy - eh / 2 - allow) - ENVELOPE_SLACK - box.y0],
+        ["below", box.y1 - (Math.ceil(cy + eh / 2 + allow) + ENVELOPE_SLACK)],
+      ];
       for (const [name, excess] of sides) {
         expect
           .soft(
@@ -453,8 +461,8 @@ test.describe('recorded overshoots hold their budget at full resolution', () => 
             `paint ${name} of its declared envelope by ${((excess + allow) / u).toFixed(3)}u ` +
               `(budget ${(allow / u).toFixed(2)}u, u=${u.toFixed(1)}px) · ${where}`,
           )
-          .toBeLessThanOrEqual(0)
+          .toBeLessThanOrEqual(0);
       }
-    })
+    });
   }
-})
+});

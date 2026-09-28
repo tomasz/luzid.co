@@ -19,13 +19,13 @@
  * fixes only read as carved on a flat ground the colour of `--bg`, which v1.0 always has.
  */
 export default {
-  id: 'retro-relief-gap',
-  family: 'retro',
-  shape: 'B',
+  id: "retro-relief-gap",
+  family: "retro",
+  shape: "B",
   colors: 3,
-  bg: 'any',
+  bg: "any",
   odds: 5,
-  fonts: { deny: ['hairline', 'inline', 'shaded', 'stencil'], prefer: ['fat', 'slab', 'deco'] },
+  fonts: { deny: ["hairline", "inline", "shaded", "stencil"], prefer: ["fat", "slab", "deco"] },
   palettes: { prefer: [] },
   // d = shade distance along the angle; g = channel width (half the stroke, which is
   // centred on the outline); a = the two sign-painter diagonals, both downward.
@@ -44,13 +44,13 @@ export default {
    * @param {{a: number, d: number, g: number}} p
    */
   bleed: (p) => {
-    const q = Math.SQRT1_2 * p.d
+    const q = Math.SQRT1_2 * p.d;
     return {
       t: p.g,
       r: (p.a === 45 ? q : 0) + p.g,
       b: q + p.g,
       l: (p.a === 135 ? q : 0) + p.g,
-    }
+    };
   },
 
   /**
@@ -58,15 +58,15 @@ export default {
    * @param {typeof import('../src/helpers.js').helpers} h
    */
   css: (p, h) => {
-    const n = Math.min(64, Math.max(12, Math.round(10 * p.d)))
-    const sw = h.u(2 * p.g)
+    const n = Math.min(64, Math.max(12, Math.round(10 * p.d)));
+    const sw = h.u(2 * p.g);
     return (
       `.n{-webkit-text-stroke:${sw} var(--bg);paint-order:stroke fill}` +
       `.l::before{content:attr(data-t) / "";z-index:-1;color:var(--a1);` +
-      `-webkit-text-stroke:${sw} var(--a1);text-shadow:${h.stack(n, p.a, p.d, 'var(--a1)')}}`
-    )
+      `-webkit-text-stroke:${sw} var(--a1);text-shadow:${h.stack(n, p.a, p.d, "var(--a1)")}}`
+    );
   },
 
-  hover: () => 'filter:brightness(1.06)',
+  hover: () => "filter:brightness(1.06)",
   motion: null,
-}
+};

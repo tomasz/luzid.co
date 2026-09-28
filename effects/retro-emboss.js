@@ -21,20 +21,20 @@
  * @param {number} lift how far the cast shadow is thrown, as a multiple of the resting throw
  */
 const raise = (p, h, lift) =>
-  `${h.u(-p.k)} ${h.u(-p.k)} 0 ${h.mix('var(--fg)', 'var(--bg)', 20)},` +
+  `${h.u(-p.k)} ${h.u(-p.k)} 0 ${h.mix("var(--fg)", "var(--bg)", 20)},` +
   `${h.u(2.4 * p.k * lift)} ${h.u(2.8 * p.k * lift)} ${h.u(p.s * lift)} ` +
-  `${h.mix('var(--fg)', 'var(--bg)', 36)}`
+  `${h.mix("var(--fg)", "var(--bg)", 36)}`;
 
 export default {
-  id: 'retro-emboss',
-  family: 'retro',
-  shape: 'A',
+  id: "retro-emboss",
+  family: "retro",
+  shape: "A",
   colors: 2,
-  bg: 'light',
+  bg: "light",
   odds: 3,
   fonts: {
-    deny: ['hairline', 'inline', 'shaded', 'stencil'],
-    prefer: ['fat', 'slab', 'rounded', 'soft'],
+    deny: ["hairline", "inline", "shaded", "stencil"],
+    prefer: ["fat", "slab", "rounded", "soft"],
   },
   palettes: { prefer: [] },
   // k = how far the letter stands off the sheet; s = how soft its shadow is. Both in u.
@@ -54,13 +54,13 @@ export default {
    * @param {{k: number, s: number}} p
    */
   bleed: (p) => {
-    const tail = 1.5 * p.s * 1.3
+    const tail = 1.5 * p.s * 1.3;
     return {
       t: Math.max(p.k, tail - 2.8 * p.k * 1.3),
       r: 2.4 * p.k * 1.3 + tail,
       b: 2.8 * p.k * 1.3 + tail,
       l: Math.max(p.k, tail - 2.4 * p.k * 1.3),
-    }
+    };
   },
 
   /**
@@ -76,4 +76,4 @@ export default {
   hover: (p, h) => `text-shadow:${raise(p, h, 1.3)}`,
 
   motion: null,
-}
+};

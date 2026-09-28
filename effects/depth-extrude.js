@@ -8,13 +8,13 @@
  * what keeps the extrusion inside the safe box at every viewport.
  */
 export default {
-  id: 'depth-extrude',
-  family: 'depth',
-  shape: 'A',
+  id: "depth-extrude",
+  family: "depth",
+  shape: "A",
   colors: 3,
-  bg: 'any',
+  bg: "any",
   odds: 6,
-  fonts: { deny: ['script', 'hairline'], prefer: ['fat'] },
+  fonts: { deny: ["script", "hairline"], prefer: ["fat"] },
   palettes: { prefer: [] },
   params: { d: [3, 9, 1], a: [45, 315, 90] },
 
@@ -30,8 +30,9 @@ export default {
    * @param {{d: number, a: number}} p
    * @param {typeof import('../src/helpers.js').helpers} h
    */
-  css: (p, h) => `.n{text-shadow:${h.stack(Math.min(64, Math.round(8 * p.d)), p.a, p.d, 'var(--a1)')}}`,
+  css: (p, h) =>
+    `.n{text-shadow:${h.stack(Math.min(64, Math.round(8 * p.d)), p.a, p.d, "var(--a1)")}}`,
 
-  hover: () => 'filter:brightness(1.07)',
+  hover: () => "filter:brightness(1.07)",
   motion: null,
-}
+};

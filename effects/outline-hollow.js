@@ -24,7 +24,7 @@ const DIR = [
   [-1, 1],
   [-1, -1],
   [1, -1],
-]
+];
 
 /**
  * Outward allowance per unit of stroke width. Geometrically a centred stroke reaches
@@ -32,18 +32,18 @@ const DIR = [
  * not on the §5.6 property allowlist, so a sharp apex spikes past that. 0.8·sw covers a
  * miter up to ~1.6× the geometric half; anything sharper than that is a font we deny.
  */
-const MITER = 0.8
+const MITER = 0.8;
 
 export default {
-  id: 'outline-hollow',
-  family: 'outline',
-  shape: 'A',
+  id: "outline-hollow",
+  family: "outline",
+  shape: "A",
   colors: 3,
-  bg: 'any',
+  bg: "any",
   odds: 5,
   fonts: {
-    deny: ['hairline', 'script', 'brush', 'connected', 'inline', 'shaded'],
-    prefer: ['fat', 'sans'],
+    deny: ["hairline", "script", "brush", "connected", "inline", "shaded"],
+    prefer: ["fat", "sans"],
   },
   palettes: { prefer: [] },
   // R16 asks for a .02-.06em stroke and copies .04-.12em apart. 1em is 100/W1 u, and W1
@@ -53,14 +53,14 @@ export default {
 
   /** @param {{sw: number, d: number, q: number}} p */
   bleed: (p) => {
-    const [sx, sy] = DIR[p.q]
-    const s = MITER * p.sw
+    const [sx, sy] = DIR[p.q];
+    const s = MITER * p.sw;
     return {
       t: s + (sy < 0 ? p.d : 0),
       r: s + (sx > 0 ? p.d : 0),
       b: s + (sy > 0 ? p.d : 0),
       l: s + (sx < 0 ? p.d : 0),
-    }
+    };
   },
 
   /**
@@ -68,14 +68,14 @@ export default {
    * @param {typeof import('../src/helpers.js').helpers} h
    */
   css: (p, h) => {
-    const [sx, sy] = DIR[p.q]
+    const [sx, sy] = DIR[p.q];
     return (
       `.n{color:var(--bg);-webkit-text-stroke:${h.u(p.sw)} var(--fg);paint-order:stroke fill;` +
       `text-shadow:${h.u(sx * p.d)} ${h.u(sy * p.d)} 0 var(--a1)}`
-    )
+    );
   },
 
   /** The hole fills with ink: face and keyline become one solid letter over the shadow. */
-  hover: () => 'color:var(--fg)',
+  hover: () => "color:var(--fg)",
   motion: null,
-}
+};

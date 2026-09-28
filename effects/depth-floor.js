@@ -21,25 +21,25 @@
  */
 
 /** Upper bounds on tan(|skew|), for the quantized angles `sk` can take. */
-const TAN = { 0: 0, 15: 0.27, 30: 0.58 }
+const TAN = { 0: 0, 15: 0.27, 30: 0.58 };
 
 /** Blur on the copy, in u. Small: the mask does the softening. */
-const BLUR = 0.25
+const BLUR = 0.25;
 
 /** Blur radius to painted reach: sigma is r/2, so 2r is a conservative bound. */
-const SPREAD = 2
+const SPREAD = 2;
 
 /** How much ink the floor copy carries, in percent of the ground colour. */
-const SHADE = 45
+const SHADE = 45;
 
 export default {
-  id: 'depth-floor',
-  family: 'depth',
-  shape: 'B',
+  id: "depth-floor",
+  family: "depth",
+  shape: "B",
   colors: 2,
-  bg: 'any',
+  bg: "any",
   odds: 3,
-  fonts: { deny: ['hairline'], prefer: ['fat', 'sans'] },
+  fonts: { deny: ["hairline"], prefer: ["fat", "sans"] },
   palettes: { prefer: [] },
   // `sy` is the floor copy's height as a percent of the letters; `sk` its skew in degrees.
   params: { sy: [30, 60, 10], sk: [-30, 30, 15] },
@@ -49,9 +49,9 @@ export default {
    * @param {{H: number[]}} m
    */
   bleed: (p, m) => {
-    const tall = Math.max(m.H[0], m.H[1])
-    const lean = (TAN[Math.abs(p.sk)] ?? 0.58) * (tall / 2) + SPREAD * BLUR
-    return { t: 0, r: lean, b: (p.sy / 100) * m.H[1] + SPREAD * BLUR, l: lean }
+    const tall = Math.max(m.H[0], m.H[1]);
+    const lean = (TAN[Math.abs(p.sk)] ?? 0.58) * (tall / 2) + SPREAD * BLUR;
+    return { t: 0, r: lean, b: (p.sy / 100) * m.H[1] + SPREAD * BLUR, l: lean };
   },
 
   /**
@@ -59,15 +59,15 @@ export default {
    * @param {typeof import('../src/helpers.js').helpers} h
    */
   css: (p, h) => {
-    const s = p.sy / 100
-    const drop = 50 * (1 + s)
+    const s = p.sy / 100;
+    const drop = 50 * (1 + s);
     return (
-      `.l::after{content:attr(data-t) / "";color:${h.mix('var(--fg)', 'var(--bg)', SHADE)};z-index:-1;` +
+      `.l::after{content:attr(data-t) / "";color:${h.mix("var(--fg)", "var(--bg)", SHADE)};z-index:-1;` +
       `transform:translateY(${drop}%) scaleY(${-s}) skewX(${p.sk}deg);` +
       `filter:blur(${h.u(BLUR)});mask-image:linear-gradient(transparent,var(--fg) 88%)}`
-    )
+    );
   },
 
-  hover: () => 'filter:brightness(1.05)',
+  hover: () => "filter:brightness(1.05)",
   motion: null,
-}
+};

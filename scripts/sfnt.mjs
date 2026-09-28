@@ -21,41 +21,42 @@
  * dozen fields are ever touched and a table layout is the one thing that never changes.
  */
 
-const HEAD_CHECKSUM_MAGIC = 0xb1b0afba
+const HEAD_CHECKSUM_MAGIC = 0xb1b0afba;
 
 /** Sum of the table data as big-endian uint32s, zero-padded to a 4-byte multiple. */
 export function checksum(data) {
-  let sum = 0
-  const whole = data.length & ~3
-  for (let i = 0; i < whole; i += 4) sum = (sum + data.readUInt32BE(i)) >>> 0
+  let sum = 0;
+  const whole = data.length & ~3;
+  for (let i = 0; i < whole; i += 4) sum = (sum + data.readUInt32BE(i)) >>> 0;
   if (whole !== data.length) {
-    let tail = 0
-    for (let i = whole; i < data.length; i++) tail |= data[i] << (8 * (3 - (i - whole)))
-    sum = (sum + (tail >>> 0)) >>> 0
+    let tail = 0;
+    for (let i = whole; i < data.length; i++) tail |= data[i] << (8 * (3 - (i - whole)));
+    sum = (sum + (tail >>> 0)) >>> 0;
   }
-  return sum >>> 0
+  return sum >>> 0;
 }
 
-const pad4 = (n) => (n + 3) & ~3
+const pad4 = (n) => (n + 3) & ~3;
 
 /** @returns {{flavor: number, tables: {tag: string, data: Buffer}[]}} tables in directory order. */
 export function parse(font) {
-  if (font.length < 12) throw new Error('sfnt: file shorter than the header')
-  const flavor = font.readUInt32BE(0)
+  if (font.length < 12) throw new Error("sfnt: file shorter than the header");
+  const flavor = font.readUInt32BE(0);
   if (flavor !== 0x00010000 && flavor !== 0x4f54544f && flavor !== 0x74727565) {
-    throw new Error(`sfnt: unsupported flavor 0x${flavor.toString(16)}`)
+    throw new Error(`sfnt: unsupported flavor 0x${flavor.toString(16)}`);
   }
-  const numTables = font.readUInt16BE(4)
-  const tables = []
+  const numTables = font.readUInt16BE(4);
+  const tables = [];
   for (let i = 0; i < numTables; i++) {
-    const p = 12 + i * 16
-    const tag = font.toString('latin1', p, p + 4)
-    const offset = font.readUInt32BE(p + 8)
-    const length = font.readUInt32BE(p + 12)
-    if (offset + length > font.length) throw new Error(`sfnt: table ${tag} runs past the end of the file`)
-    tables.push({ tag, data: Buffer.from(font.subarray(offset, offset + length)) })
+    const p = 12 + i * 16;
+    const tag = font.toString("latin1", p, p + 4);
+    const offset = font.readUInt32BE(p + 8);
+    const length = font.readUInt32BE(p + 12);
+    if (offset + length > font.length)
+      throw new Error(`sfnt: table ${tag} runs past the end of the file`);
+    tables.push({ tag, data: Buffer.from(font.subarray(offset, offset + length)) });
   }
-  return { flavor, tables }
+  return { flavor, tables };
 }
 
 /**
@@ -64,46 +65,46 @@ export function parse(font) {
  * is a fixed point, which is what makes `woff2.decode(woff2.encode(x))` byte-identical.
  */
 export function build({ flavor, tables }) {
-  const sorted = [...tables].sort((a, b) => (a.tag < b.tag ? -1 : a.tag > b.tag ? 1 : 0))
-  const n = sorted.length
-  let entrySelector = 0
-  while (1 << (entrySelector + 1) <= n) entrySelector++
-  const searchRange = (1 << entrySelector) * 16
+  const sorted = [...tables].sort((a, b) => (a.tag < b.tag ? -1 : a.tag > b.tag ? 1 : 0));
+  const n = sorted.length;
+  let entrySelector = 0;
+  while (1 << (entrySelector + 1) <= n) entrySelector++;
+  const searchRange = (1 << entrySelector) * 16;
 
-  const head = sorted.find((t) => t.tag === 'head')
+  const head = sorted.find((t) => t.tag === "head");
   if (head) {
     // The adjustment is computed over the finished file, so it must be zero while the
     // head checksum itself is computed.
-    head.data = Buffer.from(head.data)
-    if (head.data.length >= 12) head.data.writeUInt32BE(0, 8)
+    head.data = Buffer.from(head.data);
+    if (head.data.length >= 12) head.data.writeUInt32BE(0, 8);
   }
 
-  const dir = Buffer.alloc(12 + n * 16)
-  dir.writeUInt32BE(flavor, 0)
-  dir.writeUInt16BE(n, 4)
-  dir.writeUInt16BE(searchRange, 6)
-  dir.writeUInt16BE(entrySelector, 8)
-  dir.writeUInt16BE(n * 16 - searchRange, 10)
+  const dir = Buffer.alloc(12 + n * 16);
+  dir.writeUInt32BE(flavor, 0);
+  dir.writeUInt16BE(n, 4);
+  dir.writeUInt16BE(searchRange, 6);
+  dir.writeUInt16BE(entrySelector, 8);
+  dir.writeUInt16BE(n * 16 - searchRange, 10);
 
-  const parts = [dir]
-  let offset = dir.length
+  const parts = [dir];
+  let offset = dir.length;
   sorted.forEach((t, i) => {
-    const p = 12 + i * 16
-    dir.write(t.tag, p, 4, 'latin1')
-    dir.writeUInt32BE(checksum(t.data), p + 4)
-    dir.writeUInt32BE(offset, p + 8)
-    dir.writeUInt32BE(t.data.length, p + 12)
-    const padded = pad4(t.data.length)
-    parts.push(t.data, Buffer.alloc(padded - t.data.length))
-    offset += padded
-  })
+    const p = 12 + i * 16;
+    dir.write(t.tag, p, 4, "latin1");
+    dir.writeUInt32BE(checksum(t.data), p + 4);
+    dir.writeUInt32BE(offset, p + 8);
+    dir.writeUInt32BE(t.data.length, p + 12);
+    const padded = pad4(t.data.length);
+    parts.push(t.data, Buffer.alloc(padded - t.data.length));
+    offset += padded;
+  });
 
-  const font = Buffer.concat(parts)
+  const font = Buffer.concat(parts);
   if (head) {
-    const headOffset = font.readUInt32BE(12 + sorted.findIndex((t) => t.tag === 'head') * 16 + 8)
-    font.writeUInt32BE((HEAD_CHECKSUM_MAGIC - checksum(font)) >>> 0, headOffset + 8)
+    const headOffset = font.readUInt32BE(12 + sorted.findIndex((t) => t.tag === "head") * 16 + 8);
+    font.writeUInt32BE((HEAD_CHECKSUM_MAGIC - checksum(font)) >>> 0, headOffset + 8);
   }
-  return font
+  return font;
 }
 
 /**
@@ -117,15 +118,20 @@ export function build({ flavor, tables }) {
  * gives `L ≥ 2·(top − min(top)) + 0.05 ≥ 0.05`.
  */
 export function deriveMetrics({ upm, tops, depths }) {
-  if (!tops.length || !depths.length) throw new Error('sfnt: no ink measurements to derive metrics from')
-  const asc = Math.ceil(Math.max(...tops))
-  const desc = Math.max(0, Math.ceil(Math.max(...depths)), asc - 2 * Math.min(...tops) + 0.05 * upm)
-  const rounded = { asc, desc: Math.ceil(desc) }
+  if (!tops.length || !depths.length)
+    throw new Error("sfnt: no ink measurements to derive metrics from");
+  const asc = Math.ceil(Math.max(...tops));
+  const desc = Math.max(
+    0,
+    Math.ceil(Math.max(...depths)),
+    asc - 2 * Math.min(...tops) + 0.05 * upm,
+  );
+  const rounded = { asc, desc: Math.ceil(desc) };
   if (rounded.asc > 32767 || rounded.desc > 32767) {
-    throw new Error(`sfnt: metrics do not fit in int16 (asc ${rounded.asc}, desc ${rounded.desc})`)
+    throw new Error(`sfnt: metrics do not fit in int16 (asc ${rounded.asc}, desc ${rounded.desc})`);
   }
-  if (rounded.asc <= 0) throw new Error(`sfnt: non-positive ascender ${rounded.asc}`)
-  return rounded
+  if (rounded.asc <= 0) throw new Error(`sfnt: non-positive ascender ${rounded.asc}`);
+  return rounded;
 }
 
 /**
@@ -133,39 +139,40 @@ export function deriveMetrics({ upm, tops, depths }) {
  * `sTypo*` are signed, `usWin*` unsigned; `fsSelection` is deliberately left alone.
  */
 export function normalizeMetrics(tables, { asc, desc }) {
-  const hhea = tables.find((t) => t.tag === 'hhea')
-  const os2 = tables.find((t) => t.tag === 'OS/2')
-  if (!hhea) throw new Error('sfnt: no hhea table')
-  if (!os2) throw new Error('sfnt: no OS/2 table')
-  if (hhea.data.length < 10) throw new Error('sfnt: hhea table is too short')
+  const hhea = tables.find((t) => t.tag === "hhea");
+  const os2 = tables.find((t) => t.tag === "OS/2");
+  if (!hhea) throw new Error("sfnt: no hhea table");
+  if (!os2) throw new Error("sfnt: no OS/2 table");
+  if (hhea.data.length < 10) throw new Error("sfnt: hhea table is too short");
   // sTypoLineGap ends at 74 and usWinDescent at 78, so version 0 (78 bytes) is the minimum.
-  if (os2.data.length < 78) throw new Error(`sfnt: OS/2 table is ${os2.data.length} bytes, need >= 78`)
+  if (os2.data.length < 78)
+    throw new Error(`sfnt: OS/2 table is ${os2.data.length} bytes, need >= 78`);
 
-  hhea.data = Buffer.from(hhea.data)
-  os2.data = Buffer.from(os2.data)
-  hhea.data.writeInt16BE(asc, 4)
-  hhea.data.writeInt16BE(-desc, 6)
-  hhea.data.writeInt16BE(0, 8)
-  os2.data.writeInt16BE(asc, 68)
-  os2.data.writeInt16BE(-desc, 70)
-  os2.data.writeInt16BE(0, 72)
-  os2.data.writeUInt16BE(asc, 74)
-  os2.data.writeUInt16BE(desc, 76)
-  return { asc, desc }
+  hhea.data = Buffer.from(hhea.data);
+  os2.data = Buffer.from(os2.data);
+  hhea.data.writeInt16BE(asc, 4);
+  hhea.data.writeInt16BE(-desc, 6);
+  hhea.data.writeInt16BE(0, 8);
+  os2.data.writeInt16BE(asc, 68);
+  os2.data.writeInt16BE(-desc, 70);
+  os2.data.writeInt16BE(0, 72);
+  os2.data.writeUInt16BE(asc, 74);
+  os2.data.writeUInt16BE(desc, 76);
+  return { asc, desc };
 }
 
 /** `head.unitsPerEm`: the grid every metric and ink measurement in the metadata is in. */
 export function unitsPerEm(tables) {
-  const head = tables.find((t) => t.tag === 'head')
-  if (!head || head.data.length < 20) throw new Error('sfnt: cannot read head.unitsPerEm')
-  return head.data.readUInt16BE(18)
+  const head = tables.find((t) => t.tag === "head");
+  if (!head || head.data.length < 20) throw new Error("sfnt: cannot read head.unitsPerEm");
+  return head.data.readUInt16BE(18);
 }
 
 /** Read back what `normalizeMetrics` wrote, for verification. */
 export function readMetrics(tables) {
-  const hhea = tables.find((t) => t.tag === 'hhea')
-  const os2 = tables.find((t) => t.tag === 'OS/2')
-  if (!hhea || !os2 || os2.data.length < 78) throw new Error('sfnt: cannot read metrics')
+  const hhea = tables.find((t) => t.tag === "hhea");
+  const os2 = tables.find((t) => t.tag === "OS/2");
+  if (!hhea || !os2 || os2.data.length < 78) throw new Error("sfnt: cannot read metrics");
   return {
     ascender: hhea.data.readInt16BE(4),
     descender: hhea.data.readInt16BE(6),
@@ -175,7 +182,7 @@ export function readMetrics(tables) {
     sTypoLineGap: os2.data.readInt16BE(72),
     usWinAscent: os2.data.readUInt16BE(74),
     usWinDescent: os2.data.readUInt16BE(76),
-  }
+  };
 }
 
 // ---------------------------------------------------------------- the name table
@@ -187,47 +194,48 @@ export function readMetrics(tables) {
  * replace anyway.
  */
 const decodeNameString = (data, platformID) => {
-  if (platformID === 1) return data.toString('latin1')
-  let out = ''
-  for (let i = 0; i + 1 < data.length; i += 2) out += String.fromCharCode(data.readUInt16BE(i))
-  return out
-}
+  if (platformID === 1) return data.toString("latin1");
+  let out = "";
+  for (let i = 0; i + 1 < data.length; i += 2) out += String.fromCharCode(data.readUInt16BE(i));
+  return out;
+};
 
 const encodeNameString = (text, platformID) => {
-  if (platformID === 1) return Buffer.from(text, 'latin1')
-  const out = Buffer.alloc(text.length * 2)
-  for (let i = 0; i < text.length; i++) out.writeUInt16BE(text.charCodeAt(i), i * 2)
-  return out
-}
+  if (platformID === 1) return Buffer.from(text, "latin1");
+  const out = Buffer.alloc(text.length * 2);
+  for (let i = 0; i < text.length; i++) out.writeUInt16BE(text.charCodeAt(i), i * 2);
+  return out;
+};
 
 /**
  * Every record of the `name` table, in table order.
  * @returns {{platformID: number, encodingID: number, languageID: number, nameID: number, text: string}[]}
  */
 export function readNames(tables) {
-  const name = tables.find((t) => t.tag === 'name')
-  if (!name) return []
-  const d = name.data
-  if (d.length < 6) throw new Error('sfnt: the name table is shorter than its header')
-  const count = d.readUInt16BE(2)
-  const storage = d.readUInt16BE(4)
-  const out = []
+  const name = tables.find((t) => t.tag === "name");
+  if (!name) return [];
+  const d = name.data;
+  if (d.length < 6) throw new Error("sfnt: the name table is shorter than its header");
+  const count = d.readUInt16BE(2);
+  const storage = d.readUInt16BE(4);
+  const out = [];
   for (let i = 0; i < count; i++) {
-    const p = 6 + i * 12
-    if (p + 12 > d.length) throw new Error('sfnt: a name record runs past the end of the table')
-    const length = d.readUInt16BE(p + 8)
-    const at = storage + d.readUInt16BE(p + 10)
-    if (at + length > d.length) throw new Error('sfnt: a name string runs past the end of the table')
-    const platformID = d.readUInt16BE(p)
+    const p = 6 + i * 12;
+    if (p + 12 > d.length) throw new Error("sfnt: a name record runs past the end of the table");
+    const length = d.readUInt16BE(p + 8);
+    const at = storage + d.readUInt16BE(p + 10);
+    if (at + length > d.length)
+      throw new Error("sfnt: a name string runs past the end of the table");
+    const platformID = d.readUInt16BE(p);
     out.push({
       platformID,
       encodingID: d.readUInt16BE(p + 2),
       languageID: d.readUInt16BE(p + 4),
       nameID: d.readUInt16BE(p + 6),
       text: decodeNameString(d.subarray(at, at + length), platformID),
-    })
+    });
   }
-  return out
+  return out;
 }
 
 /**
@@ -246,57 +254,58 @@ export function writeNames(tables, records) {
       a.encodingID - b.encodingID ||
       a.languageID - b.languageID ||
       a.nameID - b.nameID,
-  )
-  const storage = []
-  const offsets = new Map()
-  let length = 0
+  );
+  const storage = [];
+  const offsets = new Map();
+  let length = 0;
   const place = (record) => {
-    const bytes = encodeNameString(record.text, record.platformID)
-    const key = `${record.platformID} ${record.text}`
+    const bytes = encodeNameString(record.text, record.platformID);
+    const key = `${record.platformID} ${record.text}`;
     if (!offsets.has(key)) {
-      if (length + bytes.length > 0xffff) throw new Error('sfnt: the name table storage is over 64 KiB')
-      offsets.set(key, length)
-      storage.push(bytes)
-      length += bytes.length
+      if (length + bytes.length > 0xffff)
+        throw new Error("sfnt: the name table storage is over 64 KiB");
+      offsets.set(key, length);
+      storage.push(bytes);
+      length += bytes.length;
     }
-    return { offset: offsets.get(key), length: bytes.length }
-  }
+    return { offset: offsets.get(key), length: bytes.length };
+  };
 
-  const dir = Buffer.alloc(6 + sorted.length * 12)
-  dir.writeUInt16BE(0, 0)
-  dir.writeUInt16BE(sorted.length, 2)
-  dir.writeUInt16BE(dir.length, 4)
+  const dir = Buffer.alloc(6 + sorted.length * 12);
+  dir.writeUInt16BE(0, 0);
+  dir.writeUInt16BE(sorted.length, 2);
+  dir.writeUInt16BE(dir.length, 4);
   sorted.forEach((record, i) => {
-    const p = 6 + i * 12
-    const { offset, length: bytes } = place(record)
-    dir.writeUInt16BE(record.platformID, p)
-    dir.writeUInt16BE(record.encodingID, p + 2)
-    dir.writeUInt16BE(record.languageID, p + 4)
-    dir.writeUInt16BE(record.nameID, p + 6)
-    dir.writeUInt16BE(bytes, p + 8)
-    dir.writeUInt16BE(offset, p + 10)
-  })
+    const p = 6 + i * 12;
+    const { offset, length: bytes } = place(record);
+    dir.writeUInt16BE(record.platformID, p);
+    dir.writeUInt16BE(record.encodingID, p + 2);
+    dir.writeUInt16BE(record.languageID, p + 4);
+    dir.writeUInt16BE(record.nameID, p + 6);
+    dir.writeUInt16BE(bytes, p + 8);
+    dir.writeUInt16BE(offset, p + 10);
+  });
 
-  const data = Buffer.concat([dir, ...storage])
-  const existing = tables.find((t) => t.tag === 'name')
-  if (existing) existing.data = data
-  else tables.push({ tag: 'name', data })
-  return sorted.length
+  const data = Buffer.concat([dir, ...storage]);
+  const existing = tables.find((t) => t.tag === "name");
+  if (existing) existing.data = data;
+  else tables.push({ tag: "name", data });
+  return sorted.length;
 }
 
 /** Glyph data offsets from `loca`, honouring `head.indexToLocFormat`. */
 function locaOffsets(tables) {
-  const head = tables.find((t) => t.tag === 'head')
-  const loca = tables.find((t) => t.tag === 'loca')
-  const maxp = tables.find((t) => t.tag === 'maxp')
-  if (!head || !loca || !maxp) throw new Error('sfnt: a glyf font needs head, loca and maxp')
-  const long = head.data.readInt16BE(50) === 1
-  const numGlyphs = maxp.data.readUInt16BE(4)
-  const offsets = []
+  const head = tables.find((t) => t.tag === "head");
+  const loca = tables.find((t) => t.tag === "loca");
+  const maxp = tables.find((t) => t.tag === "maxp");
+  if (!head || !loca || !maxp) throw new Error("sfnt: a glyf font needs head, loca and maxp");
+  const long = head.data.readInt16BE(50) === 1;
+  const numGlyphs = maxp.data.readUInt16BE(4);
+  const offsets = [];
   for (let i = 0; i <= numGlyphs; i++) {
-    offsets.push(long ? loca.data.readUInt32BE(i * 4) : loca.data.readUInt16BE(i * 2) * 2)
+    offsets.push(long ? loca.data.readUInt32BE(i * 4) : loca.data.readUInt16BE(i * 2) * 2);
   }
-  return offsets
+  return offsets;
 }
 
 /**
@@ -307,48 +316,48 @@ function locaOffsets(tables) {
  * winding rule already. Returns the number of glyphs touched.
  */
 export function setOverlapFlags(tables) {
-  const glyf = tables.find((t) => t.tag === 'glyf')
-  if (!glyf) return 0
-  const offsets = locaOffsets(tables)
-  glyf.data = Buffer.from(glyf.data)
-  let touched = 0
+  const glyf = tables.find((t) => t.tag === "glyf");
+  if (!glyf) return 0;
+  const offsets = locaOffsets(tables);
+  glyf.data = Buffer.from(glyf.data);
+  let touched = 0;
   for (let g = 0; g < offsets.length - 1; g++) {
-    const start = offsets[g]
-    if (offsets[g + 1] - start < 10) continue // empty glyph, e.g. space
-    const numberOfContours = glyf.data.readInt16BE(start)
+    const start = offsets[g];
+    if (offsets[g + 1] - start < 10) continue; // empty glyph, e.g. space
+    const numberOfContours = glyf.data.readInt16BE(start);
     if (numberOfContours > 0) {
       // endPtsOfContours[n] then instructionLength then instructions, then the flag array.
-      const instructionsAt = start + 10 + numberOfContours * 2
-      const flagsAt = instructionsAt + 2 + glyf.data.readUInt16BE(instructionsAt)
-      glyf.data[flagsAt] |= 0x40
-      touched++
+      const instructionsAt = start + 10 + numberOfContours * 2;
+      const flagsAt = instructionsAt + 2 + glyf.data.readUInt16BE(instructionsAt);
+      glyf.data[flagsAt] |= 0x40;
+      touched++;
     } else if (numberOfContours < 0) {
-      glyf.data.writeUInt16BE(glyf.data.readUInt16BE(start + 10) | 0x0400, start + 10)
-      touched++
+      glyf.data.writeUInt16BE(glyf.data.readUInt16BE(start + 10) | 0x0400, start + 10);
+      touched++;
     }
   }
-  return touched
+  return touched;
 }
 
 /** Whether every glyph that can carry an overlap flag does. Used by the tests. */
 export function hasOverlapFlags(tables) {
-  const glyf = tables.find((t) => t.tag === 'glyf')
-  if (!glyf) return { glyphs: 0, flagged: 0 }
-  const offsets = locaOffsets(tables)
-  let glyphs = 0
-  let flagged = 0
+  const glyf = tables.find((t) => t.tag === "glyf");
+  if (!glyf) return { glyphs: 0, flagged: 0 };
+  const offsets = locaOffsets(tables);
+  let glyphs = 0;
+  let flagged = 0;
   for (let g = 0; g < offsets.length - 1; g++) {
-    const start = offsets[g]
-    if (offsets[g + 1] - start < 10) continue
-    glyphs++
-    const numberOfContours = glyf.data.readInt16BE(start)
+    const start = offsets[g];
+    if (offsets[g + 1] - start < 10) continue;
+    glyphs++;
+    const numberOfContours = glyf.data.readInt16BE(start);
     if (numberOfContours > 0) {
-      const instructionsAt = start + 10 + numberOfContours * 2
-      const flagsAt = instructionsAt + 2 + glyf.data.readUInt16BE(instructionsAt)
-      if (glyf.data[flagsAt] & 0x40) flagged++
+      const instructionsAt = start + 10 + numberOfContours * 2;
+      const flagsAt = instructionsAt + 2 + glyf.data.readUInt16BE(instructionsAt);
+      if (glyf.data[flagsAt] & 0x40) flagged++;
     } else if (numberOfContours < 0) {
-      if (glyf.data.readUInt16BE(start + 10) & 0x0400) flagged++
+      if (glyf.data.readUInt16BE(start + 10) & 0x0400) flagged++;
     }
   }
-  return { glyphs, flagged }
+  return { glyphs, flagged };
 }
