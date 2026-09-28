@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(mise exec node@24 pnpm@12.4.2 -- pnpm:*)",
+      "Bash(pnpm install --frozen-lockfile)",
+      "Bash(pnpm run:*)",
+      "Bash(pnpm exec playwright:*)",
       "Bash(node:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",

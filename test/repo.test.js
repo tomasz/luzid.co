@@ -29,7 +29,23 @@ test('the pnpm version is pinned identically everywhere', async () => {
     for (const [, v] of setups) assert.equal(v, wanted, `${file} pins pnpm ${v}, package.json says ${wanted}`)
   }
 
+  // The devcontainer's `vp env` picks pnpm from these two variables, not from engines.pnpm.
+  const dc = JSON.parse((await read('.devcontainer/devcontainer.json')).replace(/^\s*\/\/.*$/gm, ''))
+  assert.equal(dc.containerEnv.VP_PACKAGE_MANAGER, `pnpm@${wanted}`, 'devcontainer VP_PACKAGE_MANAGER')
+  assert.equal(dc.containerEnv.VP_PNPM_VERSION, wanted, 'devcontainer VP_PNPM_VERSION')
+
   assert.ok((await read('AGENTS.md')).includes(`pnpm@${wanted}`), `AGENTS.md must document pnpm@${wanted}`)
+})
+
+test('the Node version is declared once, as a single major in engines.node', async () => {
+  // `vp env` reads .node-version and .nvmrc before or after engines.node; a second file
+  // could silently disagree. A range like ">=24" would let it pick a newer major.
+  const { engines } = JSON.parse(await read('package.json'))
+  assert.match(engines.node, /^\d+$/, `engines.node must be one major, got "${engines.node}"`)
+  const { access } = await import('node:fs/promises')
+  for (const file of ['.nvmrc', '.node-version']) {
+    await assert.rejects(access(new URL(`../${file}`, import.meta.url)), `${file} must not exist`)
+  }
 })
 
 test('dependency versions are pinned exactly', async () => {

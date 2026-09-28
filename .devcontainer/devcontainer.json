@@ -1,9 +1,21 @@
 {
   "name": "luzid.co",
-  "image": "mcr.microsoft.com/devcontainers/javascript-node:24",
-  // The image already ships pnpm on PATH. `corepack enable` would fail here: it symlinks
-  // into root-owned /usr/local/bin while the container runs as the `node` user.
-  "postCreateCommand": "pnpm install --frozen-lockfile",
+  "build": { "dockerfile": "Dockerfile" },
+  // Agents open PRs with gh (AGENTS.md).
+  "features": { "ghcr.io/devcontainers/features/github-cli:1": {} },
+  "containerEnv": {
+    // pnpm is pinned here, not with package.json's packageManager field: see
+    // test/repo.test.js. `vp install` reads the first, the pnpm shim the second.
+    "VP_PACKAGE_MANAGER": "pnpm@12.4.2",
+    "VP_PNPM_VERSION": "12.4.2",
+    "SSH_AUTH_SOCK": "/ssh-agent"
+  },
+  "mounts": [
+    // Signed commits: the host agent (Colima `--ssh-agent` puts it here) and git identity.
+    "source=/run/host-services/ssh-auth.sock,target=/ssh-agent,type=bind",
+    "source=${localEnv:HOME}/.gitconfig,target=/home/vp/.gitconfig,type=bind,readonly"
+  ],
+  "postCreateCommand": "vp install --frozen-lockfile && pnpm exec playwright install --with-deps",
   "forwardPorts": [8787],
   "customizations": {
     "vscode": {
