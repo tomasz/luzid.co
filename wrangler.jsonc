@@ -4,13 +4,8 @@
   "main": "src/worker.js",
   "compatibility_date": "2026-09-01",
 
-  // The catalog is generated, never committed. watch_dir is required: without it a running
-  // `wrangler dev` only rebuilds on src/ changes and never sees a new effect or font.
-  // build/ must never be watched — that would loop.
-  "build": {
-    "command": "node scripts/build.mjs",
-    "watch_dir": ["effects", "presets", "fonts/meta", "data"]
-  },
+  // The catalog (build/catalog.js) is generated, never committed: the `catalog` plugin in
+  // vite.config.js builds it and rebuilds it on data changes. build/ is never watched.
 
   // No index.html in public/: it would shadow the Worker on "/".
   // not_found_handling stays unset; single-page-application mode would let navigations

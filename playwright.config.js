@@ -18,7 +18,7 @@ export default defineConfig({
   testDir: 'e2e',
   fullyParallel: true,
   // The default of 2 on a 4-vCPU runner left the per-PR scope (1344 tests across three
-  // engines) at 15+ minutes. Three keeps one core for `wrangler dev`, which every test
+  // engines) at 15+ minutes. Three keeps one core for `vp preview`, which every test
   // shares, and brings it back inside the budget.
   workers: process.env.CI ? 3 : undefined,
   forbidOnly: !!process.env.CI,
@@ -31,9 +31,9 @@ export default defineConfig({
   expect: { timeout: 10_000 },
   use: { baseURL, trace: 'retain-on-failure' },
   webServer: {
-    // --ip 127.0.0.1 avoids the IPv4/IPv6 readiness flake; the interactive session would
-    // otherwise grab the terminal and never report ready.
-    command: `pnpm exec wrangler dev --ip 127.0.0.1 --port ${port} --inspector-port ${port + 1000} --show-interactive-dev-session=false`,
+    // The built Worker in workerd, i.e. what deploys; a green run proves `vp build` works.
+    // --host 127.0.0.1 avoids the IPv4/IPv6 readiness flake.
+    command: `pnpm exec vp build && pnpm exec vp preview --host 127.0.0.1 --port ${port} --strictPort`,
     url: `${baseURL}/`,
     reuseExistingServer: false,
     timeout: 60_000,
