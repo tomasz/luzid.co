@@ -7,8 +7,8 @@ FROM ghcr.io/voidzero-dev/vite-plus:1.0.0@sha256:8d788678fb9783ba8994c4fe5652af3
 
 # pnpm is pinned here, not with package.json's packageManager field: see test/repo.test.js.
 # `vp install` reads the first, the pnpm shim the second.
-ENV VP_PACKAGE_MANAGER=pnpm@12.4.2 \
-    VP_PNPM_VERSION=12.4.2
+ENV VP_PACKAGE_MANAGER=pnpm@12.7.0 \
+    VP_PNPM_VERSION=12.7.0
 
 # Agent CLIs from each vendor's official installer, into ~/.local/bin. Not pinned: they do
 # not touch build output, and old versions get cut off server-side. Rebuild to update.

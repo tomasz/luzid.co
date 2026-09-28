@@ -40,7 +40,7 @@ The image is Vite+'s official toolchain image, pinned by digest.
 - **Node:** `vp env` installs whichever version `engines.node` in `package.json`
   declares. That field is the one place the Node version lives: no `.nvmrc`, no
   `.node-version`.
-- **pnpm:** it comes from `VP_PACKAGE_MANAGER=pnpm@12.4.2` and `VP_PNPM_VERSION`, set as
+- **pnpm:** it comes from `VP_PACKAGE_MANAGER=pnpm@12.7.0` and `VP_PNPM_VERSION`, set as
   `ENV` in `.devcontainer/Dockerfile`.
 
 ### Agents: Claude Code, Codex, Cursor

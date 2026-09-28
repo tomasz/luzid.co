@@ -18,15 +18,15 @@
     "assets": "node scripts/assets.mjs"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "1.56.0",
+    "@cloudflare/vite-plugin": "1.61.0",
     "@playwright/test": "1.63.0",
-    "harfbuzzjs": "1.6.1",
+    "harfbuzzjs": "1.6.2",
     "subset-font": "2.9.0",
     "vite-plus": "1.0.0",
-    "wrangler": "4.135.0"
+    "wrangler": "4.142.0"
   },
   "engines": {
     "node": "26",
-    "pnpm": "12.4.2"
+    "pnpm": "12.7.0"
   }
 }

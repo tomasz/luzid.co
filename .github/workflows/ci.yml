@@ -10,8 +10,8 @@ permissions:
 env:
   WRANGLER_SEND_METRICS: "false"
   # pnpm for `vp install` and for the pnpm shim; test/repo.test.js keeps both = engines.pnpm.
-  VP_PACKAGE_MANAGER: "pnpm@12.4.2"
-  VP_PNPM_VERSION: "12.4.2"
+  VP_PACKAGE_MANAGER: "pnpm@12.7.0"
+  VP_PNPM_VERSION: "12.7.0"
 
 # Inside a called workflow `github.workflow` resolves to the CALLER's name, so a shared
 # group expression would make deploy.yml deadlock against its own ci job.
