@@ -32,7 +32,26 @@
       "Bash(gh variable*)",
       "Bash(gh repo delete*)",
       "Bash(gh api -X DELETE*)",
-      "Bash(gh api --method DELETE*)"
+      "Bash(gh api --method DELETE*)",
+      "Bash(*vp add*)",
+      "Bash(*vp remove*)",
+      "Bash(*vp update*)",
+      "Bash(*vp upgrade*)",
+      "Bash(*vp migrate*)",
+      "Bash(*vp env pin*)",
+      "Bash(*vp env setup*)"
+    ]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ \"$CLAUDE_CODE_REMOTE\" != true ] || \"$CLAUDE_PROJECT_DIR\"/scripts/cloud-setup.sh"
+          }
+        ]
+      }
     ]
   }
 }

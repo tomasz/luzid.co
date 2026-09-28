@@ -40,8 +40,43 @@ The image is Vite+'s official toolchain image, pinned by digest.
 - **Node:** `vp env` installs whichever version `engines.node` in `package.json`
   declares. That field is the one place the Node version lives: no `.nvmrc`, no
   `.node-version`.
-- **pnpm:** it comes from `VP_PACKAGE_MANAGER=pnpm@12.4.2` and `VP_PNPM_VERSION` in
-  `devcontainer.json`.
+- **pnpm:** it comes from `VP_PACKAGE_MANAGER=pnpm@12.4.2` and `VP_PNPM_VERSION`, set as
+  `ENV` in `.devcontainer/Dockerfile`.
+
+### Agents: Claude Code, Codex, Cursor
+
+All three CLIs are installed in the devcontainer image. Each reads this file natively;
+Claude Code reads it through `CLAUDE.md`.
+
+```
+devcontainer exec --workspace-folder . claude
+devcontainer exec --workspace-folder . codex
+devcontainer exec --workspace-folder . cursor-agent
+```
+
+- **Logins persist:** every CLI's login and settings, and `gh`'s, live in the `luzid-agents`
+  volume, so they survive container rebuilds.
+- **Codex login:** use `codex login --device-auth`, because Codex's default localhost callback
+  is not forwarded by the devcontainer CLI.
+- **Codex sandbox:** Codex's own sandbox cannot start inside the container. Run Codex with
+  its sandbox off; the container is the boundary. Never loosen Docker's seccomp or AppArmor
+  to make it start.
+- **Deploying is impossible from any agent.** No Cloudflare token or `wrangler login` state
+  ever enters the container. Claude's denies in `.claude/settings.json` are a second layer.
+- **Updating the CLIs:** they are unpinned, from each vendor's installer. Rebuild the
+  container to update them.
+
+**Cloud agents** cannot run the devcontainer, so each gets the same toolchain another way.
+
+| Cloud environment | How it gets the toolchain |
+|---|---|
+| Claude Code on the web | the SessionStart hook in `.claude/settings.json` runs `scripts/cloud-setup.sh` |
+| Codex cloud | set `./scripts/cloud-setup.sh` as the environment's setup script |
+| Cursor cloud agents | `.cursor/environment.json` builds `.devcontainer/Dockerfile` itself |
+
+`scripts/cloud-setup.sh` installs the global `vp` at the `vite-plus` version from
+`package.json`, then Node and pnpm through `vp env`. It needs network access to
+`raw.githubusercontent.com`, `registry.npmjs.org` and `nodejs.org`.
 - **Commands:** inside the container, plain `pnpm` and `vp` are the right commands. CI sets
   up the same `vp` with `voidzero-dev/setup-vp` and the same two variables.
 

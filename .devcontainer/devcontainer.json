@@ -4,13 +4,17 @@
   // Agents open PRs with gh (AGENTS.md).
   "features": { "ghcr.io/devcontainers/features/github-cli:1": {} },
   "containerEnv": {
-    // pnpm is pinned here, not with package.json's packageManager field: see
-    // test/repo.test.js. `vp install` reads the first, the pnpm shim the second.
-    "VP_PACKAGE_MANAGER": "pnpm@12.4.2",
-    "VP_PNPM_VERSION": "12.4.2",
+    // Every agent's login and settings live in one volume, so they survive rebuilds.
+    "CLAUDE_CONFIG_DIR": "/home/vp/.agents/claude",
+    "CODEX_HOME": "/home/vp/.agents/codex",
+    "CURSOR_CONFIG_DIR": "/home/vp/.agents/cursor",
+    "GH_CONFIG_DIR": "/home/vp/.agents/gh",
     "SSH_AUTH_SOCK": "/ssh-agent"
   },
+  // The agent CLIs install into ~/.local/bin.
+  "remoteEnv": { "PATH": "${containerEnv:HOME}/.local/bin:${containerEnv:PATH}" },
   "mounts": [
+    "source=luzid-agents,target=/home/vp/.agents,type=volume",
     // Signed commits: the host agent (Colima `--ssh-agent` puts it here) and git identity.
     "source=/run/host-services/ssh-auth.sock,target=/ssh-agent,type=bind",
     "source=${localEnv:HOME}/.gitconfig,target=/home/vp/.gitconfig,type=bind,readonly"
@@ -19,7 +23,7 @@
   "forwardPorts": [5173],
   "customizations": {
     "vscode": {
-      "extensions": ["oxc.oxc-vscode"],
+      "extensions": ["oxc.oxc-vscode", "anthropic.claude-code"],
       "settings": { "editor.defaultFormatter": "oxc.oxc-vscode" }
     }
   }

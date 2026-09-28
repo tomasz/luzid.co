@@ -36,13 +36,15 @@ test("the pnpm version is pinned identically everywhere", async () => {
     assert.equal(yml.includes("pnpm/action-setup"), false, `${file}: setup-vp provides pnpm`);
   }
 
-  const dc = jsonc(await read(".devcontainer/devcontainer.json"));
-  assert.equal(
-    dc.containerEnv.VP_PACKAGE_MANAGER,
-    `pnpm@${wanted}`,
-    "devcontainer VP_PACKAGE_MANAGER",
+  // The devcontainer and Cursor's cloud agents share .devcontainer/Dockerfile's ENV.
+  // scripts/cloud-setup.sh reads engines.pnpm itself, so it cannot drift.
+  const docker = await read(".devcontainer/Dockerfile");
+  assert.match(
+    docker,
+    new RegExp(`VP_PACKAGE_MANAGER=pnpm@${wanted}\\s`),
+    "Dockerfile VP_PACKAGE_MANAGER",
   );
-  assert.equal(dc.containerEnv.VP_PNPM_VERSION, wanted, "devcontainer VP_PNPM_VERSION");
+  assert.match(docker, new RegExp(`VP_PNPM_VERSION=${wanted}\\s`), "Dockerfile VP_PNPM_VERSION");
 
   assert.ok(
     (await read("AGENTS.md")).includes(`pnpm@${wanted}`),
