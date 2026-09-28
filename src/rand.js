@@ -14,9 +14,9 @@
  */
 
 /** Unit separator: it cannot occur in a seed or an axis key, so `seed + US + key` is injective. */
-const US = '\u001f'
+const US = "\u001f";
 
-const POW32 = 4294967296
+const POW32 = 4294967296;
 
 /**
  * xmur3a, one-shot: a murmur3 block round per UTF-16 code unit over the FNV offset basis,
@@ -27,21 +27,21 @@ const POW32 = 4294967296
  * @returns {number} uint32
  */
 export function h32(str) {
-  let h = 2166136261 >>> 0
+  let h = 2166136261 >>> 0;
   for (let i = 0; i < str.length; i++) {
-    let k = Math.imul(str.charCodeAt(i), 3432918353)
-    k = (k << 15) | (k >>> 17)
-    h ^= Math.imul(k, 461845907)
-    h = (h << 13) | (h >>> 19)
-    h = (Math.imul(h, 5) + 3864292196) | 0
+    let k = Math.imul(str.charCodeAt(i), 3432918353);
+    k = (k << 15) | (k >>> 17);
+    h ^= Math.imul(k, 461845907);
+    h = (h << 13) | (h >>> 19);
+    h = (Math.imul(h, 5) + 3864292196) | 0;
   }
-  h ^= str.length
-  h ^= h >>> 16
-  h = Math.imul(h, 2246822507)
-  h ^= h >>> 13
-  h = Math.imul(h, 3266489909)
-  h ^= h >>> 16
-  return h >>> 0
+  h ^= str.length;
+  h ^= h >>> 16;
+  h = Math.imul(h, 2246822507);
+  h ^= h >>> 13;
+  h = Math.imul(h, 3266489909);
+  h ^= h >>> 16;
+  return h >>> 0;
 }
 
 /**
@@ -53,13 +53,13 @@ export function h32(str) {
  * @returns {number} uint32
  */
 export function mix32(h) {
-  let x = h | 0
-  x ^= x >>> 16
-  x = Math.imul(x, 0x21f0aaad)
-  x ^= x >>> 15
-  x = Math.imul(x, 0x735a2d97)
-  x ^= x >>> 15
-  return x >>> 0
+  let x = h | 0;
+  x ^= x >>> 16;
+  x = Math.imul(x, 0x21f0aaad);
+  x ^= x >>> 15;
+  x = Math.imul(x, 0x735a2d97);
+  x ^= x >>> 15;
+  return x >>> 0;
 }
 
 /**
@@ -70,7 +70,7 @@ export function mix32(h) {
  * @returns {number}
  */
 export function draw(seed, key) {
-  return h32(seed + US + key) / POW32
+  return h32(seed + US + key) / POW32;
 }
 
 /**
@@ -81,7 +81,7 @@ export function draw(seed, key) {
  * @returns {number}
  */
 export function round4(n) {
-  return Math.round(n * 10000) / 10000
+  return Math.round(n * 10000) / 10000;
 }
 
 /**
@@ -99,25 +99,25 @@ export function round4(n) {
  * @returns {T | null}
  */
 export function weighted(seed, key, candidates, oddsOf) {
-  const items = [...candidates].sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0))
-  if (items.length === 0) return null
+  const items = [...candidates].sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+  if (items.length === 0) return null;
 
-  const odds = new Array(items.length)
-  let total = 0
+  const odds = new Array(items.length);
+  let total = 0;
   for (let i = 0; i < items.length; i++) {
-    const o = Math.floor(oddsOf(items[i]))
-    odds[i] = o > 0 ? o : 0
-    total += odds[i]
+    const o = Math.floor(oddsOf(items[i]));
+    odds[i] = o > 0 ? o : 0;
+    total += odds[i];
   }
   // Every odds is 0 (a catalog of retired items only). Stay total: return the first.
-  if (total === 0) return items[0]
+  if (total === 0) return items[0];
 
-  let x = Math.floor(draw(seed, key) * total)
+  let x = Math.floor(draw(seed, key) * total);
   for (let i = 0; i < items.length; i++) {
-    x -= odds[i]
-    if (x < 0) return items[i]
+    x -= odds[i];
+    if (x < 0) return items[i];
   }
-  return items[items.length - 1]
+  return items[items.length - 1];
 }
 
 /**
@@ -130,10 +130,10 @@ export function weighted(seed, key, candidates, oddsOf) {
  * @returns {number}
  */
 export function step(seed, key, spec) {
-  const [min, max, size] = spec
-  const n = Math.floor((max - min) / size) + 1
-  const i = n > 1 ? Math.floor(draw(seed, key) * n) : 0
-  return round4(min + i * size)
+  const [min, max, size] = spec;
+  const n = Math.floor((max - min) / size) + 1;
+  const i = n > 1 ? Math.floor(draw(seed, key) * n) : 0;
+  return round4(min + i * size);
 }
 
 /**
@@ -146,5 +146,5 @@ export function step(seed, key, spec) {
  * @returns {boolean}
  */
 export function flag(seed, key, numer, denom) {
-  return Math.floor(draw(seed, key) * denom) < numer
+  return Math.floor(draw(seed, key) * denom) < numer;
 }

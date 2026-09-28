@@ -11,18 +11,18 @@
  * silent mis-decode would look like a fit bug.
  */
 
-import { inflateSync } from 'node:zlib'
+import { inflateSync } from "node:zlib";
 
 /** Samples per pixel, by PNG colour type. Type 3 stores one palette index. */
-const CHANNELS = { 0: 1, 2: 3, 3: 1, 4: 2, 6: 4 }
+const CHANNELS = { 0: 1, 2: 3, 3: 1, 4: 2, 6: 4 };
 
 /** @param {number} a left @param {number} b up @param {number} c up-left */
 function paeth(a, b, c) {
-  const p = a + b - c
-  const pa = Math.abs(p - a)
-  const pb = Math.abs(p - b)
-  const pc = Math.abs(p - c)
-  return pa <= pb && pa <= pc ? a : pb <= pc ? b : c
+  const p = a + b - c;
+  const pa = Math.abs(p - a);
+  const pb = Math.abs(p - b);
+  const pc = Math.abs(p - c);
+  return pa <= pb && pa <= pc ? a : pb <= pc ? b : c;
 }
 
 /**
@@ -35,17 +35,17 @@ function paeth(a, b, c) {
  * @param {number} bpp
  */
 function unfilter(raw, h, stride, bpp) {
-  const out = Buffer.alloc(h * stride)
+  const out = Buffer.alloc(h * stride);
   for (let y = 0; y < h; y++) {
-    const ft = raw[y * (stride + 1)]
-    const src = y * (stride + 1) + 1
-    const dst = y * stride
-    const up = dst - stride
+    const ft = raw[y * (stride + 1)];
+    const src = y * (stride + 1) + 1;
+    const dst = y * stride;
+    const up = dst - stride;
     for (let i = 0; i < stride; i++) {
-      const x = raw[src + i]
-      const a = i >= bpp ? out[dst + i - bpp] : 0
-      const b = y > 0 ? out[up + i] : 0
-      const c = y > 0 && i >= bpp ? out[up + i - bpp] : 0
+      const x = raw[src + i];
+      const a = i >= bpp ? out[dst + i - bpp] : 0;
+      const b = y > 0 ? out[up + i] : 0;
+      const c = y > 0 && i >= bpp ? out[up + i - bpp] : 0;
       // Buffer writes truncate to uint8, which is exactly the modulo the spec asks for.
       out[dst + i] =
         ft === 0
@@ -56,10 +56,10 @@ function unfilter(raw, h, stride, bpp) {
               ? x + b
               : ft === 3
                 ? x + ((a + b) >> 1)
-                : x + paeth(a, b, c)
+                : x + paeth(a, b, c);
     }
   }
-  return out
+  return out;
 }
 
 /**
@@ -69,78 +69,79 @@ function unfilter(raw, h, stride, bpp) {
  * @returns {{width: number, height: number, data: Uint8Array}}
  */
 export function decodePng(buf) {
-  if (buf.readUInt32BE(0) !== 0x89504e47) throw new Error('not a PNG')
+  if (buf.readUInt32BE(0) !== 0x89504e47) throw new Error("not a PNG");
 
-  let width = 0
-  let height = 0
-  let depth = 0
-  let ctype = 0
+  let width = 0;
+  let height = 0;
+  let depth = 0;
+  let ctype = 0;
   /** @type {Buffer | null} */
-  let plte = null
+  let plte = null;
   /** @type {Buffer[]} */
-  const idat = []
+  const idat = [];
 
-  for (let pos = 8; pos + 8 <= buf.length; ) {
-    const len = buf.readUInt32BE(pos)
-    const type = buf.toString('latin1', pos + 4, pos + 8)
-    const data = buf.subarray(pos + 8, pos + 8 + len)
-    if (type === 'IHDR') {
-      width = data.readUInt32BE(0)
-      height = data.readUInt32BE(4)
-      depth = data[8]
-      ctype = data[9]
-      if (data[12] !== 0) throw new Error('interlaced PNG is not supported')
-    } else if (type === 'PLTE') plte = Buffer.from(data)
-    else if (type === 'IDAT') idat.push(data)
-    else if (type === 'IEND') break
-    pos += 12 + len
+  for (let pos = 8; pos + 8 <= buf.length;) {
+    const len = buf.readUInt32BE(pos);
+    const type = buf.toString("latin1", pos + 4, pos + 8);
+    const data = buf.subarray(pos + 8, pos + 8 + len);
+    if (type === "IHDR") {
+      width = data.readUInt32BE(0);
+      height = data.readUInt32BE(4);
+      depth = data[8];
+      ctype = data[9];
+      if (data[12] !== 0) throw new Error("interlaced PNG is not supported");
+    } else if (type === "PLTE") plte = Buffer.from(data);
+    else if (type === "IDAT") idat.push(data);
+    else if (type === "IEND") break;
+    pos += 12 + len;
   }
 
-  const ch = CHANNELS[ctype]
-  if (ch === undefined) throw new Error(`unsupported PNG colour type ${ctype}`)
-  if (![1, 2, 4, 8, 16].includes(depth)) throw new Error(`unsupported PNG bit depth ${depth}`)
-  if (depth < 8 && ctype !== 0 && ctype !== 3) throw new Error(`bit depth ${depth} on type ${ctype}`)
+  const ch = CHANNELS[ctype];
+  if (ch === undefined) throw new Error(`unsupported PNG colour type ${ctype}`);
+  if (![1, 2, 4, 8, 16].includes(depth)) throw new Error(`unsupported PNG bit depth ${depth}`);
+  if (depth < 8 && ctype !== 0 && ctype !== 3)
+    throw new Error(`bit depth ${depth} on type ${ctype}`);
 
-  const stride = Math.ceil((width * ch * depth) / 8)
-  const bpp = Math.max(1, Math.ceil((ch * depth) / 8))
-  const rows = unfilter(inflateSync(Buffer.concat(idat)), height, stride, bpp)
+  const stride = Math.ceil((width * ch * depth) / 8);
+  const bpp = Math.max(1, Math.ceil((ch * depth) / 8));
+  const rows = unfilter(inflateSync(Buffer.concat(idat)), height, stride, bpp);
 
   // One sample as a 0-255 byte. 16-bit keeps the high byte; sub-byte depths are unpacked
   // and scaled, except palette indices, which are looked up rather than scaled.
-  const max = (1 << depth) - 1
+  const max = (1 << depth) - 1;
   const read = (row, i) => {
-    if (depth === 16) return rows[row + i * 2]
-    if (depth === 8) return rows[row + i]
-    const bit = i * depth
-    return (rows[row + (bit >> 3)] >> (8 - depth - (bit & 7))) & max
-  }
+    if (depth === 16) return rows[row + i * 2];
+    if (depth === 8) return rows[row + i];
+    const bit = i * depth;
+    return (rows[row + (bit >> 3)] >> (8 - depth - (bit & 7))) & max;
+  };
 
-  const data = new Uint8Array(width * height * 4)
+  const data = new Uint8Array(width * height * 4);
   for (let y = 0; y < height; y++) {
-    const row = y * stride
+    const row = y * stride;
     for (let x = 0; x < width; x++) {
-      const o = (y * width + x) * 4
+      const o = (y * width + x) * 4;
       if (ctype === 3) {
-        const i = read(row, x) * 3
-        data[o] = plte[i]
-        data[o + 1] = plte[i + 1]
-        data[o + 2] = plte[i + 2]
-        data[o + 3] = 255
+        const i = read(row, x) * 3;
+        data[o] = plte[i];
+        data[o + 1] = plte[i + 1];
+        data[o + 2] = plte[i + 2];
+        data[o + 3] = 255;
       } else if (ctype === 0 || ctype === 4) {
-        const g = depth < 8 ? Math.round((read(row, x * ch) * 255) / max) : read(row, x * ch)
-        data[o] = g
-        data[o + 1] = g
-        data[o + 2] = g
-        data[o + 3] = ctype === 4 ? read(row, x * ch + 1) : 255
+        const g = depth < 8 ? Math.round((read(row, x * ch) * 255) / max) : read(row, x * ch);
+        data[o] = g;
+        data[o + 1] = g;
+        data[o + 2] = g;
+        data[o + 3] = ctype === 4 ? read(row, x * ch + 1) : 255;
       } else {
-        data[o] = read(row, x * ch)
-        data[o + 1] = read(row, x * ch + 1)
-        data[o + 2] = read(row, x * ch + 2)
-        data[o + 3] = ctype === 6 ? read(row, x * ch + 3) : 255
+        data[o] = read(row, x * ch);
+        data[o + 1] = read(row, x * ch + 1);
+        data[o + 2] = read(row, x * ch + 2);
+        data[o + 3] = ctype === 6 ? read(row, x * ch + 3) : 255;
       }
     }
   }
-  return { width, height, data }
+  return { width, height, data };
 }
 
 /**
@@ -151,16 +152,16 @@ export function decodePng(buf) {
  * @param {{width: number, height: number, data: Uint8Array}} img
  */
 export function flatten(img) {
-  const d = img.data
+  const d = img.data;
   for (let i = 0; i < d.length; i += 4) {
-    const a = d[i + 3]
-    if (a === 255) continue
-    d[i] = Math.round((d[i] * a + 255 * (255 - a)) / 255)
-    d[i + 1] = Math.round((d[i + 1] * a + 255 * (255 - a)) / 255)
-    d[i + 2] = Math.round((d[i + 2] * a + 255 * (255 - a)) / 255)
-    d[i + 3] = 255
+    const a = d[i + 3];
+    if (a === 255) continue;
+    d[i] = Math.round((d[i] * a + 255 * (255 - a)) / 255);
+    d[i + 1] = Math.round((d[i + 1] * a + 255 * (255 - a)) / 255);
+    d[i + 2] = Math.round((d[i + 2] * a + 255 * (255 - a)) / 255);
+    d[i + 3] = 255;
   }
-  return img
+  return img;
 }
 
 /**
@@ -171,23 +172,23 @@ export function flatten(img) {
  * @param {(r: number, g: number, b: number) => boolean} hit
  */
 export function bbox(img, hit) {
-  const { width, height, data } = img
-  let x0 = Infinity
-  let y0 = Infinity
-  let x1 = -Infinity
-  let y1 = -Infinity
-  let n = 0
+  const { width, height, data } = img;
+  let x0 = Infinity;
+  let y0 = Infinity;
+  let x1 = -Infinity;
+  let y1 = -Infinity;
+  let n = 0;
   for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
-      const o = (y * width + x) * 4
-      if (!hit(data[o], data[o + 1], data[o + 2])) continue
-      n++
-      if (x < x0) x0 = x
-      if (x > x1) x1 = x
-      if (y < y0) y0 = y
-      if (y > y1) y1 = y
+      const o = (y * width + x) * 4;
+      if (!hit(data[o], data[o + 1], data[o + 2])) continue;
+      n++;
+      if (x < x0) x0 = x;
+      if (x > x1) x1 = x;
+      if (y < y0) y0 = y;
+      if (y > y1) y1 = y;
     }
   }
-  if (n === 0) return null
-  return { x0, y0, x1, y1, w: x1 - x0 + 1, h: y1 - y0 + 1, n }
+  if (n === 0) return null;
+  return { x0, y0, x1, y1, w: x1 - x0 + 1, h: y1 - y0 + 1, n };
 }

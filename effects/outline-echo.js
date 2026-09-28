@@ -20,21 +20,21 @@ const DIR = [
   [-1, 1],
   [-1, -1],
   [1, -1],
-]
+];
 
 /** Outward allowance per unit of stroke width; see `outline-hollow.js` for the derivation. */
-const MITER = 0.8
+const MITER = 0.8;
 
 export default {
-  id: 'outline-echo',
-  family: 'outline',
-  shape: 'B',
+  id: "outline-echo",
+  family: "outline",
+  shape: "B",
   colors: 3,
-  bg: 'any',
+  bg: "any",
   odds: 4,
   fonts: {
-    deny: ['hairline', 'script', 'brush', 'connected', 'inline', 'shaded'],
-    prefer: ['fat', 'sans'],
+    deny: ["hairline", "script", "brush", "connected", "inline", "shaded"],
+    prefer: ["fat", "sans"],
   },
   palettes: { prefer: [] },
   // R14: a .012-.03em stroke stepped .03-.08em per copy, converted at 1em = 100/W1 u
@@ -45,15 +45,15 @@ export default {
 
   /** @param {{sw: number, o: number, q: number}} p */
   bleed: (p) => {
-    const [sx, sy] = DIR[p.q]
-    const s = MITER * p.sw
-    const far = 2 * p.o
+    const [sx, sy] = DIR[p.q];
+    const s = MITER * p.sw;
+    const far = 2 * p.o;
     return {
       t: s + (sy < 0 ? far : 0),
       r: s + (sx > 0 ? far : 0),
       b: s + (sy > 0 ? far : 0),
       l: s + (sx < 0 ? far : 0),
-    }
+    };
   },
 
   /**
@@ -61,8 +61,8 @@ export default {
    * @param {typeof import('../src/helpers.js').helpers} h
    */
   css: (p, h) => {
-    const [sx, sy] = DIR[p.q]
-    const far = h.mix('var(--a1)', 'var(--bg)', 45)
+    const [sx, sy] = DIR[p.q];
+    const far = h.mix("var(--a1)", "var(--bg)", 45);
     return (
       `.l::before{content:attr(data-t) / "";color:var(--bg);` +
       `-webkit-text-stroke:${h.u(p.sw)} var(--a1);paint-order:stroke fill;` +
@@ -70,10 +70,10 @@ export default {
       `.l::after{content:attr(data-t) / "";color:var(--bg);` +
       `-webkit-text-stroke:${h.u(p.sw)} ${far};paint-order:stroke fill;` +
       `translate:${h.u(2 * sx * p.o)} ${h.u(2 * sy * p.o)};z-index:-2}`
-    )
+    );
   },
 
   /** The house lift. The stack must not move: every copy's reach is already in the bleed. */
-  hover: () => 'filter:brightness(1.06)',
+  hover: () => "filter:brightness(1.06)",
   motion: null,
-}
+};

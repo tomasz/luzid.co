@@ -24,7 +24,9 @@
  * @param {(t: number) => string} tint
  */
 const ramp = (h, n, a, d, tint) =>
-  Array.from({ length: n }, (_, i) => h.stack(1, a, (d * (i + 1)) / n, tint((i + 1) / n))).join(',')
+  Array.from({ length: n }, (_, i) => h.stack(1, a, (d * (i + 1)) / n, tint((i + 1) / n))).join(
+    ",",
+  );
 
 /**
  * @param {number} a
@@ -35,19 +37,19 @@ const dir = (a, d) => ({
   r: a < 90 || a > 270 ? d : 0,
   b: a > 0 && a < 180 ? d : 0,
   l: a > 90 && a < 270 ? d : 0,
-})
+});
 
 /** The measured cap. The ramp always spends all of it: the step size is the artefact. */
-const LAYERS = 64
+const LAYERS = 64;
 
 export default {
-  id: 'depth-long',
-  family: 'depth',
-  shape: 'A',
+  id: "depth-long",
+  family: "depth",
+  shape: "A",
   colors: 3,
-  bg: 'any',
+  bg: "any",
   odds: 3,
-  fonts: { deny: ['hairline', 'script', 'shaded'], prefer: ['fat', 'sans'] },
+  fonts: { deny: ["hairline", "script", "shaded"], prefer: ["fat", "sans"] },
   palettes: { prefer: [] },
   params: { d: [8, 20, 4], a: [45, 135, 90] },
 
@@ -63,10 +65,10 @@ export default {
     // over the outer third. A linear fade spends most of the reserved bleed on ink too
     // close to the ground to see, which leaves the name sitting off-centre in its own box.
     // `t * t` is exact in binary floating point, so the emitted CSS stays byte-stable.
-    const tint = (t) => (t === 0 ? 'var(--a1)' : h.mix('var(--bg)', 'var(--a1)', 100 * t * t))
-    return `.n{text-shadow:${ramp(h, LAYERS, p.a, p.d, tint)}}`
+    const tint = (t) => (t === 0 ? "var(--a1)" : h.mix("var(--bg)", "var(--a1)", 100 * t * t));
+    return `.n{text-shadow:${ramp(h, LAYERS, p.a, p.d, tint)}}`;
   },
 
-  hover: () => 'filter:brightness(1.05)',
+  hover: () => "filter:brightness(1.05)",
   motion: null,
-}
+};

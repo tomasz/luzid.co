@@ -31,10 +31,10 @@
  * width, ~600px of line 1). Guessing low is what shows facets, and the extra layers are
  * ~0.05 ms each on the spike's GPU numbers, so the headroom is nearly free.
  */
-const FIT_PX = 600
+const FIT_PX = 600;
 
 /** Per-ring layer cap, so the two rings together can never exceed the measured 64. */
-const CAP = 32
+const CAP = 32;
 
 /**
  * Layers for a ring of radius `r` u, from the spike's smoothness rule.
@@ -42,18 +42,18 @@ const CAP = 32
  * @param {number} r radius in u
  * @param {number} uPx px per u at the largest expected fit
  */
-const layers = (r, uPx) => Math.min(CAP, Math.max(8, Math.ceil(Math.PI * Math.sqrt(r * uPx))))
+const layers = (r, uPx) => Math.min(CAP, Math.max(8, Math.ceil(Math.PI * Math.sqrt(r * uPx))));
 
 export default {
-  id: 'outline-ring',
-  family: 'outline',
-  shape: 'A',
+  id: "outline-ring",
+  family: "outline",
+  shape: "A",
   colors: 2,
-  bg: 'any',
+  bg: "any",
   odds: 3,
   fonts: {
-    deny: ['hairline', 'serif', 'script', 'brush', 'connected', 'blackletter', 'inline', 'shaded'],
-    prefer: ['fat'],
+    deny: ["hairline", "serif", "script", "brush", "connected", "blackletter", "inline", "shaded"],
+    prefer: ["fat"],
   },
   palettes: { prefer: [] },
   // R18's .01-.08em radius at 1em = 100/W1 u, i.e. ~25u, so .08em is 2u. The top of the
@@ -72,17 +72,17 @@ export default {
     // 1u is 1% of the block width; m.fs[0] is line 1's font-size in u, so u→px at the
     // largest expected fit is FIT_PX / m.fs[0]. The ring is sized against line 1 because
     // it is the larger of the two under `stack-fit`.
-    const uPx = FIT_PX / m.fs[0]
-    const inner = p.r / 2
+    const uPx = FIT_PX / m.fs[0];
+    const inner = p.r / 2;
     // The inner ring is listed first because the first shadow paints on top: it fills the
     // band the outer ring leaves behind a thin stem before the outer ring can show through.
     return (
-      `.n{color:var(--bg);text-shadow:${h.ring(layers(inner, uPx), inner, 'var(--fg)')},` +
-      `${h.ring(layers(p.r, uPx), p.r, 'var(--fg)')}}`
-    )
+      `.n{color:var(--bg);text-shadow:${h.ring(layers(inner, uPx), inner, "var(--fg)")},` +
+      `${h.ring(layers(p.r, uPx), p.r, "var(--fg)")}}`
+    );
   },
 
   /** The outline fills in: face and ring become one solid letter. */
-  hover: () => 'color:var(--fg)',
+  hover: () => "color:var(--fg)",
   motion: null,
-}
+};

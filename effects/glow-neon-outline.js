@@ -26,7 +26,7 @@
  * display serif has. Budgeting the full width covers a miter of 2x, which is what the
  * measurement needed, and costs at most 0.4u.
  */
-const STROKE_OUTSET = 1
+const STROKE_OUTSET = 1;
 
 /**
  * R14 says a blurred layer reaches about one radius beyond its offset, and
@@ -35,21 +35,21 @@ const STROKE_OUTSET = 1
  * three passes compound. 1.3 clears the measured overshoot with about 0.7u to spare, which
  * is the margin the same number gives `glow-foil` in proportion.
  */
-const REACH = 1.3
+const REACH = 1.3;
 
 /** The three bloom radii, as fractions of `r`. `bleed()` sums them; the passes chain. */
-const RADII = [0.12, 0.42, 1]
-const SUM_R = RADII.reduce((a, b) => a + b, 0)
+const RADII = [0.12, 0.42, 1];
+const SUM_R = RADII.reduce((a, b) => a + b, 0);
 
 export default {
-  id: 'glow-neon-outline',
-  family: 'glow',
-  shape: 'A',
+  id: "glow-neon-outline",
+  family: "glow",
+  shape: "A",
   colors: 3,
-  bg: 'dark',
+  bg: "dark",
   odds: 4,
-  fonts: { deny: ['hairline', 'overlap', 'inline', 'shaded'], prefer: ['fat', 'rounded'] },
-  palettes: { prefer: ['dark'] },
+  fonts: { deny: ["hairline", "overlap", "inline", "shaded"], prefer: ["fat", "rounded"] },
+  palettes: { prefer: ["dark"] },
   // w = stroke width in hundredths of a u (0.35u–0.80u). The floor is set by the phone: at
   // a 390 px viewport 1u is about 3.6 device px, so anything under ~0.35u renders as a
   // sub-pixel hairline and the tube stops reading as glass.
@@ -67,8 +67,8 @@ export default {
    * @param {{w: number, r: number}} p
    */
   bleed: (p) => {
-    const o = REACH * SUM_R * (p.r / 10) + (STROKE_OUTSET * p.w) / 100
-    return { t: o, r: o, b: o, l: o }
+    const o = REACH * SUM_R * (p.r / 10) + (STROKE_OUTSET * p.w) / 100;
+    return { t: o, r: o, b: o, l: o };
   },
 
   /**
@@ -82,7 +82,7 @@ export default {
   /** @param {{w: number, r: number, t: number}} p @param {typeof import('../src/helpers.js').helpers} h */
   hover: (p, h) => `filter:${bloom(p, h)} brightness(1.16)`,
   motion: null,
-}
+};
 
 /**
  * The bloom chain, shared by `css` and `hover`: hover must re-state it, because a bare
@@ -93,10 +93,10 @@ export default {
  * @param {typeof import('../src/helpers.js').helpers} h
  */
 function bloom(p, h) {
-  const r = p.r / 10
-  const tube = h.mix('var(--a1)', 'var(--fg)', p.t)
-  const core = h.mix('var(--a1)', 'var(--fg)', p.t / 4)
+  const r = p.r / 10;
+  const tube = h.mix("var(--a1)", "var(--fg)", p.t);
+  const core = h.mix("var(--a1)", "var(--fg)", p.t / 4);
   // Same list `bleed()` sums, so the declaration cannot drift away from the paint.
-  const colour = [core, tube, tube]
-  return RADII.map((k, i) => `drop-shadow(0 0 ${h.u(r * k)} ${colour[i]})`).join(' ')
+  const colour = [core, tube, tube];
+  return RADII.map((k, i) => `drop-shadow(0 0 ${h.u(r * k)} ${colour[i]})`).join(" ");
 }

@@ -25,7 +25,7 @@
  * set where the ink is the darker of the two the edge simply lights from below. It still
  * reads as a bevel, which is why this is a note and not a `bg` restriction.
  */
-const pc = (x) => `${Math.round(x * 10) / 10}%`
+const pc = (x) => `${Math.round(x * 10) / 10}%`;
 
 /**
  * The keyline's outset, as a multiple of its own width. Geometrically 0.5 —
@@ -34,23 +34,23 @@ const pc = (x) => `${Math.round(x * 10) / 10}%`
  * covers a 2x miter and costs at most 0.15u. See `glow-neon-outline`, which was measured
  * short for the same reason.
  */
-const STROKE_OUTSET = 1
+const STROKE_OUTSET = 1;
 
 /** R14's one-radius reach, plus the margin a blur spreading from a stroke edge needs. */
-const REACH = 1.3
+const REACH = 1.3;
 
 /** The ambient pass's blur radius in u. `bleed()` and `bevel()` share it. */
-const AMBIENT = 1.1
+const AMBIENT = 1.1;
 
 export default {
-  id: 'glow-foil',
-  family: 'glow',
-  shape: 'A',
+  id: "glow-foil",
+  family: "glow",
+  shape: "A",
   colors: 3,
-  bg: 'any',
+  bg: "any",
   odds: 4,
-  fonts: { deny: ['hairline', 'inline', 'shaded'], prefer: ['serif', 'deco'] },
-  palettes: { prefer: ['n3'] },
+  fonts: { deny: ["hairline", "inline", "shaded"], prefer: ["serif", "deco"] },
+  palettes: { prefer: ["n3"] },
   // a = sheen angle, a few degrees either side of vertical. s = tint strength.
   // o = bevel step in tenths of a u. k = keyline width in hundredths of a u.
   // R37's bevel offsets are .004–.01em and its ambient blur .03–.06em. A line of the name
@@ -72,9 +72,9 @@ export default {
    * @param {{o: number, k: number}} p
    */
   bleed: (p) => {
-    const o = p.o / 10
-    const side = (STROKE_OUTSET * p.k) / 100 + REACH * AMBIENT
-    return { t: o + side, r: side, b: o * 2.6 + side, l: side }
+    const o = p.o / 10;
+    const side = (STROKE_OUTSET * p.k) / 100 + REACH * AMBIENT;
+    return { t: o + side, r: side, b: o * 2.6 + side, l: side };
   },
 
   /**
@@ -82,9 +82,9 @@ export default {
    * @param {typeof import('../src/helpers.js').helpers} h
    */
   css: (p, h) => {
-    const warm = h.mix('var(--a1)', 'var(--fg)', p.s)
-    const glint = h.mix('var(--a1)', 'var(--fg)', p.s * 0.3)
-    const deep = h.mix('var(--a1)', 'var(--fg)', p.s * 1.15)
+    const warm = h.mix("var(--a1)", "var(--fg)", p.s);
+    const glint = h.mix("var(--a1)", "var(--fg)", p.s * 0.3);
+    const deep = h.mix("var(--a1)", "var(--fg)", p.s * 1.15);
     const stops = [
       `${warm} 0%`,
       `${glint} ${pc(22)}`,
@@ -93,32 +93,32 @@ export default {
       `${deep} ${pc(63)}`,
       `${glint} ${pc(81)}`,
       `${warm} 100%`,
-    ]
+    ];
     return (
-      `.n{-webkit-text-stroke:${h.u(p.k / 100)} ${h.mix('var(--fg)', 'var(--a1)', 80)};` +
+      `.n{-webkit-text-stroke:${h.u(p.k / 100)} ${h.mix("var(--fg)", "var(--a1)", 80)};` +
       `filter:${bevel(p, h)}}` +
-      `.l{background-image:linear-gradient(${p.a}deg,${stops.join(',')});` +
+      `.l{background-image:linear-gradient(${p.a}deg,${stops.join(",")});` +
       `background-size:100% calc(var(--bh)*var(--u));` +
       `background-position:0 calc(-1*var(--y)*var(--u));background-repeat:no-repeat;` +
       `-webkit-background-clip:text;background-clip:text;` +
       `-webkit-text-fill-color:transparent;color:transparent}`
-    )
+    );
   },
 
   /** @param {{o: number}} p @param {typeof import('../src/helpers.js').helpers} h */
   hover: (p, h) => `filter:${bevel(p, h)} brightness(1.05)`,
   motion: null,
-}
+};
 
 /**
  * @param {{o: number}} p
  * @param {typeof import('../src/helpers.js').helpers} h
  */
 function bevel(p, h) {
-  const o = p.o / 10
+  const o = p.o / 10;
   return (
-    `drop-shadow(0 ${h.u(-o)} 0 ${h.mix('var(--fg)', 'var(--a1)', 60)}) ` +
-    `drop-shadow(0 ${h.u(o)} 0 ${h.mix('var(--bg)', 'var(--a1)', 45)}) ` +
-    `drop-shadow(0 ${h.u(o * 1.6)} ${h.u(AMBIENT)} ${h.mix('var(--bg)', 'var(--a1)', 75)})`
-  )
+    `drop-shadow(0 ${h.u(-o)} 0 ${h.mix("var(--fg)", "var(--a1)", 60)}) ` +
+    `drop-shadow(0 ${h.u(o)} 0 ${h.mix("var(--bg)", "var(--a1)", 45)}) ` +
+    `drop-shadow(0 ${h.u(o * 1.6)} ${h.u(AMBIENT)} ${h.mix("var(--bg)", "var(--a1)", 75)})`
+  );
 }

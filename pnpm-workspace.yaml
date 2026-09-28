@@ -20,4 +20,4 @@ overrides:
 # every version below is past the one-day gate; test/repo.test.js then forbids the key.
 minimumReleaseAgeExclude:
   - vite-plus
-  - '@voidzero-dev/*'
+  - "@voidzero-dev/*"

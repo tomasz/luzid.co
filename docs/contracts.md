@@ -185,21 +185,21 @@ code unit over the FNV offset basis, finished with murmur3's `fmix32`. Integer m
 
 ```js
 export function h32(str) {
-  let h = 2166136261 >>> 0
+  let h = 2166136261 >>> 0;
   for (let i = 0; i < str.length; i++) {
-    let k = Math.imul(str.charCodeAt(i), 3432918353)
-    k = (k << 15) | (k >>> 17)
-    h ^= Math.imul(k, 461845907)
-    h = (h << 13) | (h >>> 19)
-    h = (Math.imul(h, 5) + 3864292196) | 0
+    let k = Math.imul(str.charCodeAt(i), 3432918353);
+    k = (k << 15) | (k >>> 17);
+    h ^= Math.imul(k, 461845907);
+    h = (h << 13) | (h >>> 19);
+    h = (Math.imul(h, 5) + 3864292196) | 0;
   }
-  h ^= str.length
-  h ^= h >>> 16
-  h = Math.imul(h, 2246822507)
-  h ^= h >>> 13
-  h = Math.imul(h, 3266489909)
-  h ^= h >>> 16
-  return h >>> 0
+  h ^= str.length;
+  h ^= h >>> 16;
+  h = Math.imul(h, 2246822507);
+  h ^= h >>> 13;
+  h = Math.imul(h, 3266489909);
+  h ^= h >>> 16;
+  return h >>> 0;
 }
 ```
 

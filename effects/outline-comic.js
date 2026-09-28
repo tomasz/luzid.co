@@ -18,24 +18,24 @@
  */
 
 /** Down-right and down-left. The drop always falls, so only the x sign is drawn. */
-const DIR = [1, -1]
+const DIR = [1, -1];
 
 /** Outward allowance per unit of stroke width; see `outline-hollow.js` for the derivation. */
-const MITER = 0.8
+const MITER = 0.8;
 
 /** Hover presses the letters toward their shadow, to this fraction of the offset. */
-const PRESS = 0.45
+const PRESS = 0.45;
 
 export default {
-  id: 'outline-comic',
-  family: 'outline',
-  shape: 'A',
+  id: "outline-comic",
+  family: "outline",
+  shape: "A",
   colors: 3,
-  bg: 'any',
+  bg: "any",
   odds: 4,
   fonts: {
-    deny: ['hairline', 'script', 'brush', 'connected', 'inline', 'shaded', 'stencil'],
-    prefer: ['fat', 'deco', 'sans'],
+    deny: ["hairline", "script", "brush", "connected", "inline", "shaded", "stencil"],
+    prefer: ["fat", "deco", "sans"],
   },
   palettes: { prefer: [] },
   // R22: a .04-.1em keyline with the drop .05-.14em away, at 1em = 100/W1 u (24-33u here).
@@ -44,9 +44,9 @@ export default {
 
   /** @param {{sw: number, d: number, q: number}} p */
   bleed: (p) => {
-    const sx = DIR[p.q]
-    const s = MITER * p.sw
-    return { t: s, r: s + (sx > 0 ? p.d : 0), b: s + p.d, l: s + (sx < 0 ? p.d : 0) }
+    const sx = DIR[p.q];
+    const s = MITER * p.sw;
+    return { t: s, r: s + (sx > 0 ? p.d : 0), b: s + p.d, l: s + (sx < 0 ? p.d : 0) };
   },
 
   /**
@@ -54,11 +54,11 @@ export default {
    * @param {typeof import('../src/helpers.js').helpers} h
    */
   css: (p, h) => {
-    const sx = DIR[p.q]
+    const sx = DIR[p.q];
     return (
       `.n{color:var(--a1);-webkit-text-stroke:${h.u(p.sw)} var(--fg);paint-order:stroke fill;` +
       `text-shadow:${h.u(sx * p.d)} ${h.u(p.d)} 0 var(--fg)}`
-    )
+    );
   },
 
   /**
@@ -70,8 +70,8 @@ export default {
    * @param {typeof import('../src/helpers.js').helpers} h
    */
   hover: (p, h) => {
-    const sx = DIR[p.q]
-    return `text-shadow:${h.u(PRESS * sx * p.d)} ${h.u(PRESS * p.d)} 0 var(--fg)`
+    const sx = DIR[p.q];
+    return `text-shadow:${h.u(PRESS * sx * p.d)} ${h.u(PRESS * p.d)} 0 var(--fg)`;
   },
   motion: null,
-}
+};
