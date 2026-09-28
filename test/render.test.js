@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict'
-import { test } from 'node:test'
+import { expect, test } from 'vite-plus/test'
 import { brotliCompressSync } from 'node:zlib'
 import { helpers } from '../src/helpers.js'
 import { FALLBACK_FONT, pick, pickString, resolve } from '../src/pick.js'
@@ -27,11 +27,11 @@ function gateRange(css) {
   throw new Error('unbalanced gate')
 }
 
-test('golden HTML per fixture seed', async (t) => {
+test('golden HTML per fixture seed', async () => {
   // One file per seed, never one shared snapshot: a diff has to be readable, and the file
-  // opens in a browser as-is. Refresh with `node --test --test-update-snapshots`.
+  // opens in a browser as-is. The path is relative to this file. Refresh with `vp test -u`.
   for (const seed of GOLDEN_SEEDS) {
-    t.assert.fileSnapshot(page(seed).html, `test/golden/html/${seed}.html`)
+    await expect(page(seed).html).toMatchFileSnapshot(`./golden/html/${seed}.html`)
   }
 })
 

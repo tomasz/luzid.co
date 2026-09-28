@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { readdir, readFile } from 'node:fs/promises'
-import { test } from 'node:test'
+import { test } from 'vite-plus/test'
 import { brotliCompressSync, constants } from 'node:zlib'
 import { build, parse } from '../scripts/sfnt.mjs'
 import { decode, decodeTables, encode } from '../scripts/woff2.mjs'

@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict'
-import { test } from 'node:test'
+import { test } from 'vite-plus/test'
 import { BUCKET_ODDS, denied, LAYOUTS, PickError, pick, pickString } from '../src/pick.js'
 import { fixtureCatalog, GOLDEN_SEEDS } from './catalog.js'
 

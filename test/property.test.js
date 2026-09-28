@@ -7,7 +7,7 @@
  * catalog is the thing that actually ships and it is currently near-empty.
  */
 import assert from 'node:assert/strict'
-import { test } from 'node:test'
+import { test } from 'vite-plus/test'
 import { brotliCompressSync } from 'node:zlib'
 import { denied, LAYOUTS, pick, pickString, resolve } from '../src/pick.js'
 import { render } from '../src/render.js'
