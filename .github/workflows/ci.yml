@@ -16,6 +16,9 @@ env:
   WRANGLER_SEND_METRICS: "false"
   # Read by e2e/fit-lib.js. A pull_request run has no inputs, so it is always `changed`.
   FIT_SCOPE: ${{ inputs.fit-scope || 'changed' }}
+  # pnpm for `vp install` and for the pnpm shim; test/repo.test.js keeps both = devEngines.packageManager.
+  VP_PACKAGE_MANAGER: "pnpm@12.4.2"
+  VP_PNPM_VERSION: "12.4.2"
 
 # Inside a called workflow `github.workflow` resolves to the CALLER's name, so a shared
 # group expression would make cd.yml deadlock against its own ci job. The scope keeps a
@@ -31,14 +34,9 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+      - uses: voidzero-dev/setup-vp@3754dd7dbdb32bd8f6d28b6043de13ad3a75f21f # v1.21.1
         with:
-          version: 12.4.2 # keep in sync with devEngines.packageManager; test/repo.test.js enforces it
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version-file: package.json # engines.node, the one place the version is declared
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
+          cache: true # vp version from package.json, Node from engines.node; runs vp install
       - run: pnpm run check
 
   e2e:
@@ -58,14 +56,9 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0 # --changed scopes need the base branch
-      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+      - uses: voidzero-dev/setup-vp@3754dd7dbdb32bd8f6d28b6043de13ad3a75f21f # v1.21.1
         with:
-          version: 12.4.2 # keep in sync with devEngines.packageManager; test/repo.test.js enforces it
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version-file: package.json # engines.node, the one place the version is declared
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
+          cache: true # vp version from package.json, Node from engines.node; runs vp install
       # Only the engine this job runs; installing all three costs minutes per job.
       - run: pnpm exec playwright install --with-deps ${{ matrix.project }}
       # The webServer in playwright.config.js builds the Worker and serves it with vp preview.

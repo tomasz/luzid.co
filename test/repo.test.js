@@ -27,12 +27,13 @@ test('the pnpm version is pinned identically everywhere', async () => {
   const wanted = pkg.devEngines.packageManager.version
   assert.match(wanted, /^\d+\.\d+\.\d+$/, 'devEngines.packageManager.version must be exact')
 
+  // setup-vp in CI pins pnpm through these two variables: VP_PACKAGE_MANAGER for
+  // `vp install`, VP_PNPM_VERSION for `pnpm`.
   for (const file of ['.github/workflows/ci.yml', '.github/workflows/cd.yml']) {
     const yml = await read(file)
-    const setups = [...yml.matchAll(/pnpm\/action-setup@[^\n]*\n\s*with:\n\s*version:\s*(\S+)/g)]
-    const bare = (yml.match(/pnpm\/action-setup@/g) ?? []).length
-    assert.equal(setups.length, bare, `${file}: every pnpm/action-setup needs an explicit version`)
-    for (const [, v] of setups) assert.equal(v, wanted, `${file} pins pnpm ${v}, package.json says ${wanted}`)
+    assert.match(yml, new RegExp(`VP_PACKAGE_MANAGER: "?pnpm@${wanted}"?\\n`), `${file} VP_PACKAGE_MANAGER`)
+    assert.match(yml, new RegExp(`VP_PNPM_VERSION: "?${wanted}"?\\n`), `${file} VP_PNPM_VERSION`)
+    assert.equal(yml.includes('pnpm/action-setup'), false, `${file}: setup-vp provides pnpm`)
   }
 
   // onFail must stay "ignore": any other value adds the second lockfile document (see above).
