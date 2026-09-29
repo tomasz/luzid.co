@@ -13,6 +13,8 @@ import { readdirSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
+import { test } from '@playwright/test'
+
 import { flag, step, weighted } from '../src/rand.js'
 import { bbox, decodePng, flatten } from './png.js'
 
@@ -338,8 +340,32 @@ export async function shoot(page, href, vp, opts = {}) {
     await page.waitForTimeout(320)
   }
   const probe = await page.evaluate(PROBE)
-  const img = flatten(decodePng(await page.screenshot()))
+  const img = flatten(decodePng(await capture(page)))
   return { pick: res.headers()['luzid-pick'], probe, img }
+}
+
+/**
+ * `page.screenshot()`, retried when Chromium hands back no frame at all. That protocol
+ * error was every Chromium flake in CI from 22 to 29 September 2026, up to 23 in one run,
+ * and never a measurement: nothing was captured, and the page it retries on is already
+ * settled. Any other error is thrown at once. A retry is annotated on the test, so the
+ * flake stays countable in the report after it stops failing runs.
+ *
+ * @param {import('@playwright/test').Page} page
+ */
+async function capture(page) {
+  for (let attempt = 1; ; attempt++) {
+    try {
+      return await page.screenshot()
+    } catch (e) {
+      if (attempt === 3 || !String(e?.message).includes('Unable to capture screenshot')) throw e
+      test
+        .info()
+        .annotations.push({ type: 'capture-retry', description: `attempt ${attempt} · ${page.url()}` })
+      // Two frames: the compositor gets a full frame to produce the surface it lacked.
+      await page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))))
+    }
+  }
 }
 
 /**
