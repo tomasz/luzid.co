@@ -347,6 +347,11 @@ export async function shoot(page, href, vp, opts = {}) {
     await page.waitForTimeout(320)
   }
   const probe = await page.evaluate(PROBE)
+  // `fonts.ready` resolves before the frame with the settled glyphs is drawn, and Chromium
+  // cannot copy a surface that has no frame yet: on a fresh page it answers "Unable to
+  // capture screenshot". By the second animation frame the renderer has produced one.
+  // Playwright's own `toHaveScreenshot` waits the same way before every capture.
+  await page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))))
   const img = flatten(decodePng(await page.screenshot()))
   return { pick: res.headers()['luzid-pick'], probe, img }
 }
