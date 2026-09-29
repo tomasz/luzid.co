@@ -32,24 +32,26 @@ devcontainer exec --workspace-folder . bash
 - **A stale agent:** if Colima restarts while the container is still running, the
   forwarded agent can go stale (`ssh-add -l` fails). Fix it with
   `colima stop && colima start --ssh-agent`, then rebuild the container.
-- **Git identity:** the host `~/.gitconfig` is mounted read-only. Its `user.signingkey`
-  must be the portable `key::ssh-ed25519 …` form, not a host file path.
+- **Git identity:** the host `~/.gitconfig` and `~/.gitignore` are mounted read-only. In
+  `~/.gitconfig`, `user.signingkey` must be the portable `key::ssh-ed25519 …` form and
+  `core.excludesFile` must be `~/.gitignore`, not host file paths.
 - **Resources:** Playwright and workerd share the VM, hence 4 CPUs and 8 GB.
 
 The image is Vite+'s official toolchain image, pinned by digest.
 - **Node:** `vp env` installs whichever version `engines.node` in `package.json`
   declares. That field is the one place the Node version lives: no `.nvmrc`, no
   `.node-version`.
-- **pnpm:** it comes from `VP_PACKAGE_MANAGER=pnpm@12.4.2` and `VP_PNPM_VERSION` in
-  `devcontainer.json`.
+- **pnpm:** `vp` installs `pnpm@12.4.2` from `devEngines.packageManager` in
+  `package.json`, inside the container or out.
 - **Commands:** inside the container, plain `pnpm` and `vp` are the right commands. CI uses
   plain `pnpm`.
 
 There is deliberately **no `packageManager` field** in `package.json`. Given one, pnpm 12
 self-installs that version and appends a second document to `pnpm-lock.yaml`; GitHub's
 dependency graph reads only one document and can then report the repo as having no
-dependencies, which silently disables Dependabot alerts. The version lives in
-`engines.pnpm` and in the `version:` input of every `pnpm/action-setup` step instead, and
+dependencies, which silently disables Dependabot alerts. `devEngines.packageManager` does
+the same unless its `onFail` is `"ignore"`, so it carries that. The version lives there, in
+`engines.pnpm` and in the `version:` input of every `pnpm/action-setup` step, and
 `test/repo.test.js` fails if those ever disagree. Node built-ins are preferred over packages:
 `node --test`, `node:zlib`, `fs.glob`, `parseArgs`, `fetch`. There are exactly five
 devDependencies and zero runtime dependencies. **Only WP-00 may touch `package.json`,

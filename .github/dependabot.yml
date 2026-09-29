@@ -30,8 +30,7 @@ updates:
       actions:
         patterns: ["*"]
 
-  # The devcontainer: `docker` bumps the pinned image digest in .devcontainer/Dockerfile,
-  # `devcontainers` bumps the Features in devcontainer.json.
+  # `package-ecosystem: docker` bumps image in `.devcontainer/Dockerfile`
   - package-ecosystem: docker
     directory: /.devcontainer
     schedule:
@@ -41,6 +40,7 @@ updates:
     commit-message:
       prefix: deps
 
+  # `package-ecosystem: devcontainers` bumps features in `.devcontainer/devcontainer.json`
   - package-ecosystem: devcontainers
     directory: /
     schedule:

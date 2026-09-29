@@ -9,6 +9,13 @@
     "node": "24",
     "pnpm": "12.4.2"
   },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "12.4.2",
+      "onFail": "ignore"
+    }
+  },
   "scripts": {
     "dev": "wrangler dev",
     "build": "node scripts/build.mjs",
