@@ -467,11 +467,11 @@ Flagging it because it is the first thing the crop sheet makes you ask.
 When git cannot name a base the per-variant sweep widens to all 8 fonts rather than
 narrowing to none.
 
-**`FIT_SCOPE=all`** (`pnpm run e2e:all`) crosses all 53 variants with all three layout modes
-and all eight viewports. It is the WP-50 sweep and `workflow_dispatch`; it is **not** a
-required check.
+**`FIT_SCOPE=all`** (`pnpm run e2e:all`) crosses every font and variant in the catalogue, not
+just the seed set, with all three layout modes and all eight viewports. It is the WP-50
+sweep and `workflow_dispatch`; it is **not** a required check.
 
-Result today: **765 passed, 4 failed, 3.0 minutes**. All four failures are
+Result when the catalogue was the 8 seed fonts: **765 passed, 4 failed, 3.0 minutes**. All four failures are
 `pacifico.n-fina-static` on WebKit — F1, once in the per-variant sweep and once in each of
 the three layout modes. Nothing else in the catalog fails anywhere, in any engine, at any
 viewport. `pacifico.l-fina-static` passes the full sweep, which is the whole margin it has.

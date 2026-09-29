@@ -35,10 +35,9 @@ jobs:
 
   e2e:
     runs-on: ubuntu-24.04
-    # One job per engine, in parallel. The suite grew with the library -- 8 fonts and 53
-    # variants when the fit scan was written, 147 and 692 now -- and a single job ran past
-    # 30 minutes. Raising the ceiling again would only defer it; the engines are
-    # independent, so splitting them keeps wall-clock roughly flat as the catalogue grows.
+    # One job per engine, in parallel: the engines are independent, and one engine's
+    # failure then names itself. The per-PR scope is the 8 seed fonts plus whatever the
+    # branch changed, so it does not grow with the catalogue; FIT_SCOPE=all does.
     timeout-minutes: 25
     strategy:
       fail-fast: false # one engine's failure must not hide another's

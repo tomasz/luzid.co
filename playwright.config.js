@@ -17,9 +17,8 @@ const scope = process.env.FIT_SCOPE === 'all' ? 'all' : 'changed'
 export default defineConfig({
   testDir: 'e2e',
   fullyParallel: true,
-  // The default of 2 on a 4-vCPU runner left the per-PR scope (1344 tests across three
-  // engines) at 15+ minutes. Three keeps one core for `wrangler dev`, which every test
-  // shares, and brings it back inside the budget.
+  // The default of 2 leaves a 4-vCPU runner idle between screenshots. Three keeps one core
+  // for `wrangler dev`, which every test shares.
   workers: process.env.CI ? 3 : undefined,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
