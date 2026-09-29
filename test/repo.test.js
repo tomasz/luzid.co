@@ -1,8 +1,10 @@
 import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
-import { test } from 'node:test'
+import { test } from 'vite-plus/test'
 
 const read = (p) => readFile(new URL(`../${p}`, import.meta.url), 'utf8')
+// JSONC as wrangler and devcontainers accept it: whole-line comments and trailing commas.
+const jsonc = (text) => JSON.parse(text.replace(/^\s*\/\/.*$/gm, '').replace(/,(\s*[}\]])/g, '$1'))
 
 test('the lockfile is a single YAML document', async () => {
   // Given a `packageManager` field, or `devEngines.packageManager` with any `onFail` but
@@ -97,7 +99,7 @@ test('no template in src/ can emit an inline style attribute', async () => {
 
 test('wrangler config keeps the routing invariants', async () => {
   const raw = await read('wrangler.jsonc')
-  const cfg = JSON.parse(raw.replace(/^\s*\/\/.*$/gm, ''))
+  const cfg = jsonc(raw)
   assert.equal(cfg.assets.directory, 'public')
   assert.ok(!('not_found_handling' in cfg.assets), 'not_found_handling must stay unset')
   assert.ok(!('run_worker_first' in cfg.assets), 'run_worker_first must stay unset on the Free plan')

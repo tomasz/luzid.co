@@ -11,7 +11,7 @@
 import assert from 'node:assert/strict'
 import { glob } from 'node:fs/promises'
 import { basename, resolve } from 'node:path'
-import { test } from 'node:test'
+import { test } from 'vite-plus/test'
 import { pathToFileURL } from 'node:url'
 import { helpers } from '../src/helpers.js'
 

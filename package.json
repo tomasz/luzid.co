@@ -18,8 +18,8 @@
   "scripts": {
     "dev": "vp dev",
     "build": "vp build",
-    "test": "node --test \"test/**/*.test.js\"",
-    "check": "node scripts/build.mjs && biome check . && node --test \"test/**/*.test.js\"",
+    "test": "vp test",
+    "check": "vp check --no-fmt && vp test",
     "e2e": "playwright test",
     "e2e:all": "FIT_SCOPE=all playwright test",
     "fonts": "node scripts/fonts.mjs",
@@ -28,7 +28,6 @@
     "assets": "node scripts/assets.mjs"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.14",
     "@cloudflare/vite-plugin": "1.56.0",
     "@playwright/test": "1.63.0",
     "harfbuzzjs": "1.6.2",
