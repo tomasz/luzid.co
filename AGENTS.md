@@ -43,33 +43,44 @@ The image is Vite+'s official toolchain image, pinned by digest.
   `.node-version`.
 - **pnpm:** `vp` installs `pnpm@12.4.2` from `devEngines.packageManager` in
   `package.json`, inside the container or out.
-- **Commands:** inside the container, plain `pnpm` and `vp` are the right commands. CI uses
-  plain `pnpm`.
+- **Commands:** inside the container, plain `pnpm` and `vp` are the right commands. CI sets
+  up the same `vp` with `voidzero-dev/setup-vp`, pinning pnpm through `VP_PACKAGE_MANAGER`
+  and `VP_PNPM_VERSION`.
 
 There is deliberately **no `packageManager` field** in `package.json`. Given one, pnpm 12
 self-installs that version and appends a second document to `pnpm-lock.yaml`; GitHub's
 dependency graph reads only one document and can then report the repo as having no
 dependencies, which silently disables Dependabot alerts. `devEngines.packageManager` does
 the same unless its `onFail` is `"ignore"`, so it carries that. That field is the one pnpm
-declaration (no `engines.pnpm`); the `version:` input of every `pnpm/action-setup` step
-must match it, and `test/repo.test.js` fails if they ever disagree. Node built-ins are preferred over packages:
-`node --test`, `node:zlib`, `fs.glob`, `parseArgs`, `fetch`. There are exactly five
-devDependencies and zero runtime dependencies. **Only WP-00 may touch `package.json`,
-`pnpm-lock.yaml`, `pnpm-workspace.yaml` or `biome.json`** — if your work package seems to
-need a new dependency, stop and report instead.
+declaration (no `engines.pnpm`); `VP_PACKAGE_MANAGER` and `VP_PNPM_VERSION` in both
+workflows must match it, and `test/repo.test.js` fails if they ever disagree. Node
+built-ins are preferred over packages in scripts: `node:zlib`, `fs.glob`, `parseArgs`,
+`fetch`. There are exactly six devDependencies (`vite-plus`, `@cloudflare/vite-plugin`,
+`wrangler`, `@playwright/test`, `harfbuzzjs`, `subset-font`) and zero runtime dependencies.
+
+Vite+ (`vp`) is the whole toolchain: Vite 8 with Rolldown builds the Worker, Vitest runs
+the unit tests, Oxlint lints and Oxfmt formats, all with their defaults, configured in the
+one `vite.config.js`. `vite-plus` pins its own Vite and Vitest through the two
+`overrides` in `pnpm-workspace.yaml`; bump all three together, never one alone (the repo
+test checks). **Only WP-00 may touch `package.json`, `pnpm-lock.yaml`,
+`pnpm-workspace.yaml` or `vite.config.js`** — if your work package seems to need a new
+dependency, stop and report instead.
 
 ## Commands
 
 | Command | What |
 |---|---|
-| `pnpm run check` | build the catalog, then Biome, then `node --test`. The gate for every PR. |
-| `pnpm run dev` | `wrangler dev` on 8787 |
-| `pnpm run e2e` | Playwright in Chromium, Firefox and WebKit against `wrangler dev` |
+| `pnpm run check` | `vp check` (Oxfmt, Oxlint), then `vp test` (Vitest). The gate for every PR. |
+| `pnpm run dev` | `vp dev`: the Worker in workerd on 5173, reloading on data changes |
+| `pnpm run build` | `vp build`: the Worker to `dist/`, which `wrangler deploy` ships |
+| `pnpm run e2e` | Playwright in Chromium, Firefox and WebKit against `vp build` + `vp preview` |
 | `pnpm run fonts` / `palettes` | regenerate committed font subsets / palette data |
 | `pnpm run sheet -- --changed` | contact sheets of what this branch changed |
 
-`check` builds first on purpose: `build/catalog.js` is generated and gitignored, so tests
-that import it fail on a clean checkout otherwise.
+`build/catalog.js` is generated and gitignored. The `catalog` plugin in `vite.config.js`
+writes it whenever the config loads — before `vp dev`, `vp build`, `vp preview` and
+`vp test` — so no command has to build it first. Golden snapshots refresh with
+`vp test -u`.
 
 ## Working as one of several parallel agents
 
@@ -107,7 +118,7 @@ updates auto-merge once `ci` is green; majors wait for the owner.
   is your work package.
 
 Owner-merged paths (a PR touching them gets the `needs-owner` label and waits):
-`.github/**`, `wrangler.jsonc`, `package.json`, `pnpm-*.yaml`, `biome.json`,
+`.github/**`, `wrangler.jsonc`, `package.json`, `pnpm-*.yaml`, `vite.config.js`,
 `scripts/ruleset.json`, `.claude/**`, `.devcontainer/**`, and `src/**` once WP-13 has merged.
 
 ## Hard rules
