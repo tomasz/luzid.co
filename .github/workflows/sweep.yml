@@ -1,0 +1,19 @@
+name: sweep
+
+# FIT_SCOPE=all: every font and variant, across the three layout modes and every viewport,
+# in all three engines (docs/fit.md). A PR sweeps only the 8 seed fonts plus what it
+# changed, so this is what still covers the rest of the catalogue. It is too long to be a
+# PR check and it is never a required one.
+on:
+  schedule:
+    - cron: "17 2 * * 1" # Mondays, 02:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci.yml
+    with:
+      fit-scope: all

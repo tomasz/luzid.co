@@ -404,7 +404,7 @@ export function bandTop(img, dpr, y0, y1) {
 
 // --- §9.2 scope ---------------------------------------------------------------
 
-/** `changed` is the required PR check; `all` is the WP-50 sweep and `workflow_dispatch`. */
+/** `changed` is the required PR check; `all` is the WP-50 sweep that `sweep.yml` runs weekly. */
 export const SCOPE = process.env.FIT_SCOPE === 'all' ? 'all' : 'changed'
 
 /** @returns {string[]} paths differing from `origin/main`, or `null` when git cannot say. */
