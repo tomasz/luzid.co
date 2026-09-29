@@ -18,8 +18,12 @@ test('the lockfile is a single YAML document', async () => {
 test('the pnpm version is pinned identically everywhere', async () => {
   // Because `packageManager` cannot be used (see above), the version lives in more than one
   // file. This test is what keeps them one source of truth.
-  const wanted = JSON.parse(await read('package.json')).engines.pnpm
-  assert.match(wanted, /^\d+\.\d+\.\d+$/, 'engines.pnpm must be an exact version')
+  // devEngines.packageManager is the one pnpm declaration: `vp` reads it, and pnpm 12 does
+  // not enforce engines.pnpm, so a second copy there could only drift.
+  const pkg = JSON.parse(await read('package.json'))
+  assert.equal('pnpm' in pkg.engines, false, 'declare pnpm once, in devEngines.packageManager')
+  const wanted = pkg.devEngines.packageManager.version
+  assert.match(wanted, /^\d+\.\d+\.\d+$/, 'devEngines.packageManager.version must be exact')
 
   for (const file of ['.github/workflows/ci.yml', '.github/workflows/deploy.yml']) {
     const yml = await read(file)
@@ -29,9 +33,8 @@ test('the pnpm version is pinned identically everywhere', async () => {
     for (const [, v] of setups) assert.equal(v, wanted, `${file} pins pnpm ${v}, package.json says ${wanted}`)
   }
 
-  // `vp` picks pnpm from devEngines.packageManager, not from engines.pnpm.
-  const { devEngines } = JSON.parse(await read('package.json'))
-  assert.deepEqual(devEngines.packageManager, { name: 'pnpm', version: wanted, onFail: 'ignore' })
+  // onFail must stay "ignore": any other value adds the second lockfile document (see above).
+  assert.deepEqual(pkg.devEngines.packageManager, { name: 'pnpm', version: wanted, onFail: 'ignore' })
 
   assert.ok((await read('AGENTS.md')).includes(`pnpm@${wanted}`), `AGENTS.md must document pnpm@${wanted}`)
 })

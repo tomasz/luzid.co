@@ -50,9 +50,9 @@ There is deliberately **no `packageManager` field** in `package.json`. Given one
 self-installs that version and appends a second document to `pnpm-lock.yaml`; GitHub's
 dependency graph reads only one document and can then report the repo as having no
 dependencies, which silently disables Dependabot alerts. `devEngines.packageManager` does
-the same unless its `onFail` is `"ignore"`, so it carries that. The version lives there, in
-`engines.pnpm` and in the `version:` input of every `pnpm/action-setup` step, and
-`test/repo.test.js` fails if those ever disagree. Node built-ins are preferred over packages:
+the same unless its `onFail` is `"ignore"`, so it carries that. That field is the one pnpm
+declaration (no `engines.pnpm`); the `version:` input of every `pnpm/action-setup` step
+must match it, and `test/repo.test.js` fails if they ever disagree. Node built-ins are preferred over packages:
 `node --test`, `node:zlib`, `fs.glob`, `parseArgs`, `fetch`. There are exactly five
 devDependencies and zero runtime dependencies. **Only WP-00 may touch `package.json`,
 `pnpm-lock.yaml`, `pnpm-workspace.yaml` or `biome.json`** — if your work package seems to
