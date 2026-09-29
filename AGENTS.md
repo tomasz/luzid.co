@@ -105,10 +105,6 @@ updates auto-merge once `ci` is green; majors wait for the owner.
   also requires signed commits). Never force-push, never `git push -u`.
 - Never touch DNS, Cloudflare settings, secrets, or anything under `.github/` unless that
   is your work package.
-- `.claude/settings.json` denies `wrangler deploy` outright, including `--dry-run`, because
-  a glob cannot express the exception and an accidental production deploy is not undoable.
-  Nothing is lost: `pnpm run e2e` starts `wrangler dev`, which bundles the Worker through
-  the same esbuild pipeline, so a green e2e run already proves the Worker builds.
 
 Owner-merged paths (a PR touching them gets the `needs-owner` label and waits):
 `.github/**`, `wrangler.jsonc`, `package.json`, `pnpm-*.yaml`, `biome.json`,
