@@ -62,7 +62,8 @@ test("the accessible name is the real text, exactly once", () => {
   for (const seed of GOLDEN_SEEDS) {
     const { html } = page(seed);
     const anchor = html.match(/<a\b[^>]*>([\s\S]*?)<\/a>/)[1];
-    const text = anchor.replace(/<[^>]*>/g, "");
+    // The text between the tags, i.e. what a screen reader announces.
+    const text = anchor.split(/<[^>]*>/).join("");
     assert.equal(text, "Tomasz Cudziło", `${seed}: accessible name`);
     assert.match(html, /href="https:\/\/github\.com\/tomasz" rel="me"/);
     // Case is CSS only. The DOM text never changes.
