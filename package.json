@@ -32,6 +32,6 @@
     "@playwright/test": "1.63.0",
     "harfbuzzjs": "1.6.2",
     "subset-font": "2.9.0",
-    "wrangler": "4.136.2"
+    "wrangler": "4.136.3"
   }
 }
