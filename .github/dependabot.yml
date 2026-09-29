@@ -30,5 +30,22 @@ updates:
       actions:
         patterns: ["*"]
 
-# No `devcontainers` entry: that ecosystem only updates Features, and this devcontainer
-# has none. The image floats on the :24 major tag.
+  # `package-ecosystem: docker` bumps image in `.devcontainer/Dockerfile`
+  - package-ecosystem: docker
+    directory: /.devcontainer
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    commit-message:
+      prefix: deps
+
+  # `package-ecosystem: devcontainers` bumps features in `.devcontainer/devcontainer.json`
+  - package-ecosystem: devcontainers
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    commit-message:
+      prefix: deps

@@ -15,21 +15,44 @@ and the effect contract. It wins over this file. Changing it needs a PR labelled
 
 ## Environment
 
-On the owner's Mac pnpm is always invoked through mise. There is no mise.toml in this
-repo, and `corepack` does not work here (the global Node 24.20.0 has no corepack binary).
+All work happens inside the devcontainer (`.devcontainer/`). That covers Node, pnpm,
+`vp`, Playwright's browsers and every agent. Nothing for this project is installed on the
+host, which needs only a container runtime. On the owner's Mac that runtime is Colima,
+never Docker Desktop:
 
 ```
-mise exec node@24 pnpm@12.4.2 -- pnpm <args>
+brew install colima docker docker-buildx devcontainer
+colima start --ssh-agent --cpu 4 --memory 8
+devcontainer up --workspace-folder .
+devcontainer exec --workspace-folder . bash
 ```
 
-CI and the devcontainer use plain `pnpm`.
+- **`--ssh-agent`** forwards the host agent to `/run/host-services/ssh-auth.sock`, which
+  the container mounts for signed commits.
+- **A stale agent:** if Colima restarts while the container is still running, the
+  forwarded agent can go stale (`ssh-add -l` fails). Fix it with
+  `colima stop && colima start --ssh-agent`, then rebuild the container.
+- **Git identity:** the host `~/.gitconfig` and `~/.gitignore` are mounted read-only. In
+  `~/.gitconfig`, `user.signingkey` must be the portable `key::ssh-ed25519 …` form and
+  `core.excludesFile` must be `~/.gitignore`, not host file paths.
+- **Resources:** Playwright and workerd share the VM, hence 4 CPUs and 8 GB.
+
+The image is Vite+'s official toolchain image, pinned by digest.
+- **Node:** `vp env` installs whichever version `engines.node` in `package.json`
+  declares. That field is the one place the Node version lives: no `.nvmrc`, no
+  `.node-version`.
+- **pnpm:** `vp` installs `pnpm@12.4.2` from `devEngines.packageManager` in
+  `package.json`, inside the container or out.
+- **Commands:** inside the container, plain `pnpm` and `vp` are the right commands. CI uses
+  plain `pnpm`.
 
 There is deliberately **no `packageManager` field** in `package.json`. Given one, pnpm 12
 self-installs that version and appends a second document to `pnpm-lock.yaml`; GitHub's
 dependency graph reads only one document and can then report the repo as having no
-dependencies, which silently disables Dependabot alerts. The version lives in
-`engines.pnpm` and in the `version:` input of every `pnpm/action-setup` step instead, and
-`test/repo.test.js` fails if those ever disagree. Node built-ins are preferred over packages:
+dependencies, which silently disables Dependabot alerts. `devEngines.packageManager` does
+the same unless its `onFail` is `"ignore"`, so it carries that. That field is the one pnpm
+declaration (no `engines.pnpm`); the `version:` input of every `pnpm/action-setup` step
+must match it, and `test/repo.test.js` fails if they ever disagree. Node built-ins are preferred over packages:
 `node --test`, `node:zlib`, `fs.glob`, `parseArgs`, `fetch`. There are exactly five
 devDependencies and zero runtime dependencies. **Only WP-00 may touch `package.json`,
 `pnpm-lock.yaml`, `pnpm-workspace.yaml` or `biome.json`** — if your work package seems to
@@ -51,13 +74,13 @@ that import it fail on a clean checkout otherwise.
 ## Working as one of several parallel agents
 
 ```
-ROOT=/Users/tomasz/Workshop/github.com/tomasz/luzid.co
+ROOT=/workspaces/luzid.co           inside the devcontainer
 WT=$ROOT/.claude/worktrees/<wp>     the orchestrator creates this; you work only inside it
 RESEARCH=$ROOT/.research            absolute path — it is gitignored and NOT in your worktree
 PORT=$((8800 + <wp number>))        export it; never use 8787 while others are running
 ```
 
-1. `cd $WT && mise exec node@24 pnpm@12.4.2 -- pnpm install --frozen-lockfile`
+1. `cd $WT && pnpm install --frozen-lockfile`
 2. `ssh-add -l` must list a key. If it does not, **stop and report** — never disable signing.
 3. Read your work package row in `$RESEARCH/PLAN.md` and the reports it names under "Read first".
 4. Work only inside your work package's Paths. Touching anything else fails the path guard.
@@ -89,7 +112,7 @@ updates auto-merge once `ci` is green; majors wait for the owner.
 
 Owner-merged paths (a PR touching them gets the `needs-owner` label and waits):
 `.github/**`, `wrangler.jsonc`, `package.json`, `pnpm-*.yaml`, `biome.json`,
-`scripts/ruleset.json`, `.claude/**`, and `src/**` once WP-13 has merged.
+`scripts/ruleset.json`, `.claude/**`, `.devcontainer/**`, and `src/**` once WP-13 has merged.
 
 ## Hard rules
 

@@ -1,14 +1,13 @@
 {
   "name": "luzid.co",
-  "image": "mcr.microsoft.com/devcontainers/javascript-node:24",
-  // The image already ships pnpm on PATH. `corepack enable` would fail here: it symlinks
-  // into root-owned /usr/local/bin while the container runs as the `node` user.
-  "postCreateCommand": "pnpm install --frozen-lockfile",
-  "forwardPorts": [8787],
-  "customizations": {
-    "vscode": {
-      "extensions": ["biomejs.biome"],
-      "settings": { "editor.defaultFormatter": "biomejs.biome" }
-    }
-  }
+  "build": { "dockerfile": "Dockerfile" },
+  "features": { "ghcr.io/devcontainers/features/github-cli:1": {} },
+  "containerEnv": { "SSH_AUTH_SOCK": "/ssh-agent" },
+  "mounts": [
+    "source=/run/host-services/ssh-auth.sock,target=/ssh-agent,type=bind",
+    "source=${localEnv:HOME}/.gitconfig,target=/home/vp/.gitconfig,type=bind,readonly",
+    "source=${localEnv:HOME}/.gitignore,target=/home/vp/.gitignore,type=bind,readonly"
+  ],
+  "postCreateCommand": "vp install --frozen-lockfile && pnpm exec playwright install --with-deps",
+  "forwardPorts": [8787]
 }

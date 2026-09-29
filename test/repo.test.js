@@ -5,8 +5,8 @@ import { test } from 'node:test'
 const read = (p) => readFile(new URL(`../${p}`, import.meta.url), 'utf8')
 
 test('the lockfile is a single YAML document', async () => {
-  // Given a `packageManager` (or `devEngines.packageManager`) field, pnpm 12 self-installs
-  // that version and appends a SECOND lockfile document describing it. GitHub's dependency
+  // Given a `packageManager` field, or `devEngines.packageManager` with any `onFail` but
+  // "ignore", pnpm 12 appends a SECOND lockfile document describing itself. GitHub's dependency
   // graph reads one document, so the extra one can make the repo look dependency-free and
   // silently blind Dependabot alerts (dependabot-core#15904). Verified on 2026-09-22:
   // removing the field drops the lockfile from 1243 lines / 2 documents to 1085 / 1.
@@ -18,8 +18,12 @@ test('the lockfile is a single YAML document', async () => {
 test('the pnpm version is pinned identically everywhere', async () => {
   // Because `packageManager` cannot be used (see above), the version lives in more than one
   // file. This test is what keeps them one source of truth.
-  const wanted = JSON.parse(await read('package.json')).engines.pnpm
-  assert.match(wanted, /^\d+\.\d+\.\d+$/, 'engines.pnpm must be an exact version')
+  // devEngines.packageManager is the one pnpm declaration: `vp` reads it, and pnpm 12 does
+  // not enforce engines.pnpm, so a second copy there could only drift.
+  const pkg = JSON.parse(await read('package.json'))
+  assert.equal('pnpm' in pkg.engines, false, 'declare pnpm once, in devEngines.packageManager')
+  const wanted = pkg.devEngines.packageManager.version
+  assert.match(wanted, /^\d+\.\d+\.\d+$/, 'devEngines.packageManager.version must be exact')
 
   for (const file of ['.github/workflows/ci.yml', '.github/workflows/deploy.yml']) {
     const yml = await read(file)
@@ -29,7 +33,21 @@ test('the pnpm version is pinned identically everywhere', async () => {
     for (const [, v] of setups) assert.equal(v, wanted, `${file} pins pnpm ${v}, package.json says ${wanted}`)
   }
 
+  // onFail must stay "ignore": any other value adds the second lockfile document (see above).
+  assert.deepEqual(pkg.devEngines.packageManager, { name: 'pnpm', version: wanted, onFail: 'ignore' })
+
   assert.ok((await read('AGENTS.md')).includes(`pnpm@${wanted}`), `AGENTS.md must document pnpm@${wanted}`)
+})
+
+test('the Node version is declared once, as a single major in engines.node', async () => {
+  // `vp env` reads .node-version and .nvmrc before or after engines.node; a second file
+  // could silently disagree. A range like ">=24" would let it pick a newer major.
+  const { engines } = JSON.parse(await read('package.json'))
+  assert.match(engines.node, /^\d+$/, `engines.node must be one major, got "${engines.node}"`)
+  const { access } = await import('node:fs/promises')
+  for (const file of ['.nvmrc', '.node-version']) {
+    await assert.rejects(access(new URL(`../${file}`, import.meta.url)), `${file} must not exist`)
+  }
 })
 
 test('dependency versions are pinned exactly', async () => {
