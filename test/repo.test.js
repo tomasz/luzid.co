@@ -25,7 +25,7 @@ test('the pnpm version is pinned identically everywhere', async () => {
   const wanted = pkg.devEngines.packageManager.version
   assert.match(wanted, /^\d+\.\d+\.\d+$/, 'devEngines.packageManager.version must be exact')
 
-  for (const file of ['.github/workflows/ci.yml', '.github/workflows/deploy.yml']) {
+  for (const file of ['.github/workflows/ci.yml', '.github/workflows/cd.yml']) {
     const yml = await read(file)
     const setups = [...yml.matchAll(/pnpm\/action-setup@[^\n]*\n\s*with:\n\s*version:\s*(\S+)/g)]
     const bare = (yml.match(/pnpm\/action-setup@/g) ?? []).length
