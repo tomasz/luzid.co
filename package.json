@@ -30,8 +30,8 @@
   "devDependencies": {
     "@biomejs/biome": "2.5.14",
     "@playwright/test": "1.63.0",
-    "harfbuzzjs": "1.6.1",
+    "harfbuzzjs": "1.6.2",
     "subset-font": "2.9.0",
-    "wrangler": "4.135.0"
+    "wrangler": "4.136.2"
   }
 }
