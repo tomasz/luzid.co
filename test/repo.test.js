@@ -56,6 +56,31 @@ test('dependency versions are pinned exactly', async () => {
   for (const [name, range] of Object.entries(pkg.devDependencies)) {
     assert.match(range, /^\d+\.\d+\.\d+$/, `${name} must be pinned exactly, got "${range}"`)
   }
+  assert.equal('packageManager' in pkg, false, 'packageManager would add a second lockfile document')
+  assert.equal(
+    'runtime' in pkg.devEngines,
+    false,
+    'devEngines.runtime makes pnpm manage Node alongside vp env',
+  )
+
+  // Vite+ requires overrides for vite and vitest; they must match what vite-plus bundles
+  // (docs/guide/local-cli.md in the vite-plus package), so they move with it, never alone.
+  const ws = await read('pnpm-workspace.yaml')
+  // The one-day release-age gate has no exceptions. Adopting Vite+ 1.0 on its release
+  // day needed one; this keeps a temporary exception from outliving its PR.
+  assert.equal(ws.includes('minimumReleaseAgeExclude'), false, 'minimumReleaseAge must not be bypassed')
+  const vp = pkg.devDependencies['vite-plus']
+  assert.match(
+    ws,
+    new RegExp(`\\n  vite: npm:@voidzero-dev/vite-plus-core@${vp}\\n`),
+    'vite override ≠ vite-plus',
+  )
+  const bundled = JSON.parse(await read('node_modules/vite-plus/package.json')).dependencies.vitest
+  assert.match(
+    ws,
+    new RegExp(`\\n  vitest: ${bundled.replaceAll('.', '\\.')}\\n`),
+    `vitest override ≠ ${bundled}`,
+  )
 })
 
 test('no template in src/ can emit an inline style attribute', async () => {
@@ -78,7 +103,9 @@ test('wrangler config keeps the routing invariants', async () => {
   assert.ok(!('run_worker_first' in cfg.assets), 'run_worker_first must stay unset on the Free plan')
   assert.ok(!('cache' in cfg), 'Workers Cache would freeze one look for every visitor')
   assert.deepEqual(cfg.routes, [{ pattern: 'luzid.co', custom_domain: true }])
-  assert.ok(Array.isArray(cfg.build.watch_dir) && cfg.build.watch_dir.length > 0)
+  // The catalog plugin in vite.config.js builds and watches instead; a custom build here
+  // would run beside it.
+  assert.ok(!('build' in cfg), 'wrangler must not run its own build')
 })
 
 test('public/ has no index.html', async () => {

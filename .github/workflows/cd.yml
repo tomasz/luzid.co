@@ -51,6 +51,10 @@ jobs:
           echo "version=$version" >> "$GITHUB_OUTPUT"
           echo "live version: ${version:-none}"
 
+      # `vp build` writes dist/ and .wrangler/deploy/config.json, which `wrangler deploy`
+      # follows to dist/luzid_co/wrangler.json. Deploying without it ships nothing new.
+      - run: pnpm run build
+
       - name: deploy
         id: deploy
         run: pnpm exec wrangler deploy --message "$GITHUB_SHA"
