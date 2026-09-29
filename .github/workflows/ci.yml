@@ -61,7 +61,7 @@ jobs:
       - run: pnpm exec playwright install --with-deps ${{ matrix.project }}
       - run: pnpm run build
       - run: pnpm exec playwright test --project=${{ matrix.project }}
-      - name: contact sheets
+      - name: render sheets
         if: ${{ matrix.project == 'chromium' && hashFiles('scripts/sheet.mjs') != '' }}
         run: pnpm run sheet -- --changed
         continue-on-error: true
@@ -83,7 +83,7 @@ jobs:
     needs: [check, e2e]
     if: always()
     steps:
-      - name: verify every job succeeded
+      - name: verify all jobs passed
         run: |
           echo "check=${{ needs.check.result }} e2e=${{ needs.e2e.result }}"
           [ "${{ needs.check.result }}" = "success" ] || exit 1

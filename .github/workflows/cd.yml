@@ -42,24 +42,26 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
 
-      - name: record the live version, so a rollback targets it explicitly
-        id: prev
+      # Recorded first, so a rollback targets this version explicitly.
+      - name: record live version
+        id: live
         run: |
-          id=$(pnpm exec wrangler deployments status --json 2>/dev/null \
+          version=$(pnpm exec wrangler deployments status --json 2>/dev/null \
                 | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{const j=JSON.parse(s);console.log(j?.versions?.[0]?.version_id??j?.["Version ID"]??"")}catch{console.log("")}})')
-          echo "id=$id" >> "$GITHUB_OUTPUT"
-          echo "live version: ${id:-none}"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "live version: ${version:-none}"
 
       - name: deploy
         id: deploy
         run: pnpm exec wrangler deploy --message "$GITHUB_SHA"
 
-      - name: smoke
+      - name: smoke test
         id: smoke
         run: node scripts/smoke.mjs https://luzid.co
 
-      - name: roll back (only when the deploy succeeded but the smoke test failed)
-        if: failure() && steps.deploy.outcome == 'success' && steps.smoke.outcome == 'failure' && steps.prev.outputs.id != ''
+      # Only when the deploy succeeded but the smoke test failed.
+      - name: roll back
+        if: failure() && steps.deploy.outcome == 'success' && steps.smoke.outcome == 'failure' && steps.live.outputs.version != ''
         run: |
-          pnpm exec wrangler rollback "${{ steps.prev.outputs.id }}" --message "smoke failed $GITHUB_SHA"
-          echo "::error::Rolled production back to ${{ steps.prev.outputs.id }}."
+          pnpm exec wrangler rollback "${{ steps.live.outputs.version }}" --message "smoke failed $GITHUB_SHA"
+          echo "::error::Rolled production back to ${{ steps.live.outputs.version }}."
