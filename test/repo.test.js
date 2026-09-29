@@ -83,6 +83,13 @@ test("dependency versions are pinned exactly", async () => {
   // Vite+ requires overrides for vite and vitest; they must match what vite-plus bundles
   // (docs/guide/local-cli.md in the vite-plus package), so they move with it, never alone.
   const ws = await read("pnpm-workspace.yaml");
+  // The one-day release-age gate has no exceptions. Adopting Vite+ 1.0 on its release
+  // day needed one; this keeps a temporary exception from outliving its PR.
+  assert.equal(
+    ws.includes("minimumReleaseAgeExclude"),
+    false,
+    "minimumReleaseAge must not be bypassed",
+  );
   const vp = pkg.devDependencies["vite-plus"];
   assert.match(
     ws,
