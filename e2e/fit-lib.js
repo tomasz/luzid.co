@@ -34,8 +34,17 @@ export const EFFECTS = await Promise.all(
     .map(async (f) => (await import(`../effects/${f}`)).default),
 )
 
-/** The 8 fonts `fonts/sources/seed.json` brought in; §9.2's always-on scope. */
-export const SEED_FONTS = FONTS.map((f) => f.id)
+/** Every font in the catalogue; what `FIT_SCOPE=all` sweeps. */
+export const ALL_FONTS = FONTS.map((f) => f.id)
+
+/**
+ * The 8 fonts `fonts/sources/seed.json` brought in; §9.2's always-on scope. Read from the
+ * source list, not the catalogue: the two were the same set when this was written, and
+ * every later batch then widened each PR's sweep with it.
+ */
+export const SEED_FONTS = JSON.parse(readFileSync(resolve(ROOT, 'fonts/sources/seed.json'), 'utf8')).map(
+  (f) => f.id,
+)
 
 // --- viewports ---------------------------------------------------------------
 
@@ -422,7 +431,7 @@ function changedPaths() {
  */
 export function scope() {
   if (SCOPE === 'all') {
-    return { variantFonts: SEED_FONTS, sweepFonts: SEED_FONTS, effects: EFFECTS.map((e) => e.id) }
+    return { variantFonts: ALL_FONTS, sweepFonts: ALL_FONTS, effects: EFFECTS.map((e) => e.id) }
   }
   const changed = changedPaths()
   // No git answer: assume the worst and run the wide per-variant sweep.
@@ -437,7 +446,10 @@ export function scope() {
     .filter((p) => p.startsWith('fonts/meta/') && p.endsWith('.json'))
     .map((p) => p.slice('fonts/meta/'.length, -'.json'.length))
 
-  const variantFonts = engineMoved ? SEED_FONTS : metaMoved.filter((id) => SEED_FONTS.includes(id))
+  // A changed meta is swept whether or not it is a seed font; a deleted one has no row.
+  const variantFonts = [
+    ...new Set([...(engineMoved ? SEED_FONTS : []), ...metaMoved.filter((id) => ALL_FONTS.includes(id))]),
+  ]
   const effects = changed
     .filter((p) => p.startsWith('effects/') && p.endsWith('.js'))
     .map((p) => p.slice('effects/'.length, -'.js'.length))
