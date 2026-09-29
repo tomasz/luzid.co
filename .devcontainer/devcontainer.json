@@ -9,5 +9,5 @@
     "source=${localEnv:HOME}/.gitignore,target=/home/vp/.gitignore,type=bind,readonly"
   ],
   "postCreateCommand": "vp install --frozen-lockfile && pnpm exec playwright install --with-deps",
-  "forwardPorts": [8787]
+  "forwardPorts": [5173]
 }
