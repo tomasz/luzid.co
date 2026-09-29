@@ -7,8 +7,8 @@
  * `retries: 1` keeps a flake from failing the gate, which also keeps it out of sight. Every
  * e2e job therefore uploads Playwright's JSON report as `e2e-results-<engine>`, and this
  * script reads those back: per test, how many runs it was in, how many it was flaky or failed
- * in, how many retries `shoot()` absorbed (`capture-retry`), and the first line of the
- * error that made it retry. Markdown on stdout; nothing is written anywhere else.
+ * in, and the first line of the error that made it retry. Markdown on stdout; nothing is
+ * written anywhere else.
  */
 import { execFileSync } from 'node:child_process'
 import { mkdtempSync, readFileSync, rmSync } from 'node:fs'
@@ -22,7 +22,7 @@ const { values, positionals } = parseArgs({
   options: { runs: { type: 'string' }, top: { type: 'string', default: '30' } },
 })
 
-/** @type {Map<string, {runs: Set<string>, flaky: number, failed: number, retries: number, why: Map<string, number>}>} */
+/** @type {Map<string, {runs: Set<string>, flaky: number, failed: number, why: Map<string, number>}>} */
 const tests = new Map()
 /** @type {{id: string, label: string, flaky: number, failed: number}[]} */
 const runs = []
@@ -50,7 +50,7 @@ function add(run, file) {
       const key = `[${t.projectName}] ${f} › ${title}`
       let e = tests.get(key)
       if (!e) {
-        e = { runs: new Set(), flaky: 0, failed: 0, retries: 0, why: new Map() }
+        e = { runs: new Set(), flaky: 0, failed: 0, why: new Map() }
         tests.set(key, e)
       }
       e.runs.add(run)
@@ -63,7 +63,6 @@ function add(run, file) {
         row.failed++
       }
       for (const r of t.results) {
-        e.retries += (r.annotations ?? []).filter((a) => a.type === 'capture-retry').length
         const msg = r.status !== 'passed' && r.error?.message?.split('\n')[0].slice(0, 120)
         if (msg) e.why.set(msg, (e.why.get(msg) ?? 0) + 1)
       }
@@ -113,18 +112,18 @@ if (values.runs) {
   title = '## Flaky e2e tests: this run'
 }
 
-const bad = [...tests].filter(([, e]) => e.flaky || e.failed || e.retries)
-bad.sort(([, a], [, b]) => b.flaky + b.failed - (a.flaky + a.failed) || b.retries - a.retries)
+const bad = [...tests].filter(([, e]) => e.flaky || e.failed)
+bad.sort(([, a], [, b]) => b.flaky + b.failed - (a.flaky + a.failed))
 
 const out = [title, '']
 const hit = runs.filter((r) => r.flaky || r.failed)
 out.push(`${hit.length} of ${runs.length} runs had a flaky or failed test; ${tests.size} tests seen.`, '')
 if (bad.length) {
-  out.push('| test | runs | flaky | failed | capture retries | first error |', '|---|---|---|---|---|---|')
+  out.push('| test | runs | flaky | failed | first error |', '|---|---|---|---|---|')
   for (const [key, e] of bad.slice(0, Number(values.top))) {
     const why = [...e.why].sort((a, b) => b[1] - a[1])[0]?.[0] ?? ''
     const cell = (s) => s.replaceAll('|', '\\|')
-    out.push(`| ${cell(key)} | ${e.runs.size} | ${e.flaky} | ${e.failed} | ${e.retries} | ${cell(why)} |`)
+    out.push(`| ${cell(key)} | ${e.runs.size} | ${e.flaky} | ${e.failed} | ${cell(why)} |`)
   }
   if (bad.length > Number(values.top)) out.push('', `…and ${bad.length - Number(values.top)} more.`)
 }
