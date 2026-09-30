@@ -16,7 +16,8 @@ variants / 30 effects, at contract R13/R14.
 `e2e/fit.spec.js` runs in **mask mode** (`?p=qa-bw&e=plain`) — black on white, no effect,
 the odds-0 QA palette that only a pin can reach. For each render it screenshots the
 viewport, decodes the PNG (`e2e/png.js`, `node:zlib` and nothing else), and takes the
-bounding box of every pixel at or below half coverage.
+bounding box of every pixel at or below half coverage. The one exception is the under-fill
+bound, which takes the box of any visible ink instead; F7 says why.
 
 The safe box is **recomputed in the spec** from the viewport, never read back from the
 page:
@@ -30,7 +31,7 @@ Pass requires all four of:
 
 | | threshold |
 |---|---|
-| `max(inkW/aw, inkH/ah)` | in `[0.965, 1.000]` |
+| `max(inkW/aw, inkH/ah)` | `≤ 1.000` at half coverage, `≥ 0.965` on any visible ink |
 | `inkW` | `≤ aw + 2` |
 | `inkH` | `≤ ah + 2` |
 | ink-bbox centre | within 1 % of the viewport centre, per axis |
@@ -294,6 +295,57 @@ inside 0.118 % — healthy renders sit two to eight times inside the tolerance. 
 Linux offset is 1.48 %, which is not a pixel or two of rasterisation but a twelve-pixel
 displacement of the whole name. Widening the tolerance to admit it would blind the check to
 exactly the class of fault it was written for.
+
+### F7 — half coverage cannot see a hairline thinner than half a pixel
+
+**What the failure was.** `FIT_SCOPE=all`, Chromium on GitHub's `ubuntu-24.04` runners,
+8 sweeps out of 8:
+
+```
+under-filled · fill=0.9561 ink=283.0x97.0 safe=296.0x544.0 · 320x568
+/?seed=q0&p=qa-bw&e=plain&f=bungee-outline&v=n-ss01-static&l=stack-eq
+```
+
+It passed in the arm64 devcontainer, and in `stack-fit`, `side` and every other viewport.
+
+**The metric is right.** Line 2, `Cudziło` with `ss01`, is the wide line (6.628 em), so
+under `stack-eq` it alone spans the block: 291.6 px at 43.99 px/em. Rasterising the shipped
+subset outside any browser (harfbuzzjs outlines, 16×16 supersampling, linear coverage)
+puts ink in columns 14–305, **292 px wide** — the declared width to the pixel. So nothing
+in `fonts/meta` or `scripts/fonts.mjs` needs to change.
+
+**The scan is what cannot resolve it.** Bungee Outline draws every letter as a 0.010 em
+hairline (`stem: 0.01`, the `hairline` trait). At 43.99 px/em that is 0.44 px, and a stroke
+narrower than half a pixel covers no pixel by half on its own. The same raster gives a
+peak coverage of 0.38–0.56 in every edge column: whether the outermost contour reads as
+ink depends entirely on the rasteriser's gamma, contrast and hinting. When it does not,
+the box shrinks to the next contour in, about 4 px per side, which is the 283 px CI saw.
+
+It surfaces in exactly one render because every other one is thicker or not binding:
+
+| render | binding line | px/em | hairline |
+|---|---|---|---|
+| `stack-eq` 320×568 | `Cudziło` | 43.99 | **0.44 px** |
+| `stack-fit` 320×568 | `Tomasz` | 51.88 | 0.52 px |
+| `stack-eq` 390×844 | `Cudziło` | 54.39 | 0.54 px |
+| `n-base-static` 320×568 | `Cudziło` | 61.63 | 0.62 px |
+
+**It is not the CPU.** The same sweep on GitHub's `ubuntu-24.04-arm` runner fails
+identically — 283.0 px, fill 0.9561 — so what separates CI from the arm64 devcontainer is
+the runner image (its fonts and fontconfig), not x86 against arm64. Both runners read the
+same render at `reach` 0.9932 (294 px of visible ink) once the lower bound uses it.
+
+**Not pinned.** A `KNOWN_DIVERGENCE` entry says "this engine paints somewhere the metric
+did not say", and this engine paints exactly where the metric said. It would also be a pin
+on a knife edge: the next Chromium roll that nudges text gamma flips it, and the pin turns
+CI red for a change nobody made.
+
+**Fixed in the measurement.** The under-fill bound asks whether ink reaches the edge, so it
+now measures any visible ink (`isTrace`, the bleed proof's 8/255 threshold on white). That
+can only widen the box by the antialiased fringe, at most a pixel a side, which the
+two points between 0.965 and the .985 design value absorb without hiding a real under-fill.
+The upper bounds — over-fill, the safe box, the centre — stay at half coverage, where the
+fringe would be phantom ink. Nothing moved a threshold.
 
 ### F2 — `G = max(g, bt)` guarded only one direction · **fixed by R13**
 

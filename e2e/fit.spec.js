@@ -25,6 +25,7 @@ import {
   FONTS,
   inkBox,
   isInk,
+  isTrace,
   PORTRAIT,
   PR_VIEWPORTS,
   SCOPE,
@@ -77,11 +78,17 @@ async function measure(page, href, vp) {
   const inkW = side ? ink.h : ink.w
   const inkH = side ? ink.w : ink.h
   const fill = Math.max(inkW / aw, inkH / ah)
-  const detail = `fill=${fill.toFixed(4)} ink=${inkW.toFixed(1)}x${inkH.toFixed(1)} safe=${aw.toFixed(1)}x${ah.toFixed(1)} · ${where}`
+
+  // The lower bound asks whether any ink reaches the edge, so it is measured on any visible
+  // ink: half coverage cannot see a stroke thinner than half a pixel (F7). The upper
+  // bounds stay on `isInk`, which never counts the antialiased fringe.
+  const trace = inkBox(img, isTrace, probe.dpr)
+  const reach = Math.max((side ? trace.h : trace.w) / aw, (side ? trace.w : trace.h) / ah)
+  const detail = `fill=${fill.toFixed(4)} reach=${reach.toFixed(4)} ink=${inkW.toFixed(1)}x${inkH.toFixed(1)} safe=${aw.toFixed(1)}x${ah.toFixed(1)} · ${where}`
 
   expect.soft(inkW, `ink wider than the safe box · ${detail}`).toBeLessThanOrEqual(aw + SLACK)
   expect.soft(inkH, `ink taller than the safe box · ${detail}`).toBeLessThanOrEqual(ah + SLACK)
-  expect.soft(fill, `under-filled · ${detail}`).toBeGreaterThanOrEqual(FILL_MIN)
+  expect.soft(reach, `under-filled · ${detail}`).toBeGreaterThanOrEqual(FILL_MIN)
   expect.soft(fill, `over-filled · ${detail}`).toBeLessThanOrEqual(FILL_MAX)
 
   const dcx = Math.abs(ink.cx - vp.w / 2) / vp.w
