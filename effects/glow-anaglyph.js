@@ -15,15 +15,15 @@
  * raster per layer against 2.4–7.9 ms for a blurred one.
  */
 export default {
-  id: 'glow-anaglyph',
-  family: 'glow',
-  shape: 'A',
+  id: "glow-anaglyph",
+  family: "glow",
+  shape: "A",
   colors: 4,
-  bg: 'any',
+  bg: "any",
   odds: 4,
   // A hairline face split in two directions stops being a letter.
-  fonts: { deny: ['hairline'], prefer: ['fat', 'wide'] },
-  palettes: { prefer: ['n4'] },
+  fonts: { deny: ["hairline"], prefer: ["fat", "wide"] },
+  palettes: { prefer: ["n4"] },
   // s = split distance in tenths of a u. a = split axis in degrees (0 = horizontal).
   // R38 quotes .008–.04em. One line of the name fills the block, so 1em is roughly 25u and
   // that range is 0.2u–1.0u — a tenth of what the same numbers would mean read as u. The
@@ -38,8 +38,8 @@ export default {
    * @param {{s: number}} p
    */
   bleed: (p) => {
-    const o = (p.s / 10) * 1.5
-    return { t: o, r: o, b: o, l: o }
+    const o = (p.s / 10) * 1.5;
+    return { t: o, r: o, b: o, l: o };
   },
 
   /**
@@ -51,7 +51,7 @@ export default {
   /** @param {{s: number, a: number}} p @param {typeof import('../src/helpers.js').helpers} h */
   hover: (p, h) => `text-shadow:${split(p, h, 1.5)}`,
   motion: null,
-}
+};
 
 /**
  * One layer per channel, `h.stack(1, …)` each, so the offsets stay as `cos()`/`sin()` in CSS
@@ -63,8 +63,8 @@ export default {
  * @param {number} k
  */
 function split(p, h, k) {
-  const d = (p.s / 10) * k
-  const c1 = h.mix('var(--a1)', 'var(--bg)', 72)
-  const c2 = h.mix('var(--a2)', 'var(--bg)', 72)
-  return `${h.stack(1, p.a, d, c1)},${h.stack(1, p.a + 180, d, c2)}`
+  const d = (p.s / 10) * k;
+  const c1 = h.mix("var(--a1)", "var(--bg)", 72);
+  const c2 = h.mix("var(--a2)", "var(--bg)", 72);
+  return `${h.stack(1, p.a, d, c1)},${h.stack(1, p.a + 180, d, c2)}`;
 }

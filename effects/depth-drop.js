@@ -15,7 +15,7 @@
  */
 
 /** How far the shade travels on hover, as a multiple of `d`. */
-const LIFT = 1.35
+const LIFT = 1.35;
 
 /**
  * Axis-aligned bound for a shadow of length `d` at `a` degrees (0 = right, 90 = down).
@@ -27,16 +27,16 @@ const dir = (a, d) => ({
   r: a < 90 || a > 270 ? d : 0,
   b: a > 0 && a < 180 ? d : 0,
   l: a > 90 && a < 270 ? d : 0,
-})
+});
 
 export default {
-  id: 'depth-drop',
-  family: 'depth',
-  shape: 'A',
+  id: "depth-drop",
+  family: "depth",
+  shape: "A",
   colors: 3,
-  bg: 'any',
+  bg: "any",
   odds: 5,
-  fonts: { deny: ['hairline', 'shaded'], prefer: ['fat', 'deco'] },
+  fonts: { deny: ["hairline", "shaded"], prefer: ["fat", "deco"] },
   palettes: { prefer: [] },
   params: { d: [1, 3, 0.5], a: [0, 315, 45] },
 
@@ -47,12 +47,12 @@ export default {
    * @param {{d: number, a: number}} p
    * @param {typeof import('../src/helpers.js').helpers} h
    */
-  css: (p, h) => `.n{text-shadow:${h.stack(1, p.a, p.d, 'var(--a1)')}}`,
+  css: (p, h) => `.n{text-shadow:${h.stack(1, p.a, p.d, "var(--a1)")}}`,
 
   /**
    * @param {{d: number, a: number}} p
    * @param {typeof import('../src/helpers.js').helpers} h
    */
-  hover: (p, h) => `text-shadow:${h.stack(1, p.a, p.d * LIFT, 'var(--a1)')}`,
+  hover: (p, h) => `text-shadow:${h.stack(1, p.a, p.d * LIFT, "var(--a1)")}`,
   motion: null,
-}
+};

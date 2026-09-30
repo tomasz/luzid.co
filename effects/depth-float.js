@@ -18,32 +18,32 @@
  */
 
 /** Blur radius to painted reach: sigma is r/2, so 2r is a conservative bound. */
-const SPREAD = 2
+const SPREAD = 2;
 
 /** Measured cap on a blurred text-shadow radius, in u. */
-const MAX_BLUR = 2.5
+const MAX_BLUR = 2.5;
 
 /** @param {number} y */
-const tightBlur = (y) => Math.min(MAX_BLUR, y * 0.18)
+const tightBlur = (y) => Math.min(MAX_BLUR, y * 0.18);
 /** @param {number} y */
-const softBlur = (y) => Math.min(MAX_BLUR, y * 0.3)
+const softBlur = (y) => Math.min(MAX_BLUR, y * 0.3);
 
 export default {
-  id: 'depth-float',
-  family: 'depth',
-  shape: 'A',
+  id: "depth-float",
+  family: "depth",
+  shape: "A",
   colors: 2,
-  bg: 'light',
+  bg: "light",
   odds: 4,
-  fonts: { deny: [], prefer: ['fat', 'rounded'] },
+  fonts: { deny: [], prefer: ["fat", "rounded"] },
   palettes: { prefer: [] },
   // `y` is the hover height in u; `o` how much ink the shadow carries, in percent.
   params: { y: [4, 10, 2], o: [18, 42, 8] },
 
   /** @param {{y: number, o: number}} p */
   bleed: (p) => {
-    const reach = SPREAD * softBlur(p.y)
-    return { t: 0, r: reach, b: p.y + reach, l: reach }
+    const reach = SPREAD * softBlur(p.y);
+    return { t: 0, r: reach, b: p.y + reach, l: reach };
   },
 
   /**
@@ -51,15 +51,15 @@ export default {
    * @param {typeof import('../src/helpers.js').helpers} h
    */
   css: (p, h) =>
-    `.n{text-shadow:0 ${h.u(p.y * 0.35)} ${h.u(tightBlur(p.y))} ${h.mix('var(--fg)', 'var(--bg)', p.o)},` +
-    `0 ${h.u(p.y)} ${h.u(softBlur(p.y))} ${h.mix('var(--fg)', 'var(--bg)', p.o * 0.65)}}`,
+    `.n{text-shadow:0 ${h.u(p.y * 0.35)} ${h.u(tightBlur(p.y))} ${h.mix("var(--fg)", "var(--bg)", p.o)},` +
+    `0 ${h.u(p.y)} ${h.u(softBlur(p.y))} ${h.mix("var(--fg)", "var(--bg)", p.o * 0.65)}}`,
 
   /**
    * @param {{y: number, o: number}} p
    * @param {typeof import('../src/helpers.js').helpers} h
    */
   hover: (p, h) =>
-    `text-shadow:0 ${h.u(p.y * 0.18)} ${h.u(tightBlur(p.y) * 0.7)} ${h.mix('var(--fg)', 'var(--bg)', p.o * 1.15)},` +
-    `0 ${h.u(p.y * 0.5)} ${h.u(softBlur(p.y) * 0.7)} ${h.mix('var(--fg)', 'var(--bg)', p.o * 0.8)}`,
+    `text-shadow:0 ${h.u(p.y * 0.18)} ${h.u(tightBlur(p.y) * 0.7)} ${h.mix("var(--fg)", "var(--bg)", p.o * 1.15)},` +
+    `0 ${h.u(p.y * 0.5)} ${h.u(softBlur(p.y) * 0.7)} ${h.mix("var(--fg)", "var(--bg)", p.o * 0.8)}`,
   motion: null,
-}
+};
