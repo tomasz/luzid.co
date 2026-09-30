@@ -7,7 +7,8 @@ const baseURL = `http://127.0.0.1:${port}`
 /**
  * §9.2's scope switch. `changed` is the required PR check and is what keeps the run inside
  * ~10 minutes: the per-variant fit sweep only fires when a font meta or the engine moved.
- * `all` is the WP-50 sweep and `workflow_dispatch`, and is never a required check.
+ * `all` is the WP-50 sweep, run weekly and on demand by `sweep.yml`, and is never a
+ * required check.
  *
  * The specs read `FIT_SCOPE` themselves (`e2e/fit-lib.js`); it is named here because this
  * is where someone looks for it.

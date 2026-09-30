@@ -521,7 +521,8 @@ narrowing to none.
 
 **`FIT_SCOPE=all`** (`pnpm run e2e:all`) crosses every font and variant in the catalogue, not
 just the seed set, with all three layout modes and all eight viewports. It is the WP-50
-sweep and `workflow_dispatch`; it is **not** a required check.
+sweep. `.github/workflows/sweep.yml` runs it on Mondays and on demand (`workflow_dispatch`),
+through `ci.yml` with `fit-scope: all`; it is **not** a required check.
 
 Result when the catalogue was the 8 seed fonts: **765 passed, 4 failed, 3.0 minutes**. All four failures are
 `pacifico.n-fina-static` on WebKit — F1, once in the per-variant sweep and once in each of

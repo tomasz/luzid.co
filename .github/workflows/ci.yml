@@ -3,17 +3,25 @@ name: ci
 on:
   pull_request:
   workflow_call:
+    inputs:
+      fit-scope:
+        description: "`changed` (the per-PR matrix) or `all` (every font and variant); docs/fit.md"
+        type: string
+        default: changed
 
 permissions:
   contents: read
 
 env:
   WRANGLER_SEND_METRICS: "false"
+  # Read by e2e/fit-lib.js. A pull_request run has no inputs, so it is always `changed`.
+  FIT_SCOPE: ${{ inputs.fit-scope || 'changed' }}
 
 # Inside a called workflow `github.workflow` resolves to the CALLER's name, so a shared
-# group expression would make cd.yml deadlock against its own ci job.
+# group expression would make cd.yml deadlock against its own ci job. The scope keeps a
+# dispatched sweep from queueing a dispatched deploy behind it.
 concurrency:
-  group: ci-${{ github.event_name }}-${{ github.ref }}
+  group: ci-${{ github.event_name }}-${{ inputs.fit-scope || 'changed' }}-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
@@ -37,8 +45,10 @@ jobs:
     runs-on: ubuntu-24.04
     # One job per engine, in parallel: the engines are independent, and one engine's
     # failure then names itself. The per-PR scope is the 8 seed fonts plus whatever the
-    # branch changed, so it does not grow with the catalogue; FIT_SCOPE=all does.
-    timeout-minutes: 25
+    # branch changed, so it does not grow with the catalogue; FIT_SCOPE=all does, and
+    # gets its own ceiling (sweep.yml): a full Chromium sweep took 20-30 min on CI (#57),
+    # and Firefox has run about 2.4x Chromium on this kind of fit-heavy scope.
+    timeout-minutes: ${{ inputs.fit-scope == 'all' && 120 || 25 }}
     strategy:
       fail-fast: false # one engine's failure must not hide another's
       matrix:
