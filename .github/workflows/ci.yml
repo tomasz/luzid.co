@@ -46,9 +46,9 @@ jobs:
     # One job per engine, in parallel: the engines are independent, and one engine's
     # failure then names itself. The per-PR scope is the 8 seed fonts plus whatever the
     # branch changed, so it does not grow with the catalogue; FIT_SCOPE=all does, and
-    # gets its own ceiling (sweep.yml): 3817 Chromium tests took 15.8 min in the
-    # devcontainer; CI's Firefox is estimated at about 3x that.
-    timeout-minutes: ${{ inputs.fit-scope == 'all' && 90 || 25 }}
+    # gets its own ceiling (sweep.yml): a full Chromium sweep took 20-30 min on CI (#57),
+    # and Firefox has run about 2.4x Chromium on this kind of fit-heavy scope.
+    timeout-minutes: ${{ inputs.fit-scope == 'all' && 120 || 25 }}
     strategy:
       fail-fast: false # one engine's failure must not hide another's
       matrix:
