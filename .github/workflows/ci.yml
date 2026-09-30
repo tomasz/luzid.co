@@ -70,6 +70,18 @@ jobs:
       - run: pnpm exec playwright install --with-deps ${{ matrix.project }}
       - run: pnpm run build
       - run: pnpm exec playwright test --project=${{ matrix.project }}
+      # retries: 1 keeps a flake green; this keeps it visible. flaky.yml tallies the history.
+      - name: flaky report
+        if: ${{ always() && hashFiles('test-results/results.json') != '' }}
+        run: node scripts/flaky.mjs test-results/results.json >> "$GITHUB_STEP_SUMMARY"
+        continue-on-error: true
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: e2e-results-${{ matrix.project }}
+          path: test-results/results.json
+          if-no-files-found: ignore
+          retention-days: 90 # the window scripts/flaky.mjs --runs can look back over
       - name: render sheets
         if: ${{ matrix.project == 'chromium' && hashFiles('scripts/sheet.mjs') != '' }}
         run: pnpm run sheet -- --changed
