@@ -111,6 +111,17 @@ export const notGround =
   (r, g, b) =>
     Math.abs(r - br) > 8 || Math.abs(g - bg) > 8 || Math.abs(b - bb) > 8
 
+/**
+ * Any visible ink on mask mode's white ground: the predicate for the fill proof's *lower*
+ * bound. A stroke thinner than half a pixel covers no pixel by half on its own, so `isInk`
+ * cannot see it, and whether its edge pixel lands above or below 50 % is up to the
+ * rasteriser. Bungee Outline's 0.010 em hairline is 0.44 px at 320x568. Asking "does the
+ * ink reach the edge" of the loosest threshold can only widen the box by the antialiased
+ * fringe, which is what a lower bound can afford; the upper bounds keep `isInk`, which
+ * never counts that fringe. See `docs/fit.md`, F7.
+ */
+export const isTrace = notGround([255, 255, 255])
+
 // --- seeds -------------------------------------------------------------------
 
 const ALPHABET = '0123456789abcdefghjkmnpqrstvwxyz'
