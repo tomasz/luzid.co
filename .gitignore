@@ -10,3 +10,4 @@ sheets/
 .DS_Store
 .env*
 .dev.vars*
+dist/

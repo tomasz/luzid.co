@@ -7,7 +7,8 @@
  * request would burn CPU on every visit.
  *
  * Effects are JS modules with functions in them, so they are re-exported by a static
- * import rather than serialized; esbuild inlines them when Wrangler bundles the Worker.
+ * import rather than serialized; Rolldown inlines them when `vp build` bundles the Worker.
+ * The `catalog` plugin in vite.config.js calls `build()`; the CLI is for fixtures:
  *
  *   node scripts/build.mjs [--root <dir>] [--out <file>]
  *

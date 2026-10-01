@@ -9,3 +9,9 @@ allowBuilds:
 # stays above this, so every version it proposes installs; security updates skip the
 # cooldown, which is why this gate stays short.
 minimumReleaseAge: 1440
+
+# Vite+ ships its own Vite and Vitest; these make every dependency resolve the same copies.
+# Bump them together with vite-plus (test/repo.test.js checks they stay exact).
+overrides:
+  vite: npm:@voidzero-dev/vite-plus-core@1.0.0
+  vitest: 5.0.1

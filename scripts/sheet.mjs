@@ -178,13 +178,15 @@ function chunks(xs, n) {
 
 // --- the server ---------------------------------------------------------------
 
-/** Start `wrangler dev` and wait for it to answer, unless `--url` points at a live one. */
+/** Build and start `vp preview` and wait for it to answer, unless `--url` points at a live one. */
 async function serve(port) {
-  const child = spawn(
-    resolve(ROOT, 'node_modules/.bin/wrangler'),
-    ['dev', '--ip', '127.0.0.1', '--port', String(port), '--show-interactive-dev-session=false'],
-    { cwd: ROOT, stdio: 'ignore', env: { ...env, WRANGLER_SEND_METRICS: 'false' } },
-  )
+  const vp = resolve(ROOT, 'node_modules/.bin/vp')
+  execFileSync(vp, ['build'], { cwd: ROOT, stdio: 'ignore' })
+  const child = spawn(vp, ['preview', '--host', '127.0.0.1', '--port', String(port), '--strictPort'], {
+    cwd: ROOT,
+    stdio: 'ignore',
+    env: { ...env, WRANGLER_SEND_METRICS: 'false' },
+  })
   const base = `http://127.0.0.1:${port}`
   for (let i = 0; i < 90; i++) {
     try {
@@ -193,7 +195,7 @@ async function serve(port) {
     await new Promise((r) => setTimeout(r, 1000))
   }
   child.kill()
-  throw new Error(`wrangler dev did not come up on ${port}`)
+  throw new Error(`vp preview did not come up on ${port}`)
 }
 
 // --- rendering ----------------------------------------------------------------
