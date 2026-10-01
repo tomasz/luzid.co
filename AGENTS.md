@@ -41,7 +41,7 @@ The image is Vite+'s official toolchain image, pinned by digest.
 - **Node:** `vp env` installs whichever version `engines.node` in `package.json`
   declares. That field is the one place the Node version lives: no `.nvmrc`, no
   `.node-version`.
-- **pnpm:** `vp` installs `pnpm@12.4.2` from `devEngines.packageManager` in
+- **pnpm:** `vp` installs `pnpm@12.8.1` from `devEngines.packageManager` in
   `package.json`, inside the container or out.
 - **Commands:** inside the container, plain `pnpm` and `vp` are the right commands. CI sets
   up the same `vp` with `voidzero-dev/setup-vp`, pinning pnpm through `VP_PACKAGE_MANAGER`
