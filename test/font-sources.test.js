@@ -195,8 +195,9 @@ test('urls are raw files at an immutable commit, never a zip or the css2 API', (
       ]) {
         assert.match(url, /^https:\/\//, `${where}: ${key} must be https`)
         // The css2 API strips ssNN/salt/swsh/dlig (google/fonts#1335).
-        assert.ok(!url.includes('fonts.googleapis.com'), `${where}: ${key} uses the Google CSS API`)
-        assert.ok(!url.includes('fonts.gstatic.com'), `${where}: ${key} uses the Google font CDN`)
+        const host = new URL(url).hostname
+        assert.notEqual(host, 'fonts.googleapis.com', `${where}: ${key} uses the Google CSS API`)
+        assert.notEqual(host, 'fonts.gstatic.com', `${where}: ${key} uses the Google font CDN`)
         assert.ok(!/\.(zip|tar|tgz|gz)(\?|$)/.test(url), `${where}: ${key} points at an archive`)
       }
       assert.match(row.url, /\.(ttf|otf|ttc)$/i, `${where}: url must be a font file`)
@@ -206,7 +207,7 @@ test('urls are raw files at an immutable commit, never a zip or the css2 API', (
         assert.ok(!row.url.includes(ref), `${where}: url uses the mutable ref "${ref}"`)
         assert.ok(!row.licenseUrl.includes(ref), `${where}: licenseUrl uses the mutable ref "${ref}"`)
       }
-      if (row.url.includes('raw.githubusercontent.com') || row.url.includes('gitlab.com')) {
+      if (['raw.githubusercontent.com', 'gitlab.com'].includes(new URL(row.url).hostname)) {
         assert.match(row.url, /\/[0-9a-f]{40}\//, `${where}: url lacks a full 40-char commit sha`)
         assert.match(row.licenseUrl, /\/[0-9a-f]{40}\//, `${where}: licenseUrl lacks a full commit sha`)
       }

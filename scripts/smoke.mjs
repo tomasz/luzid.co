@@ -54,7 +54,7 @@ if ((a.headers['cf-cache-status'] ?? '') === 'HIT')
 // Body checks need the decoded text; ask for identity so we can read it directly.
 const plain = await fetchRaw(url, 'identity')
 const html = plain.raw.toString('utf8')
-if (!html.includes('https://github.com/tomasz')) worker.push('body is missing the GitHub link')
+if (!html.includes('href="https://github.com/tomasz"')) worker.push('body is missing the GitHub link')
 if (!html.includes('Tomasz Cudzi')) worker.push('body is missing the name')
 
 if (a.bytes > BUDGET) worker.push(`on-wire size ${a.bytes} B exceeds the ${BUDGET} B budget`)
