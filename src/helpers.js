@@ -10,7 +10,7 @@
  * and therefore every golden snapshot — depend on the engine that rendered it.
  */
 
-import { round4 } from './rand.js'
+import { round4 } from "./rand.js";
 
 /**
  * A length in `u` (1u = 1% of the fitted block width). The only unit an effect may use.
@@ -19,7 +19,7 @@ import { round4 } from './rand.js'
  * @returns {string}
  */
 export function u(x) {
-  return `calc(${round4(x)}*var(--u))`
+  return `calc(${round4(x)}*var(--u))`;
 }
 
 /**
@@ -36,13 +36,13 @@ export function u(x) {
  * @returns {string} a `text-shadow` value
  */
 export function stack(n, angle, dist, color) {
-  const a = round4(angle)
-  const out = []
+  const a = round4(angle);
+  const out = [];
   for (let i = 1; i <= n; i++) {
-    const k = round4((dist * i) / n)
-    out.push(`calc(${k}*cos(${a}deg)*var(--u)) calc(${k}*sin(${a}deg)*var(--u)) 0 ${color}`)
+    const k = round4((dist * i) / n);
+    out.push(`calc(${k}*cos(${a}deg)*var(--u)) calc(${k}*sin(${a}deg)*var(--u)) 0 ${color}`);
   }
-  return out.join(',')
+  return out.join(",");
 }
 
 /**
@@ -58,13 +58,13 @@ export function stack(n, angle, dist, color) {
  * @returns {string} a `text-shadow` value
  */
 export function ring(n, r, color) {
-  const k = round4(r)
-  const out = []
+  const k = round4(r);
+  const out = [];
   for (let i = 0; i < n; i++) {
-    const a = round4((360 * i) / n)
-    out.push(`calc(${k}*cos(${a}deg)*var(--u)) calc(${k}*sin(${a}deg)*var(--u)) 0 ${color}`)
+    const a = round4((360 * i) / n);
+    out.push(`calc(${k}*cos(${a}deg)*var(--u)) calc(${k}*sin(${a}deg)*var(--u)) 0 ${color}`);
   }
-  return out.join(',')
+  return out.join(",");
 }
 
 /**
@@ -76,8 +76,8 @@ export function ring(n, r, color) {
  * @returns {string}
  */
 export function mix(a, b, pct) {
-  return `color-mix(in oklab,${a} ${round4(pct)}%,${b})`
+  return `color-mix(in oklab,${a} ${round4(pct)}%,${b})`;
 }
 
 /** The object handed to effects as `h`. */
-export const helpers = { u, stack, ring, mix }
+export const helpers = { u, stack, ring, mix };

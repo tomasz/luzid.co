@@ -23,29 +23,30 @@
  * `{id, names, namesJa?, hex}` and does its own count assertions. Adding a source is adding
  * a file — this driver needs no edit.
  */
-import { glob, mkdir, readFile, writeFile } from 'node:fs/promises'
-import { parseArgs } from 'node:util'
-import { grounds, roleSets } from './roles.mjs'
+import { glob, mkdir, readFile, writeFile } from "node:fs/promises";
+import { parseArgs } from "node:util";
+import { grounds, roleSets } from "./roles.mjs";
 
-const ROOT = new URL('../', import.meta.url)
-const SOURCES = new URL('palette-sources/', import.meta.url)
+const ROOT = new URL("../", import.meta.url);
+const SOURCES = new URL("palette-sources/", import.meta.url);
 
 const { values } = parseArgs({
-  options: { source: { type: 'string' }, check: { type: 'boolean', default: false } },
-})
+  options: { source: { type: "string" }, check: { type: "boolean", default: false } },
+});
 
-const files = (await Array.fromAsync(glob('*.mjs', { cwd: SOURCES }))).sort()
-let failed = false
+const files = (await Array.fromAsync(glob("*.mjs", { cwd: SOURCES }))).sort();
+let failed = false;
 
 for (const file of files) {
-  const source = await import(new URL(file, SOURCES).href)
-  const { id, tier, build } = source.default ?? source
-  if (values.source && id !== values.source) continue
+  const source = await import(new URL(file, SOURCES).href);
+  const { id, tier, build } = source.default ?? source;
+  if (values.source && id !== values.source) continue;
 
   const rows = (await build()).map((row) => {
-    const roles = roleSets(row.hex)
-    if (roles.length === 0) throw new Error(`${row.id}: no role set — roles.mjs must always emit one`)
-    const hex = roles.some((r) => r.derivedBg) ? [...row.hex, ...grounds(row.hex)] : row.hex
+    const roles = roleSets(row.hex);
+    if (roles.length === 0)
+      throw new Error(`${row.id}: no role set — roles.mjs must always emit one`);
+    const hex = roles.some((r) => r.derivedBg) ? [...row.hex, ...grounds(row.hex)] : row.hex;
     return {
       id: row.id,
       src: id,
@@ -55,34 +56,34 @@ for (const file of files) {
       ...(row.namesJa ? { namesJa: row.namesJa } : {}),
       hex,
       roles,
-    }
-  })
+    };
+  });
 
   // One row per line: a diff then shows exactly which combinations moved.
-  const json = `[\n${rows.map((r) => JSON.stringify(r)).join(',\n')}\n]\n`
-  const out = new URL(`data/palettes/${id}.json`, ROOT)
+  const json = `[\n${rows.map((r) => JSON.stringify(r)).join(",\n")}\n]\n`;
+  const out = new URL(`data/palettes/${id}.json`, ROOT);
 
-  const sets = rows.flatMap((r) => r.roles)
-  const derived = sets.filter((r) => r.derivedBg)
-  const combos = rows.filter((r) => r.roles.some((s) => s.derivedBg)).length
+  const sets = rows.flatMap((r) => r.roles);
+  const derived = sets.filter((r) => r.derivedBg);
+  const combos = rows.filter((r) => r.roles.some((s) => s.derivedBg)).length;
   console.log(
     `${id}: ${rows.length} combos → ${sets.length} role sets, ` +
       `${derived.length} on a derived ground (${combos} combos, ` +
-      `${derived.filter((r) => r.derivedBg === 'w').length} washi / ` +
-      `${derived.filter((r) => r.derivedBg === 'k').length} sumi), ` +
+      `${derived.filter((r) => r.derivedBg === "w").length} washi / ` +
+      `${derived.filter((r) => r.derivedBg === "k").length} sumi), ` +
       `${sets.filter((r) => r.dark).length} dark · ${json.length} B`,
-  )
+  );
 
   if (values.check) {
-    const have = await readFile(out, 'utf8').catch(() => '')
+    const have = await readFile(out, "utf8").catch(() => "");
     if (have !== json) {
-      console.error(`${id}: data/palettes/${id}.json is stale — run \`pnpm run palettes\``)
-      failed = true
+      console.error(`${id}: data/palettes/${id}.json is stale — run \`pnpm run palettes\``);
+      failed = true;
     }
   } else {
-    await mkdir(new URL('data/palettes/', ROOT), { recursive: true })
-    await writeFile(out, json)
+    await mkdir(new URL("data/palettes/", ROOT), { recursive: true });
+    await writeFile(out, json);
   }
 }
 
-if (failed) process.exitCode = 1
+if (failed) process.exitCode = 1;

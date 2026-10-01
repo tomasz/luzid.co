@@ -20,13 +20,13 @@
  * roughly 1em = 25u: D .05–.11em is 1.25–2.75u, and the blur sits just above it.
  */
 export default {
-  id: 'retro-printers-shade',
-  family: 'retro',
-  shape: 'A',
+  id: "retro-printers-shade",
+  family: "retro",
+  shape: "A",
   colors: 3,
-  bg: 'any',
+  bg: "any",
   odds: 4,
-  fonts: { deny: ['hairline', 'inline', 'shaded'], prefer: ['brush', 'script', 'fat', 'serif'] },
+  fonts: { deny: ["hairline", "inline", "shaded"], prefer: ["brush", "script", "fat", "serif"] },
   palettes: { prefer: [] },
   // d = per-axis depth; b = the largest blur radius in the soft trio.
   params: { b: [0.2, 0.6, 0.2], d: [1.5, 4, 0.5] },
@@ -47,32 +47,32 @@ export default {
    * @param {typeof import('../src/helpers.js').helpers} h
    */
   css: (p, h) => {
-    const n = Math.min(60, Math.max(12, Math.round(14 * p.d)))
+    const n = Math.min(60, Math.max(12, Math.round(14 * p.d)));
     // Six bands, never a per-layer alternation. The nearest band is the accent itself,
     // which is what a 0% mix means and is a good deal shorter to say.
     const tone = (i) => {
-      const band = Math.min(5, Math.floor((6 * (i - 1)) / n))
-      return band === 0 ? 'var(--a1)' : h.mix('var(--fg)', 'var(--a1)', 4 * band)
-    }
-    const out = []
+      const band = Math.min(5, Math.floor((6 * (i - 1)) / n));
+      return band === 0 ? "var(--a1)" : h.mix("var(--fg)", "var(--a1)", 4 * band);
+    };
+    const out = [];
     for (let i = 1; i <= n; i++) {
-      const k = (p.d * i) / n
-      out.push(`${h.u(k)} ${h.u(k)} 0 ${tone(i)}`)
+      const k = (p.d * i) / n;
+      out.push(`${h.u(k)} ${h.u(k)} 0 ${tone(i)}`);
     }
     // Every soft layer sits further out than its own radius, so none of them reaches back
     // past the face: the bleed stays a clean {right, bottom} box.
-    const soft = h.mix('var(--a1)', 'var(--bg)', 62)
+    const soft = h.mix("var(--a1)", "var(--bg)", 62);
     for (const [at, r] of [
       [0.55, 0.6],
       [0.78, 1],
       [1, 0.5],
     ]) {
-      const k = p.d * at
-      out.push(`${h.u(k)} ${h.u(k)} ${h.u(p.b * r)} ${soft}`)
+      const k = p.d * at;
+      out.push(`${h.u(k)} ${h.u(k)} ${h.u(p.b * r)} ${soft}`);
     }
-    return `.n{text-shadow:${out.join(',')}}`
+    return `.n{text-shadow:${out.join(",")}}`;
   },
 
-  hover: () => 'filter:brightness(1.05)',
+  hover: () => "filter:brightness(1.05)",
   motion: null,
-}
+};

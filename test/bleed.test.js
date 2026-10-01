@@ -18,15 +18,15 @@
  *    The first version of this audit silently gave a pass to two effects that do overshoot
  *    and to one that it could not have judged at all.
  */
-import assert from 'node:assert/strict'
-import { glob } from 'node:fs/promises'
-import { basename } from 'node:path'
-import { test } from 'vite-plus/test'
-import { pathToFileURL } from 'node:url'
-import { helpers as h } from '../src/helpers.js'
+import assert from "node:assert/strict";
+import { glob } from "node:fs/promises";
+import { basename } from "node:path";
+import { test } from "vite-plus/test";
+import { pathToFileURL } from "node:url";
+import { helpers as h } from "../src/helpers.js";
 
 /** R14: a blurred layer paints to about one radius beyond its offset. 1.1 is the safety factor. */
-const BLUR_REACH = 1.1
+const BLUR_REACH = 1.1;
 
 /**
  * How far past its declaration an effect may score before this test complains, in u.
@@ -41,7 +41,7 @@ const BLUR_REACH = 1.1
  * test, which is authoritative. Tightening it below the scan's own error would just
  * force effects to reserve space they never paint into, which costs real size.
  */
-const TOLERANCE = 0.5
+const TOLERANCE = 0.5;
 
 /** Plausible metrics; the audit is about an effect's own geometry, not a particular font. */
 const M = {
@@ -52,53 +52,55 @@ const M = {
   desc: 0.25,
   G: 8,
   R: 0.5,
-  layout: 'stack-fit',
-}
+  layout: "stack-fit",
+};
 
 /** Properties whose ink a shadow-list scan cannot bound. Seeing one means we must abstain. */
-const OPAQUE = /^(transform|translate|scale|rotate|clip-path|mask|mask-image|filter|content)$/
+const OPAQUE = /^(transform|translate|scale|rotate|clip-path|mask|mask-image|filter|content)$/;
 
 /** Split `s` on `sep` at paren depth 0. */
 function topSplit(s, sep) {
-  const out = []
-  let depth = 0
-  let cur = ''
+  const out = [];
+  let depth = 0;
+  let cur = "";
   for (const ch of s) {
-    if (ch === '(') depth++
-    if (ch === ')') depth--
+    if (ch === "(") depth++;
+    if (ch === ")") depth--;
     if (ch === sep && depth === 0) {
-      out.push(cur)
-      cur = ''
-    } else cur += ch
+      out.push(cur);
+      cur = "";
+    } else cur += ch;
   }
-  if (cur.trim()) out.push(cur)
-  return out
+  if (cur.trim()) out.push(cur);
+  return out;
 }
 
 /** A length in `u`, or null if it is not one the scan understands. */
 function u(s) {
-  const t = s.trim()
-  if (t === '0') return 0
-  let m = t.match(/^calc\(\s*(-?[\d.]+)\s*\*\s*var\(--u\)\s*\)$/)
-  if (m) return Number(m[1])
-  m = t.match(/^calc\(\s*(-?[\d.]+)\s*\*\s*(cos|sin)\(\s*(-?[\d.]+)deg\s*\)\s*\*\s*var\(--u\)\s*\)$/)
+  const t = s.trim();
+  if (t === "0") return 0;
+  let m = t.match(/^calc\(\s*(-?[\d.]+)\s*\*\s*var\(--u\)\s*\)$/);
+  if (m) return Number(m[1]);
+  m = t.match(
+    /^calc\(\s*(-?[\d.]+)\s*\*\s*(cos|sin)\(\s*(-?[\d.]+)deg\s*\)\s*\*\s*var\(--u\)\s*\)$/,
+  );
   if (m) {
-    const rad = (Number(m[3]) * Math.PI) / 180
-    return Number(m[1]) * (m[2] === 'cos' ? Math.cos(rad) : Math.sin(rad))
+    const rad = (Number(m[3]) * Math.PI) / 180;
+    return Number(m[1]) * (m[2] === "cos" ? Math.cos(rad) : Math.sin(rad));
   }
-  return null
+  return null;
 }
 
 /** Every combination of each parameter's two extremes. */
 function corners(params) {
-  let out = [{}]
+  let out = [{}];
   for (const [k, v] of Object.entries(params ?? {})) {
     out = out.flatMap((o) => [
       { ...o, [k]: v[0] },
       { ...o, [k]: v[1] },
-    ])
+    ]);
   }
-  return out.slice(0, 64)
+  return out.slice(0, 64);
 }
 
 /**
@@ -106,17 +108,17 @@ function corners(params) {
  * @returns {{ext: {l:number,r:number,t:number,b:number}, opaque: string[]}}
  */
 function extent(css) {
-  const ext = { l: 0, r: 0, t: 0, b: 0 }
-  const opaque = []
-  let stroke = 0
+  const ext = { l: 0, r: 0, t: 0, b: 0 };
+  const opaque = [];
+  let stroke = 0;
 
-  for (const rule of css.split('}')) {
-    const body = rule.includes('{') ? rule.slice(rule.indexOf('{') + 1) : ''
-    for (const decl of topSplit(body, ';')) {
-      const i = decl.indexOf(':')
-      if (i < 0) continue
-      const prop = decl.slice(0, i).trim()
-      const value = decl.slice(i + 1).trim()
+  for (const rule of css.split("}")) {
+    const body = rule.includes("{") ? rule.slice(rule.indexOf("{") + 1) : "";
+    for (const decl of topSplit(body, ";")) {
+      const i = decl.indexOf(":");
+      if (i < 0) continue;
+      const prop = decl.slice(0, i).trim();
+      const value = decl.slice(i + 1).trim();
 
       // A centred stroke puts w/2 outside the contour geometrically -- but Chrome and
       // WebKit MITER their joins, and a miter on an acute corner runs to w/2 / sin(0/2),
@@ -124,132 +126,143 @@ function extent(css) {
       // miter, which is the sharpest these display faces produce. The stroke then feeds
       // every shadow that follows, so this is an outset on the glyph, not a separate side.
       if (/^-webkit-text-stroke(-width)?$/.test(prop)) {
-        const w = u(topSplit(value, ' ')[0])
-        if (w === null) opaque.push(prop)
-        else stroke = Math.max(stroke, w)
-        continue
+        const w = u(topSplit(value, " ")[0]);
+        if (w === null) opaque.push(prop);
+        else stroke = Math.max(stroke, w);
+        continue;
       }
       // drop-shadow is the one filter whose geometry the scan understands; any other
       // filter function changes ink in ways a shadow list cannot describe.
       const onlyDropShadows =
-        prop === 'filter' &&
-        topSplit(value, ' ').every((f) => !f.trim() || f.trim().startsWith('drop-shadow('))
+        prop === "filter" &&
+        topSplit(value, " ").every((f) => !f.trim() || f.trim().startsWith("drop-shadow("));
       if (OPAQUE.test(prop) && !onlyDropShadows) {
-        opaque.push(prop)
-        continue
+        opaque.push(prop);
+        continue;
       }
 
-      const isShadow = prop === 'text-shadow'
-      if (!isShadow && prop !== 'filter') continue
+      const isShadow = prop === "text-shadow";
+      if (!isShadow && prop !== "filter") continue;
       const layers = isShadow
-        ? topSplit(value, ',')
-        : topSplit(value, ' ')
-            .filter((f) => f.trim().startsWith('drop-shadow('))
-            .map((f) => f.trim().slice('drop-shadow('.length, -1))
+        ? topSplit(value, ",")
+        : topSplit(value, " ")
+            .filter((f) => f.trim().startsWith("drop-shadow("))
+            .map((f) => f.trim().slice("drop-shadow(".length, -1));
 
       // `text-shadow` layers are siblings: each is drawn from the same glyph, so the
       // extent is the widest of them. Chained `drop-shadow()` filters are NOT siblings --
       // each pass shadows the OUTPUT of the one before, so offsets add up and blurs
       // compound. Taking the max over a chain under-reports it, which is how this scan
       // scored `glow-neon-outline` at 3.15u while it painted 5.08u and called it clean.
-      const chain = { l: 0, r: 0, t: 0, b: 0 }
+      const chain = { l: 0, r: 0, t: 0, b: 0 };
       for (const layer of layers) {
-        const nums = []
-        for (const part of topSplit(layer, ' ')) {
-          if (!part.trim()) continue
-          const v = u(part)
-          if (v === null) break
-          nums.push(v)
+        const nums = [];
+        for (const part of topSplit(layer, " ")) {
+          if (!part.trim()) continue;
+          const v = u(part);
+          if (v === null) break;
+          nums.push(v);
         }
         if (nums.length < 2) {
-          opaque.push(`${prop} layer`)
-          continue
+          opaque.push(`${prop} layer`);
+          continue;
         }
-        const [x, y] = nums
-        const reach = BLUR_REACH * (nums[2] ?? 0)
+        const [x, y] = nums;
+        const reach = BLUR_REACH * (nums[2] ?? 0);
         if (isShadow) {
-          ext.l = Math.max(ext.l, -(x - reach))
-          ext.r = Math.max(ext.r, x + reach)
-          ext.t = Math.max(ext.t, -(y - reach))
-          ext.b = Math.max(ext.b, y + reach)
+          ext.l = Math.max(ext.l, -(x - reach));
+          ext.r = Math.max(ext.r, x + reach);
+          ext.t = Math.max(ext.t, -(y - reach));
+          ext.b = Math.max(ext.b, y + reach);
         } else {
-          chain.l += Math.max(0, -(x - reach))
-          chain.r += Math.max(0, x + reach)
-          chain.t += Math.max(0, -(y - reach))
-          chain.b += Math.max(0, y + reach)
+          chain.l += Math.max(0, -(x - reach));
+          chain.r += Math.max(0, x + reach);
+          chain.t += Math.max(0, -(y - reach));
+          chain.b += Math.max(0, y + reach);
         }
       }
-      for (const k of /** @type {const} */ (['l', 'r', 't', 'b'])) ext[k] = Math.max(ext[k], chain[k])
+      for (const k of /** @type {const} */ (["l", "r", "t", "b"]))
+        ext[k] = Math.max(ext[k], chain[k]);
     }
   }
-  for (const k of /** @type {const} */ (['l', 'r', 't', 'b'])) ext[k] = Math.max(ext[k], 0) + stroke
-  return { ext, opaque }
+  for (const k of /** @type {const} */ (["l", "r", "t", "b"]))
+    ext[k] = Math.max(ext[k], 0) + stroke;
+  return { ext, opaque };
 }
 
-const effects = []
-for await (const f of glob('effects/*.js')) {
-  const mod = await import(pathToFileURL(new URL(`../${f}`, import.meta.url).pathname).href)
-  effects.push([basename(f, '.js'), mod.default])
+const effects = [];
+for await (const f of glob("effects/*.js")) {
+  const mod = await import(pathToFileURL(new URL(`../${f}`, import.meta.url).pathname).href);
+  effects.push([basename(f, ".js"), mod.default]);
 }
-effects.sort(([a], [b]) => a.localeCompare(b))
+effects.sort(([a], [b]) => a.localeCompare(b));
 
-test('every effect either bounds its own ink or says it cannot be scanned statically', () => {
+test("every effect either bounds its own ink or says it cannot be scanned statically", () => {
   // Effects the scan provably cannot judge. Each one is covered by e2e/bleed.spec.js in
   // pixels instead; listing it here is an explicit abstention, not a silent pass.
-  const abstain = new Set(effects.filter(([, e]) => e.shape === 'B').map(([id]) => id))
+  const abstain = new Set(effects.filter(([, e]) => e.shape === "B").map(([id]) => id));
 
-  const problems = []
+  const problems = [];
   for (const [id, e] of effects) {
     for (const p of corners(e.params)) {
-      const css = [e.css(p, h, M), e.hover?.(p, h, M) ?? ''].join(' ')
-      const { ext, opaque } = extent(css)
-      const declared = e.bleed?.(p, M) ?? { t: 0, r: 0, b: 0, l: 0 }
+      const css = [e.css(p, h, M), e.hover?.(p, h, M) ?? ""].join(" ");
+      const { ext, opaque } = extent(css);
+      const declared = e.bleed?.(p, M) ?? { t: 0, r: 0, b: 0, l: 0 };
 
       if (opaque.length) {
         if (!abstain.has(id)) {
           problems.push(
-            `${id}: emits ${[...new Set(opaque)].join(', ')}, which this scan cannot bound — ` +
+            `${id}: emits ${[...new Set(opaque)].join(", ")}, which this scan cannot bound — ` +
               `declare shape 'B' or extend the scan; scoring it clean would be a lie`,
-          )
+          );
         }
-        break
+        break;
       }
-      for (const side of /** @type {const} */ (['l', 'r', 't', 'b'])) {
-        const over = ext[side] - (Number(declared[side]) || 0)
+      for (const side of /** @type {const} */ (["l", "r", "t", "b"])) {
+        const over = ext[side] - (Number(declared[side]) || 0);
         if (over > TOLERANCE) {
           problems.push(
             `${id} at ${JSON.stringify(p)}: paints ${ext[side].toFixed(2)}u ${side} ` +
               `but declares ${(Number(declared[side]) || 0).toFixed(2)}u (over by ${over.toFixed(2)}u)`,
-          )
+          );
         }
       }
     }
   }
-  assert.deepEqual(problems, [])
-})
+  assert.deepEqual(problems, []);
+});
 
-test('the scan refuses to score what it cannot parse', () => {
+test("the scan refuses to score what it cannot parse", () => {
   // The guard that matters: a silent zero from an unparsed construct must never read as a pass.
-  assert.ok(extent('.n{transform:translateX(5px)}').opaque.length, 'transform must be opaque')
-  assert.ok(extent('.n{clip-path:inset(1px)}').opaque.length, 'clip-path must be opaque')
-  assert.ok(extent('.n{text-shadow:1cm 1cm 0 red}').opaque.length, 'an unknown length must be opaque')
-  assert.equal(extent('.n{text-shadow:0 0 calc(2*var(--u)) var(--a1)}').opaque.length, 0)
-})
+  assert.ok(extent(".n{transform:translateX(5px)}").opaque.length, "transform must be opaque");
+  assert.ok(extent(".n{clip-path:inset(1px)}").opaque.length, "clip-path must be opaque");
+  assert.ok(
+    extent(".n{text-shadow:1cm 1cm 0 red}").opaque.length,
+    "an unknown length must be opaque",
+  );
+  assert.equal(extent(".n{text-shadow:0 0 calc(2*var(--u)) var(--a1)}").opaque.length, 0);
+});
 
-test('the scan measures reach the way R14 says', () => {
-  const { ext } = extent('.n{text-shadow:calc(3*var(--u)) 0 calc(2*var(--u)) var(--a1)}')
-  assert.equal(ext.r.toFixed(2), (3 + BLUR_REACH * 2).toFixed(2))
+test("the scan measures reach the way R14 says", () => {
+  const { ext } = extent(".n{text-shadow:calc(3*var(--u)) 0 calc(2*var(--u)) var(--a1)}");
+  assert.equal(ext.r.toFixed(2), (3 + BLUR_REACH * 2).toFixed(2));
   // The blur reaches 2.2u back but the offset carries it 3u right, so nothing lands left
   // of the glyph: a side that is never painted contributes no bleed, and clamps at 0.
-  assert.equal(ext.l, 0)
+  assert.equal(ext.l, 0);
   // A stroke counts at its full width, not w/2: the joins are mitred, so an acute corner
   // paints well past the geometric half-width. It outsets the glyph every layer starts from.
-  const withStroke = extent('.n{-webkit-text-stroke:calc(4*var(--u)) var(--fg);text-shadow:0 0 0 var(--a1)}')
-  assert.equal(withStroke.ext.l, 4)
+  const withStroke = extent(
+    ".n{-webkit-text-stroke:calc(4*var(--u)) var(--fg);text-shadow:0 0 0 var(--a1)}",
+  );
+  assert.equal(withStroke.ext.l, 4);
 
   // Chained drop-shadows compound: each pass shadows the output of the one before.
-  const chained = extent('.n{filter:drop-shadow(0 calc(2*var(--u)) 0) drop-shadow(0 calc(3*var(--u)) 0)}')
-  assert.equal(chained.ext.b, 5, 'a drop-shadow chain accumulates rather than taking the widest')
-  const siblings = extent('.n{text-shadow:0 calc(2*var(--u)) 0 var(--a1),0 calc(3*var(--u)) 0 var(--a1)}')
-  assert.equal(siblings.ext.b, 3, 'text-shadow layers are siblings and take the widest')
-})
+  const chained = extent(
+    ".n{filter:drop-shadow(0 calc(2*var(--u)) 0) drop-shadow(0 calc(3*var(--u)) 0)}",
+  );
+  assert.equal(chained.ext.b, 5, "a drop-shadow chain accumulates rather than taking the widest");
+  const siblings = extent(
+    ".n{text-shadow:0 calc(2*var(--u)) 0 var(--a1),0 calc(3*var(--u)) 0 var(--a1)}",
+  );
+  assert.equal(siblings.ext.b, 3, "text-shadow layers are siblings and take the widest");
+});

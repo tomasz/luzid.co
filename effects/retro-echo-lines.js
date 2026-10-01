@@ -13,17 +13,17 @@
  */
 
 /** Horizontal sign per angle. Both fall, so nothing reaches up into the line above. */
-const SX = { 45: 1, 135: -1 }
+const SX = { 45: 1, 135: -1 };
 
 export default {
-  id: 'retro-echo-lines',
-  family: 'retro',
-  shape: 'A',
+  id: "retro-echo-lines",
+  family: "retro",
+  shape: "A",
   colors: 4,
-  bg: 'any',
+  bg: "any",
   odds: 4,
-  fonts: { deny: ['hairline', 'inline', 'shaded', 'stencil'], prefer: ['fat', 'sans', 'slab'] },
-  palettes: { prefer: ['n4'] },
+  fonts: { deny: ["hairline", "inline", "shaded", "stencil"], prefer: ["fat", "sans", "slab"] },
+  palettes: { prefer: ["n4"] },
   // e = echoes; w = ink band width; c = background channel before each band. All per axis.
   // The channel and the band are deliberately short: four echoes of the widest pair still
   // has to fit between the two lines, and past about 8u the trailing echoes of `Tomasz`
@@ -36,8 +36,8 @@ export default {
    * @param {{a: number, c: number, e: number, w: number}} p
    */
   bleed: (p) => {
-    const d = p.e * (p.c + p.w)
-    return { t: 0, r: p.a === 45 ? d : 0, b: d, l: p.a === 135 ? d : 0 }
+    const d = p.e * (p.c + p.w);
+    return { t: 0, r: p.a === 45 ? d : 0, b: d, l: p.a === 135 ? d : 0 };
   },
 
   /**
@@ -45,22 +45,22 @@ export default {
    * @param {typeof import('../src/helpers.js').helpers} h
    */
   css: (p, h) => {
-    const sx = SX[p.a] ?? 1
-    const nb = Math.min(16, Math.max(5, Math.round(12 * p.w)))
-    const cycle = ['var(--a1)', 'var(--a2)', 'var(--a1)', 'var(--a2)']
-    const out = []
+    const sx = SX[p.a] ?? 1;
+    const nb = Math.min(16, Math.max(5, Math.round(12 * p.w)));
+    const cycle = ["var(--a1)", "var(--a2)", "var(--a1)", "var(--a2)"];
+    const out = [];
     for (let i = 0; i < p.e; i++) {
-      const start = i * (p.c + p.w) + p.c
-      const back = 100 - i * 15
-      const color = i === 0 ? cycle[0] : h.mix(cycle[i], 'var(--bg)', back)
+      const start = i * (p.c + p.w) + p.c;
+      const back = 100 - i * 15;
+      const color = i === 0 ? cycle[0] : h.mix(cycle[i], "var(--bg)", back);
       for (let j = 1; j <= nb; j++) {
-        const k = start + (p.w * j) / nb
-        out.push(`${h.u(sx * k)} ${h.u(k)} 0 ${color}`)
+        const k = start + (p.w * j) / nb;
+        out.push(`${h.u(sx * k)} ${h.u(k)} 0 ${color}`);
       }
     }
-    return `.n{text-shadow:${out.join(',')}}`
+    return `.n{text-shadow:${out.join(",")}}`;
   },
 
-  hover: () => 'filter:saturate(1.2)',
+  hover: () => "filter:saturate(1.2)",
   motion: null,
-}
+};

@@ -16,10 +16,10 @@
  */
 
 /** Steps per u of depth, before the cap. 12 keeps the step near one device pixel. */
-const DENSITY = 12
+const DENSITY = 12;
 
 /** Half the measured 64-layer cap: this effect emits two layers per step. */
-const STEPS = 32
+const STEPS = 32;
 
 /**
  * @param {number} a
@@ -30,16 +30,16 @@ const dir = (a, d) => ({
   r: a < 90 || a > 270 ? d : 0,
   b: a > 0 && a < 180 ? d : 0,
   l: a > 90 && a < 270 ? d : 0,
-})
+});
 
 export default {
-  id: 'depth-iso',
-  family: 'depth',
-  shape: 'A',
+  id: "depth-iso",
+  family: "depth",
+  shape: "A",
   colors: 4,
-  bg: 'any',
+  bg: "any",
   odds: 4,
-  fonts: { deny: ['script', 'brush', 'hairline', 'shaded'], prefer: ['fat', 'slab'] },
+  fonts: { deny: ["script", "brush", "hairline", "shaded"], prefer: ["fat", "slab"] },
   palettes: { prefer: [] },
   params: { d: [1, 2.5, 0.5], a: [45, 315, 90] },
 
@@ -51,18 +51,18 @@ export default {
    * @param {typeof import('../src/helpers.js').helpers} h
    */
   css: (p, h) => {
-    const sx = p.a === 45 || p.a === 315 ? 1 : -1
-    const sy = p.a === 45 || p.a === 135 ? 1 : -1
-    const n = Math.min(STEPS, Math.max(4, Math.round(DENSITY * p.d)))
-    const s = p.d / n
-    const out = []
+    const sx = p.a === 45 || p.a === 315 ? 1 : -1;
+    const sy = p.a === 45 || p.a === 135 ? 1 : -1;
+    const n = Math.min(STEPS, Math.max(4, Math.round(DENSITY * p.d)));
+    const s = p.d / n;
+    const out = [];
     for (let i = 1; i <= n; i++) {
-      out.push(`${h.u(sx * (i - 1) * s)} ${h.u(sy * i * s)} 0 var(--a1)`)
-      out.push(`${h.u(sx * i * s)} ${h.u(sy * (i - 1) * s)} 0 var(--a2)`)
+      out.push(`${h.u(sx * (i - 1) * s)} ${h.u(sy * i * s)} 0 var(--a1)`);
+      out.push(`${h.u(sx * i * s)} ${h.u(sy * (i - 1) * s)} 0 var(--a2)`);
     }
-    return `.n{text-shadow:${out.join(',')}}`
+    return `.n{text-shadow:${out.join(",")}}`;
   },
 
-  hover: () => 'filter:brightness(1.06)',
+  hover: () => "filter:brightness(1.06)",
   motion: null,
-}
+};

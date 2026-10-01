@@ -2,24 +2,14 @@
   "name": "luzid-co",
   "version": "0.0.0",
   "private": true,
-  "type": "module",
   "description": "luzid.co — one name, endless looks",
   "license": "MIT",
-  "engines": {
-    "node": "24"
-  },
-  "devEngines": {
-    "packageManager": {
-      "name": "pnpm",
-      "version": "12.4.2",
-      "onFail": "ignore"
-    }
-  },
+  "type": "module",
   "scripts": {
     "dev": "vp dev",
     "build": "vp build",
     "test": "vp test",
-    "check": "vp check --no-fmt && vp test",
+    "check": "vp check && vp test",
     "e2e": "playwright test",
     "e2e:all": "FIT_SCOPE=all playwright test",
     "fonts": "node scripts/fonts.mjs",
@@ -34,5 +24,15 @@
     "subset-font": "2.9.0",
     "vite-plus": "1.0.0",
     "wrangler": "4.136.3"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "12.4.2",
+      "onFail": "ignore"
+    }
+  },
+  "engines": {
+    "node": "24"
   }
 }

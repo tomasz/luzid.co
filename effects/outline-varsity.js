@@ -17,18 +17,18 @@
  */
 
 /** Outward allowance per unit of stroke width; see `outline-hollow.js` for the derivation. */
-const MITER = 0.8
+const MITER = 0.8;
 
 export default {
-  id: 'outline-varsity',
-  family: 'outline',
-  shape: 'B',
+  id: "outline-varsity",
+  family: "outline",
+  shape: "B",
   colors: 3,
-  bg: 'any',
+  bg: "any",
   odds: 4,
   fonts: {
-    deny: ['hairline', 'script', 'brush', 'connected', 'inline', 'shaded', 'stencil'],
-    prefer: ['fat', 'slab', 'sans'],
+    deny: ["hairline", "script", "brush", "connected", "inline", "shaded", "stencil"],
+    prefer: ["fat", "slab", "sans"],
   },
   palettes: { prefer: [] },
   // R19's .04-.08em inner and .1-.18em outer ring, at 1em = 100/W1 u (24-33u for these
@@ -46,9 +46,9 @@ export default {
    * @param {{w1: number, x: number}} p
    */
   bleed: (p) => {
-    const w2 = p.w1 + p.x
-    const s = MITER * w2
-    return { t: s, r: s, b: 1.7 * w2, l: s }
+    const w2 = p.w1 + p.x;
+    const s = MITER * w2;
+    return { t: s, r: s, b: 1.7 * w2, l: s };
   },
 
   /**
@@ -56,13 +56,13 @@ export default {
    * @param {typeof import('../src/helpers.js').helpers} h
    */
   css: (p, h) => {
-    const w2 = p.w1 + p.x
+    const w2 = p.w1 + p.x;
     return (
       `.l::before{content:attr(data-t) / "";color:var(--bg);` +
       `-webkit-text-stroke:${h.u(p.w1)} var(--bg);z-index:-1}` +
       `.l::after{content:attr(data-t) / "";color:var(--a1);` +
       `-webkit-text-stroke:${h.u(w2)} var(--a1);z-index:-2}`
-    )
+    );
   },
 
   /**
@@ -74,8 +74,8 @@ export default {
    * @param {typeof import('../src/helpers.js').helpers} h
    */
   hover: (p, h) => {
-    const w2 = p.w1 + p.x
-    return `filter:drop-shadow(0 ${h.u(0.8 * w2)} ${h.u(0.6 * w2)} ${h.mix('var(--fg)', 'var(--bg)', 55)})`
+    const w2 = p.w1 + p.x;
+    return `filter:drop-shadow(0 ${h.u(0.8 * w2)} ${h.u(0.6 * w2)} ${h.mix("var(--fg)", "var(--bg)", 55)})`;
   },
   motion: null,
-}
+};
