@@ -17,8 +17,8 @@ env:
   # Read by e2e/fit-lib.js. A pull_request run has no inputs, so it is always `changed`.
   FIT_SCOPE: ${{ inputs.fit-scope || 'changed' }}
   # pnpm for `vp install` and for the pnpm shim; test/repo.test.js keeps both = devEngines.packageManager.
-  VP_PACKAGE_MANAGER: "pnpm@12.4.2"
-  VP_PNPM_VERSION: "12.4.2"
+  VP_PACKAGE_MANAGER: "pnpm@12.8.1"
+  VP_PNPM_VERSION: "12.8.1"
 
 # Inside a called workflow `github.workflow` resolves to the CALLER's name, so a shared
 # group expression would make cd.yml deadlock against its own ci job. The scope keeps a
