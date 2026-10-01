@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { execFileSync } from 'node:child_process'
 import { access, readFile } from 'node:fs/promises'
-import { test } from 'node:test'
+import { test } from 'vite-plus/test'
 import { fileURLToPath } from 'node:url'
 import { colors } from '../scripts/palette-sources/wada1.mjs'
 import { contrast, grounds, roleSets } from '../scripts/roles.mjs'
