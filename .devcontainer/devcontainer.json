@@ -2,8 +2,15 @@
   "name": "luzid.co",
   "build": { "dockerfile": "Dockerfile" },
   "features": { "ghcr.io/devcontainers/features/github-cli:1": {} },
-  "containerEnv": { "SSH_AUTH_SOCK": "/ssh-agent" },
+  "containerEnv": {
+    "CLAUDE_CONFIG_DIR": "/home/vp/.agents/claude",
+    "CODEX_HOME": "/home/vp/.agents/codex",
+    "CURSOR_CONFIG_DIR": "/home/vp/.agents/cursor",
+    "GH_CONFIG_DIR": "/home/vp/.agents/gh",
+    "SSH_AUTH_SOCK": "/ssh-agent"
+  },
   "mounts": [
+    "source=luzid-agents,target=/home/vp/.agents,type=volume",
     "source=/run/host-services/ssh-auth.sock,target=/ssh-agent,type=bind",
     "source=${localEnv:HOME}/.gitconfig,target=/home/vp/.gitconfig,type=bind,readonly",
     "source=${localEnv:HOME}/.gitignore,target=/home/vp/.gitignore,type=bind,readonly"

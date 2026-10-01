@@ -66,6 +66,33 @@ test checks). **Only WP-00 may touch `package.json`, `pnpm-lock.yaml`,
 `pnpm-workspace.yaml` or `vite.config.js`** — if your work package seems to need a new
 dependency, stop and report instead.
 
+### Agents in the devcontainer
+
+The image carries Claude Code, Codex and Cursor's CLI, each from its vendor's installer.
+Each reads this file natively; Claude Code reads it through `CLAUDE.md`.
+
+```
+devcontainer exec --workspace-folder . claude
+devcontainer exec --workspace-folder . codex --sandbox danger-full-access
+devcontainer exec --workspace-folder . cursor-agent
+```
+
+- **Logins persist:** each CLI's login and settings, and `gh`'s, live in the `luzid-agents`
+  volume through `CLAUDE_CONFIG_DIR`, `CODEX_HOME`, `CURSOR_CONFIG_DIR` and
+  `GH_CONFIG_DIR`, so they survive rebuilds. `docker volume rm luzid-agents` logs all out.
+- **Codex login:** `codex login --device-auth`. Its default localhost callback is not
+  forwarded by the devcontainer CLI.
+- **The container is the boundary.** Codex's and Claude Code's own sandboxes need user
+  namespaces, which an unprivileged container does not grant, hence Codex's
+  `--sandbox danger-full-access`. Never add capabilities, `--privileged` or unconfined
+  seccomp/AppArmor to make a nested sandbox start.
+- **What an agent can reach:** the workspace, the forwarded ssh-agent and `gh`'s token.
+  Log `gh` in with a fine-grained token scoped to this repository. No Cloudflare token or
+  `wrangler login` state ever enters the container, so no agent can deploy.
+- **No egress firewall**, on purpose: an iptables allowlist does not stop exfiltration
+  through DNS or an allowed host, and it needs extra capabilities. Keep secrets out instead.
+- **Updating the CLIs:** they are unpinned. Rebuild the container to update them.
+
 ## Commands
 
 | Command | What |
