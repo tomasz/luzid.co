@@ -13,7 +13,9 @@
     "source=luzid-agents,target=/home/vp/.agents,type=volume",
     "source=/run/host-services/ssh-auth.sock,target=/ssh-agent,type=bind",
     "source=${localEnv:HOME}/.gitconfig,target=/home/vp/.gitconfig,type=bind,readonly",
-    "source=${localEnv:HOME}/.gitignore,target=/home/vp/.gitignore,type=bind,readonly"
+    "source=${localEnv:HOME}/.gitignore_global,target=/home/vp/.gitignore_global,type=bind,readonly",
+    "source=${localEnv:HOME}/.config/git/base.gitconfig,target=/home/vp/.config/git/base.gitconfig,type=bind,readonly",
+    "source=${localEnv:HOME}/.config/git/allowed_signers,target=/home/vp/.config/git/allowed_signers,type=bind,readonly"
   ],
   "postCreateCommand": "vp install --frozen-lockfile && pnpm exec playwright install --with-deps",
   "forwardPorts": [5173]

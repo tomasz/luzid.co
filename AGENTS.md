@@ -32,9 +32,11 @@ devcontainer exec --workspace-folder . bash
 - **A stale agent:** if Colima restarts while the container is still running, the
   forwarded agent can go stale (`ssh-add -l` fails). Fix it with
   `colima stop && colima start --ssh-agent`, then rebuild the container.
-- **Git identity:** the host `~/.gitconfig` and `~/.gitignore` are mounted read-only. In
-  `~/.gitconfig`, `user.signingkey` must be the portable `key::ssh-ed25519 …` form and
-  `core.excludesFile` must be `~/.gitignore`, not host file paths.
+- **Git identity:** the host `~/.gitconfig`, `~/.gitignore_global`,
+  `~/.config/git/base.gitconfig` and `~/.config/git/allowed_signers` are mounted read-only
+  (the last two hold `user.signingkey` and `gpg.ssh.allowedSignersFile`; other includes
+  are silently skipped). `user.signingkey` must be a literal `ssh-ed25519 …` key and
+  `core.excludesFile` must be `~/.gitignore_global`, not host file paths.
 - **Resources:** Playwright and workerd share the VM, hence 4 CPUs and 8 GB.
 
 The image is Vite+'s official toolchain image, pinned by digest.
