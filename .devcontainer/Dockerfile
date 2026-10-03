@@ -26,3 +26,8 @@ RUN sudo git config --system gpg.format ssh \
  && sudo git config --system commit.gpgSign true \
  && sudo git config --system tag.gpgSign true \
  && sudo git config --system user.useConfigOnly true
+
+# The container trusts no SSH host on its own, so `git push` over SSH fails with "Host key
+# verification failed". GitHub's published keys go in the system-wide file, which leaves
+# ~/.ssh free and is read by every user. When GitHub rotates a key, update known_hosts.
+COPY known_hosts /etc/ssh/ssh_known_hosts
