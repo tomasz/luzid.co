@@ -14,3 +14,15 @@ RUN curl -fsSL https://claude.ai/install.sh | bash \
  && curl -fsSL https://cursor.com/install | bash \
  && mkdir -p "$HOME/.agents/claude" "$HOME/.agents/codex" "$HOME/.agents/cursor" "$HOME/.agents/gh"
 ENV PATH="/home/vp/.local/bin:${PATH}"
+
+# Git signs every commit with the key the forwarded ssh-agent holds, so neither a key nor
+# the host's git config enters the container. Name and email are repo-scoped, in the
+# workspace's .git/config (AGENTS.md); useConfigOnly stops git guessing vp@<container>
+# when they are missing. allowed_signers, which `%G?` needs to print G, is written from
+# the agent on every start (postStartCommand in devcontainer.json).
+RUN sudo git config --system gpg.format ssh \
+ && sudo git config --system gpg.ssh.defaultKeyCommand "ssh-add -L" \
+ && sudo git config --system gpg.ssh.allowedSignersFile "~/.config/git/allowed_signers" \
+ && sudo git config --system commit.gpgSign true \
+ && sudo git config --system tag.gpgSign true \
+ && sudo git config --system user.useConfigOnly true
