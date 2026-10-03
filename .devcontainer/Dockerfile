@@ -27,6 +27,11 @@ RUN sudo git config --system gpg.format ssh \
  && sudo git config --system tag.gpgSign true \
  && sudo git config --system user.useConfigOnly true
 
+# Colima's virtiofs can report the bind-mounted workspace's root as owned by root, and
+# git then refuses it as "dubious ownership". That check guards repos owned by another
+# user on a shared machine; this container has one user and only the workspace.
+RUN sudo git config --system safe.directory '*'
+
 # The container trusts no SSH host on its own, so `git push` over SSH fails with "Host key
 # verification failed". GitHub's published keys go in the system-wide file, which leaves
 # ~/.ssh free and is read by every user. When GitHub rotates a key, update known_hosts.
