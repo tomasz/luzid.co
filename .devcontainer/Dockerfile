@@ -18,3 +18,8 @@ RUN curl -fsSL https://claude.ai/install.sh | bash \
  && mkdir -p "$HOME/.agents/claude" "$HOME/.agents/codex" "$HOME/.agents/cursor" "$HOME/.agents/gh" \
     "$HOME/.config/git"
 ENV PATH="/home/vp/.local/bin:${PATH}"
+
+# The container trusts no SSH host on its own, so `git push` over SSH fails with "Host key
+# verification failed". GitHub's published keys go in the system-wide file, which leaves
+# ~/.ssh free and is read by every user. When GitHub rotates a key, update known_hosts.
+COPY known_hosts /etc/ssh/ssh_known_hosts
