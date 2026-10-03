@@ -84,13 +84,18 @@ devcontainer exec --workspace-folder . cursor-agent
   `GH_CONFIG_DIR`, so they survive rebuilds. `docker volume rm luzid-agents` logs all out.
 - **Codex login:** `codex login --device-auth`. Its default localhost callback is not
   forwarded by the devcontainer CLI.
+- **gh login**, once per volume, before any agent opens a PR:
+  `gh auth login --hostname github.com --git-protocol ssh --skip-ssh-key`, then paste a
+  fine-grained token. Repository access: only `tomasz/luzid.co`. Read and write:
+  Contents, Pull requests, Issues, Actions. Read: Variables. Never Administration or
+  Secrets: rulesets and deploy credentials stay the owner's. `gh auth status` confirms it.
 - **The container is the boundary.** Codex's and Claude Code's own sandboxes need user
   namespaces, which an unprivileged container does not grant, hence Codex's
   `--sandbox danger-full-access`. Never add capabilities, `--privileged` or unconfined
   seccomp/AppArmor to make a nested sandbox start.
 - **What an agent can reach:** the workspace, the forwarded ssh-agent and `gh`'s token.
-  Log `gh` in with a fine-grained token scoped to this repository. No Cloudflare token or
-  `wrangler login` state ever enters the container, so no agent can deploy.
+  No Cloudflare token or `wrangler login` state ever enters the container, so no agent can
+  deploy.
 - **No egress firewall**, on purpose: an iptables allowlist does not stop exfiltration
   through DNS or an allowed host, and it needs extra capabilities. Keep secrets out instead.
 - **Updating the CLIs:** they are unpinned. Rebuild the container to update them.
