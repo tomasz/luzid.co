@@ -9,8 +9,12 @@ FROM ghcr.io/voidzero-dev/vite-plus:1.0.0@sha256:8d788678fb9783ba8994c4fe5652af3
 # The ~/.agents subdirectories are created here because a named volume mounted over
 # ~/.agents (devcontainer.json) starts as a copy of them, owned by `vp`; Codex refuses to
 # start when CODEX_HOME does not exist.
+# ~/.config/git is created so that ~/.config stays `vp`'s: Docker creates any missing
+# parent of a bind-mount target as root, and a root-owned ~/.config stops wrangler writing
+# ~/.config/.wrangler, which kills `vp preview` and with it every e2e run.
 RUN curl -fsSL https://claude.ai/install.sh | bash \
  && curl -fsSL https://chatgpt.com/codex/install.sh | sh \
  && curl -fsSL https://cursor.com/install | bash \
- && mkdir -p "$HOME/.agents/claude" "$HOME/.agents/codex" "$HOME/.agents/cursor" "$HOME/.agents/gh"
+ && mkdir -p "$HOME/.agents/claude" "$HOME/.agents/codex" "$HOME/.agents/cursor" "$HOME/.agents/gh" \
+    "$HOME/.config/git"
 ENV PATH="/home/vp/.local/bin:${PATH}"

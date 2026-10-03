@@ -147,3 +147,18 @@ test("public/ has no index.html", async () => {
   for await (const entry of glob("public/**/index.html")) found.push(entry);
   assert.deepEqual(found, []);
 });
+
+test("the devcontainer image creates every home directory a mount lands in", async () => {
+  // Docker creates a missing mount target, and any missing parent of one, as root. A
+  // root-owned ~/.config stopped wrangler, and with it every e2e run, so the Dockerfile must
+  // create these as `vp`: the parent of each bind mount, and each volume's own target.
+  const { mounts } = jsonc(await read(".devcontainer/devcontainer.json"));
+  const dockerfile = await read(".devcontainer/Dockerfile");
+  for (const mount of mounts) {
+    const opts = Object.fromEntries(mount.split(",").map((kv) => kv.split("=")));
+    const dir = opts.type === "volume" ? opts.target : opts.target.replace(/\/[^/]+$/, "");
+    if (!dir.startsWith("/home/vp/")) continue;
+    const created = `"$HOME/${dir.slice("/home/vp/".length)}`;
+    assert.ok(dockerfile.includes(created), `the Dockerfile must mkdir -p ${created}"`);
+  }
+});
