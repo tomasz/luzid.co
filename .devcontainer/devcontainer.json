@@ -11,10 +11,9 @@
   },
   "mounts": [
     "source=luzid-agents,target=/home/vp/.agents,type=volume",
-    "source=/run/host-services/ssh-auth.sock,target=/ssh-agent,type=bind",
-    "source=${localEnv:HOME}/.gitconfig,target=/home/vp/.gitconfig,type=bind,readonly",
-    "source=${localEnv:HOME}/.gitignore,target=/home/vp/.gitignore,type=bind,readonly"
+    "source=/run/host-services/ssh-auth.sock,target=/ssh-agent,type=bind"
   ],
   "postCreateCommand": "vp install --frozen-lockfile && pnpm exec playwright install --with-deps",
+  "postStartCommand": "mkdir -p ~/.config/git && keys=$(ssh-add -L) && echo \"$keys\" | sed 's/^/* /' > ~/.config/git/allowed_signers",
   "forwardPorts": [5173]
 }
