@@ -33,8 +33,7 @@ Each is pinned by tests. Changing one needs a PR labelled `contract`, merged by 
 <meta name="google" content="notranslate">
 <link rel="canonical" href="https://luzid.co/">
 <meta name="theme-color" content="{bg}"><meta name="color-scheme" content="{light|dark}">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,{two-swatch svg, < > # as %3C %3E %23}"><link rel="icon" href="/favicon.ico" sizes="32x32">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,{two-swatch svg, < > # as %3C %3E %23}">
 <meta property="og:title" content="Tomasz Cudziło"><meta property="og:type" content="profile"><meta property="og:url" content="https://luzid.co/"><meta property="og:image" content="https://luzid.co/og.png">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Tomasz Cudziło","url":"https://luzid.co/","sameAs":["https://github.com/tomasz"]}</script>
 <!-- {pick string} · font: subset of {family}, © {holder}, {SPDX}, modified (23-glyph subset, metrics) · licences: https://github.com/tomasz/luzid.co/tree/main/fonts/licenses · palette: {names} ({source}) -->
@@ -45,7 +44,7 @@ Each is pinned by tests. Changing one needs a PR labelled `contract`, merged by 
 </html>
 ```
 
-The data-URI icon is omitted when `--bg` or `--fg` is not a plain hex literal; the static `.ico` link is always there.
+The data-URI icon is omitted when `--bg` or `--fg` is not a plain hex literal. It is the only icon: no static icon file is linked.
 
 Fixed forever: the real text is `Tomasz Cudziło` (case only via `text-transform`); no `aria-label`; no per-letter spans; decorative copies only as generated content with empty alt text.
 

@@ -169,8 +169,8 @@ export function stylesheet(scene, fit) {
 }
 
 /**
- * Two-swatch favicon in the pick's own colours: one data URI, zero extra requests. Falls
- * back to the static `.ico` if either role is not a plain hex.
+ * Two-swatch favicon in the pick's own colours: one data URI, zero extra requests. Omitted
+ * if either role is not a plain hex; the browser then shows its default icon.
  *
  * @param {string} bg
  * @param {string} fg
@@ -211,8 +211,7 @@ export function render(scene, nonce) {
 <meta name="google" content="notranslate">
 <link rel="canonical" href="${ORIGIN}">
 <meta name="theme-color" content="${esc(colors.bg)}"><meta name="color-scheme" content="${roleSet.dark ? "dark" : "light"}">
-${favicon(colors.bg, colors.fg)}<link rel="icon" href="/favicon.ico" sizes="32x32">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+${favicon(colors.bg, colors.fg)}
 <meta property="og:title" content="${NAME}"><meta property="og:type" content="profile"><meta property="og:url" content="${ORIGIN}"><meta property="og:image" content="${ORIGIN}og.png">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"${NAME}","url":"${ORIGIN}","sameAs":["${HREF}"]}</script>
 <!-- ${colophon} -->
