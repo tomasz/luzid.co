@@ -5,6 +5,7 @@ import { test } from "vite-plus/test";
 import * as hb from "harfbuzzjs";
 import {
   ARCHETYPES,
+  assertUniqueIds,
   BUDGET_BYTES,
   BudgetError,
   CASES,
@@ -958,10 +959,9 @@ test("rule 8: every licence file starts with the change notice for its font", as
 // ---------------------------------------------------------------- the source rows and metadata
 
 test("source rows validate, with disjoint ids", () => {
-  const seen = new Set();
-  for (const row of sources) validateRow(row, seen);
-  assert.equal(seen.size, sources.length);
-  assert.throws(() => validateRow(seedRow, seen), /duplicate id/);
+  for (const row of sources) validateRow(row);
+  assertUniqueIds(sources);
+  assert.throws(() => assertUniqueIds([...sources, seedRow]), /duplicate id/);
 
   const base = seedRow;
   assert.throws(() => validateRow({ ...base, id: "Not Kebab" }), /kebab-case/);

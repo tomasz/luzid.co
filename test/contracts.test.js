@@ -6,7 +6,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "vite-plus/test";
-import { TRAITS } from "../scripts/fonts.mjs";
+import { TRAITS } from "../scripts/catalog/check.js";
 import { h32, mix32 } from "../src/rand.js";
 
 const root = resolve(import.meta.dirname, "..");
@@ -68,6 +68,6 @@ test("the trait enum in the contract is the one the code enforces", () => {
   assert.deepEqual(
     listed.split(" "),
     [...TRAITS],
-    "the trait enum has drifted from scripts/fonts.mjs",
+    "the trait enum has drifted from scripts/catalog/check.js",
   );
 });
