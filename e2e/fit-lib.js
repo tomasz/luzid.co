@@ -9,10 +9,11 @@
  */
 
 import { execFileSync } from "node:child_process";
-import { readdirSync, readFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { loadCatalog } from "../scripts/build.mjs";
 import { flag, step, weighted } from "../src/rand.js";
 import { bbox, decodePng, flatten } from "./png.js";
 
@@ -20,19 +21,11 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
 // --- catalog -----------------------------------------------------------------
 
-/** Font metas, read straight off disk: the specs must not depend on `build/`. */
-export const FONTS = readdirSync(resolve(ROOT, "fonts/meta"))
-  .filter((f) => f.endsWith(".json"))
-  .sort()
-  .map((f) => JSON.parse(readFileSync(resolve(ROOT, "fonts/meta", f), "utf8")));
-
-/** Effect ids and their param specs, parsed out of the module source. */
-export const EFFECTS = await Promise.all(
-  readdirSync(resolve(ROOT, "effects"))
-    .filter((f) => f.endsWith(".js"))
-    .sort()
-    .map(async (f) => (await import(`../effects/${f}`)).default),
-);
+/**
+ * Font metas and effect modules, read and checked straight off disk as `build/catalog.js`
+ * would export them: the specs must not depend on `build/`.
+ */
+export const { fonts: FONTS, effects: EFFECTS } = await loadCatalog(ROOT);
 
 /** Every font in the catalogue; what `FIT_SCOPE=all` sweeps. */
 export const ALL_FONTS = FONTS.map((f) => f.id);
