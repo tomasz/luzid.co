@@ -20,30 +20,16 @@
  *     null). `bleed` is called as `bleed(p, METRICS)`.
  *  4. The file holds the lowercase hex sha256 of that UTF-8 string, then `\n`.
  *
- * `METRICS` below is the fixed metrics object for all three calls. Changing it, or this
- * recipe, moves all 30 hashes at once. `vp test -u` rewrites the files after an intended
- * change; say which effects moved and why in the PR.
- *
- * `parse()` deliberately only understands a flat list of style rules. Effects never write
- * an at-rule: `@media`, `@supports` and the reduced-motion nesting all belong to
- * `render.js`, which is what makes the accessibility gate provable.
+ * `METRICS` (in `test/effects-lint.js`, with `grid()`) is the fixed metrics object for all
+ * three calls. Changing it, or this recipe, moves all 30 hashes at once. `vp test -u`
+ * rewrites the files after an intended change; say which effects moved and why in the PR.
  */
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { glob } from "node:fs/promises";
-import { basename, resolve } from "node:path";
 import { expect, test } from "vite-plus/test";
-import { pathToFileURL } from "node:url";
+import { TRAITS } from "../scripts/fonts.mjs";
 import { helpers } from "../src/helpers.js";
-import { round4 } from "../src/rand.js";
-
-const root = resolve(import.meta.dirname, "..");
-
-/** §5.5: adding a trait is a `contract` PR, so the enum is closed. */
-const TRAITS = new Set(
-  `serif sans slab script brush blackletter deco rounded unicase mono fat hairline condensed wide
-   inline shaded stencil soft groovy connected capsOnly overlap jp`.split(/\s+/),
-);
+import { effects, grid, METRICS, parse, shadowLengths, topSplit } from "./effects-lint.js";
 
 const SELECTOR = /^(\.n|\.l|\.l1|\.l2)(::(before|after))?$/;
 
@@ -121,53 +107,6 @@ function offGrammar(value) {
 
 /** Palette prefer-tokens: polarity, colour count, tier, or a source / id prefix (`pick.js`). */
 const PREFER_TOKEN = /^(dark|light|n[234]|historical|editorial|era-approx|[a-z0-9-]+)$/;
-
-/** Split on `sep` at paren depth 0. */
-function topSplit(s, sep) {
-  const out = [];
-  let depth = 0;
-  let start = 0;
-  for (let i = 0; i < s.length; i++) {
-    const c = s[i];
-    if (c === "(") depth++;
-    else if (c === ")") depth--;
-    else if (c === sep && depth === 0) {
-      out.push(s.slice(start, i));
-      start = i + 1;
-    }
-  }
-  out.push(s.slice(start));
-  return out.map((x) => x.trim()).filter(Boolean);
-}
-
-/** @returns {{sel: string[], decls: [string, string][]}[]} */
-function parse(css, where) {
-  assert.equal(
-    /@[a-z-]/i.test(css),
-    false,
-    `${where}: effects never write an at-rule; render.js owns those`,
-  );
-  const rules = [];
-  let covered = 0;
-  for (const m of css.matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
-    assert.equal(
-      m.index,
-      covered,
-      `${where}: stray text outside a rule near "${css.slice(covered, covered + 40)}"`,
-    );
-    covered = m.index + m[0].length;
-    rules.push({
-      sel: topSplit(m[1], ","),
-      decls: topSplit(m[2], ";").map((d) => {
-        const i = d.indexOf(":");
-        assert.ok(i > 0, `${where}: malformed declaration "${d}"`);
-        return [d.slice(0, i).trim(), d.slice(i + 1).trim()];
-      }),
-    });
-  }
-  assert.equal(covered, css.length, `${where}: trailing text after the last rule`);
-  return rules;
-}
 
 /**
  * The shared body of the lint: everything that applies to any CSS an effect emits.
@@ -249,32 +188,12 @@ function lintCss(css, where, { mode }) {
 
       if (prop === "text-shadow") {
         for (const layer of topSplit(value, ",")) {
-          const lengths = [
-            ...layer.matchAll(
-              // The bare `0` alternative must not fire on a percentage: `color-mix(…, var(--bg) 0%, …)`
-              // is a colour stop, not a shadow length, and counting it shifted every later
-              // length in the layer by one — which read a blur radius as an offset.
-              /calc\(\s*(-?\d*\.?\d+)\s*\*\s*(?:(cos|sin)\(\s*(-?\d*\.?\d+)deg\s*\)\s*\*\s*)?var\(--u\)\s*\)|(?<![\w.])(0)(?![\w.%])/g,
-            ),
-          ];
-          const blur = lengths[2];
-          const r = blur ? Number(blur[1] ?? blur[4] ?? 0) : 0;
+          const [, y = 0, r = 0] = shadowLengths(layer);
           if (r > 0) {
             blurLayers++;
             assert.ok(r <= 2.5, `${where}: blur radius ${r}u exceeds the 2.5u cap`);
           } else hardLayers++;
-          // Upward reach: y = k * sin(angle). The lint may use Math; src/ may not.
-          const y = lengths[1];
-          if (y) {
-            const k = Number(y[1]);
-            const deg = y[2] === "sin" ? Number(y[3]) : y[2] === "cos" ? NaN : 0;
-            const dy = Number.isNaN(deg)
-              ? 0
-              : y[2] === "sin"
-                ? k * Math.sin((deg * Math.PI) / 180)
-                : k;
-            if (dy < 0) upward = Math.max(upward, -dy);
-          }
+          if (y < 0) upward = Math.max(upward, -y);
         }
       }
 
@@ -321,53 +240,15 @@ function lintCss(css, where, { mode }) {
   }
 }
 
-/**
- * Every combination the engine can draw: per param, the values `step()` in `src/rand.js`
- * can return. Names are sorted; the last one varies fastest. See the header for why the
- * order matters (it is part of the hash).
- */
-function grid(params) {
-  let sets = [{}];
-  for (const name of Object.keys(params).sort()) {
-    const [min, max, size] = params[name];
-    const n = Math.floor((max - min) / size) + 1;
-    const values = Array.from({ length: n }, (_, i) => round4(min + i * size));
-    sets = sets.flatMap((s) => values.map((v) => ({ ...s, [name]: v })));
-  }
-  return sets;
-}
-
-/** A plausible metrics object; effects may read it but must not depend on exact values. */
-const METRICS = {
-  fs: [29.31, 24.47],
-  H: [20.87, 18.06],
-  top: [20.87, 18.06],
-  asc: [22.27, 18.6],
-  desc: [7.03, 5.87],
-  G: 6,
-  R: 0.449,
-  layout: "stack-fit",
-};
-
-const files = [];
-for await (const f of glob("effects/*.js", { cwd: root })) files.push(f);
-files.sort();
-const effects = await Promise.all(
-  files.map(async (f) => (await import(pathToFileURL(resolve(root, f)).href)).default),
-);
-
 test("the effects directory is not empty and ships the universal fallback", () => {
-  assert.ok(files.length >= 2, "expected at least plain and depth-extrude");
+  assert.ok(effects.length >= 2, "expected at least plain and depth-extrude");
   assert.ok(
-    files.includes("effects/plain.js"),
+    effects.some((e) => e.file === "effects/plain.js"),
     "plain is the universal fallback; the sampler needs it",
   );
 });
 
-files.forEach((file, k) => {
-  const id = basename(file, ".js");
-  const fx = effects[k];
-
+for (const { file, id, fx } of effects) {
   test(`effect lint: ${id}`, () => {
     assert.equal(fx.id, id, `${file}: id must equal the file basename`);
     assert.match(fx.family, /^[a-z0-9]+(-[a-z0-9]+)*$/, `${file}: family must be kebab-case`);
@@ -453,7 +334,7 @@ files.forEach((file, k) => {
     const hash = createHash("sha256").update(text, "utf8").digest("hex");
     await expect(`${hash}\n`).toMatchFileSnapshot(`./golden/effects/${id}.sha256`);
   });
-});
+}
 
 test("the lint actually rejects the things it claims to", () => {
   const cases = {
