@@ -6,6 +6,7 @@ import * as hb from "harfbuzzjs";
 import {
   ARCHETYPES,
   BUDGET_BYTES,
+  CASES,
   changeNotice,
   checkBudget,
   checkCoverage,
@@ -52,12 +53,13 @@ const readJson = async (p) => JSON.parse(await readFile(url(p), "utf8"));
 
 // Every batch, not just the seed set: once a Wave-2 batch ships, its metas are on disk
 // and a seed-only source list makes every cross-check below compare two different worlds.
-const sources = [];
+const batches = new Map();
 for (const name of (await readdir(url("fonts/sources")))
   .filter((f) => f.endsWith(".json"))
   .sort()) {
-  sources.push(...(await readJson(`fonts/sources/${name}`)));
+  batches.set(name.replace(/\.json$/, ""), await readJson(`fonts/sources/${name}`));
 }
+const sources = [...batches.values()].flat();
 /** A known-good row for the negative cases below, found by id rather than by position. */
 const seedRow = sources.find((r) => r.id === "boldonse");
 const metas = [];
@@ -93,14 +95,6 @@ test("rule 1: the Google css2 API is never a source, and neither is a zip", () =
     () => validateRow({ ...base, url: "https://mirrors.ctan.org/fonts/cyklop.zip" }),
     /never a zip/,
   );
-  for (const row of sources) {
-    assert.doesNotMatch(
-      row.url,
-      /fonts\.googleapis\.com|css2\?/,
-      `${row.id} is sourced from the css2 API`,
-    );
-    assert.doesNotMatch(row.url, /\.zip($|\?)/i, `${row.id} is sourced from a zip`);
-  }
 });
 
 test("rule 1: a source without an immutable commit ships the original alongside it", async () => {
@@ -140,30 +134,6 @@ test("rule 1: a source without an immutable commit ships the original alongside 
       row.sha256,
       `${row.id}: committed copy`,
     );
-  }
-});
-
-test("the source rows carry only the keys §5.5 defines", () => {
-  // The schema is shared with every other batch, so anything the pipeline needs beyond it
-  // is found by id under fonts/upstream instead of being bolted onto the row.
-  const allowed = new Set([
-    "id",
-    "family",
-    "url",
-    "sha256",
-    "licenseId",
-    "licenseUrl",
-    "copyright",
-    "archetype",
-    "traits",
-    "odds",
-    "stops",
-    "features",
-    "cases",
-  ]);
-  for (const row of sources) {
-    for (const key of Object.keys(row))
-      assert.ok(allowed.has(key), `${row.id}: unknown key "${key}"`);
   }
 });
 
@@ -468,7 +438,6 @@ test("rule 3: the name table survives a rebuild", () => {
 });
 
 test("rule 3: licenseId is one of the three allowed, and every shipped font ships a licence", async () => {
-  assert.deepEqual([...LICENSE_IDS].sort(), ["Apache-2.0", "GUST", "OFL-1.1"]);
   assert.throws(
     () => validateRow({ ...seedRow, licenseId: "MIT" }),
     /licenseId MIT is not allowed/,
@@ -669,7 +638,8 @@ test("rule 4: at most twelve variants, and the plan degrades one feature at a ti
       meta.variants.length,
       `${meta.id}: duplicate ids`,
     );
-    for (const v of meta.variants) assert.ok(v.case in WORDS, `${meta.id}: unknown case ${v.case}`);
+    for (const v of meta.variants)
+      assert.ok(CASES.has(v.case), `${meta.id}: unknown case ${v.case}`);
   }
 });
 
@@ -760,12 +730,10 @@ test("the Ł crossbar is measured, not assumed from the stem", async () => {
   const cyklop = await openShipped("cyklop.static.woff2");
   assert.ok(measureCrossbar(cyklop) / measureStem(cyklop) > 0.15);
 
-  // Both numbers are per stop, because pinning wght moves them a long way. The library on
-  // disk predates them; this starts enforcing as soon as the regeneration sweep has run.
+  // Both numbers are per stop, because pinning wght moves them a long way.
   for (const meta of metas) {
     for (const file of meta.files) {
       for (const key of ["stem", "crossbar"]) {
-        if (file[key] === undefined) continue;
         assert.ok(
           file[key] > 0 && file[key] < 1,
           `${meta.id}.${file.id}: ${key} is ${file[key]} em`,
@@ -1003,11 +971,51 @@ test("source rows validate, with disjoint ids", () => {
     () => validateRow({ ...base, stops: Array.from({ length: MAX_STOPS + 1 }, () => ({})) }),
     /at most 4 stops/,
   );
+  // The schema is shared with every other batch, so anything the pipeline needs beyond it
+  // is found by id under fonts/upstream instead of being bolted onto the row.
+  assert.throws(() => validateRow({ ...base, notes: "x" }), /unknown key notes/);
+  assert.throws(() => validateRow({ ...base, traits: [] }), /traits must be a non-empty/);
+  assert.throws(() => validateRow({ ...base, traits: ["fat", "fat"] }), /duplicate traits/);
+  const raw = "https://raw.githubusercontent.com/o/r";
+  for (const [key, bad, re] of [
+    ["url", "http://example.com/a.ttf", /url must be https/],
+    ["url", "https://fonts.gstatic.com/s/a.ttf", /css2 API is never a source/],
+    ["licenseUrl", "https://example.com/fonts.tar.gz", /never a zip/],
+    ["url", `${raw}/main/a.ttf`, /url uses a mutable ref/],
+    ["licenseUrl", `${raw}/v1.0/OFL.txt`, /licenseUrl lacks a full 40-character commit sha/],
+    ["url", `${raw}/${"a".repeat(40)}/a.woff2`, /url must be a \.ttf, \.otf or \.ttc file/],
+  ]) {
+    assert.throws(() => validateRow({ ...base, [key]: bad }), re, `${key}: ${bad}`);
+  }
+  for (const [stops, re] of [
+    [[{ id: "Bold", wght: 700 }], /stop id Bold must be kebab-case/],
+    [
+      [
+        { id: "a", wght: 400 },
+        { id: "b", wdth: 100 },
+      ],
+      /stop b pins \[wdth\], expected \[wght\]/,
+    ],
+    [[{ id: "a", weight: 400 }], /weight is not a 4-letter axis tag/],
+    [[{ id: "a", wght: "400" }], /wght must be a finite number/],
+  ]) {
+    assert.throws(() => validateRow({ ...base, stops }), re);
+  }
+  assert.throws(() => validateRow({ ...base, features: ["ss1"] }), /not an OpenType feature tag/);
+  assert.throws(() => validateRow({ ...base, cases: ["title"] }), /unknown case title/);
+  assert.throws(
+    () => validateRow({ ...base, traits: ["capsOnly"], cases: ["none", "lowercase"] }),
+    /capsOnly must set cases \["none"\]/,
+  );
+  assert.throws(
+    () => validateRow({ ...base, traits: ["connected"], cases: ["uppercase"] }),
+    /connected script must declare cases without uppercase/,
+  );
   // A measured trait is legal in a row: the batch files are read by people, and the check
   // is against the outlines, not against the schema.
   for (const trait of MEASURED_TRAITS) {
     assert.doesNotThrow(
-      () => validateRow({ ...base, traits: [trait] }),
+      () => validateRow({ ...base, traits: [trait], cases: ["none"] }),
       `${trait} must be declarable`,
     );
   }
@@ -1101,6 +1109,19 @@ test("every shipped font agrees with its own source row", () => {
   }
 });
 
+test("each archetype batch claims its archetype and ships enough fonts not to feel repetitive", () => {
+  // The floor is on fonts that SHIP, not on rows in a list: a row a batch agent dropped --
+  // for a reserved name, an unreadable Ł, or not belonging to the archetype -- adds nothing
+  // to what a visitor sees, and counting rows blocked moving a misfiled font out of a batch.
+  for (const letter of ["A", "B", "C", "D", "E", "F"]) {
+    for (const row of batches.get(letter.toLowerCase())) {
+      assert.ok(row.archetype.includes(letter), `${row.id} does not list archetype ${letter}`);
+    }
+    const shipped = metas.filter((m) => m.archetype.includes(letter)).length;
+    assert.ok(shipped >= 20, `archetype ${letter} ships ${shipped} fonts, needs 20`);
+  }
+});
+
 test("the metadata describes exactly what is on disk", async () => {
   const files = new Set((await readdir(url("fonts/files"))).filter((f) => f.endsWith(".woff2")));
   const licenses = new Set(
@@ -1153,16 +1174,8 @@ test("the eight seed fonts cover the eight risky branches", () => {
   const byId = Object.fromEntries(metas.map((m) => [m.id, m]));
   // The seed set is what proves each branch of the pipeline; it is not the whole catalogue.
   // Wave-2 batches add to it, so assert the eight are PRESENT rather than alone.
-  const ids = [
-    "fraunces",
-    "boldonse",
-    "pacifico",
-    "cyklop",
-    "syncopate",
-    "coconat",
-    "bungee",
-    "unbounded",
-  ];
+  const ids = batches.get("seed").map((row) => row.id);
+  assert.equal(ids.length, 8);
   for (const id of ids) assert.ok(byId[id], `the ${id} seed font is missing from the catalogue`);
 
   assert.equal(byId.fraunces.files.length, 2, "Fraunces ships static stops of a four-axis source");

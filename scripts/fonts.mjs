@@ -146,6 +146,26 @@ export const CASE_TRAITS = ["capsOnly", "unicase"];
 
 export const ARCHETYPES = new Set(["A", "B", "C", "D", "E", "F", "X"]);
 
+/** The `text-transform` values a row may ask for; one per entry of `WORDS`. */
+export const CASES = new Set(Object.keys(WORDS));
+
+/** The §5.5 source-row keys. Anything else the pipeline needs is found by id instead. */
+const ROW_KEYS = new Set([
+  "id",
+  "family",
+  "url",
+  "sha256",
+  "licenseId",
+  "licenseUrl",
+  "copyright",
+  "archetype",
+  "traits",
+  "odds",
+  "stops",
+  "features",
+  "cases",
+]);
+
 export const BUDGET_BYTES = 10_500;
 export const MAX_VARIANTS = 12;
 export const MAX_STOPS = 4;
@@ -911,9 +931,14 @@ function axisTags(tables) {
   });
 }
 
+/** Kebab-case: the form of a row id and of a stop id, which both end up in filenames. */
+const KEBAB = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+
+/** The §5.5 source-row schema. Every rule is a hard failure naming the row. */
 export function validateRow(row, seen) {
   const id = row?.id ?? "<no id>";
-  if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(row.id ?? "")) fail(id, "id must be kebab-case");
+  for (const key of Object.keys(row)) if (!ROW_KEYS.has(key)) fail(id, `unknown key ${key}`);
+  if (!KEBAB.test(row.id ?? "")) fail(id, "id must be kebab-case");
   if (seen?.has(row.id)) fail(id, "duplicate id");
   seen?.add(row.id);
   for (const key of ["family", "url", "licenseId", "licenseUrl", "copyright"]) {
@@ -922,16 +947,29 @@ export function validateRow(row, seen) {
   if (typeof row.sha256 !== "string" || !/^([0-9a-f]{64})?$/.test(row.sha256)) {
     fail(id, "sha256 must be 64 lowercase hex characters, or empty to be filled on first run");
   }
-  if (/fonts\.googleapis\.com|css2\?/.test(row.url))
-    fail(id, "the Google css2 API is never a source");
-  if (/\.zip(\?|$)/i.test(row.url)) fail(id, "a source must be a file, never a zip");
+  for (const key of ["url", "licenseUrl"]) {
+    const url = row[key];
+    if (!url.startsWith("https://")) fail(id, `${key} must be https`);
+    // The css2 API and its CDN strip ssNN/salt/swsh/dlig (google/fonts#1335).
+    if (/fonts\.(googleapis|gstatic)\.com|css2\?/.test(url))
+      fail(id, `${key}: the Google css2 API is never a source`);
+    if (/\.(zip|tar|tgz|gz)(\?|$)/i.test(url))
+      fail(id, `${key}: a source must be a file, never a zip`);
+    // A mutable ref would make the pinned sha256 meaningless.
+    if (/\/(main|master|HEAD|latest)\//.test(url)) fail(id, `${key} uses a mutable ref`);
+    if (/^https:\/\/(raw\.githubusercontent\.com|gitlab\.com)\//.test(url) && !pinnedToCommit(url))
+      fail(id, `${key} lacks a full 40-character commit sha`);
+  }
+  if (!/\.(ttf|otf|ttc)$/i.test(row.url)) fail(id, "url must be a .ttf, .otf or .ttc file");
   if (!LICENSE_IDS.has(row.licenseId)) fail(id, `licenseId ${row.licenseId} is not allowed`);
   if (!Array.isArray(row.archetype) || row.archetype.length === 0)
     fail(id, "archetype must be a non-empty array");
   for (const a of row.archetype) if (!ARCHETYPES.has(a)) fail(id, `unknown archetype ${a}`);
-  if (!Array.isArray(row.traits)) fail(id, "traits must be an array");
+  if (!Array.isArray(row.traits) || row.traits.length === 0)
+    fail(id, "traits must be a non-empty array");
   // A measured trait is allowed here and checked against the outlines by `reconcileTraits`.
   for (const t of row.traits) if (!TRAITS.has(t)) fail(id, `unknown trait ${t}`);
+  if (new Set(row.traits).size !== row.traits.length) fail(id, "duplicate traits");
   if (!Number.isInteger(row.odds) || row.odds < 0 || row.odds > 16)
     fail(id, "odds must be an integer 0-16");
   if (row.stops !== undefined) {
@@ -939,20 +977,47 @@ export function validateRow(row, seen) {
       fail(id, "stops must be a non-empty array");
     if (row.stops.length > MAX_STOPS)
       fail(id, `at most ${MAX_STOPS} stops, got ${row.stops.length}`);
-    // The stop id becomes the shipped filename, so it has to be present and unique.
+    // The stop id becomes the shipped filename, so it has to be present and unique; every
+    // stop pins the same axes, or the pipeline cannot instance them alike.
     const ids = new Set();
+    const axesOf = (stop) =>
+      Object.keys(stop)
+        .filter((k) => k !== "id")
+        .sort()
+        .join(",");
     for (const stop of row.stops) {
-      if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(stop.id ?? ""))
-        fail(id, `stop id ${stop.id} must be kebab-case`);
+      if (!KEBAB.test(stop.id ?? "")) fail(id, `stop id ${stop.id} must be kebab-case`);
       if (ids.has(stop.id)) fail(id, `duplicate stop id ${stop.id}`);
       ids.add(stop.id);
-      if (Object.keys(stop).filter((k) => k !== "id").length === 0)
-        fail(id, `stop ${stop.id} pins no axis`);
+      if (axesOf(stop) === "") fail(id, `stop ${stop.id} pins no axis`);
+      if (axesOf(stop) !== axesOf(row.stops[0]))
+        fail(id, `stop ${stop.id} pins [${axesOf(stop)}], expected [${axesOf(row.stops[0])}]`);
+      for (const [tag, value] of Object.entries(stop)) {
+        if (tag === "id") continue;
+        if (!/^[A-Za-z]{4}$/.test(tag)) fail(id, `${tag} is not a 4-letter axis tag`);
+        if (!Number.isFinite(value)) fail(id, `stop ${stop.id}: ${tag} must be a finite number`);
+      }
     }
   }
-  if (row.cases !== undefined) {
-    for (const c of row.cases) if (!(c in WORDS)) fail(id, `unknown case ${c}`);
+  if (row.features !== undefined) {
+    if (!Array.isArray(row.features) || row.features.length === 0)
+      fail(id, "features must be a non-empty array");
+    for (const f of row.features)
+      if (!/^[a-z0-9]{4}$/.test(f)) fail(id, `${f} is not an OpenType feature tag`);
+    if (new Set(row.features).size !== row.features.length) fail(id, "duplicate features");
   }
+  if (row.cases !== undefined) {
+    if (!Array.isArray(row.cases) || row.cases.length === 0)
+      fail(id, "cases must be a non-empty array");
+    for (const c of row.cases) if (!CASES.has(c)) fail(id, `unknown case ${c}`);
+    if (new Set(row.cases).size !== row.cases.length) fail(id, "duplicate cases");
+  }
+  // Case randomisation is invisible on a caps-only face, and joining scripts break apart
+  // when set in capitals.
+  if (row.traits.includes("capsOnly") && row.cases?.join() !== "none")
+    fail(id, 'capsOnly must set cases ["none"]');
+  if (row.traits.includes("connected") && (!row.cases || row.cases.includes("uppercase")))
+    fail(id, "a connected script must declare cases without uppercase");
   return row;
 }
 

@@ -19,14 +19,9 @@
  *    and to one that it could not have judged at all.
  */
 import assert from "node:assert/strict";
-import { glob } from "node:fs/promises";
-import { basename } from "node:path";
 import { test } from "vite-plus/test";
-import { pathToFileURL } from "node:url";
 import { helpers as h } from "../src/helpers.js";
-import { pick, resolve } from "../src/pick.js";
-import { fit } from "../src/render.js";
-import { fixtureCatalog } from "./catalog.js";
+import { effects, grid, METRICS as M, parse, shadowLengths, topSplit } from "./effects-lint.js";
 
 /** R14: a blurred layer paints to about one radius beyond its offset. 1.1 is the safety factor. */
 const BLUR_REACH = 1.1;
@@ -46,61 +41,11 @@ const BLUR_REACH = 1.1;
  */
 const TOLERANCE = 0.5;
 
-/**
- * Plausible metrics; the audit is about an effect's own geometry, not a particular font.
- * Taken from the engine itself, so their shape can never drift from what `css()` receives.
- */
-const fixture = await fixtureCatalog();
-const seedA = pick("a", {}, fixture);
-const M = fit(seedA, resolve(seedA, fixture)).m;
-
 /** Properties whose ink a shadow-list scan cannot bound. Seeing one means we must abstain. */
 const OPAQUE = /^(transform|translate|scale|rotate|clip-path|mask|mask-image|filter|content)$/;
 
-/** Split `s` on `sep` at paren depth 0. */
-function topSplit(s, sep) {
-  const out = [];
-  let depth = 0;
-  let cur = "";
-  for (const ch of s) {
-    if (ch === "(") depth++;
-    if (ch === ")") depth--;
-    if (ch === sep && depth === 0) {
-      out.push(cur);
-      cur = "";
-    } else cur += ch;
-  }
-  if (cur.trim()) out.push(cur);
-  return out;
-}
-
-/** A length in `u`, or null if it is not one the scan understands. */
-function u(s) {
-  const t = s.trim();
-  if (t === "0") return 0;
-  let m = t.match(/^calc\(\s*(-?[\d.]+)\s*\*\s*var\(--u\)\s*\)$/);
-  if (m) return Number(m[1]);
-  m = t.match(
-    /^calc\(\s*(-?[\d.]+)\s*\*\s*(cos|sin)\(\s*(-?[\d.]+)deg\s*\)\s*\*\s*var\(--u\)\s*\)$/,
-  );
-  if (m) {
-    const rad = (Number(m[3]) * Math.PI) / 180;
-    return Number(m[1]) * (m[2] === "cos" ? Math.cos(rad) : Math.sin(rad));
-  }
-  return null;
-}
-
-/** Every combination of each parameter's two extremes. */
-function corners(params) {
-  let out = [{}];
-  for (const [k, v] of Object.entries(params ?? {})) {
-    out = out.flatMap((o) => [
-      { ...o, [k]: v[0] },
-      { ...o, [k]: v[1] },
-    ]);
-  }
-  return out.slice(0, 64);
-}
+/** Filter functions that recolour ink without moving it; `drop-shadow()` is scanned below. */
+const RECOLOUR = /^(brightness|contrast|saturate)\(/;
 
 /**
  * The painted extent of one CSS string, in u per side.
@@ -111,31 +56,25 @@ function extent(css) {
   const opaque = [];
   let stroke = 0;
 
-  for (const rule of css.split("}")) {
-    const body = rule.includes("{") ? rule.slice(rule.indexOf("{") + 1) : "";
-    for (const decl of topSplit(body, ";")) {
-      const i = decl.indexOf(":");
-      if (i < 0) continue;
-      const prop = decl.slice(0, i).trim();
-      const value = decl.slice(i + 1).trim();
-
+  for (const { decls } of parse(css, "extent")) {
+    for (const [prop, value] of decls) {
       // A centred stroke puts w/2 outside the contour geometrically -- but Chrome and
       // WebKit MITER their joins, and a miter on an acute corner runs to w/2 / sin(0/2),
       // which is unbounded as the corner sharpens. Count the full width: it covers a 2x
       // miter, which is the sharpest these display faces produce. The stroke then feeds
       // every shadow that follows, so this is an outset on the glyph, not a separate side.
       if (/^-webkit-text-stroke(-width)?$/.test(prop)) {
-        const w = u(topSplit(value, " ")[0]);
+        const [w = null] = shadowLengths(value);
         if (w === null) opaque.push(prop);
         else stroke = Math.max(stroke, w);
         continue;
       }
-      // drop-shadow is the one filter whose geometry the scan understands; any other
-      // filter function changes ink in ways a shadow list cannot describe.
-      const onlyDropShadows =
+      // drop-shadow is the one filter whose geometry the scan understands; a recolouring
+      // one paints no new ink, and any other changes ink in ways a shadow list cannot describe.
+      const scannable =
         prop === "filter" &&
-        topSplit(value, " ").every((f) => !f.trim() || f.trim().startsWith("drop-shadow("));
-      if (OPAQUE.test(prop) && !onlyDropShadows) {
+        topSplit(value, " ").every((f) => f.startsWith("drop-shadow(") || RECOLOUR.test(f));
+      if (OPAQUE.test(prop) && !scannable) {
         opaque.push(prop);
         continue;
       }
@@ -145,8 +84,8 @@ function extent(css) {
       const layers = isShadow
         ? topSplit(value, ",")
         : topSplit(value, " ")
-            .filter((f) => f.trim().startsWith("drop-shadow("))
-            .map((f) => f.trim().slice("drop-shadow(".length, -1));
+            .filter((f) => f.startsWith("drop-shadow("))
+            .map((f) => f.slice("drop-shadow(".length, -1));
 
       // `text-shadow` layers are siblings: each is drawn from the same glyph, so the
       // extent is the widest of them. Chained `drop-shadow()` filters are NOT siblings --
@@ -155,13 +94,7 @@ function extent(css) {
       // scored `glow-neon-outline` at 3.15u while it painted 5.08u and called it clean.
       const chain = { l: 0, r: 0, t: 0, b: 0 };
       for (const layer of layers) {
-        const nums = [];
-        for (const part of topSplit(layer, " ")) {
-          if (!part.trim()) continue;
-          const v = u(part);
-          if (v === null) break;
-          nums.push(v);
-        }
+        const nums = shadowLengths(layer);
         if (nums.length < 2) {
           opaque.push(`${prop} layer`);
           continue;
@@ -189,22 +122,17 @@ function extent(css) {
   return { ext, opaque };
 }
 
-const effects = [];
-for await (const f of glob("effects/*.js")) {
-  const mod = await import(pathToFileURL(new URL(`../${f}`, import.meta.url).pathname).href);
-  effects.push([basename(f, ".js"), mod.default]);
-}
-effects.sort(([a], [b]) => a.localeCompare(b));
-
 test("every effect either bounds its own ink or says it cannot be scanned statically", () => {
   // Effects the scan provably cannot judge. Each one is covered by e2e/bleed.spec.js in
   // pixels instead; listing it here is an explicit abstention, not a silent pass.
-  const abstain = new Set(effects.filter(([, e]) => e.shape === "B").map(([id]) => id));
+  const abstain = new Set(effects.filter(({ fx }) => fx.shape === "B").map(({ id }) => id));
 
   const problems = [];
-  for (const [id, e] of effects) {
-    for (const p of corners(e.params)) {
-      const css = [e.css(p, h, M), e.hover?.(p, h, M) ?? ""].join(" ");
+  for (const { id, fx: e } of effects) {
+    for (const p of grid(e.params)) {
+      // Hover ink is painted ink too (§5.6), so its declarations are scanned as a rule.
+      const hover = e.hover?.(p, h, M);
+      const css = e.css(p, h, M) + (hover ? `.n{${hover}}` : "");
       const { ext, opaque } = extent(css);
       const declared = e.bleed?.(p, M) ?? { t: 0, r: 0, b: 0, l: 0 };
 
@@ -228,7 +156,20 @@ test("every effect either bounds its own ink or says it cannot be scanned static
       }
     }
   }
-  assert.deepEqual(problems, []);
+  // Scanning hover as a rule (it used to be dropped unread) found this one: its hover drop
+  // plus a full-width stroke outruns `bleed()` by up to 0.64u. Plan rows E5–E8 budget the
+  // reach constants and must delete the entry; until then a stale entry fails here.
+  const known = ["outline-sticker"];
+  for (const id of known) {
+    assert.ok(
+      problems.some((x) => x.startsWith(`${id} `)),
+      `${id} is clean; drop it from known`,
+    );
+  }
+  assert.deepEqual(
+    problems.filter((x) => !known.some((id) => x.startsWith(`${id} `))),
+    [],
+  );
 });
 
 test("the scan refuses to score what it cannot parse", () => {

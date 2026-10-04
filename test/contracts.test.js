@@ -6,6 +6,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "vite-plus/test";
+import { TRAITS } from "../scripts/fonts.mjs";
 import { h32, mix32 } from "../src/rand.js";
 
 const root = resolve(import.meta.dirname, "..");
@@ -58,5 +59,15 @@ test("the contract carries §5 whole", () => {
     ids,
     ids.map((_, i) => `R${i + 1}`),
     "the resolutions are not numbered consecutively",
+  );
+});
+
+test("the trait enum in the contract is the one the code enforces", () => {
+  const listed = doc.match(/\*\*Traits — closed enum\*\*[^\n]*\n`([^`]+)`/)?.[1];
+  assert.ok(listed, "docs/contracts.md has no trait enum");
+  assert.deepEqual(
+    listed.split(" "),
+    [...TRAITS],
+    "the trait enum has drifted from scripts/fonts.mjs",
   );
 });
