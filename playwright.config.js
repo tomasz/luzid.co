@@ -23,14 +23,7 @@ export default defineConfig({
   workers: process.env.CI ? 3 : undefined,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
-  // The JSON report is what `scripts/flaky.mjs` reads; CI uploads it as `e2e-results-<engine>`.
-  reporter: process.env.CI
-    ? [
-        ["github"],
-        ["html", { open: "never" }],
-        ["json", { outputFile: "test-results/results.json" }],
-      ]
-    : "list",
+  reporter: process.env.CI ? [["github"], ["html", { open: "never" }]] : "list",
   // One fit test walks up to eight viewports, and the 3840x2160 screenshot alone is 8.3M
   // pixels to encode, transfer and scan. The default 30 s is not enough headroom for the
   // slowest of those on a loaded CI box; this is a ceiling, not a wait.
