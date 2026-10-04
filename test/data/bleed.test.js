@@ -20,7 +20,7 @@
  */
 import assert from "node:assert/strict";
 import { test } from "vite-plus/test";
-import { helpers as h } from "../src/helpers.js";
+import { helpers as h } from "../../src/helpers.js";
 import {
   effects,
   grid,
@@ -29,7 +29,7 @@ import {
   parse,
   shadowLengths,
   topSplit,
-} from "./effects-lint.js";
+} from "../effects-lint.js";
 
 /** R14: a blurred layer paints to about one radius beyond its offset; `h.REACH` budgets it. */
 const BLUR_REACH = h.REACH;

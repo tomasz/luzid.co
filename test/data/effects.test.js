@@ -28,15 +28,23 @@ import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { resolve } from "node:path";
 import { expect, test } from "vite-plus/test";
-import { loadCatalog } from "../scripts/catalog.js";
-import { TRAITS } from "../scripts/catalog/check.js";
-import { helpers } from "../src/helpers.js";
-import { effects, grid, hoverOf, METRICS, parse, shadowLengths, topSplit } from "./effects-lint.js";
+import { loadCatalog } from "../../scripts/catalog.js";
+import { TRAITS } from "../../scripts/catalog/check.js";
+import { helpers } from "../../src/helpers.js";
+import {
+  effects,
+  grid,
+  hoverOf,
+  METRICS,
+  parse,
+  shadowLengths,
+  topSplit,
+} from "../effects-lint.js";
 
 // A file may leave out `family`, `motion` and the other defaulted keys (§5.6); the engine
 // reads them from the catalog, so that is where they are held to the contract.
 const live = new Map(
-  (await loadCatalog(resolve(import.meta.dirname, ".."))).effects.map((e) => [e.id, e]),
+  (await loadCatalog(resolve(import.meta.dirname, "../.."))).effects.map((e) => [e.id, e]),
 );
 
 const SELECTOR = /^(\.n|\.l|\.l1|\.l2)(::(before|after))?$/;
@@ -357,7 +365,7 @@ for (const { file, id, fx } of effects) {
       text += `${fx.css(p, helpers, METRICS)}\n${hoverOf(fx, p, helpers, METRICS)}\n`;
     }
     const hash = createHash("sha256").update(text, "utf8").digest("hex");
-    await expect(`${hash}\n`).toMatchFileSnapshot(`./golden/effects/${id}.sha256`);
+    await expect(`${hash}\n`).toMatchFileSnapshot(`../golden/effects/${id}.sha256`);
   });
 }
 
