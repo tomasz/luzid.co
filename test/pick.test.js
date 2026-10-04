@@ -117,11 +117,10 @@ test("a pin resolves a retired (odds 0) item — QA mask mode", () => {
       {
         id: "qa-bw",
         src: "qa",
-        tier: "editorial",
         odds: 0,
         names: ["Black", "White"],
         hex: ["#000000", "#ffffff"],
-        roles: [{ o: "10--", dark: false, n: 2, derivedBg: null }],
+        roles: [{ o: "10--", dark: false, colors: 2, ground: null }],
       },
     ],
   };
