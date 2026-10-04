@@ -120,6 +120,15 @@ writes it whenever the config loads — before `vp dev`, `vp build`, `vp preview
 `vp test` — so no command has to build it first. Golden snapshots refresh with
 `vp test -u`.
 
+### Layout
+
+`src/` holds the engine, `effects/` one file per effect, `fonts/` and `data/` the generated
+and curated data, `scripts/` the generators and tools, `test/` the unit suite, `e2e/` the
+browser suite, `docs/` the contracts. The refactor plan's final layout (its §6: `src/`
+split into `look`, `layout`, `pick`, `fit`, `render` and `helpers`; `scripts/fonts/` and
+`scripts/palettes/` modules, `.mjs` renamed `.js`) is a **target** until its row Z1 lands:
+a new module takes its final name from the start, and Z1 moves the rest in one PR.
+
 ## Working as one of several parallel agents
 
 ```
@@ -170,8 +179,14 @@ Owner-merged paths (a PR touching them gets the `needs-owner` label and waits):
   `not_found_handling` or `run_worker_first`, never enable Workers Cache.
 - Fonts: real `Ł` and `ł` required; the Google `css2` API is never the source (it strips
   stylistic sets); every subset ships its licence file and a change notice.
-- Cultural guards in effects and backgrounds: no red disc with rays, no `sayagata`, no
-  imperial crests, no faux-Asian display faces.
+- Cultural guards in effects and backgrounds. Check every new effect, font and palette
+  against each item on its contact sheets; "lint" marks what a test already enforces.
+  - [ ] no red disc with rays (the rising-sun motif)
+  - [ ] no `sayagata` (the interlocking-swastika fret)
+  - [ ] no imperial crests (e.g. the chrysanthemum seal)
+  - [ ] no faux-Asian display faces ("chop suey" lettering) — checked on font rows; an
+    effect cannot bring its own face (lint: `font-family` is off the property allowlist, and
+    `url()` other than `data:` is rejected)
 
 ## Definition of done
 
