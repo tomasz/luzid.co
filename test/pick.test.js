@@ -1,8 +1,7 @@
 import assert from "node:assert/strict";
 import { expect, test } from "vite-plus/test";
-import { LAYOUTS } from "../src/layout.js";
 import { parsePickString, pickString } from "../src/look.js";
-import { BUCKET_ODDS, denied, PickError, pick } from "../src/pick.js";
+import { BUCKET_ODDS, denied, PickError, pick, resolve } from "../src/pick.js";
 import { fixtureCatalog } from "./catalog.js";
 
 const catalog = await fixtureCatalog();
@@ -180,20 +179,19 @@ test("D8: about a quarter of seeds add the rotated portrait variant", () => {
   assert.ok(Math.abs(side / n - 0.25) < 0.01, `side share ${side / n}`);
 });
 
-test("the engine is total with an empty catalog", () => {
-  // No fonts and no palettes: the sampler falls back to the system font and the QA palette.
-  const bare = {
-    fonts: [],
-    palettes: [],
-    effects: catalog.effects,
-    presets: [],
-    deny: [],
-    weights: {},
-  };
-  const p = pick(bare, "a");
-  assert.equal(p.f, "system");
-  assert.equal(p.p, "qa-bw");
-  assert.ok(LAYOUTS.some((l) => l.id === p.l));
+test("a broken catalog is a plain Error, never a PickError", () => {
+  // The build rejects an empty catalog (test/data/catalog.test.js). If one reached the edge
+  // anyway, the deploy is wrong, not the request: a 500, not a 400.
+  const bare = { ...catalog, fonts: [] };
+  assert.throws(
+    () => pick(bare, "a"),
+    (err) => !(err instanceof PickError) && /empty pool on axis f/.test(err.message),
+  );
+  const look = pick(catalog, "gs");
+  assert.throws(
+    () => resolve({ ...catalog, effects: [] }, look),
+    (err) => !(err instanceof PickError) && /does not resolve/.test(err.message),
+  );
 });
 
 test("the canonical string round-trips through the deny matcher", () => {

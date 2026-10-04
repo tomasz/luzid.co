@@ -179,20 +179,19 @@ export default {
   fonts: { deny: ['script', 'hairline'], prefer: ['fat'] },     // traits; prefer = ×2 odds
   palettes: { prefer: [] },         // tokens: source or id prefix, 'dark' | 'light', 'n2'…'n4', tier; ×2 odds
   params: { d: [3, 9, 1], a: [45, 315, 90] },                    // [min,max,step], exact grid (§5.3); lengths in u, angles in deg
-  bleed: (p, m) => ({ t: 0, r: p.d, b: p.d, l: 0 }),             // u; must bound ALL painted ink incl. blur and hover
+  bleed: (p, lines) => ({ t: 0, r: p.d, b: p.d, l: 0 }),         // u; must bound ALL painted ink incl. blur and hover
   css:   (p, h, m) => `.n{text-shadow:${h.stack(48, p.a, p.d, 'var(--a1)')}}`,
   hover: null,                      // optional (p, h, m) => declarations, no selector (R6)
   motion: null,                     // reserved for Wave 4; must be null in Waves 0–3
 }
 ```
 
-`m` = `{fs, H, top, asc, desc, G, R, layout}` (needed by `text-emphasis`, underlines, floor shadows), lengths in u. `fs`, `H`, `top`, `asc` and `desc` are pairs `[line 1, line 2]` (`fs = [100/F1, 100/F2]`); `G` is the resolved gap, `R` the block height as a fraction of its width (so not in u), `layout` the layout id. `bleed()` sees a provisional `G` (R10).
+`m` = `{fs, H, top, asc, desc, G, R, layout}` (needed by `text-emphasis`, underlines, floor shadows), lengths in u. `fs`, `H`, `top`, `asc` and `desc` are pairs `[line 1, line 2]` (`fs = [100/F1, 100/F2]`); `G` is the resolved gap, `R` the block height as a fraction of its width (so not in u), `layout` the layout id. `bleed(p, lines)` receives the line geometry only, `lines` = `{fs, H, top, asc, desc, layout}`: `G` and `R` depend on the bleed, so it cannot see them, and `fit()` calls it exactly once.
 
 **Where hover lands.** The renderer emits the declarations as `@media (hover:hover) and (pointer:fine){a.n:hover{…}}a.n:active{…}` inside the §5.8 gate and **outside** `prefers-reduced-motion:no-preference`; effects with `hover:null` get the shared default `a.n:active{scale:.985}`. Only the renderer's transitions (`.18s` on `scale translate filter opacity text-shadow`, never more than 200 ms) and `motion` sit inside the reduced-motion block. Under `prefers-reduced-motion:reduce` the hover state therefore still applies, instantly — the policy is in [`a11y.md`](a11y.md). Zero JS, zero DOM: this is v1.0's interactivity.
 
-**Pending S2 and S4** — agreed, not yet in the code:
-- **One hook signature** (S4): `bleed`, `css` and `hover` all receive `(p, h, m)`. Today `bleed` receives `(p, m)`, so an effect must not add `h` to its `bleed` before S4 lands.
-- **`bleed` sees line geometry only** (S2): its `m` loses `G` and `R`, `fit()` calls it once, and R10's two passes go.
+**Pending S4** — agreed, not yet in the code:
+- **One hook signature** (S4): `bleed`, `css` and `hover` all receive `(p, h, m)`. Today `bleed` receives `(p, lines)`, so an effect must not add `h` to its `bleed` before S4 lands.
 - **String `hover`** (S4): an effect whose hover reads no params may give the declaration string itself instead of a function.
 - **Shared constants and helpers** (S4): `h` is `{u, stack, ring, mix}` today. S4 adds `REACH = 1.1` (R14's blur reach with its safety factor), `OUTSET = 1` (a `-webkit-text-stroke` budgeted at its full width outside the contour, for mitered joins), and the caps below as `CAP = 64`, `BLURS = 4`, `MAX_BLUR = 2.5`, `CHAIN = 4`, plus the helpers `layers`, `toward`, `QUAD`, `fall`, `march`, `ramp`, `copy` and `clipFill`. Effects then use the named constant instead of restating the number, and an effect that budgets more than `REACH` says why next to its own factor. `src/helpers.js` is authoritative for their signatures once it has them.
 
@@ -371,34 +370,27 @@ f:fx-sans.up p:fx-ground.k10- e:depth-extrude(a=225,d=8) l:stack-fit(g=6,a=flex-
 
 Deny rules and pins match on the plain ids (`f v p r e l`), never on this rendering.
 
-### R10 — `fonts/meta/*.json` must carry `upm`, and `bleed()` sees a provisional `G` (retired by S2, pending)
+### R10 — `fonts/meta/*.json` must carry `upm`, and `bleed()` sees a provisional `G` (retired by S2)
 
-**Retired by S2 (pending).** Every one of the 147 metas carries `upm` and B2 will make the
-catalog build require it, so the em fallback below never runs; S2 deletes it and hands
-`bleed()` line geometry without `G`, which removes the two passes. Until S2 merges the
-engine still behaves as written here.
+**Retired by S2.** The catalog build requires `upm` on every font meta (B2), so the engine
+always divides `asc` / `desc` by it and the em fallback is gone. `bleed(p, lines)` receives
+the line geometry without `G` or `R` (§5.6), which removes the cycle and with it the two
+passes: `fit()` calls `bleed()` once, and `css()` and `hover()` receive the final `m`.
 
-§5.2 needs `ASC` and `DESC` "÷ upm", and the §5.5 meta schema lists `asc` and `desc` on each
-file entry but no `upm`. The engine divides by `font.upm` when the font meta carries one and
-treats `asc` / `desc` as already-em otherwise. **WP-11 should emit `upm` at the top level of
-each font meta.** Everything else the renderer reads (`w1`, `w2`) is already in em.
+It used to read: the engine divided by `font.upm` when the meta carried one and treated
+`asc` / `desc` as already-em otherwise; and since `G = max(g, bleed.t, bleed.b)` while
+`bleed(p, m)` took an `m` containing `G`, `bleed()` was handed an `m` computed with `G = g`.
+No shipped effect's bleed ever read `m.G` or `m.R`.
 
-`G = max(g, bleed.t, bleed.b)` while `bleed(p, m)` takes `m`, which contains `G` — a cycle. It is
-broken by two passes: `bleed()` receives an `m` computed with `G = g`, and `css()` and
-`hover()` receive the final `m`. A bleed that reads `m.G` is therefore reading the layout
-gap, not the resolved gap.
+### R11 — a system-font fallback exists so the engine is total before WP-11 (retired by S2)
 
-### R11 — a system-font fallback exists so the engine is total before WP-11 (retired by S2, pending)
-
-**Retired by S2 (pending).** 147 fonts ship and B2 will make the catalog build reject an empty
-pool, a missing `plain` or a missing `qa-bw`, so none of these fallbacks can run; S2
-deletes them. Until S2 merges they are still in `src/pick.js` and `src/render.js`.
-
-With `fonts/meta/` empty, `pick()` returns a built-in `system` font (a bold serif stack with
-hand-estimated ink metrics) and `render()` emits no `@font-face`. The fit is approximate and
-the §9.2 pixel scan does not gate it. It disappears the moment one real font meta lands.
-The same safety net exists for `data/palettes/` and `effects/`, neither of which is ever
-actually empty (`data/palettes/qa.json` and `effects/plain.js` ship).
+**Retired by S2.** The catalog build rejects an empty font pool, a missing `plain` and a
+missing `qa-bw` (B2), so the engine's stand-ins — a built-in `system` font, a fallback
+`qa-bw` palette, a null `plain` effect, and the renderer's no-`@font-face` branch — could
+never run, and are deleted. The engine trusts the catalog's shape: a pick that cannot be
+made from a validated catalog is a broken deploy and throws a plain `Error` (500), while a
+`PickError` (400) is reserved for request errors — an unknown pin, or a pin combination
+nothing satisfies.
 
 ### R12 — the colophon keeps the tuple verbatim
 

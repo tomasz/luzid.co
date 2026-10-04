@@ -6,8 +6,9 @@
  *
  * Pins are fixed before any draw. Each drawn axis filters against everything already
  * fixed and removes the candidates that would complete a `data/deny.json` rule. Every
- * axis keeps a universal fallback, so the candidate set is never empty and the pass
- * always terminates: there are no retries and no loops.
+ * axis keeps a universal fallback (R5), so the candidate set is never empty and the pass
+ * always terminates: there are no retries and no loops. The build guarantees every pool is
+ * non-empty and `plain` and `qa-bw` exist (B2), so the engine never guards the catalog.
  *
  * `pick()` is pure. It never touches the network, the clock or `Math.random`.
  */
@@ -21,7 +22,11 @@ import { flag, step, weighted } from "./rand.js";
  *   Pins, Preset, RoleSet, Scene, Seed, Weights } from "./types.js"
  */
 
-/** A pin naming something that does not exist, or a pin combination nothing satisfies. */
+/**
+ * A pin naming something that does not exist, or a pin combination nothing satisfies: a
+ * request error, which the worker answers with 400. A broken catalog throws a plain `Error`
+ * instead, which surfaces as a 500 — it is the deploy that is wrong, not the request.
+ */
 export class PickError extends Error {
   /**
    * @param {'unknown' | 'incompatible'} kind
@@ -50,90 +55,11 @@ export const BUCKET_ODDS = Object.freeze({ A: 3, B: 3, C: 3, D: 3, E: 3, F: 3, X
 
 const DEFAULT_ODDS = 4;
 
-/**
- * Stand-in used only while `fonts/meta/` is still empty (before WP-11 lands). Every real
- * font ships measured ink metrics; a system stack cannot, because the face that actually
- * resolves differs per platform.
- *
- * So these are a deliberate **upper bound**, not an estimate. Measured bold at 1em:
- * Georgia 3.94 / 3.84, Iowan Old Style 3.56 / 3.64, Palatino 3.39 / 3.58, Times New Roman
- * 3.19 / 3.26. The values below sit above all of them, which trades a slightly smaller
- * name for the guarantee that the ink never runs past the edge — under-fill is benign,
- * overflow is not. The pixel scan (§9.2) gates real fonts only, and this row disappears
- * the moment one font meta lands.
- * @type {Font}
- */
-export const FALLBACK_FONT = {
-  id: "system",
-  family: 'Georgia,"Times New Roman",ui-serif,serif',
-  licenseId: null,
-  copyright: null,
-  odds: 4,
-  archetype: ["A", "X"],
-  traits: ["serif"],
-  files: [{ id: "r", asc: 0.78, desc: 0.22, bytes: 0, b64: null }],
-  variants: [
-    {
-      id: "r",
-      file: "r",
-      case: "none",
-      css: { weight: 700, style: "normal", feat: "" },
-      w1: { W: 4.25, H: 0.73, X: 0.01, top: 0.71 },
-      w2: { W: 4.15, H: 0.8, X: 0.03, top: 0.78 },
-    },
-  ],
-};
-
-/**
- * Stand-in used only if `data/palettes/` is empty. `data/palettes/qa.json` ships, so it is not.
- * @type {Palette}
- */
-export const FALLBACK_PALETTE = {
-  id: "qa-bw",
-  src: "qa",
-  tier: "editorial",
-  odds: 0,
-  names: ["Black", "White"],
-  hex: ["#000000", "#ffffff"],
-  roles: [{ o: "10--", dark: false, n: 2, derivedBg: null }],
-};
-
-/**
- * Stand-in used only if `effects/` is empty. `effects/plain.js` ships, so it is not.
- * @type {Effect}
- */
-const NULL_EFFECT = {
-  id: "plain",
-  family: "plain",
-  shape: "A",
-  colors: 2,
-  bg: "any",
-  fonts: { deny: [], prefer: [] },
-  palettes: { prefer: [] },
-  params: {},
-  bleed: () => ({ t: 0, r: 0, b: 0, l: 0 }),
-  css: () => "",
-  hover: null,
-  motion: null,
-};
-
 /** @param {number} n */
 const clampOdds = (n) => {
   const i = Math.floor(n);
   return i < 0 ? 0 : i > 16 ? 16 : i;
 };
-
-/**
- * The catalog's rows, with the stand-ins while a kind is still empty.
- * @param {Catalog} catalog
- */
-function rows(catalog) {
-  return {
-    fonts: catalog.fonts?.length ? catalog.fonts : [FALLBACK_FONT],
-    palettes: catalog.palettes?.length ? catalog.palettes : [FALLBACK_PALETTE],
-    effects: catalog.effects?.length ? catalog.effects : [NULL_EFFECT],
-  };
-}
 
 /**
  * Does `rule` hold for a finished pick? A rule matches when every key it names equals the
@@ -191,7 +117,8 @@ function completes(deny, axis, id, fixed) {
  * @returns {T}
  */
 function drawAxis(s, { axis, pool, compatible, oddsOf, fallback }) {
-  if (pool.length === 0) throw new PickError("incompatible", axis);
+  // The build rejects an empty pool (B2), so this is a broken catalog, never a bad request.
+  if (pool.length === 0) throw new Error(`empty pool on axis ${axis}`);
 
   const pin = s.pins[axis];
   if (pin != null) {
@@ -213,8 +140,8 @@ function drawAxis(s, { axis, pool, compatible, oddsOf, fallback }) {
   const live = cands.filter((item) => oddsOf(item) > 0);
   if (live.length > 0) cands = live;
 
-  const hit = weighted(s.seed, axis, cands, oddsOf);
-  if (!hit) throw new PickError("incompatible", axis);
+  // Never null: `cands` is never empty, and `weighted` returns null only for an empty list.
+  const hit = /** @type {T} */ (weighted(s.seed, axis, cands, oddsOf));
   s.fixed[axis] = hit.id;
   return hit;
 }
@@ -266,7 +193,7 @@ function drawMode(seed, presets, weights) {
     .id;
   if (mode === "free") return { mode, preset: null };
   const preset = weighted(seed, "preset", presets, (x) =>
-    clampOdds(weights.preset?.[x.id] ?? x.odds ?? DEFAULT_ODDS),
+    clampOdds(weights.preset?.[x.id] ?? x.odds),
   );
   return { mode, preset };
 }
@@ -317,11 +244,11 @@ function drawFont(s, fonts, bucket, preset) {
       if (only.ids && !only.ids.includes(x.id)) return false;
       if (only.traits && !only.traits.every((t) => x.traits.includes(t))) return false;
       if (v && !x.variants.some((y) => y.id === v)) return false;
-      return (x.archetype ?? []).includes(bucket);
+      return x.archetype.includes(bucket);
     },
     // Universal fallback: an empty bucket falls back to the flat pool.
     fallback: (pool) => pool.filter((x) => !v || x.variants.some((y) => y.id === v)),
-    oddsOf: (x) => clampOdds(s.weights.f?.[x.id] ?? x.odds ?? DEFAULT_ODDS),
+    oddsOf: (x) => clampOdds(s.weights.f?.[x.id] ?? x.odds),
   });
 }
 
@@ -343,7 +270,7 @@ function drawVariant(s, font) {
  * `--a1` on a 2-colour role set would paint its accent in the face colour and vanish.
  *
  * @param {Draws} s
- * @param {readonly Effect[]} effects
+ * @param {Catalog["effects"]} effects
  * @param {readonly Palette[]} palettes
  * @param {Font} font
  */
@@ -352,17 +279,17 @@ function drawEffect(s, effects, palettes, font) {
   const roleSetPool = palettes
     .filter((x) => !p || x.id === p)
     .flatMap((x) => x.roles.filter((y) => !r || y.o === r));
-  const traits = new Set(font.traits ?? []);
+  const traits = new Set(font.traits);
   return drawAxis(s, {
     axis: "e",
     pool: effects,
     compatible: (x) =>
-      !(x.fonts?.deny ?? []).some((t) => traits.has(t)) && roleSetPool.some((y) => roleFits(x, y)),
+      !x.fonts.deny.some((t) => traits.has(t)) && roleSetPool.some((y) => roleFits(x, y)),
     // Universal fallback: `plain` fits every font, every palette and every layout.
     fallback: (pool) => pool.filter((x) => x.id === "plain"),
     oddsOf: (x) => {
-      const base = clampOdds(s.weights.e?.[x.id] ?? x.odds ?? DEFAULT_ODDS);
-      return (x.fonts?.prefer ?? []).some((t) => traits.has(t)) ? base * 2 : base;
+      const base = clampOdds(s.weights.e?.[x.id] ?? x.odds);
+      return x.fonts.prefer.some((t) => traits.has(t)) ? base * 2 : base;
     },
   });
 }
@@ -378,7 +305,7 @@ function drawEffect(s, effects, palettes, font) {
 export function drawParams(seed, effect, forced = {}) {
   /** @type {Record<string, number>} */
   const params = {};
-  for (const name of Object.keys(effect.params ?? {}).sort()) {
+  for (const name of Object.keys(effect.params).sort()) {
     params[name] =
       forced[name] ??
       step(seed, `e/${effect.id}/${name}`, /** @type {ParamSpec} */ (effect.params[name]));
@@ -394,7 +321,7 @@ export function drawParams(seed, effect, forced = {}) {
  */
 function drawPalette(s, palettes, effect, preset) {
   const r = s.pins.r;
-  const preferTokens = [...(effect.palettes?.prefer ?? []), ...(preset?.palettes?.prefer ?? [])];
+  const preferTokens = [...effect.palettes.prefer, ...(preset?.palettes?.prefer ?? [])];
   /** @param {Palette} x */
   const setsOf = (x) => x.roles.filter((y) => roleFits(effect, y));
   return drawAxis(s, {
@@ -402,7 +329,7 @@ function drawPalette(s, palettes, effect, preset) {
     pool: palettes,
     compatible: (x) => setsOf(x).length > 0 && (!r || x.roles.some((y) => y.o === r)),
     oddsOf: (x) => {
-      const base = clampOdds(s.weights.p?.[x.id] ?? x.odds ?? DEFAULT_ODDS);
+      const base = clampOdds(s.weights.p?.[x.id] ?? x.odds);
       return preferTokens.some((t) => prefers(t, x, setsOf(x))) ? base * 2 : base;
     },
   });
@@ -452,7 +379,7 @@ export function drawLayoutAxes(seed) {
  * @returns {Look}
  */
 export function pick(catalog, seed, pins = {}) {
-  const { fonts, palettes, effects } = rows(catalog);
+  const { fonts, palettes, effects } = catalog;
 
   // Unknown ids are rejected before anything is drawn, so a typo never renders a page.
   /** @type {Record<AxisKey, Set<string>>} */
@@ -476,13 +403,13 @@ export function pick(catalog, seed, pins = {}) {
   const fixed = {};
   for (const k of pinned) fixed[k] = pins[k];
 
-  const weights = catalog.weights ?? {};
-  const { mode, preset } = drawMode(seed, catalog.presets ?? [], weights);
+  const weights = catalog.weights;
+  const { mode, preset } = drawMode(seed, catalog.presets, weights);
   /** @type {Draws} */
   const s = {
     seed,
     weights,
-    deny: catalog.deny ?? [],
+    deny: catalog.deny,
     pins: effectivePins(pins, preset, universe),
     fixed,
   };
@@ -524,16 +451,18 @@ export function pick(catalog, seed, pins = {}) {
  * @returns {Scene}
  */
 export function resolve(catalog, look) {
-  const { fonts, palettes, effects } = rows(catalog);
+  const { fonts, palettes, effects } = catalog;
+  // The optional chains guard the look, not the catalog: a look `pick()` did not draw from
+  // this catalog may name ids it lacks. The edge resolves only its own picks: an invariant.
   const font = fonts.find((x) => x.id === look.f);
   const variant = font?.variants.find((x) => x.id === look.v);
-  const file = font?.files.find((x) => x.id === variant?.file) ?? font?.files[0];
+  const file = font?.files.find((x) => x.id === variant?.file);
   const palette = palettes.find((x) => x.id === look.p);
   const roleSet = palette?.roles.find((x) => x.o === look.r);
   const effect = effects.find((x) => x.id === look.e);
   const layout = LAYOUTS.find((x) => x.id === look.l);
   if (!font || !variant || !file || !palette || !roleSet || !effect || !layout) {
-    throw new PickError("incompatible", "resolve");
+    throw new Error("the look does not resolve against this catalog");
   }
   return { look, font, variant, file, palette, roleSet, effect, layout };
 }

@@ -47,12 +47,12 @@ export default /** @satisfies {import("../src/types.js").Effect<{ sy: number; sk
 
   /**
    * @param {{sy: number, sk: number}} p
-   * @param {import("../src/types.js").Metrics} m
+   * @param {import("../src/types.js").LineGeometry} lines
    */
-  bleed: (p, m) => {
-    const tall = Math.max(m.H[0], m.H[1]);
+  bleed: (p, lines) => {
+    const tall = Math.max(lines.H[0], lines.H[1]);
     const lean = (TAN[Math.abs(p.sk)] ?? 0.58) * (tall / 2) + SPREAD * BLUR;
-    return { t: 0, r: lean, b: (p.sy / 100) * m.H[1] + SPREAD * BLUR, l: lean };
+    return { t: 0, r: lean, b: (p.sy / 100) * lines.H[1] + SPREAD * BLUR, l: lean };
   },
 
   /**
