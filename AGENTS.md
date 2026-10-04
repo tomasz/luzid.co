@@ -48,16 +48,16 @@ The image is Vite+'s official toolchain image, pinned by digest.
 - **pnpm:** `vp` installs `pnpm@12.8.1` from `devEngines.packageManager` in
   `package.json`, inside the container or out.
 - **Commands:** inside the container, plain `pnpm` and `vp` are the right commands. CI sets
-  up the same `vp` with `voidzero-dev/setup-vp`, pinning pnpm through `VP_PACKAGE_MANAGER`
-  and `VP_PNPM_VERSION`.
+  up the same `vp` with `voidzero-dev/setup-vp`, which reads the same
+  `devEngines.packageManager`; the workflows pin no pnpm version of their own.
 
 There is deliberately **no `packageManager` field** in `package.json`. Given one, pnpm 12
 self-installs that version and appends a second document to `pnpm-lock.yaml`; GitHub's
 dependency graph reads only one document and can then report the repo as having no
 dependencies, which silently disables Dependabot alerts. `devEngines.packageManager` does
 the same unless its `onFail` is `"ignore"`, so it carries that. That field is the one pnpm
-declaration (no `engines.pnpm`); `VP_PACKAGE_MANAGER` and `VP_PNPM_VERSION` in both
-workflows must match it, and `test/repo.test.js` fails if they ever disagree. Node
+declaration (no `engines.pnpm`, no `VP_PNPM_VERSION` in the workflows), and
+`test/repo.test.js` fails if this file stops quoting its version. Node
 built-ins are preferred over packages in scripts: `node:zlib`, `fs.glob`, `parseArgs`,
 `fetch`. There are exactly six devDependencies (`vite-plus`, `@cloudflare/vite-plugin`,
 `wrangler`, `@playwright/test`, `harfbuzzjs`, `subset-font`) and zero runtime dependencies.

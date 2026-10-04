@@ -18,8 +18,8 @@ test("the lockfile is a single YAML document", async () => {
 });
 
 test("the pnpm version is pinned identically everywhere", async () => {
-  // Because `packageManager` cannot be used (see above), the version lives in more than one
-  // file. This test is what keeps them one source of truth.
+  // Because `packageManager` cannot be used (see above), the version lives in
+  // devEngines.packageManager and is quoted in AGENTS.md. This test keeps them in step.
   // devEngines.packageManager is the one pnpm declaration: `vp` reads it, and pnpm 12 does
   // not enforce engines.pnpm, so a second copy there could only drift.
   const pkg = JSON.parse(await read("package.json"));
@@ -27,16 +27,10 @@ test("the pnpm version is pinned identically everywhere", async () => {
   const wanted = pkg.devEngines.packageManager.version;
   assert.match(wanted, /^\d+\.\d+\.\d+$/, "devEngines.packageManager.version must be exact");
 
-  // setup-vp in CI pins pnpm through these two variables: VP_PACKAGE_MANAGER for
-  // `vp install`, VP_PNPM_VERSION for `pnpm`.
+  // setup-vp in CI reads devEngines.packageManager too (proved in #136), so the workflows
+  // carry no pnpm version of their own.
   for (const file of [".github/workflows/ci.yml", ".github/workflows/cd.yml"]) {
     const yml = await read(file);
-    assert.match(
-      yml,
-      new RegExp(`VP_PACKAGE_MANAGER: "?pnpm@${wanted}"?\\n`),
-      `${file} VP_PACKAGE_MANAGER`,
-    );
-    assert.match(yml, new RegExp(`VP_PNPM_VERSION: "?${wanted}"?\\n`), `${file} VP_PNPM_VERSION`);
     assert.equal(yml.includes("pnpm/action-setup"), false, `${file}: setup-vp provides pnpm`);
   }
 

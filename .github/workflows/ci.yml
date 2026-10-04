@@ -34,7 +34,6 @@ jobs:
       - uses: voidzero-dev/setup-vp@3754dd7dbdb32bd8f6d28b6043de13ad3a75f21f # v1.21.1
         with:
           cache: true # vp version from package.json, Node from engines.node; runs vp install
-      - run: pnpm --version
       - run: pnpm run check
 
   e2e:
