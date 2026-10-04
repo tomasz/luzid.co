@@ -20,11 +20,11 @@ env:
   VP_PACKAGE_MANAGER: "pnpm@12.8.1"
   VP_PNPM_VERSION: "12.8.1"
 
-# Inside a called workflow `github.workflow` resolves to the CALLER's name, so a shared
-# group expression would make cd.yml deadlock against its own ci job. The scope keeps a
-# dispatched sweep from queueing a dispatched deploy behind it.
+# Called from cd.yml or sweep.yml, `github.workflow` is the caller's name, so each caller
+# gets its own group and a sweep never queues a deploy. Neither caller sets a top-level
+# `concurrency`, which would share this group and deadlock.
 concurrency:
-  group: ci-${{ github.event_name }}-${{ inputs.fit-scope || 'changed' }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
@@ -81,7 +81,7 @@ jobs:
   # The single required check. It aggregates everything above, so a green `ci` is the
   # whole signal and the ruleset never needs updating when a job is added.
   ci:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-slim
     needs: [check, e2e]
     if: always()
     steps:
