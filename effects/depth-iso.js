@@ -32,7 +32,7 @@ const dir = (a, d) => ({
   l: a > 90 && a < 270 ? d : 0,
 });
 
-export default {
+export default /** @satisfies {import("../src/types.js").Effect<{ d: number; a: number }>} */ ({
   id: "depth-iso",
   family: "depth",
   shape: "A",
@@ -65,4 +65,4 @@ export default {
 
   hover: () => "filter:brightness(1.06)",
   motion: null,
-};
+});

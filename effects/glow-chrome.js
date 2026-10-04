@@ -23,9 +23,10 @@
  * is `max(g, bleed.t)` and has no bottom counterpart. It does not need one here: the wall
  * is at most 2.1u deep against a layout gap of at least 4u.
  */
+/** @param {number} x */
 const pc = (x) => `${Math.round(x * 10) / 10}%`;
 
-export default {
+export default /** @satisfies {import("../src/types.js").Effect<{ z: number; s: number; d: number; k: number }>} */ ({
   id: "glow-chrome",
   family: "glow",
   shape: "A",
@@ -63,7 +64,7 @@ export default {
   /**
    * @param {{z: number, s: number, d: number, k: number}} p
    * @param {typeof import('../src/helpers.js').helpers} h
-   * @param {{H: number[], G: number, R: number}} m
+   * @param {import("../src/types.js").Metrics} m
    */
   css: (p, h, m) => {
     // Map the horizon from a fraction of the ink to a percentage of the background box,
@@ -99,7 +100,7 @@ export default {
   /** @param {{d: number}} p @param {typeof import('../src/helpers.js').helpers} h */
   hover: (p, h) => `filter:${raise(p, h)} brightness(1.06)`,
   motion: null,
-};
+});
 
 /**
  * The raised wall under the face, as a binary-doubling drop-shadow chain (R06): each pass

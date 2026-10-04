@@ -14,7 +14,10 @@
  * as depth rather than as three equal words.
  */
 
-/** The four diagonals as exact ±1 pairs. No trig, so no golden can depend on `Math.cos`. */
+/**
+ * The four diagonals as exact ±1 pairs. No trig, so no golden can depend on `Math.cos`.
+ * @type {import("../src/types.js").Pair[]}
+ */
 const DIR = [
   [1, 1],
   [-1, 1],
@@ -25,7 +28,7 @@ const DIR = [
 /** Outward allowance per unit of stroke width; see `outline-hollow.js` for the derivation. */
 const MITER = 0.8;
 
-export default {
+export default /** @satisfies {import("../src/types.js").Effect<{ sw: number; o: number; q: number }>} */ ({
   id: "outline-echo",
   family: "outline",
   shape: "B",
@@ -45,7 +48,7 @@ export default {
 
   /** @param {{sw: number, o: number, q: number}} p */
   bleed: (p) => {
-    const [sx, sy] = DIR[p.q];
+    const [sx, sy] = /** @type {import("../src/types.js").Pair} */ (DIR[p.q]);
     const s = MITER * p.sw;
     const far = 2 * p.o;
     return {
@@ -61,7 +64,7 @@ export default {
    * @param {typeof import('../src/helpers.js').helpers} h
    */
   css: (p, h) => {
-    const [sx, sy] = DIR[p.q];
+    const [sx, sy] = /** @type {import("../src/types.js").Pair} */ (DIR[p.q]);
     const far = h.mix("var(--a1)", "var(--bg)", 45);
     return (
       `.l::before{content:attr(data-t) / "";color:var(--bg);` +
@@ -76,4 +79,4 @@ export default {
   /** The house lift. The stack must not move: every copy's reach is already in the bleed. */
   hover: () => "filter:brightness(1.06)",
   motion: null,
-};
+});

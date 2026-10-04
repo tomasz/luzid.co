@@ -14,7 +14,7 @@
  * Two hard layers, no blur — this is the cheapest effect in the family, about 0.05 ms of GPU
  * raster per layer against 2.4–7.9 ms for a blurred one.
  */
-export default {
+export default /** @satisfies {import("../src/types.js").Effect<{ s: number; a: number }>} */ ({
   id: "glow-anaglyph",
   family: "glow",
   shape: "A",
@@ -51,7 +51,7 @@ export default {
   /** @param {{s: number, a: number}} p @param {typeof import('../src/helpers.js').helpers} h */
   hover: (p, h) => `text-shadow:${split(p, h, 1.5)}`,
   motion: null,
-};
+});
 
 /**
  * One layer per channel, `h.stack(1, …)` each, so the offsets stay as `cos()`/`sin()` in CSS

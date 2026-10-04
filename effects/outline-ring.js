@@ -44,7 +44,7 @@ const CAP = 32;
  */
 const layers = (r, uPx) => Math.min(CAP, Math.max(8, Math.ceil(Math.PI * Math.sqrt(r * uPx))));
 
-export default {
+export default /** @satisfies {import("../src/types.js").Effect<{ r: number }>} */ ({
   id: "outline-ring",
   family: "outline",
   shape: "A",
@@ -66,7 +66,7 @@ export default {
   /**
    * @param {{r: number}} p
    * @param {typeof import('../src/helpers.js').helpers} h
-   * @param {{fs: number[]}} m
+   * @param {import("../src/types.js").Metrics} m
    */
   css: (p, h, m) => {
     // 1u is 1% of the block width; m.fs[0] is line 1's font-size in u, so u→px at the
@@ -85,4 +85,4 @@ export default {
   /** The outline fills in: face and ring become one solid letter. */
   hover: () => "color:var(--fg)",
   motion: null,
-};
+});

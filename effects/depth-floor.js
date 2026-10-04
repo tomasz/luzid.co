@@ -21,6 +21,7 @@
  */
 
 /** Upper bounds on tan(|skew|), for the quantized angles `sk` can take. */
+/** @type {Record<number, number>} */
 const TAN = { 0: 0, 15: 0.27, 30: 0.58 };
 
 /** Blur on the copy, in u. Small: the mask does the softening. */
@@ -32,7 +33,7 @@ const SPREAD = 2;
 /** How much ink the floor copy carries, in percent of the ground colour. */
 const SHADE = 45;
 
-export default {
+export default /** @satisfies {import("../src/types.js").Effect<{ sy: number; sk: number }>} */ ({
   id: "depth-floor",
   family: "depth",
   shape: "B",
@@ -46,7 +47,7 @@ export default {
 
   /**
    * @param {{sy: number, sk: number}} p
-   * @param {{H: number[]}} m
+   * @param {import("../src/types.js").Metrics} m
    */
   bleed: (p, m) => {
     const tall = Math.max(m.H[0], m.H[1]);
@@ -70,4 +71,4 @@ export default {
 
   hover: () => "filter:brightness(1.05)",
   motion: null,
-};
+});

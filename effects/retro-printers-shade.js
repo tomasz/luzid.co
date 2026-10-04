@@ -19,7 +19,7 @@
  * shade is not a free-angle extrusion. Depths are the recipe's em figures converted at
  * roughly 1em = 25u: D .05–.11em is 1.25–2.75u, and the blur sits just above it.
  */
-export default {
+export default /** @satisfies {import("../src/types.js").Effect<{ b: number; d: number }>} */ ({
   id: "retro-printers-shade",
   family: "retro",
   shape: "A",
@@ -50,6 +50,7 @@ export default {
     const n = Math.min(60, Math.max(12, Math.round(14 * p.d)));
     // Six bands, never a per-layer alternation. The nearest band is the accent itself,
     // which is what a 0% mix means and is a good deal shorter to say.
+    /** @param {number} i */
     const tone = (i) => {
       const band = Math.min(5, Math.floor((6 * (i - 1)) / n));
       return band === 0 ? "var(--a1)" : h.mix("var(--fg)", "var(--a1)", 4 * band);
@@ -62,11 +63,11 @@ export default {
     // Every soft layer sits further out than its own radius, so none of them reaches back
     // past the face: the bleed stays a clean {right, bottom} box.
     const soft = h.mix("var(--a1)", "var(--bg)", 62);
-    for (const [at, r] of [
+    for (const [at, r] of /** @type {const} */ ([
       [0.55, 0.6],
       [0.78, 1],
       [1, 0.5],
-    ]) {
+    ])) {
       const k = p.d * at;
       out.push(`${h.u(k)} ${h.u(k)} ${h.u(p.b * r)} ${soft}`);
     }
@@ -75,4 +76,4 @@ export default {
 
   hover: () => "filter:brightness(1.05)",
   motion: null,
-};
+});

@@ -17,7 +17,7 @@
  * because the cut is genuinely painted in `--a1`. Deeper and harder than the deboss on
  * purpose: that one is a press into paper, this is cut into stone.
  */
-export default {
+export default /** @satisfies {import("../src/types.js").Effect<{ k: number; s: number }>} */ ({
   id: "retro-carve",
   family: "retro",
   shape: "A",
@@ -63,4 +63,4 @@ export default {
 
   hover: () => "filter:contrast(1.06)",
   motion: null,
-};
+});

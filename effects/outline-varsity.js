@@ -19,7 +19,7 @@
 /** Outward allowance per unit of stroke width; see `outline-hollow.js` for the derivation. */
 const MITER = 0.8;
 
-export default {
+export default /** @satisfies {import("../src/types.js").Effect<{ w1: number; x: number }>} */ ({
   id: "outline-varsity",
   family: "outline",
   shape: "B",
@@ -78,4 +78,4 @@ export default {
     return `filter:drop-shadow(0 ${h.u(0.8 * w2)} ${h.u(0.6 * w2)} ${h.mix("var(--fg)", "var(--bg)", 55)})`;
   },
   motion: null,
-};
+});

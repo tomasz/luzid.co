@@ -41,7 +41,7 @@ const dir = (a, d) => ({
   l: a > 90 && a < 270 ? d : 0,
 });
 
-export default {
+export default /** @satisfies {import("../src/types.js").Effect<{ d: number; a: number; s: number }>} */ ({
   id: "depth-ramp",
   family: "depth",
   shape: "A",
@@ -62,10 +62,11 @@ export default {
    */
   css: (p, h) => {
     const n = Math.min(64, Math.round(8 * p.d));
+    /** @param {number} t */
     const tint = (t) => (t === 0 ? "var(--a1)" : h.mix("var(--bg)", "var(--a1)", p.s * t));
     return `.n{text-shadow:${ramp(h, n, p.a, p.d, tint)}}`;
   },
 
   hover: () => "filter:brightness(1.06)",
   motion: null,
-};
+});

@@ -25,6 +25,7 @@
  * set where the ink is the darker of the two the edge simply lights from below. It still
  * reads as a bevel, which is why this is a note and not a `bg` restriction.
  */
+/** @param {number} x */
 const pc = (x) => `${Math.round(x * 10) / 10}%`;
 
 /**
@@ -42,7 +43,7 @@ const REACH = 1.3;
 /** The ambient pass's blur radius in u. `bleed()` and `bevel()` share it. */
 const AMBIENT = 1.1;
 
-export default {
+export default /** @satisfies {import("../src/types.js").Effect<{ a: number; s: number; o: number; k: number }>} */ ({
   id: "glow-foil",
   family: "glow",
   shape: "A",
@@ -108,7 +109,7 @@ export default {
   /** @param {{o: number}} p @param {typeof import('../src/helpers.js').helpers} h */
   hover: (p, h) => `filter:${bevel(p, h)} brightness(1.05)`,
   motion: null,
-};
+});
 
 /**
  * @param {{o: number}} p

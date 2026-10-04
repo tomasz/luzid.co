@@ -17,7 +17,7 @@
  * The face stays `--fg` — the one ink the engine guarantees at 3:1 against `--bg`. The glow
  * is decoration on top of that guarantee, never a substitute for it.
  */
-export default {
+export default /** @satisfies {import("../src/types.js").Effect<{ r: number; t: number }>} */ ({
   id: "glow-neon",
   family: "glow",
   shape: "A",
@@ -57,4 +57,4 @@ export default {
   // Brightness is a compositor-side filter and adds no painted area, so the bleed still holds.
   hover: () => "filter:brightness(1.18)",
   motion: null,
-};
+});
