@@ -20,7 +20,7 @@
  *     `hover` is a string, empty when it is null). `bleed` is called as `bleed(p, METRICS, helpers)`.
  *  4. The file holds the lowercase hex sha256 of that UTF-8 string, then `\n`.
  *
- * `METRICS` (in `test/effects-lint.js`, with `grid()`) is the fixed metrics object for all
+ * `METRICS` (in `scripts/catalog/check.js`, with `grid()`) is the fixed metrics object for all
  * three calls. Changing it, or this recipe, moves all 30 hashes at once. `vp test -u`
  * rewrites the files after an intended change; say which effects moved and why in the PR.
  */
@@ -90,8 +90,8 @@ const KEYWORDS = new Set(
 
 /** The first token of `value` outside the grammar above, or null. */
 function offGrammar(value) {
-  // url() is checked on its own (data: only) and strings are content, not values.
-  const v = value.replace(/url\([^)]*\)/g, " ").replace(/"[^"]*"|'[^']*'/g, " ");
+  // Strings are content, not values. (url() never gets here: the guards reject it first.)
+  const v = value.replace(/"[^"]*"|'[^']*'/g, " ");
   for (const m of v.matchAll(/#\w+|-?(?:\d*\.)?\d+[a-z%]*|--[\w-]+|(-?[a-z][\w-]*)(\(?)/gi)) {
     if (m[0].startsWith("#")) return m[0];
     if (!m[1]) continue; // a number or a custom property (role vars are checked separately)
@@ -131,6 +131,19 @@ function lintCss(css, where, { mode }) {
   let grouped = false;
 
   for (const { sel, decls } of rules) {
+    // Cultural guards (AGENTS.md), checked before the allowlist so the message names them:
+    // an effect never brings its own face, and never loads or embeds anything.
+    for (const [prop, value] of decls) {
+      assert.ok(
+        prop !== "font-family" || value === "f",
+        `${where}: font-family:${value} — an effect never brings its own face`,
+      );
+      assert.equal(
+        /url\(/i.test(value),
+        false,
+        `${where}: ${prop}: ${value} — effects never use url()`,
+      );
+    }
     // Each selector in a list is checked on its own: `.n,.l::after{transform:…}` must not
     // borrow the pseudo-element's allowance for `.n`.
     for (const s of sel) {
@@ -169,9 +182,6 @@ function lintCss(css, where, { mode }) {
       );
       for (const [, name] of value.matchAll(/var\(\s*(--[\w-]+)/g)) {
         assert.ok(ROLE_VARS.has(name), `${where}: var(${name}) is not a role variable`);
-      }
-      for (const [, url] of value.matchAll(/url\(\s*['"]?([^'")]*)/g)) {
-        assert.ok(url.startsWith("data:"), `${where}: url(${url}) — only data: URIs are allowed`);
       }
       assert.equal(
         /\b(animation|transition|will-change)\b/.test(prop),
@@ -355,7 +365,9 @@ test("the lint actually rejects the things it claims to", () => {
     "a foreign selector": ["body{color:var(--fg)}", /outside \.n/],
     "a property off the allowlist": [".n{font-size:calc(2*var(--u))}", /not allowed/],
     "an at-rule": ["@media print{.n{opacity:1}}", /never write an at-rule/],
-    "a remote url": [".n{mask-image:url(https://x/y.svg)}", /only data: URIs/],
+    "a remote url": [".n{mask-image:url(https://x/y.svg)}", /never use url\(\)/],
+    "a data url": [".n{mask-image:url(data:image/svg+xml,%3Csvg%3E)}", /never use url\(\)/],
+    "a face of its own": [".n{font-family:Mincho}", /never brings its own face/],
     "an unknown custom property": [".n{color:var(--nope)}", /not a role variable/],
     "a transition": [".n{transition:opacity .2s}", /not allowed/],
     "hover outside hover()": [".n:hover{opacity:1}", /interaction selectors/],

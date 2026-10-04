@@ -26,6 +26,10 @@ const BAD = {
   "effect-hover": "effects/plain.js: /hover: must be a function, a string or null",
   "effect-motion": "effects/plain.js: /motion: must be null until Wave 4",
   "effect-unknown-key": "effects/plain.js: /extra: unknown key",
+  // Cultural guards (AGENTS.md): an effect brings no face of its own and no image, data: included.
+  "effect-url": "effects/plain.js: /css: at {} emits url(); effects never do",
+  "effect-font-family":
+    "effects/plain.js: /hover: at {} sets font-family:Mincho; only the engine's f",
   "font-upm": "fonts/meta/fx-sans.json: /upm: must be a positive integer",
   "font-variant-file":
     'fonts/meta/fx-sans.json: /variants/1/file: names no entry of /files: "w900"',
