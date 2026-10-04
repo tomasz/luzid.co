@@ -8,16 +8,11 @@
  */
 
 import catalog from "../build/catalog.js";
-import { pickString } from "./look.js";
+import { parseQuery, pickString } from "./look.js";
 import { PickError, pick, resolve } from "./pick.js";
 import { render } from "./render.js";
 
 const SEED_ALPHABET = "0123456789abcdefghjkmnpqrstvwxyz"; // Crockford base32, lowercase
-const SEED_RE = /^[0-9a-hjkmnp-tv-z]{1,16}$/;
-const PIN_RE = /^[a-z0-9][a-z0-9.-]{0,63}$/;
-/** Role-set ids are the `o` string: hex indices, `w`/`k` for a derived ground, `-` for an alias. */
-const ROLE_RE = /^[0-9wk-]{4}$/;
-const PINS = /** @type {const} */ (["f", "v", "p", "r", "e", "l"]);
 
 /** @param {number} n */
 function randomSeed(n = 10) {
@@ -28,23 +23,22 @@ function randomSeed(n = 10) {
 }
 
 /** Base64 of 16 random bytes: the per-request CSP nonce. Never derived from the seed. */
-function nonce() {
-  const bytes = crypto.getRandomValues(new Uint8Array(16));
-  return btoa(String.fromCharCode(...bytes));
+function newNonce() {
+  return crypto.getRandomValues(new Uint8Array(16)).toBase64();
 }
 
 /**
- * @param {string} n
- * @param {string} pick
+ * @param {string} nonce
+ * @param {string} pickStr
  */
-function headers(n, pick) {
+function headers(nonce, pickStr) {
   return {
     "content-type": "text/html; charset=utf-8",
     "content-security-policy": [
       "default-src 'none'",
-      `style-src 'nonce-${n}'`,
+      `style-src 'nonce-${nonce}'`,
       "style-src-attr 'none'",
-      `script-src 'nonce-${n}'`,
+      `script-src 'nonce-${nonce}'`,
       "font-src data:",
       "img-src 'self' data:",
       "base-uri 'none'",
@@ -55,7 +49,7 @@ function headers(n, pick) {
     "strict-transport-security": "max-age=31536000",
     "x-content-type-options": "nosniff",
     "referrer-policy": "no-referrer",
-    "luzid-pick": pick,
+    "luzid-pick": pickStr,
   };
 }
 
@@ -72,35 +66,29 @@ export default {
       return new Response("Method not allowed", { status: 405, headers: { allow: "GET, HEAD" } });
     }
 
-    const given = url.searchParams.get("seed");
-    if (given !== null && !SEED_RE.test(given)) return new Response("Bad seed", { status: 400 });
-    const seed = given ?? randomSeed();
-
     // Pins are ids. They are shape-checked here and existence-checked by `pick()`; raw
     // input is never echoed, not in the body, not in a header.
-    /** @type {Record<string, string>} */
-    const pins = {};
-    for (const k of PINS) {
-      const v = url.searchParams.get(k);
-      if (v === null) continue;
-      const ok = k === "r" ? ROLE_RE.test(v) : PIN_RE.test(v);
-      if (!ok) return new Response("Bad pin", { status: 400 });
-      pins[k] = v;
+    const query = parseQuery(url.searchParams);
+    if (!query.ok) {
+      return new Response(query.reason === "seed" ? "Bad seed" : "Bad pin", { status: 400 });
     }
+    const seed = query.seed ?? randomSeed();
 
     let look;
     try {
-      look = pick(seed, pins, catalog);
+      look = pick(catalog, seed, query.pins);
     } catch (err) {
       if (err instanceof PickError) return new Response("Bad pin", { status: 400 });
       throw err;
     }
 
-    const n = nonce();
+    const nonce = newNonce();
     const pickStr = pickString(look);
-    const body = render(resolve(catalog, look), n);
+    const body = render(resolve(catalog, look), nonce);
 
     console.log(JSON.stringify({ seed, pick: pickStr }));
-    return new Response(request.method === "HEAD" ? null : body, { headers: headers(n, pickStr) });
+    return new Response(request.method === "HEAD" ? null : body, {
+      headers: headers(nonce, pickStr),
+    });
   },
 };

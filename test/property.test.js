@@ -84,7 +84,7 @@ for (const [name, catalog, n] of [
       l: new Set(),
     };
     for (const seed of seeds(n)) {
-      const p = pick(seed, {}, catalog);
+      const p = pick(catalog, seed);
       const bad = violations(p, catalog);
       assert.deepEqual(bad, [], `seed ${seed} (${pickString(p)}): ${bad.join("; ")}`);
       for (const k of Object.keys(axes)) axes[k].add(p[k]);
@@ -101,7 +101,7 @@ for (const [name, catalog, n] of [
 
 test("rendering is deterministic and the stylesheet is well-formed", () => {
   for (const seed of seeds(500, "r")) {
-    const p = pick(seed, {}, fixture);
+    const p = pick(fixture, seed);
     const html = render(resolve(fixture, p), "test");
     assert.equal(html, render(resolve(fixture, p), "test"), `${seed} is not deterministic`);
 
@@ -133,7 +133,7 @@ test("the heaviest live fonts under every effect stay inside the byte budget", (
   assert.equal(files.length, 3, "the live catalog must ship at least three font files");
   assert.ok(live.effects.length >= 30, "expected every shipped effect");
 
-  const base = pick("a", {}, live);
+  const base = pick(live, "a");
   let worst = { size: 0, pick: "" };
   for (const { font, v } of files) {
     for (const effect of live.effects) {
@@ -158,7 +158,7 @@ test("pick + render stay far inside the CPU budget", () => {
   const samples = [];
   for (const seed of seeds(300, "t")) {
     const t0 = performance.now();
-    const p = pick(seed, {}, fixture);
+    const p = pick(fixture, seed);
     render(resolve(fixture, p), "test");
     samples.push(performance.now() - t0);
   }
@@ -177,7 +177,7 @@ test("an added item moves only the seeds it wins", () => {
   let moved = 0;
   const n = 4000;
   for (const seed of seeds(n)) {
-    if (pick(seed, {}, fixture).p !== pick(seed, {}, extra).p) moved++;
+    if (pick(fixture, seed).p !== pick(extra, seed).p) moved++;
   }
   // 4 added odds against 14 existing: the new row should win about its own share, and the
   // scan may also shift the rows sorted after it.

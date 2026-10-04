@@ -13,11 +13,12 @@
  */
 
 import { ALIGNS, GAP, LAYOUTS, SIDE } from "./layout.js";
+import { AXIS_KEYS } from "./look.js";
 import { flag, step, weighted } from "./rand.js";
 
 /**
- * @import { AxisKey, Bucket, Catalog, DenyRule, Effect, Font, Look, Palette, ParamSpec, Pins,
- *   Preset, Scene } from "./types.js"
+ * @import { AxisKey, Bucket, Catalog, DenyRule, Effect, Font, Look, Palette, ParamSpec,
+ *   Pins, Preset, RoleSet, Scene, Seed, Weights } from "./types.js"
  */
 
 /** A pin naming something that does not exist, or a pin combination nothing satisfies. */
@@ -34,9 +35,6 @@ export class PickError extends Error {
   }
 }
 
-/** The pin query parameters, in axis order. They are also the `data/deny.json` rule keys. */
-export const PIN_KEYS = /** @type {const} */ (["f", "v", "p", "r", "e", "l"]);
-
 /**
  * D4: 90% of visits draw from the six taste archetypes, equal share each.
  *
@@ -48,7 +46,7 @@ export const PIN_KEYS = /** @type {const} */ (["f", "v", "p", "r", "e", "l"]);
  * belongs to one because it looks like the reference, not because it measures a certain way.
  * @type {Record<Bucket, number>}
  */
-export const BUCKET_ODDS = { A: 3, B: 3, C: 3, D: 3, E: 3, F: 3, X: 2 };
+export const BUCKET_ODDS = Object.freeze({ A: 3, B: 3, C: 3, D: 3, E: 3, F: 3, X: 2 });
 
 const DEFAULT_ODDS = 4;
 
@@ -120,24 +118,36 @@ const NULL_EFFECT = {
 };
 
 /** @param {number} n */
-const odds16 = (n) => {
+const clampOdds = (n) => {
   const i = Math.floor(n);
   return i < 0 ? 0 : i > 16 ? 16 : i;
 };
 
 /**
+ * The catalog's rows, with the stand-ins while a kind is still empty.
+ * @param {Catalog} catalog
+ */
+function rows(catalog) {
+  return {
+    fonts: catalog.fonts?.length ? catalog.fonts : [FALLBACK_FONT],
+    palettes: catalog.palettes?.length ? catalog.palettes : [FALLBACK_PALETTE],
+    effects: catalog.effects?.length ? catalog.effects : [NULL_EFFECT],
+  };
+}
+
+/**
  * Does `rule` hold for a finished pick? A rule matches when every key it names equals the
- * pick's value on that axis.
+ * look's value on that axis.
  *
  * @param {readonly DenyRule[]} deny
- * @param {Readonly<Partial<Record<AxisKey, string>>>} p a Look, or anything with axis ids
+ * @param {Readonly<Partial<Record<AxisKey, string>>>} look a Look, or anything with axis ids
  */
-export function denied(deny, p) {
+export function denied(deny, look) {
   return deny.some((rule) => {
     const keys = /** @type {AxisKey[]} */ (
-      Object.keys(rule).filter((k) => PIN_KEYS.includes(/** @type {never} */ (k)))
+      Object.keys(rule).filter((k) => AXIS_KEYS.includes(/** @type {never} */ (k)))
     );
-    return keys.length > 0 && keys.every((k) => p[k] === rule[k]);
+    return keys.length > 0 && keys.every((k) => look[k] === rule[k]);
   });
 }
 
@@ -160,30 +170,36 @@ function completes(deny, axis, id, fixed) {
 }
 
 /**
+ * What every axis draw shares: the seed, the odds overrides, the deny rules, the effective
+ * pins, and the ids fixed so far, which each draw extends.
+ * @typedef {{seed: Seed, weights: Weights, deny: readonly DenyRule[], pins: Pins, fixed: Pins}} Draws
+ */
+
+/**
  * One axis: pin, then compatibility, then deny, then odds — each step relaxed rather than
- * allowed to empty the set, which is what makes the single pass total.
+ * allowed to empty the set, which is what makes the single pass total. The winner joins
+ * `s.fixed`, so the axes after it see it.
  *
  * @template {{id: string}} T
+ * @param {Draws} s
  * @param {object} a
- * @param {string} a.seed
  * @param {AxisKey} a.axis
  * @param {readonly T[]} a.pool every item the axis could ever produce
  * @param {(item: T) => boolean} [a.compatible]
  * @param {(item: T) => number} a.oddsOf
- * @param {readonly DenyRule[]} a.deny
- * @param {Pins} a.fixed
- * @param {string | null | undefined} a.pinned
  * @param {(items: readonly T[]) => readonly T[]} [a.fallback]
  * @returns {T}
  */
-function axis({ seed, axis: name, pool, compatible, oddsOf, deny, fixed, pinned, fallback }) {
-  if (pool.length === 0) throw new PickError("incompatible", name);
+function drawAxis(s, { axis, pool, compatible, oddsOf, fallback }) {
+  if (pool.length === 0) throw new PickError("incompatible", axis);
 
-  if (pinned != null) {
-    const hit = pool.find((item) => item.id === pinned);
+  const pin = s.pins[axis];
+  if (pin != null) {
+    const hit = pool.find((item) => item.id === pin);
     // A pin bypasses compatibility filtering on purpose: pins exist for tests, contact
     // sheets and bug reports, and a retired (odds 0) item stays resolvable by pin.
-    if (!hit) throw new PickError("incompatible", name);
+    if (!hit) throw new PickError("incompatible", axis);
+    s.fixed[axis] = hit.id;
     return hit;
   }
 
@@ -191,14 +207,15 @@ function axis({ seed, axis: name, pool, compatible, oddsOf, deny, fixed, pinned,
   if (cands.length === 0) cands = fallback ? fallback(pool) : pool;
   if (cands.length === 0) cands = pool;
 
-  const allowed = cands.filter((item) => !completes(deny, name, item.id, fixed));
+  const allowed = cands.filter((item) => !completes(s.deny, axis, item.id, s.fixed));
   if (allowed.length > 0) cands = allowed;
 
   const live = cands.filter((item) => oddsOf(item) > 0);
   if (live.length > 0) cands = live;
 
-  const hit = weighted(seed, name, cands, oddsOf);
-  if (!hit) throw new PickError("incompatible", name);
+  const hit = weighted(s.seed, axis, cands, oddsOf);
+  if (!hit) throw new PickError("incompatible", axis);
+  s.fixed[axis] = hit.id;
   return hit;
 }
 
@@ -223,24 +240,219 @@ function prefers(token, palette, sets) {
  * Role sets this effect can paint on: enough colours, and the right ground polarity.
  *
  * @param {{colors: number, bg: string}} effect
- * @param {{dark: boolean, n: number}} role
+ * @param {{dark: boolean, n: number}} roleSet
  */
-const roleFits = (effect, role) =>
-  role.n >= effect.colors && (effect.bg === "any" || (effect.bg === "dark") === role.dark);
+const roleFits = (effect, roleSet) =>
+  roleSet.n >= effect.colors && (effect.bg === "any" || (effect.bg === "dark") === roleSet.dark);
 
 /**
- * @param {string} seed
+ * Free draw or preset. Without presets there is nothing to draw.
+ *
+ * @param {Seed} seed
+ * @param {readonly Preset[]} presets
+ * @param {Weights} weights
+ * @returns {{mode: 'free' | 'preset', preset: Preset | null}}
+ */
+function drawMode(seed, presets, weights) {
+  if (presets.length === 0) return { mode: "free", preset: null };
+  const share = weights.mode ?? { free: 8, preset: 2 };
+  /** @type {{id: 'free' | 'preset', odds: number}[]} */
+  const modes = [
+    { id: "free", odds: clampOdds(share.free ?? 8) },
+    { id: "preset", odds: clampOdds(share.preset ?? 2) },
+  ];
+  // Never null: `weighted` returns null only for an empty list.
+  const mode = /** @type {(typeof modes)[number]} */ (weighted(seed, "mode", modes, (m) => m.odds))
+    .id;
+  if (mode === "free") return { mode, preset: null };
+  const preset = weighted(seed, "preset", presets, (x) =>
+    clampOdds(weights.preset?.[x.id] ?? x.odds ?? DEFAULT_ODDS),
+  );
+  return { mode, preset };
+}
+
+/**
+ * A preset's pins are data, not a request: an id that has been retired out of the catalog
+ * must not turn a random visit into a 400. Unknown ones are dropped and the axis draws
+ * normally. A request's own pins are never dropped — `pick()` validated them.
+ *
  * @param {Pins} pins
+ * @param {Preset | null} preset
+ * @param {Record<AxisKey, Set<string>>} universe
+ * @returns {Pins}
+ */
+function effectivePins(pins, preset, universe) {
+  const out = { ...pins };
+  for (const [k, v] of /** @type {[AxisKey, string][]} */ (Object.entries(preset?.pins ?? {}))) {
+    if (out[k] == null && universe[k]?.has(v)) out[k] = v;
+  }
+  return out;
+}
+
+/**
+ * @param {Draws} s
+ * @returns {Bucket}
+ */
+function drawBucket(s) {
+  const buckets = /** @type {Bucket[]} */ (Object.keys(BUCKET_ODDS)).map((id) => ({
+    id,
+    odds: clampOdds(s.weights.bucket?.[id] ?? BUCKET_ODDS[id]),
+  }));
+  return /** @type {(typeof buckets)[number]} */ (weighted(s.seed, "b", buckets, (b) => b.odds)).id;
+}
+
+/**
+ * @param {Draws} s
+ * @param {readonly Font[]} fonts
+ * @param {Bucket} bucket
+ * @param {Preset | null} preset
+ */
+function drawFont(s, fonts, bucket, preset) {
+  const only = preset?.fonts ?? {};
+  const v = s.pins.v;
+  return drawAxis(s, {
+    axis: "f",
+    pool: fonts,
+    compatible: (x) => {
+      if (only.ids && !only.ids.includes(x.id)) return false;
+      if (only.traits && !only.traits.every((t) => x.traits.includes(t))) return false;
+      if (v && !x.variants.some((y) => y.id === v)) return false;
+      return (x.archetype ?? []).includes(bucket);
+    },
+    // Universal fallback: an empty bucket falls back to the flat pool.
+    fallback: (pool) => pool.filter((x) => !v || x.variants.some((y) => y.id === v)),
+    oddsOf: (x) => clampOdds(s.weights.f?.[x.id] ?? x.odds ?? DEFAULT_ODDS),
+  });
+}
+
+/**
+ * @param {Draws} s
+ * @param {Font} font
+ */
+function drawVariant(s, font) {
+  return drawAxis(s, {
+    axis: "v",
+    pool: font.variants,
+    oddsOf: (x) => clampOdds(s.weights.v?.[`${font.id}.${x.id}`] ?? x.odds ?? DEFAULT_ODDS),
+  });
+}
+
+/**
+ * The effect's colour and polarity needs point *forward*, at the palette axis. They are
+ * checked here rather than left to the palette's fallback: an effect that paints with
+ * `--a1` on a 2-colour role set would paint its accent in the face colour and vanish.
+ *
+ * @param {Draws} s
+ * @param {readonly Effect[]} effects
+ * @param {readonly Palette[]} palettes
+ * @param {Font} font
+ */
+function drawEffect(s, effects, palettes, font) {
+  const { p, r } = s.pins;
+  const roleSetPool = palettes
+    .filter((x) => !p || x.id === p)
+    .flatMap((x) => x.roles.filter((y) => !r || y.o === r));
+  const traits = new Set(font.traits ?? []);
+  return drawAxis(s, {
+    axis: "e",
+    pool: effects,
+    compatible: (x) =>
+      !(x.fonts?.deny ?? []).some((t) => traits.has(t)) && roleSetPool.some((y) => roleFits(x, y)),
+    // Universal fallback: `plain` fits every font, every palette and every layout.
+    fallback: (pool) => pool.filter((x) => x.id === "plain"),
+    oddsOf: (x) => {
+      const base = clampOdds(s.weights.e?.[x.id] ?? x.odds ?? DEFAULT_ODDS);
+      return (x.fonts?.prefer ?? []).some((t) => traits.has(t)) ? base * 2 : base;
+    },
+  });
+}
+
+/**
+ * The effect's params, quantized, in name order. A preset may force any of them.
+ *
+ * @param {Seed} seed
+ * @param {Effect} effect
+ * @param {Readonly<Record<string, number>>} [forced]
+ * @returns {Record<string, number>}
+ */
+export function drawParams(seed, effect, forced = {}) {
+  /** @type {Record<string, number>} */
+  const params = {};
+  for (const name of Object.keys(effect.params ?? {}).sort()) {
+    params[name] =
+      forced[name] ??
+      step(seed, `e/${effect.id}/${name}`, /** @type {ParamSpec} */ (effect.params[name]));
+  }
+  return params;
+}
+
+/**
+ * @param {Draws} s
+ * @param {readonly Palette[]} palettes
+ * @param {Effect} effect
+ * @param {Preset | null} preset
+ */
+function drawPalette(s, palettes, effect, preset) {
+  const r = s.pins.r;
+  const preferTokens = [...(effect.palettes?.prefer ?? []), ...(preset?.palettes?.prefer ?? [])];
+  /** @param {Palette} x */
+  const setsOf = (x) => x.roles.filter((y) => roleFits(effect, y));
+  return drawAxis(s, {
+    axis: "p",
+    pool: palettes,
+    compatible: (x) => setsOf(x).length > 0 && (!r || x.roles.some((y) => y.o === r)),
+    oddsOf: (x) => {
+      const base = clampOdds(s.weights.p?.[x.id] ?? x.odds ?? DEFAULT_ODDS);
+      return preferTokens.some((t) => prefers(t, x, setsOf(x))) ? base * 2 : base;
+    },
+  });
+}
+
+/**
+ * @param {Draws} s
+ * @param {Palette} palette
+ * @param {Effect} effect
+ * @returns {RoleSet}
+ */
+function drawRoleSet(s, palette, effect) {
+  return drawAxis(s, {
+    axis: "r",
+    pool: palette.roles.map((y) => ({ ...y, id: y.o })),
+    compatible: (y) => roleFits(effect, y),
+    oddsOf: (y) => clampOdds(s.weights.r?.[`${palette.id}.${y.o}`] ?? y.odds ?? DEFAULT_ODDS),
+  });
+}
+
+/** @param {Draws} s */
+function drawLayout(s) {
+  return drawAxis(s, {
+    axis: "l",
+    pool: LAYOUTS,
+    oddsOf: (x) => clampOdds(s.weights.l?.[x.id] ?? x.odds),
+  });
+}
+
+/**
+ * The layout's own draws (R8, R9). No pin, weight or deny rule reaches them.
+ *
+ * @param {Seed} seed
+ */
+export function drawLayoutAxes(seed) {
+  return {
+    side: flag(seed, "l/side", SIDE[0], SIDE[1]),
+    g: step(seed, "l/g", GAP),
+    align: /** @type {(typeof ALIGNS)[number]} */ (weighted(seed, "l/a", ALIGNS, (x) => x.odds)).id,
+  };
+}
+
+/**
  * @param {Catalog} catalog
+ * @param {Seed} seed
+ * @param {Pins} [pins]
  * @returns {Look}
  */
-export function pick(seed, pins, catalog) {
-  const weights = catalog.weights ?? {};
-  const deny = catalog.deny ?? [];
-  const fonts = catalog.fonts?.length ? catalog.fonts : [FALLBACK_FONT];
-  const palettes = catalog.palettes?.length ? catalog.palettes : [FALLBACK_PALETTE];
-  const effects = catalog.effects?.length ? catalog.effects : [NULL_EFFECT];
-  const presets = catalog.presets ?? [];
+export function pick(catalog, seed, pins = {}) {
+  const { fonts, palettes, effects } = rows(catalog);
 
   // Unknown ids are rejected before anything is drawn, so a typo never renders a page.
   /** @type {Record<AxisKey, Set<string>>} */
@@ -254,178 +466,36 @@ export function pick(seed, pins, catalog) {
   };
   /** @type {AxisKey[]} */
   const pinned = [];
-  for (const k of PIN_KEYS) {
-    const v = pins?.[k];
+  for (const k of AXIS_KEYS) {
+    const v = pins[k];
     if (v == null) continue;
     if (!universe[k].has(v)) throw new PickError("unknown", k);
     pinned.push(k);
   }
-
   /** @type {Pins} */
   const fixed = {};
   for (const k of pinned) fixed[k] = pins[k];
 
-  // --- mode -----------------------------------------------------------------
-  /** @type {'free' | 'preset'} */
-  let mode = "free";
-  /** @type {Preset | null} */
-  let preset = null;
-  if (presets.length > 0) {
-    const share = weights.mode ?? { free: 8, preset: 2 };
-    /** @type {{id: 'free' | 'preset', odds: number}[]} */
-    const modes = [
-      { id: "free", odds: odds16(share.free ?? 8) },
-      { id: "preset", odds: odds16(share.preset ?? 2) },
-    ];
-    // Never null: `weighted` returns null only for an empty list.
-    mode = /** @type {(typeof modes)[number]} */ (weighted(seed, "mode", modes, (m) => m.odds)).id;
-    if (mode === "preset") {
-      preset = weighted(seed, "preset", presets, (x) =>
-        odds16(weights.preset?.[x.id] ?? x.odds ?? DEFAULT_ODDS),
-      );
-    }
-  }
-  /** @type {Partial<Preset>} */
-  const pre = preset ?? {};
-  // A preset's pins are data, not a request: an id that has been retired out of the catalog
-  // must not turn a random visit into a 400. Unknown ones are dropped and the axis draws
-  // normally. A request's own pins are never dropped — they were validated above.
-  /** @type {Pins} */
-  const soft = { ...pins };
-  for (const [k, v] of /** @type {[AxisKey, string][]} */ (Object.entries(pre.pins ?? {}))) {
-    if (soft[k] == null && universe[k]?.has(v)) soft[k] = v;
-  }
-
-  // --- bucket ---------------------------------------------------------------
-  const buckets = /** @type {Bucket[]} */ (Object.keys(BUCKET_ODDS)).map((id) => ({
-    id,
-    odds: odds16(weights.bucket?.[id] ?? BUCKET_ODDS[id]),
-  }));
-  const bucket = /** @type {(typeof buckets)[number]} */ (
-    weighted(seed, "b", buckets, (b) => b.odds)
-  ).id;
-
-  // --- font -----------------------------------------------------------------
-  const presetFonts = pre.fonts ?? {};
-  const font = axis({
+  const weights = catalog.weights ?? {};
+  const { mode, preset } = drawMode(seed, catalog.presets ?? [], weights);
+  /** @type {Draws} */
+  const s = {
     seed,
-    axis: "f",
-    pool: fonts,
-    compatible: (x) => {
-      if (presetFonts.ids && !presetFonts.ids.includes(x.id)) return false;
-      if (presetFonts.traits && !presetFonts.traits.every((t) => x.traits.includes(t)))
-        return false;
-      if (soft.v && !x.variants.some((y) => y.id === soft.v)) return false;
-      return (x.archetype ?? []).includes(bucket);
-    },
-    // Universal fallback: an empty bucket falls back to the flat pool.
-    fallback: (pool) => pool.filter((x) => !soft.v || x.variants.some((y) => y.id === soft.v)),
-    oddsOf: (x) => odds16(weights.f?.[x.id] ?? x.odds ?? DEFAULT_ODDS),
-    deny,
+    weights,
+    deny: catalog.deny ?? [],
+    pins: effectivePins(pins, preset, universe),
     fixed,
-    pinned: soft.f,
-  });
-  fixed.f = font.id;
+  };
 
-  // --- file + variant -------------------------------------------------------
-  const variant = axis({
-    seed,
-    axis: "v",
-    pool: font.variants,
-    oddsOf: (x) => odds16(weights.v?.[`${font.id}.${x.id}`] ?? x.odds ?? DEFAULT_ODDS),
-    deny,
-    fixed,
-    pinned: soft.v,
-  });
-  fixed.v = variant.id;
-
-  // --- effect ---------------------------------------------------------------
-  // The effect's colour and polarity needs point *forward*, at the palette axis. They are
-  // checked here rather than left to the palette's fallback: an effect that paints with
-  // `--a1` on a 2-colour role set would paint its accent in the face colour and vanish.
-  const groundPool = palettes
-    .filter((x) => !soft.p || x.id === soft.p)
-    .flatMap((x) => x.roles.filter((r) => !soft.r || r.o === soft.r));
-
-  const traits = new Set(font.traits ?? []);
-  const effect = axis({
-    seed,
-    axis: "e",
-    pool: effects,
-    compatible: (x) =>
-      !(x.fonts?.deny ?? []).some((t) => traits.has(t)) && groundPool.some((r) => roleFits(x, r)),
-    // Universal fallback: `plain` fits every font, every palette and every layout.
-    fallback: (pool) => pool.filter((x) => x.id === "plain"),
-    oddsOf: (x) => {
-      const base = odds16(weights.e?.[x.id] ?? x.odds ?? DEFAULT_ODDS);
-      return (x.fonts?.prefer ?? []).some((t) => traits.has(t)) ? base * 2 : base;
-    },
-    deny,
-    fixed,
-    pinned: soft.e,
-  });
-  fixed.e = effect.id;
-
-  // --- effect params --------------------------------------------------------
-  /** @type {Record<string, number>} */
-  const params = {};
-  for (const name of Object.keys(effect.params ?? {}).sort()) {
-    const forced = pre.params?.[effect.id]?.[name];
-    params[name] =
-      forced ??
-      step(seed, `e/${effect.id}/${name}`, /** @type {ParamSpec} */ (effect.params[name]));
-  }
-
-  // --- palette --------------------------------------------------------------
-  const preferTokens = [...(effect.palettes?.prefer ?? []), ...(pre.palettes?.prefer ?? [])];
-  /** @param {Palette} x */
-  const setsOf = (x) => x.roles.filter((r) => roleFits(effect, r));
-  const palette = axis({
-    seed,
-    axis: "p",
-    pool: palettes,
-    compatible: (x) => setsOf(x).length > 0 && (!soft.r || x.roles.some((r) => r.o === soft.r)),
-    oddsOf: (x) => {
-      const base = odds16(weights.p?.[x.id] ?? x.odds ?? DEFAULT_ODDS);
-      return preferTokens.some((t) => prefers(t, x, setsOf(x))) ? base * 2 : base;
-    },
-    deny,
-    fixed,
-    pinned: soft.p,
-  });
-  fixed.p = palette.id;
-
-  // --- role set -------------------------------------------------------------
-  const roles = palette.roles.map((r) => ({ ...r, id: r.o }));
-  const role = axis({
-    seed,
-    axis: "r",
-    pool: roles,
-    compatible: (r) => roleFits(effect, r),
-    oddsOf: (r) => odds16(weights.r?.[`${palette.id}.${r.o}`] ?? r.odds ?? DEFAULT_ODDS),
-    deny,
-    fixed,
-    pinned: soft.r,
-  });
-  fixed.r = role.o;
-
-  // --- layout + side + g ----------------------------------------------------
-  const layout = axis({
-    seed,
-    axis: "l",
-    pool: LAYOUTS,
-    oddsOf: (x) => odds16(weights.l?.[x.id] ?? x.odds),
-    deny,
-    fixed,
-    pinned: soft.l,
-  });
-  fixed.l = layout.id;
-
-  const side = flag(seed, "l/side", SIDE[0], SIDE[1]);
-  const g = step(seed, "l/g", GAP);
-  const align = /** @type {(typeof ALIGNS)[number]} */ (
-    weighted(seed, "l/a", ALIGNS, (x) => x.odds)
-  ).id;
+  const bucket = drawBucket(s);
+  const font = drawFont(s, fonts, bucket, preset);
+  const variant = drawVariant(s, font);
+  const effect = drawEffect(s, effects, palettes, font);
+  const params = drawParams(seed, effect, preset?.params?.[effect.id]);
+  const palette = drawPalette(s, palettes, effect, preset);
+  const roleSet = drawRoleSet(s, palette, effect);
+  const layout = drawLayout(s);
+  const { side, g, align } = drawLayoutAxes(seed);
 
   return {
     seed,
@@ -435,7 +505,7 @@ export function pick(seed, pins, catalog) {
     f: font.id,
     v: variant.id,
     p: palette.id,
-    r: role.o,
+    r: roleSet.o,
     e: effect.id,
     l: layout.id,
     params,
@@ -454,10 +524,7 @@ export function pick(seed, pins, catalog) {
  * @returns {Scene}
  */
 export function resolve(catalog, look) {
-  const fonts = catalog.fonts?.length ? catalog.fonts : [FALLBACK_FONT];
-  const palettes = catalog.palettes?.length ? catalog.palettes : [FALLBACK_PALETTE];
-  const effects = catalog.effects?.length ? catalog.effects : [NULL_EFFECT];
-
+  const { fonts, palettes, effects } = rows(catalog);
   const font = fonts.find((x) => x.id === look.f);
   const variant = font?.variants.find((x) => x.id === look.v);
   const file = font?.files.find((x) => x.id === variant?.file) ?? font?.files[0];

@@ -1,12 +1,12 @@
 import assert from "node:assert/strict";
 import { expect, test } from "vite-plus/test";
 import { LAYOUTS } from "../src/layout.js";
-import { pickString } from "../src/look.js";
+import { parsePickString, pickString } from "../src/look.js";
 import { BUCKET_ODDS, denied, PickError, pick } from "../src/pick.js";
 import { fixtureCatalog } from "./catalog.js";
 
 const catalog = await fixtureCatalog();
-const str = (seed, pins = {}) => pickString(pick(seed, pins, catalog));
+const str = (seed, pins = {}) => pickString(pick(catalog, seed, pins));
 
 test("pick golden vectors", () => {
   // The frozen mini-catalog plus these seeds pin the whole sampler: the axis order, the
@@ -34,16 +34,19 @@ test("pick golden vectors", () => {
 
 test("the same seed always gives the same pick", () => {
   for (const s of ["a", "gs", "k3f9x2m7qa"]) {
-    assert.deepEqual(pick(s, {}, catalog), pick(s, {}, catalog));
+    assert.deepEqual(pick(catalog, s), pick(catalog, s));
   }
 });
 
 test("every pin is honoured exactly", () => {
-  const p = pick(
-    "gs",
-    { f: "fx-sans", v: "lo", p: "fx-dusk", r: "0123", e: "plain", l: "stack-eq" },
-    catalog,
-  );
+  const p = pick(catalog, "gs", {
+    f: "fx-sans",
+    v: "lo",
+    p: "fx-dusk",
+    r: "0123",
+    e: "plain",
+    l: "stack-eq",
+  });
   assert.equal(p.f, "fx-sans");
   assert.equal(p.v, "lo");
   assert.equal(p.p, "fx-dusk");
@@ -57,12 +60,12 @@ test("a pin fixes its axis while the rest still follow the seed", () => {
   const free = new Set();
   const pinnedLayout = new Set();
   for (let i = 0; i < 200; i++) {
-    free.add(pick(`s${i}`, {}, catalog).l);
-    const p = pick(`s${i}`, { l: "stack-eq" }, catalog);
+    free.add(pick(catalog, `s${i}`).l);
+    const p = pick(catalog, `s${i}`, { l: "stack-eq" });
     pinnedLayout.add(p.l);
     // Pinning the layout must not move the earlier axes.
-    assert.equal(p.f, pick(`s${i}`, {}, catalog).f);
-    assert.equal(p.e, pick(`s${i}`, {}, catalog).e);
+    assert.equal(p.f, pick(catalog, `s${i}`).f);
+    assert.equal(p.e, pick(catalog, `s${i}`).e);
   }
   assert.equal(free.size, 2, "both layouts should occur across 200 seeds");
   assert.deepEqual([...pinnedLayout], ["stack-eq"]);
@@ -78,7 +81,7 @@ test("an unknown id is rejected, on every axis", () => {
     l: "no-such-layout",
   })) {
     assert.throws(
-      () => pick("a", { [axis]: value }, catalog),
+      () => pick(catalog, "a", { [axis]: value }),
       (err) => err instanceof PickError && err.kind === "unknown" && err.axis === axis,
       `${axis}=${value} should be an unknown-id error`,
     );
@@ -88,7 +91,7 @@ test("an unknown id is rejected, on every axis", () => {
 test("two pins that nothing satisfies are rejected", () => {
   // `w01-` is a role set of fx-ground only.
   assert.throws(
-    () => pick("a", { p: "fx-ink", r: "w01-" }, catalog),
+    () => pick(catalog, "a", { p: "fx-ink", r: "w01-" }),
     (err) => err instanceof PickError && err.kind === "incompatible" && err.axis === "r",
   );
   // Both variant ids exist, but no single font carries both.
@@ -101,7 +104,7 @@ test("two pins that nothing satisfies are rejected", () => {
     ],
   };
   assert.throws(
-    () => pick("a", { f: "one", v: "lo" }, split),
+    () => pick(split, "a", { f: "one", v: "lo" }),
     (err) => err instanceof PickError && err.kind === "incompatible" && err.axis === "v",
   );
 });
@@ -122,18 +125,18 @@ test("a pin resolves a retired (odds 0) item — QA mask mode", () => {
       },
     ],
   };
-  const p = pick("a", { p: "qa-bw", e: "plain" }, live);
+  const p = pick(live, "a", { p: "qa-bw", e: "plain" });
   assert.equal(p.p, "qa-bw");
   assert.equal(p.e, "plain");
 
   // …and is never drawn without the pin.
-  for (let i = 0; i < 2000; i++) assert.notEqual(pick(`s${i}`, {}, live).p, "qa-bw");
+  for (let i = 0; i < 2000; i++) assert.notEqual(pick(live, `s${i}`).p, "qa-bw");
 });
 
 test("a deny rule that would empty an axis is relaxed rather than deadlocking", () => {
   // Every effect denied against this font: the sampler still has to return something.
   const all = catalog.effects.map((e) => ({ f: "fx-sans", e: e.id }));
-  const p = pick("a", {}, { ...catalog, deny: all });
+  const p = pick({ ...catalog, deny: all }, "a");
   assert.ok(p.e);
 });
 
@@ -142,15 +145,15 @@ test("an effect never lands on a font whose traits it denies", () => {
     ...catalog,
     fonts: [{ ...catalog.fonts[0], traits: ["script"] }],
   };
-  for (let i = 0; i < 500; i++) assert.equal(pick(`s${i}`, {}, scripty).e, "plain");
+  for (let i = 0; i < 500; i++) assert.equal(pick(scripty, `s${i}`).e, "plain");
 });
 
 test("weights override the item odds", () => {
   const only = { ...catalog, weights: { l: { "stack-eq": 0, "stack-fit": 4 } } };
-  for (let i = 0; i < 500; i++) assert.equal(pick(`s${i}`, {}, only).l, "stack-fit");
+  for (let i = 0; i < 500; i++) assert.equal(pick(only, `s${i}`).l, "stack-fit");
 
   const flipped = { ...catalog, weights: { l: { "stack-eq": 16, "stack-fit": 0 } } };
-  for (let i = 0; i < 500; i++) assert.equal(pick(`s${i}`, {}, flipped).l, "stack-eq");
+  for (let i = 0; i < 500; i++) assert.equal(pick(flipped, `s${i}`).l, "stack-eq");
 });
 
 test("D4: 90% of visits draw from the six taste archetypes", () => {
@@ -159,7 +162,7 @@ test("D4: 90% of visits draw from the six taste archetypes", () => {
   const plainOdds = { ...catalog, weights: {} };
   let af = 0;
   const n = 20000;
-  for (let i = 0; i < n; i++) if ("ABCDEF".includes(pick(`s${i}`, {}, plainOdds).bucket)) af++;
+  for (let i = 0; i < n; i++) if ("ABCDEF".includes(pick(plainOdds, `s${i}`).bucket)) af++;
   const share = af / n;
   const want = 18 / 20;
   assert.ok(share >= 0.85, `A–F share ${share}`);
@@ -173,7 +176,7 @@ test("D4: 90% of visits draw from the six taste archetypes", () => {
 test("D8: about a quarter of seeds add the rotated portrait variant", () => {
   let side = 0;
   const n = 20000;
-  for (let i = 0; i < n; i++) if (pick(`s${i}`, {}, catalog).side) side++;
+  for (let i = 0; i < n; i++) if (pick(catalog, `s${i}`).side) side++;
   assert.ok(Math.abs(side / n - 0.25) < 0.01, `side share ${side / n}`);
 });
 
@@ -187,16 +190,26 @@ test("the engine is total with an empty catalog", () => {
     deny: [],
     weights: {},
   };
-  const p = pick("a", {}, bare);
+  const p = pick(bare, "a");
   assert.equal(p.f, "system");
   assert.equal(p.p, "qa-bw");
   assert.ok(LAYOUTS.some((l) => l.id === p.l));
 });
 
 test("the canonical string round-trips through the deny matcher", () => {
-  const p = pick("gs", {}, catalog);
+  const p = pick(catalog, "gs");
   assert.equal(denied([{ f: p.f, e: p.e }], p), true);
   assert.equal(denied([{ f: p.f, e: "nope" }], p), false);
   assert.equal(denied([{}], p), false, "an empty rule must never match everything");
   assert.match(pickString(p), /^f:[\w.-]+ p:[\w.-]+ e:\S+ l:\S+$/);
+});
+
+test("the Pick string parses back to the look it came from", () => {
+  for (let i = 0; i < 500; i++) {
+    const p = pick(catalog, `s${i}`);
+    const { f, v, r, e, l, params, g, align, side } = p;
+    const wire = { f, v, p: p.p, r, e, l, params, g, align, side };
+    assert.deepEqual(parsePickString(pickString(p)), wire);
+  }
+  assert.equal(parsePickString("f:x"), null);
 });

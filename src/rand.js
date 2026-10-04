@@ -85,6 +85,12 @@ export function round4(n) {
 }
 
 /**
+ * @param {{id: string}} a
+ * @param {{id: string}} b
+ */
+const byId = (a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
+
+/**
  * Weighted pick: a cumulative scan over candidates sorted by id. Odds are integers; the
  * caller supplies them already clamped (item odds are 0–16, a `prefer` bonus doubles).
  *
@@ -100,7 +106,7 @@ export function round4(n) {
  * @returns {T | null}
  */
 export function weighted(seed, key, candidates, oddsOf) {
-  const items = [...candidates].sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+  const items = candidates.toSorted(byId);
   if (items.length === 0) return null;
 
   const odds = new Array(items.length);
