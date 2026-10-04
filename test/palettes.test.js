@@ -8,7 +8,10 @@ import { contrast, grounds, roleSets } from "../scripts/roles.mjs";
 
 const HEX = /^#[0-9a-f]{6}$/;
 const path = (p) => fileURLToPath(new URL(`../${p}`, import.meta.url));
-const TIERS = ["historical", "editorial", "era-approx"];
+// §5.4: a row stores only what cannot be derived. `src`, `tier`, a role set's `colors` and
+// `ground` are filled by the catalog build, so the files must not carry them.
+const ROW_KEYS = ["id", "odds", "names", "namesJa", "hex", "roles"];
+const onGround = (s) => "wk".includes(s.o[0]);
 
 // Every palette file, qa.json included: the shape and contrast rules hold for all of them.
 const files = (await readdir(path("data/palettes"))).filter((f) => f.endsWith(".json"));
@@ -26,13 +29,13 @@ const wada1 = sources.wada1;
 /** `o` resolves to four concrete colours: a digit indexes `hex`, `w`/`k` are the grounds. */
 function resolve(row) {
   const [bg, fg, a1, a2] = [...row.o0].map((c) =>
-    c === "w" ? row.hex[row.n] : c === "k" ? row.hex[row.n + 1] : row.hex[Number(c)],
+    c === "w" ? row.hex[row.size] : c === "k" ? row.hex[row.size + 1] : row.hex[Number(c)],
   );
   return { bg, fg, a1: a1 ?? fg, a2: a2 ?? bg };
 }
 
 const sets = rows.flatMap((r) =>
-  r.roles.map((s) => ({ ...s, id: r.id, hex: r.hex, o0: s.o, names: r.names })),
+  r.roles.map((s) => ({ ...s, raw: s, id: r.id, hex: r.hex, o0: s.o, size: r.names.length })),
 );
 
 test("the committed data is what the generator produces", () => {
@@ -69,8 +72,7 @@ test("Wada vol. 1 has 348 combos, 120 duos / 120 trios / 108 quads", () => {
   const sizes = { 2: 0, 3: 0, 4: 0 };
   for (const row of wada1) {
     sizes[row.names.length]++;
-    assert.equal(row.tier, "historical", `${row.id}: tier`);
-    assert.equal(row.odds, 4, `${row.id}: odds`);
+    assert.equal(row.odds, undefined, `${row.id}: the default odds is never stored`);
   }
   assert.deepEqual(sizes, { 2: 120, 3: 120, 4: 108 });
 });
@@ -94,10 +96,10 @@ test("palette ids are unique across every file", () => {
 
 test("every row has the §5.4 shape", () => {
   for (const [src, list] of Object.entries(sources)) {
-    for (const row of list) assert.equal(row.src, src, `${row.id}: src must name its file`);
+    for (const row of list) assert.ok(row.id.startsWith(`${src}-`), `${row.id}: names its file`);
   }
   for (const row of rows) {
-    assert.ok(TIERS.includes(row.tier), `${row.id}: tier "${row.tier}"`);
+    for (const k of Object.keys(row)) assert.ok(ROW_KEYS.includes(k), `${row.id}: stores ${k}`);
     assert.ok(
       row.odds === undefined || (Number.isInteger(row.odds) && row.odds >= 0),
       `${row.id}: odds`,
@@ -114,7 +116,7 @@ test("every row has the §5.4 shape", () => {
       `${row.id}: duplicate role set`,
     );
     // Derived grounds are appended after the palette's own colours, washi then sumi.
-    const derived = row.roles.some((s) => s.derivedBg);
+    const derived = row.roles.some(onGround);
     assert.equal(row.hex.length, row.names.length + (derived ? 2 : 0), `${row.id}: hex length`);
     if (derived)
       assert.deepEqual(row.hex.slice(row.names.length), grounds(row.hex), `${row.id}: grounds`);
@@ -130,13 +132,12 @@ test("every hex is a lowercase six-digit sRGB literal", () => {
 test("every role set names a background and a foreground, and aliases the rest", () => {
   for (const s of sets) {
     assert.match(s.o, /^[0-3wk][0-3][0-3-][0-3-]$/, `${s.id}: o "${s.o}"`);
-    assert.equal(s.n, s.names.length, `${s.id}: n`);
-    assert.equal(s.derivedBg, "wk".includes(s.o[0]) ? s.o[0] : null, `${s.id}: derivedBg`);
+    assert.deepEqual(Object.keys(s.raw), ["o", "dark"], `${s.id}: a role set stores o, dark`);
     const used = [...s.o].filter((c) => c !== "-");
     assert.equal(new Set(used).size, used.length, `${s.id}: a colour holds two roles in "${s.o}"`);
     for (const c of used) {
       if (!"wk".includes(c))
-        assert.ok(Number(c) < s.n, `${s.id}: "${s.o}" indexes a derived ground`);
+        assert.ok(Number(c) < s.size, `${s.id}: "${s.o}" indexes a derived ground`);
     }
     // With two colours --a1 is fg and --a2 is bg, so all four properties are always defined.
     const roles = resolve(s);
@@ -162,7 +163,7 @@ test("a combo falls back to a derived ground only when no pair of its own colour
     const own = row.hex.slice(0, row.names.length);
     const best = Math.max(...own.flatMap((a) => own.map((b) => contrast(a, b))));
     assert.equal(
-      row.roles.some((s) => s.derivedBg),
+      row.roles.some(onGround),
       best < 3,
       `${row.id}: best pair is ${best.toFixed(2)}:1`,
     );

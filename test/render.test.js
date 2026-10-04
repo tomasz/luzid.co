@@ -150,7 +150,7 @@ test("a derived ground reads from the row hex past names.length", () => {
   assert.ok(sumi.includes(`--bg:${ground.hex[3]}`), "k must be hex[names.length + 1]");
   // The credit line names only the real colours, never a derived ground.
   const html = page("gt").html;
-  assert.ok(html.includes("palette: Moss, Olive (fixture)"));
+  assert.ok(html.includes("palette: Moss, Olive (fx)"));
 });
 
 test("the fit literals follow §5.2", () => {

@@ -11,7 +11,7 @@ be pinned exactly, and the places where the plan text left a choice the engine h
 Read the resolutions — several are things the plan implies but does not say, and a later
 work package that guesses differently will break a golden.
 
-A rule marked **pending** with a row id (S2, S3, S4, B2, D1, D3) is agreed but not yet in
+A rule marked **pending** with a row id (S2, S3, S4, B2, D1) is agreed but not yet in
 the code; that row of the refactor plan lands it, and until then the text next to it says
 what runs today. The accessibility policy lives in [`a11y.md`](a11y.md), the vocabulary in
 the [Glossary](#glossary) at the end.
@@ -120,7 +120,7 @@ Layouts in v1.0: `stack-fit` (odds 12), `stack-eq` (odds 4), plus independent ke
 
 ### 5.4 Palettes
 
-`data/palettes/<source>.json` = `[{id, src, tier, odds? (default 4; `qa-bw` has 0), names[], namesJa[]?, hex[], roles[]}]`. Ids namespaced (`wada1-176`, `wada2-031`, `kasane-042`, `edit-07`, `era-03`). `tier` ∈ `historical | editorial | era-approx`. Only combos of 2–4 colors ship in v1.0.
+`data/palettes/<source>.json` = `[{id, odds? (default 4; `qa-bw` has 0), names[], namesJa[]?, hex[], roles[{o, dark}]}]`. Ids namespaced by the file (`wada1-176`, `wada2-031`, `kasane-042`, `edit-07`, `era-03`). A file stores only what cannot be derived; the catalog build adds `src` = the file name and `tier` ∈ `historical | editorial | era-approx` = the `tier` of the adapter `scripts/palette-sources/<source>.mjs`. A file with no adapter (the hand-written `qa.json`) has no `tier`, and a `tier` prefer token never matches it. Only combos of 2–4 colors ship in v1.0.
 
 `scripts/roles.mjs` (pure, ~60 lines hand-rolled WCAG + OKLab; owned by WP-12, called by `palettes.mjs`; output committed, so deploy never runs color math):
 1. Enumerate ordered `(bg, fg)` pairs; keep WCAG contrast ≥ 3:1. Remaining colors become `a1`, `a2` in both orders.
@@ -128,7 +128,7 @@ Layouts in v1.0: `stack-fit` (odds 12), `stack-eq` (odds 4), plus independent ke
 3. Role set = `{o:"1023", dark:bool}` plus two fields derived from `o`: `o` = hex indices for bg, fg, a1, a2; `w`/`k` = derived; `-` = aliased. Pick string: `p:wada1-176.k012`.
    - **`colors`** = the number of distinct slots `o` fills, i.e. its characters other than `-` (`10--` → 2, `w01-` → 3, `0123` → 4). It is what an effect's `colors` is compared against (R3): an effect needing 3 roles needs `--a1` to be a colour of its own, whatever the size of the palette it came from. A derived ground is a slot like any other.
    - **`ground`** = `o[0]` when it is `w` or `k`, else `null`.
-   - Both are derived by the catalog build and never stored (pending D3). Today the generator stores them as `n` and `derivedBg`, and `n` is the palette's colour count rather than the slot count: 1,427 of the 2,581 Wada vol. 1 role sets sit on a derived ground, and 563 of those fill one slot more than their palette has colours (193 store `n: 2` for 3 slots, 370 store `n: 3` for 4), and the effects needing that many roles never draw them. The palette prefer token `n2`…`n4` reads the same number.
+   - Both are derived by the catalog build and never stored; a file that stores either (or the former `n` / `derivedBg`) fails the build. The palette prefer token `n2`…`n4` reads `colors` too. Of the 2,581 Wada vol. 1 role sets, 1,427 sit on a derived ground, and 563 of those fill one slot more than their palette has colours (193 two-colour palettes on 3 slots, 370 three-colour palettes on 4), which the former stored `n` (the palette's colour count) hid from the effects needing that many roles.
 4. Runtime exposes exactly `--bg --fg --a1 --a2`. With 2 colors `--a1` = fg and `--a2` = bg. Never undefined.
 5. `@media (prefers-contrast:more)` swaps in literal paper/ink for ≥ 12:1.
 

@@ -10,7 +10,7 @@ import assert from "node:assert/strict";
 import { readdir } from "node:fs/promises";
 import { resolve } from "node:path";
 import { expect, test } from "vite-plus/test";
-import { catalogModule, checkCatalog, readCatalog } from "../../scripts/build.mjs";
+import { catalogModule, checkCatalog, loadCatalog, readCatalog } from "../../scripts/build.mjs";
 
 const fixtures = resolve(import.meta.dirname, "../fixtures");
 const good = await readCatalog(resolve(fixtures, "catalog"));
@@ -38,8 +38,8 @@ const BAD = {
   "palette-names": "data/palettes/fx.json: /0/names: must name 2–4 colours, got 5",
   "palette-dark": "data/palettes/fx.json: /0/roles/0/dark: must be true or false",
   "palette-namespace": "data/palettes/fx.json: /0/id: must be kebab-case and start with fx-",
-  "palette-tier":
-    "data/palettes/fx.json: /0/tier: must be one of historical, editorial, era-approx",
+  // `colors` and `ground` are derived at the build (§5.4); a stored count is never trusted.
+  "palette-stored-n": "data/palettes/fx.json: /0/roles/0/n: unknown key",
   "deny-bare-variant": "data/deny.json: /deny/0/v: a rule naming v must also name f",
   "deny-bare-role": "data/deny.json: /deny/0/r: a rule naming r must also name p",
   "deny-stale-id": 'data/deny.json: /deny/0/e: "outline-rings" names nothing in the catalog',
@@ -133,4 +133,23 @@ test("defaults a file may leave out are filled in the module", () => {
   );
   const emitted = JSON.parse(source.match(/^ palettes: (.*),$/m)[1]);
   assert.equal(emitted.find((x) => x.id === row.id).odds, 4);
+});
+
+test("the build derives src, tier, colors and ground instead of reading them (§5.4)", async () => {
+  const live = await loadCatalog(resolve(import.meta.dirname, "../.."));
+  const wada = live.palettes.find((p) => p.id === "wada1-001");
+  assert.equal(wada.src, "wada1", "src is the file name");
+  assert.equal(wada.tier, "historical", "tier is the adapter's");
+  assert.equal(live.palettes.find((p) => p.id === "qa-bw").tier, undefined, "no adapter, no tier");
+
+  const { palettes } = await loadCatalog(resolve(fixtures, "catalog"));
+  const roles = Object.fromEntries(
+    palettes.flatMap((p) => p.roles.map((r) => [r.o, { colors: r.colors, ground: r.ground }])),
+  );
+  assert.deepEqual(roles["10--"], { colors: 2, ground: null });
+  assert.deepEqual(roles["012-"], { colors: 3, ground: null });
+  assert.deepEqual(roles["0123"], { colors: 4, ground: null });
+  // A derived ground is a slot like any other: a two-colour palette on washi fills three.
+  assert.deepEqual(roles["w01-"], { colors: 3, ground: "w" });
+  assert.deepEqual(roles["k10-"], { colors: 3, ground: "k" });
 });

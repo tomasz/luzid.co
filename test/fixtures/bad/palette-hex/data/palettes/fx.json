@@ -1,9 +1,6 @@
 [
  {
   "id": "fx-ink",
-  "src": "fixture",
-  "tier": "editorial",
-  "odds": 4,
   "names": [
    "Ink",
    "Paper"
@@ -15,9 +12,7 @@
   "roles": [
    {
     "o": "10--",
-    "dark": false,
-    "n": 2,
-    "derivedBg": null
+    "dark": false
    }
   ]
  }

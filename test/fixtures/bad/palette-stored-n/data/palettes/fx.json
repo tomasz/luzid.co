@@ -1,9 +1,6 @@
 [
  {
   "id": "fx-ink",
-  "src": "fixture",
-  "tier": "modern",
-  "odds": 4,
   "names": [
    "Ink",
    "Paper"
@@ -16,8 +13,7 @@
    {
     "o": "10--",
     "dark": false,
-    "n": 2,
-    "derivedBg": null
+    "n": 2
    }
   ]
  }

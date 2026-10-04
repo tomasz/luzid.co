@@ -20,7 +20,7 @@
  * `<file>: /<pointer>: <message>` (the rules are in `scripts/catalog/check.js`).
  */
 import { glob, mkdir, readFile, writeFile } from "node:fs/promises";
-import { dirname, relative, resolve } from "node:path";
+import { basename, dirname, relative, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { parseArgs } from "node:util";
 import { checkCatalog, effectDefaults, PALETTE_ODDS } from "./catalog/check.js";
@@ -95,10 +95,21 @@ export async function readCatalog(root) {
   for (const file of await find(root, "fonts/files/*.woff2"))
     woff2.set(file, await readFile(resolve(root, file)));
 
+  // A palette file's tier is its source's, and the source's adapter is where it is stated
+  // (§5.4). A file with no adapter (the hand-written qa.json, the fixtures) has no tier.
+  const palettes = await Promise.all(
+    (await read("data/palettes/*.json")).map(async (entry) => {
+      const adapter = `scripts/palette-sources/${basename(entry.file, ".json")}.mjs`;
+      if ((await find(root, adapter)).length === 0) return entry;
+      const { tier } = (await import(pathToFileURL(resolve(root, adapter)).href)).default;
+      return { ...entry, tier };
+    }),
+  );
+
   return {
     root,
     fonts: await read("fonts/meta/*.json"),
-    palettes: await read("data/palettes/*.json"),
+    palettes,
     presets: await read("presets/*.json"),
     effects,
     deny: await optional("data/deny.json"),
@@ -126,9 +137,22 @@ function rows(cat) {
       b64: cat.woff2.get(`fonts/files/${meta.id}.${f.id}.woff2`).toString("base64"),
     })),
   }));
-  const palettes = cat.palettes
-    .flatMap((e) => e.data)
-    .map((row) => ({ ...row, odds: row.odds ?? PALETTE_ODDS }));
+  // §5.4: what a palette file never stores. The source is the file name; a role set's
+  // `colors` is the number of distinct slots its `o` fills, and its `ground` the derived
+  // washi or sumi it sits on.
+  const palettes = cat.palettes.flatMap((e) =>
+    e.data.map((row) => ({
+      ...row,
+      src: basename(e.file, ".json"),
+      ...(e.tier ? { tier: e.tier } : {}),
+      odds: row.odds ?? PALETTE_ODDS,
+      roles: row.roles.map((r) => ({
+        ...r,
+        colors: new Set(r.o.replaceAll("-", "")).size,
+        ground: r.o[0] === "w" || r.o[0] === "k" ? r.o[0] : null,
+      })),
+    })),
+  );
   return {
     fonts: fonts.sort(byId),
     palettes: palettes.sort(byId),
