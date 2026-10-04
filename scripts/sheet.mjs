@@ -18,7 +18,7 @@
  */
 
 import { execFileSync, spawn } from "node:child_process";
-import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { argv, env, exit } from "node:process";
 import { fileURLToPath } from "node:url";
@@ -27,6 +27,7 @@ import { parseArgs } from "node:util";
 import { chromium } from "@playwright/test";
 
 import { changedPaths, seedAt } from "../e2e/fit-lib.js";
+import { loadCatalog } from "./build.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -35,26 +36,6 @@ const COLS = 6;
 const TILES = 24;
 const TILE = { w: 480, h: 300 };
 const CAPTION = 22;
-
-// --- catalog ------------------------------------------------------------------
-
-async function catalog() {
-  const fonts = [];
-  for (const f of (await readdir(resolve(ROOT, "fonts/meta"))).sort()) {
-    if (f.endsWith(".json"))
-      fonts.push(JSON.parse(await readFile(resolve(ROOT, "fonts/meta", f), "utf8")));
-  }
-  const palettes = [];
-  for (const f of (await readdir(resolve(ROOT, "data/palettes"))).sort()) {
-    if (f.endsWith(".json"))
-      palettes.push(...JSON.parse(await readFile(resolve(ROOT, "data/palettes", f), "utf8")));
-  }
-  const effects = [];
-  for (const f of (await readdir(resolve(ROOT, "effects"))).sort()) {
-    if (f.endsWith(".js")) effects.push((await import(`../effects/${f}`)).default);
-  }
-  return { fonts, palettes, effects };
-}
 
 // --- what to sheet ------------------------------------------------------------
 
@@ -66,7 +47,7 @@ async function catalog() {
  * `limit` caps the sheets *per kind*, so a run with `--kind auto` still reaches the
  * effects even though the palette axis alone would fill a hundred sheets.
  *
- * @param {Awaited<ReturnType<typeof catalog>>} cat
+ * @param {Awaited<ReturnType<typeof loadCatalog>>} cat
  */
 function plan(cat, kind, changed, limit) {
   const sheets = [];
@@ -238,7 +219,7 @@ async function main() {
     },
   });
 
-  const cat = await catalog();
+  const cat = await loadCatalog(ROOT);
   const changed = values.changed ? (changedPaths() ?? []) : null;
   const sheets = plan(cat, values.kind, changed, Number(values.limit));
   if (sheets.length === 0) {

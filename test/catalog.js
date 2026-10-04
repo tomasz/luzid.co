@@ -5,25 +5,17 @@
  * effect PR cannot move another package's snapshots. The two effects are re-exported from
  * the real `effects/` files: changing the effect contract *should* move the goldens.
  *
- * Vitest runs each test file in its own worker process, so the generated module gets a
- * per-process name; two files building at once can never read a half-written one. It is
- * deleted once imported, so runs do not pile one file per process up in `build/`.
+ * It is loaded in memory with `loadCatalog`, the same read and check `build/catalog.js` is
+ * written from, so no test writes a module and no two test processes can race on one.
  */
-import { unlink } from "node:fs/promises";
 import { resolve } from "node:path";
-import { pathToFileURL } from "node:url";
-import { build } from "../scripts/build.mjs";
+import { loadCatalog } from "../scripts/build.mjs";
 
-const here = import.meta.dirname;
 let cached = null;
 
 /** @returns {Promise<object>} */
 export async function fixtureCatalog() {
-  if (cached) return cached;
-  const out = resolve(here, `../build/fixture-catalog.${process.pid}.js`);
-  await build({ root: resolve(here, "fixtures/catalog"), out, quiet: true });
-  cached = (await import(pathToFileURL(out).href)).default;
-  await unlink(out);
+  cached ??= await loadCatalog(resolve(import.meta.dirname, "fixtures/catalog"));
   return cached;
 }
 

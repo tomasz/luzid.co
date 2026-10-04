@@ -8,18 +8,22 @@
  *
  * Effects are JS modules with functions in them, so they are re-exported by a static
  * import rather than serialized; Rolldown inlines them when `vp build` bundles the Worker.
- * The `catalog` plugin in vite.config.js calls `build()`; the CLI is for fixtures:
+ * It runs in three steps, `readCatalog` → `checkCatalog` → `catalogModule`, which
+ * `writeCatalog` (alias `build`, what the `catalog` plugin in vite.config.js calls) chains
+ * and `loadCatalog` reuses for every reader that wants the catalog without a file. The CLI
+ * is for fixtures:
  *
  *   node scripts/build.mjs [--root <dir>] [--out <file>]
  *
  * The counts and effective sizes it prints are informational. This script never fails a
  * build over taste; it fails only when the catalog is internally broken (a font meta whose
- * woff2 is missing, a duplicate id, malformed JSON).
+ * woff2 is missing or disagrees with its declared size or hash, a duplicate id, malformed
+ * JSON).
  */
+import { createHash } from "node:crypto";
 import { glob, mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, relative, resolve } from "node:path";
-import { argv } from "node:process";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { parseArgs } from "node:util";
 
 const byId = (a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
@@ -41,7 +45,23 @@ async function json(file) {
   try {
     return JSON.parse(await readFile(file, "utf8"));
   } catch (err) {
-    throw new Error(`${file}: ${err.message}`);
+    throw new Error(`${file}: ${err.message}`, { cause: err });
+  }
+}
+
+/**
+ * Like `json`, but a missing file gives `fallback`. Only a missing one: a present file
+ * that fails to read or parse still throws.
+ *
+ * @param {string} file
+ * @param {unknown} fallback
+ */
+async function optional(file, fallback) {
+  try {
+    return await json(file);
+  } catch (err) {
+    if (err.cause?.code === "ENOENT") return fallback;
+    throw err;
   }
 }
 
@@ -69,13 +89,19 @@ function assertUnique(items, kind) {
 }
 
 /**
- * @param {{root?: string, out?: string, quiet?: boolean}} [opts]
+ * Reads every data file under `root`. I/O only: nothing here judges what it read, except
+ * that a woff2 a meta names must exist and every JSON file must parse.
+ *
+ * Fonts come back as they ship, each file with its base64 attached; `bytes` is filled from
+ * the file only where the meta does not declare it (the test fixtures), and `checkCatalog`
+ * holds every declared size and hash to the file. Effects come back as root-relative paths,
+ * because the module re-exports them by import while `loadCatalog` imports them itself.
+ *
+ * @param {string} root
  */
-export async function build(opts = {}) {
-  const root = resolve(opts.root ?? ".");
-  const out = resolve(opts.out ?? "build/catalog.js");
+export async function readCatalog(root) {
+  root = resolve(root);
 
-  // --- fonts: meta + the base64 of every file it names ----------------------
   const fonts = [];
   for (const rel of await find(root, "fonts/meta/*.json")) {
     const meta = await json(resolve(root, rel));
@@ -86,56 +112,113 @@ export async function build(opts = {}) {
       try {
         bytes = await readFile(path);
       } catch {
-        throw new Error(
-          `fonts/meta/${meta.id}.json names ${meta.id}.${file.id}, but ${path} is missing`,
-        );
+        throw new Error(`${rel} names ${meta.id}.${file.id}, but ${path} is missing`);
       }
-      files.push({ ...file, bytes: bytes.length, b64: bytes.toString("base64") });
+      files.push({ ...file, bytes: file.bytes ?? bytes.length, b64: bytes.toString("base64") });
     }
     fonts.push({ ...meta, files });
   }
   fonts.sort(byId);
-  assertUnique(fonts, "font");
 
-  // --- palettes -------------------------------------------------------------
   const palettes = [];
-  for (const rel of await find(root, "data/palettes/*.json")) {
-    const rows = await json(resolve(root, rel));
-    for (const row of rows) palettes.push(row);
-  }
+  for (const rel of await find(root, "data/palettes/*.json"))
+    palettes.push(...(await json(resolve(root, rel))));
   palettes.sort(byId);
-  assertUnique(palettes, "palette");
 
-  // --- presets --------------------------------------------------------------
   const presets = [];
   for (const rel of await find(root, "presets/*.json"))
     presets.push(await json(resolve(root, rel)));
   presets.sort(byId);
-  assertUnique(presets, "preset");
 
-  // --- effects: static imports, not data ------------------------------------
-  const effectFiles = await find(root, "effects/*.js");
-  const imports = effectFiles.map((rel, i) => {
-    const spec = relative(dirname(out), resolve(root, rel)).split("\\").join("/");
+  const effects = await find(root, "effects/*.js");
+
+  // Absent means "no rules". A file that is present but broken must fail the build, not
+  // silently drop every rule in it.
+  const deny = (await optional(resolve(root, "data/deny.json"), { deny: [] })).deny ?? [];
+  const weights = await optional(resolve(root, "data/weights.json"), {});
+
+  return { root, fonts, palettes, effects, presets, deny, weights };
+}
+
+/**
+ * Throws if the catalog is internally broken: a duplicate id, or a font file whose size or
+ * hash disagrees with its meta. Never over taste.
+ *
+ * @param {Awaited<ReturnType<typeof readCatalog>>} cat
+ */
+export function checkCatalog(cat) {
+  assertUnique(cat.fonts, "font");
+  assertUnique(cat.palettes, "palette");
+  assertUnique(cat.presets, "preset");
+  for (const font of cat.fonts) {
+    for (const file of font.files) {
+      const bytes = Buffer.from(file.b64, "base64");
+      const name = `fonts/files/${font.id}.${file.id}.woff2`;
+      if (file.bytes !== bytes.length)
+        throw new Error(`${name} is ${bytes.length} bytes; its meta says ${file.bytes}`);
+      if (file.sha256 !== undefined) {
+        const sha = createHash("sha256").update(bytes).digest("hex");
+        if (sha !== file.sha256)
+          throw new Error(`${name} has sha256 ${sha}; its meta says ${file.sha256}`);
+      }
+    }
+  }
+}
+
+/**
+ * The `build/catalog.js` source for a module written into `outDir`.
+ *
+ * @param {Awaited<ReturnType<typeof readCatalog>>} cat
+ * @param {string} outDir
+ */
+export function catalogModule(cat, outDir) {
+  const imports = cat.effects.map((rel, i) => {
+    const spec = relative(outDir, resolve(cat.root, rel)).split("\\").join("/");
     return { name: `fx${i}`, spec: spec.startsWith(".") ? spec : `./${spec}` };
   });
-
-  // --- rules ----------------------------------------------------------------
-  const deny = (await json(resolve(root, "data/deny.json")).catch(() => ({ deny: [] }))).deny ?? [];
-  const weights = await json(resolve(root, "data/weights.json")).catch(() => ({}));
-
-  const source =
-    `// Generated by scripts/build.mjs from ${relative(process.cwd(), root) || "."}.\n` +
+  return (
+    `// Generated by scripts/build.mjs from ${relative(process.cwd(), cat.root) || "."}.\n` +
     "// Do not edit; do not commit. Regenerate with: node scripts/build.mjs\n" +
     `${imports.map((i) => `import ${i.name} from '${i.spec}'`).join("\n")}\n` +
     "export default {\n" +
-    ` fonts: ${JSON.stringify(fonts)},\n` +
-    ` palettes: ${JSON.stringify(palettes)},\n` +
+    ` fonts: ${JSON.stringify(cat.fonts)},\n` +
+    ` palettes: ${JSON.stringify(cat.palettes)},\n` +
     ` effects: [${imports.map((i) => i.name).join(", ")}],\n` +
-    ` presets: ${JSON.stringify(presets)},\n` +
-    ` deny: ${JSON.stringify(deny)},\n` +
-    ` weights: ${JSON.stringify(weights)},\n` +
-    "}\n";
+    ` presets: ${JSON.stringify(cat.presets)},\n` +
+    ` deny: ${JSON.stringify(cat.deny)},\n` +
+    ` weights: ${JSON.stringify(cat.weights)},\n` +
+    "}\n"
+  );
+}
+
+/**
+ * The catalog as `build/catalog.js` exports it, without writing anything: for the e2e
+ * specs, the contact sheets and the unit tests, which must not depend on `build/`.
+ *
+ * @param {string} [root]
+ */
+export async function loadCatalog(root = ".") {
+  const cat = await readCatalog(root);
+  checkCatalog(cat);
+  const effects = await Promise.all(
+    cat.effects.map(
+      async (rel) => (await import(pathToFileURL(resolve(cat.root, rel)).href)).default,
+    ),
+  );
+  const { fonts, palettes, presets, deny, weights } = cat;
+  return { fonts, palettes, effects, presets, deny, weights };
+}
+
+/**
+ * Reads, checks and writes `out` plus its `.d.ts`. The `catalog` plugin in vite.config.js
+ * calls this as `build()`.
+ *
+ * @param {{root?: string, out?: string, quiet?: boolean}} [opts]
+ */
+export async function writeCatalog(opts = {}) {
+  const out = resolve(opts.out ?? "build/catalog.js");
+  const cat = await readCatalog(opts.root ?? ".");
+  checkCatalog(cat);
 
   // The type check reads this declaration instead of the module, whose inferred type would
   // be a literal of every row and every base64 font, rebuilt on each check.
@@ -146,15 +229,17 @@ export async function build(opts = {}) {
     "export default catalog;\n";
 
   await mkdir(dirname(out), { recursive: true });
-  await writeFile(out, source);
+  await writeFile(out, catalogModule(cat, dirname(out)));
   await writeFile(`${out.replace(/\.js$/, "")}.d.ts`, declaration);
 
-  if (!opts.quiet) report({ fonts, palettes, presets, deny, weights, effectFiles, out, root });
-  return { out, fonts, palettes, presets, deny, weights, effects: effectFiles.length };
+  if (!opts.quiet) report(cat, out);
+  return { out, ...cat };
 }
 
+export { writeCatalog as build };
+
 /** Informational only: counts and the effective size (1/Σp²) per axis. */
-function report(c) {
+function report(c, out) {
   const w = c.weights ?? {};
   const odds = (items, table, fallback = 4) =>
     items.map((x) => Math.max(0, Math.min(16, Math.floor(table?.[x.id] ?? x.odds ?? fallback))));
@@ -168,12 +253,12 @@ function report(c) {
     ["variants", variants.length, effective(odds(variants, null))],
     ["palettes", c.palettes.length, effective(odds(c.palettes, w.p))],
     ["role sets", roles.length, effective(odds(roles, null))],
-    ["effects", c.effectFiles.length, null],
+    ["effects", c.effects.length, null],
     ["presets", c.presets.length, effective(odds(c.presets, w.preset))],
     ["deny rules", c.deny.length, null],
   ];
 
-  const where = relative(process.cwd(), c.out) || c.out;
+  const where = relative(process.cwd(), out) || out;
   console.log(`catalog → ${where}`);
   for (const [name, n, eff] of rows) {
     console.log(
@@ -187,12 +272,12 @@ function report(c) {
   }
 }
 
-if (fileURLToPath(import.meta.url) === resolve(argv[1] ?? "")) {
+if (import.meta.main) {
   const { values } = parseArgs({
     options: {
       root: { type: "string", default: "." },
       out: { type: "string", default: "build/catalog.js" },
     },
   });
-  await build(values);
+  await writeCatalog(values);
 }
