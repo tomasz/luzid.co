@@ -14,11 +14,9 @@
 
 export default /** @satisfies {import("../src/types.js").Effect<{ a: number; c: number; e: number; w: number }>} */ ({
   id: "retro-echo-lines",
-  family: "retro",
   shape: "A",
   colors: 4,
   bg: "any",
-  odds: 4,
   fonts: { deny: ["hairline", "inline", "shaded", "stencil"], prefer: ["fat", "sans", "slab"] },
   palettes: { prefer: ["n4"] },
   // e = echoes; w = ink band width; c = background channel before each band. All per axis.
@@ -53,5 +51,4 @@ export default /** @satisfies {import("../src/types.js").Effect<{ a: number; c: 
   },
 
   hover: "filter:saturate(1.2)",
-  motion: null,
 });

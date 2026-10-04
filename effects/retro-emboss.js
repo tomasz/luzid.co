@@ -27,7 +27,6 @@ const raise = (p, h, lift) =>
 
 export default /** @satisfies {import("../src/types.js").Effect<{ k: number; s: number }>} */ ({
   id: "retro-emboss",
-  family: "retro",
   shape: "A",
   colors: 2,
   bg: "light",
@@ -36,23 +35,20 @@ export default /** @satisfies {import("../src/types.js").Effect<{ k: number; s: 
     deny: ["hairline", "inline", "shaded", "stencil"],
     prefer: ["fat", "slab", "rounded", "soft"],
   },
-  palettes: { prefer: [] },
   // k = how far the letter stands off the sheet; s = how soft its shadow is. Both in u.
   params: { k: [0.3, 0.9, 0.3], s: [0.6, 1.8, 0.6] },
 
   /**
    * Hover lifts the letter further, so every side reserves the hover throw rather than the
-   * resting one. The `1.5·s` predates R14's correction: a blurred layer reaches about 1.0
-   * radii, and `h.REACH` (1.1) is the budget. Moving to it shrinks the bleed and with it
-   * the fit, so it is a behaviour change for its own PR.
+   * resting one: offsets and blur both ×1.3, and the blur reaches `h.REACH` radii (R14).
    *
    * That is also why the top and the left are not simply the hard rim. At the shallow end
    * of `k` with the softest `s`, the cast shadow's own tail reaches back past the glyph and
-   * out the other side — about 2.4u above the block at `k = 0.3, s = 1.8`. It was the
+   * out the other side — about 1.5u above the block at `k = 0.3, s = 1.8`. It was the
    * phantom top bleed R13 has now removed that happened to be covering that.
    */
-  bleed: (p) => {
-    const tail = 1.5 * p.s * 1.3;
+  bleed: (p, lines, h) => {
+    const tail = h.REACH * p.s * 1.3;
     return {
       t: Math.max(p.k, tail - 2.8 * p.k * 1.3),
       r: 2.4 * p.k * 1.3 + tail,
@@ -64,6 +60,4 @@ export default /** @satisfies {import("../src/types.js").Effect<{ k: number; s: 
   css: (p, h) => `.n{text-shadow:${raise(p, h, 1)}}`,
 
   hover: (p, h) => `text-shadow:${raise(p, h, 1.3)}`,
-
-  motion: null,
 });

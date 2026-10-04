@@ -92,6 +92,16 @@ const isPaint = notGround(GROUND);
  */
 const WATCHLIST = [
   { id: "retro-deboss", params: { k: 0.3, s: 1.8 }, predicted: "1.92u on r, b" },
+  // Hover throws the cast shadow 1.3x further and blurs it 1.3x more; at the shallowest
+  // `k` with the softest `s` its tail comes back past the face on the top and left; at the
+  // deepest `k` it is the furthest throw down and right.
+  {
+    id: "retro-emboss",
+    params: { k: 0.3, s: 1.8 },
+    hover: true,
+    predicted: "1.40u on l, 1.25u on t (hover)",
+  },
+  { id: "retro-emboss", params: { k: 0.9, s: 1.8 }, hover: true, predicted: "5.62u on b (hover)" },
   { id: "glow-neon", params: { r: 25, t: 60 }, predicted: "1.25u on all four" },
   { id: "glow-fire", params: { r: 25, l: 6 }, predicted: "1.25u on l, r, t" },
   { id: "glow-anaglyph", params: { s: 12, a: 0 }, hover: true, predicted: "none: 1.8u l, r" },

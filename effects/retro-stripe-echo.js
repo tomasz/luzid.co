@@ -12,11 +12,9 @@
 
 export default /** @satisfies {import("../src/types.js").Effect<{ a: number; k: number; s: number }>} */ ({
   id: "retro-stripe-echo",
-  family: "retro",
   shape: "A",
   colors: 4,
   bg: "any",
-  odds: 4,
   fonts: { deny: ["hairline", "inline", "shaded"], prefer: ["fat", "rounded", "groovy", "soft"] },
   palettes: { prefer: ["n4"] },
   params: { a: [45, 135, 90], k: [3, 5, 1], s: [0.6, 1.2, 0.3] },
@@ -43,5 +41,4 @@ export default /** @satisfies {import("../src/types.js").Effect<{ a: number; k: 
   },
 
   hover: "filter:brightness(1.07)",
-  motion: null,
 });
