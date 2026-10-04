@@ -97,6 +97,12 @@ const WATCHLIST = [
   { id: "glow-anaglyph", params: { s: 12, a: 0 }, hover: true, predicted: "none: 1.8u l, r" },
   { id: "depth-float", params: { y: 10, o: 18 }, hover: true, predicted: "0.09u on t (hover)" },
   { id: "depth-drop", params: { d: 3, a: 225 }, hover: true, predicted: "none (hover)" },
+  // Outline hovers that move paint, each at its widest corner. All four now budget their
+  // hover ink in `bleed()`, so each predicts no overshoot.
+  { id: "outline-comic", params: { d: 3.5, q: 1, sw: 2.4 }, hover: true, predicted: "none" },
+  { id: "outline-misprint", params: { o: 2, q: 2, sw: 0.9 }, hover: true, predicted: "none" },
+  { id: "outline-sticker", params: { dy: 1.4, sw: 5 }, hover: true, predicted: "none" },
+  { id: "outline-varsity", params: { w1: 2, x: 2.5 }, hover: true, predicted: "none" },
 ];
 
 /**

@@ -17,21 +17,15 @@
  * guaranteed 3:1 whatever the accent does. The keyline is decoration on top of that.
  */
 
-/** Outward allowance per unit of stroke width; see `outline-hollow.js` for the derivation. */
-const MITER = 0.8;
-
 export default /** @satisfies {import("../src/types.js").Effect<{ sw: number; o: number; q: number }>} */ ({
   id: "outline-misprint",
-  family: "outline",
   shape: "B",
   colors: 3,
   bg: "any",
-  odds: 4,
   fonts: {
     deny: ["overlap", "hairline", "script", "brush", "connected", "inline", "shaded"],
     prefer: ["fat", "sans", "slab"],
   },
-  palettes: { prefer: [] },
   // Recipe 15: a .008-.025em keyline offset .02-.08em. 1em is 24-33u here (1em = 100/W1
   // u), so a misregistration this small stays one and never becomes a second word.
   params: { sw: [0.3, 0.9, 0.2], o: [0.8, 2, 0.4], q: [0, 3, 1] },
@@ -43,7 +37,7 @@ export default /** @satisfies {import("../src/types.js").Effect<{ sw: number; o:
    */
   bleed: (p, lines, h) => {
     const [sx, sy] = /** @type {import("../src/types.js").Pair} */ (h.QUAD[p.q]);
-    const s = MITER * p.sw;
+    const s = h.OUTSET * p.sw;
     return {
       t: s + (sy < 0 ? p.o : 0),
       r: s + (sx > 0 ? p.o : 0),
@@ -61,7 +55,7 @@ export default /** @satisfies {import("../src/types.js").Effect<{ sw: number; o:
     return h.copy(
       "after",
       `-webkit-text-fill-color:transparent;-webkit-text-stroke:${h.u(p.sw)} var(--a1);` +
-        `translate:${h.u(sx * p.o)} ${h.u(sy * p.o)}`,
+        `translate:${h.u(sx * p.o)} ${h.u(sy * p.o)};text-shadow:0 0 0 transparent`,
     );
   },
 
@@ -69,10 +63,12 @@ export default /** @satisfies {import("../src/types.js").Effect<{ sw: number; o:
    * Hover inks the missed plate in: a filled ghost of the same word at the same offset, so
    * the keyline stops being empty. It adds no reach the bleed did not already budget, and
    * it leaves the face `--fg` — a hover state must not trade away the guaranteed contrast.
+   * `text-shadow` inherits, so the copy overrides it in `css` with an empty shadow
+   * (`none` is not in the lint's grammar): otherwise the copy would throw its own ghost a
+   * second offset further out, past the bleed.
    */
   hover: (p, h) => {
     const [sx, sy] = /** @type {import("../src/types.js").Pair} */ (h.QUAD[p.q]);
     return `text-shadow:${h.u(sx * p.o)} ${h.u(sy * p.o)} 0 ${h.mix("var(--a1)", "var(--bg)", 40)}`;
   },
-  motion: null,
 });

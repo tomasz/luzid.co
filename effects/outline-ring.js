@@ -46,7 +46,6 @@ const layers = (r, uPx) => Math.min(CAP, Math.max(8, Math.ceil(Math.PI * Math.sq
 
 export default /** @satisfies {import("../src/types.js").Effect<{ r: number }>} */ ({
   id: "outline-ring",
-  family: "outline",
   shape: "A",
   colors: 2,
   bg: "any",
@@ -55,7 +54,6 @@ export default /** @satisfies {import("../src/types.js").Effect<{ r: number }>} 
     deny: ["hairline", "serif", "script", "brush", "connected", "blackletter", "inline", "shaded"],
     prefer: ["fat"],
   },
-  palettes: { prefer: [] },
   // Recipe 18's .01-.08em radius at 1em = 100/W1 u, i.e. ~25u, so .08em is 2u. The top of
   // the range is where the stem rule starts to bite even on a fat face.
   params: { r: [0.8, 2, 0.4] },
@@ -84,5 +82,4 @@ export default /** @satisfies {import("../src/types.js").Effect<{ r: number }>} 
 
   /** The outline fills in: face and ring become one solid letter. */
   hover: "color:var(--fg)",
-  motion: null,
 });

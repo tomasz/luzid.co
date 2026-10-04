@@ -16,40 +16,41 @@
  * Contrast is unaffected — the face keeps `--fg` on `--bg` and the rings sit outside it.
  */
 
-/** Outward allowance per unit of stroke width; see `outline-hollow.js` for the derivation. */
-const MITER = 0.8;
+/** The hover drop's offset and blur, as fractions of the outer ring's width `w2`. */
+const DROP = 0.8;
+const BLUR = 0.6;
 
 export default /** @satisfies {import("../src/types.js").Effect<{ w1: number; x: number }>} */ ({
   id: "outline-varsity",
-  family: "outline",
   shape: "B",
   colors: 3,
   bg: "any",
-  odds: 4,
   fonts: {
     deny: ["hairline", "script", "brush", "connected", "inline", "shaded", "stencil"],
     prefer: ["fat", "slab", "sans"],
   },
-  palettes: { prefer: [] },
   // Recipe 19's .04-.08em inner and .1-.18em outer ring, at 1em = 100/W1 u (24-33u for
   // these faces), expressed as the inner width plus the step out to the outer one.
   params: { w1: [1, 2, 0.5], x: [1, 2.5, 0.5] },
 
   /**
-   * The rings are concentric, so the reach is the same on every side. The extra below is
-   * the hover drop, which §5.6 counts as painted ink like any other: `0.8·w2` of offset
-   * plus a blur of `0.6·w2`, budgeted at 1.5× the radius. R14 (contracts) measured ~1.0×
-   * (budget `h.REACH`, 1.1), so this over-reserves; narrowing it changes the fit and is its
-   * own change. Sized off `w2` so the patch lifts by the same fraction of its own rings at
-   * either end of the range — a drop sized in flat u was invisible at `w2`'s minimum when I
-   * looked at it.
+   * The rings are concentric, so at rest they reach `h.OUTSET·w2` on every side. The hover
+   * drop, which §5.6 counts as painted ink like any other, shadows the whole patch: its
+   * blur reaches `h.REACH·BLUR·w2` (R14) out from the rings on the left, right and below,
+   * plus the `DROP·w2` offset below. That blur never climbs back past its own offset, so
+   * the top keeps the rings' reach alone. The drop is sized off `w2` so the patch lifts by
+   * the same fraction of its own rings at either end of the range — a drop sized in flat u
+   * was invisible at `w2`'s minimum when I looked at it.
    *
    * @param {{w1: number, x: number}} p
+   * @param {import("../src/types.js").LineGeometry} lines
+   * @param {typeof import('../src/helpers.js').helpers} h
    */
-  bleed: (p) => {
+  bleed: (p, lines, h) => {
     const w2 = p.w1 + p.x;
-    const s = MITER * w2;
-    return { t: s, r: s, b: 1.7 * w2, l: s };
+    const s = h.OUTSET * w2;
+    const tail = h.REACH * BLUR * w2;
+    return { t: s, r: s + tail, b: s + DROP * w2 + tail, l: s + tail };
   },
 
   /**
@@ -74,7 +75,6 @@ export default /** @satisfies {import("../src/types.js").Effect<{ w1: number; x:
    */
   hover: (p, h) => {
     const w2 = p.w1 + p.x;
-    return `filter:drop-shadow(0 ${h.u(0.8 * w2)} ${h.u(0.6 * w2)} ${h.mix("var(--fg)", "var(--bg)", 55)})`;
+    return `filter:drop-shadow(0 ${h.u(DROP * w2)} ${h.u(BLUR * w2)} ${h.mix("var(--fg)", "var(--bg)", 55)})`;
   },
-  motion: null,
 });
