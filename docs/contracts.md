@@ -11,9 +11,8 @@ be pinned exactly, and the places where the plan text left a choice the engine h
 Read the resolutions — several are things the plan implies but does not say, and a later
 work package that guesses differently will break a golden.
 
-A rule marked **pending** with a row id (S4) is agreed but not yet in
-the code; that row of the refactor plan lands it, and until then the text next to it says
-what runs today. The accessibility policy lives in [`a11y.md`](a11y.md), the vocabulary in
+A rule marked **pending** with a row id is agreed but not yet in the code; that row of the
+refactor plan lands it, and until then the text next to it says what runs today. The accessibility policy lives in [`a11y.md`](a11y.md), the vocabulary in
 the [Glossary](#glossary) at the end.
 
 ## 5. Contracts
@@ -181,7 +180,7 @@ export default {
   params: { d: [3, 9, 1], a: [45, 315, 90] },                    // [min,max,step], exact grid (§5.3); lengths in u, angles in deg
   bleed: (p, lines) => ({ t: 0, r: p.d, b: p.d, l: 0 }),         // u; must bound ALL painted ink incl. blur and hover
   css:   (p, h, m) => `.n{text-shadow:${h.stack(48, p.a, p.d, 'var(--a1)')}}`,
-  hover: null,                      // optional (p, h, m) => declarations, no selector (R6)
+  hover: null,                      // optional (p, h, m) => declarations, or the string itself; no selector (R6)
   motion: null,                     // reserved for Wave 4; must be null in Waves 0–3
 }
 ```
@@ -190,10 +189,16 @@ export default {
 
 **Where hover lands.** The renderer emits the declarations as `@media (hover:hover) and (pointer:fine){a.n:hover{…}}a.n:active{…}` inside the §5.8 gate and **outside** `prefers-reduced-motion:no-preference`; effects with `hover:null` get the shared default `a.n:active{scale:.985}`. Only the renderer's transitions (`.18s` on `scale translate filter opacity text-shadow`, never more than 200 ms) and `motion` sit inside the reduced-motion block. Under `prefers-reduced-motion:reduce` the hover state therefore still applies, instantly — the policy is in [`a11y.md`](a11y.md). Zero JS, zero DOM: this is v1.0's interactivity.
 
-**Pending S4** — agreed, not yet in the code:
-- **One hook signature** (S4): `bleed`, `css` and `hover` all receive `(p, h, m)`. Today `bleed` receives `(p, lines)`, so an effect must not add `h` to its `bleed` before S4 lands.
-- **String `hover`** (S4): an effect whose hover reads no params may give the declaration string itself instead of a function.
-- **Shared constants and helpers** (S4): `h` is `{u, stack, ring, mix}` today. S4 adds `REACH = 1.1` (R14's blur reach with its safety factor), `OUTSET = 1` (a `-webkit-text-stroke` budgeted at its full width outside the contour, for mitered joins), and the caps below as `CAP = 64`, `BLURS = 4`, `MAX_BLUR = 2.5`, `CHAIN = 4`, plus the helpers `layers`, `toward`, `QUAD`, `fall`, `march`, `ramp`, `copy` and `clipFill`. Effects then use the named constant instead of restating the number, and an effect that budgets more than `REACH` says why next to its own factor. `src/helpers.js` is authoritative for their signatures once it has them.
+**Hook signatures.** `css`, `hover` and `motion` receive `(p, h, m)`; `bleed` receives `(p, lines)` (above). An effect whose hover reads no params may give the declaration string itself instead of a function (`hover: "filter:brightness(1.05)"`); the renderer and the grid hash treat the two identically.
+
+**The helpers `h`** (`src/helpers.js`, frozen, pure; it is authoritative for the signatures). Lengths come out through `u()`, and trigonometry stays in CSS: no helper calls `Math.cos` or `Math.sin`.
+- Constants: `REACH = 1.1` (R14's blur reach with its safety factor), `OUTSET = 1` (a `-webkit-text-stroke` budgeted at its full width outside the contour, for mitered joins), and the caps below as `CAP = 64`, `BLURS = 4`, `MAX_BLUR = 2.5`, `CHAIN = 4`. Effects use the named constant instead of restating the number, and an effect that budgets more than `REACH` says why next to its own factor.
+- `u(x)` a length in u · `mix(a, b, pct)` an OKLab `color-mix()` · `stack(n, angle, dist, color)` `n` hard layers out to `dist` · `ring(n, r, color)` `n` hard layers on a circle.
+- `layers(n, min = 1)` a layer count: `n` rounded, at least `min`, at most `CAP`.
+- `toward(angle, dist)` the bleed box of ink `dist` away at `angle`: `dist` on each side the angle points toward, 0 elsewhere (`toward(90, 3)` = `{t:0, r:0, b:3, l:0}`).
+- `QUAD` the four diagonals as `[x, y]` sign pairs, clockwise from down-right · `fall(angle)` the horizontal sign of a falling diagonal (45 → 1, 135 → −1).
+- `march(n, sx, sy, from, to, colorAt)` `n` hard layers along the diagonal `(sx, sy)`, layer `i` at `from + (to − from)·i/n` u per axis in `colorAt(i)` · `ramp(n, angle, dist, tint)` `stack()` with layer colour `tint(i/n)`.
+- `copy(slot, decls)` the shape-B copy `.l::slot{content:attr(data-t) / "";decls}` · `clipFill(image)` the `.l` rule that clips one block-sized `image` to the letters of both lines (`background-size` from `--bh`, offset by `--y`).
 
 Lint (unit test over every effect file):
 - Lengths only via `h.u(x)` / `var(--u)`; colors only the four role vars or `color-mix()`/relative colors of them.
