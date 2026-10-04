@@ -18,13 +18,6 @@
  */
 
 /**
- * Blur radius to reserved reach. Ink stops near 1.0x the radius (`h.REACH` budgets 1.1);
- * this effect still reserves 2x, the older bound, so its bleed and goldens stay put until
- * moving it onto `h.REACH` is checked against the e2e bleed scan.
- */
-const SPREAD = 2;
-
-/**
  * The two blur radii for height `y`, clamped to the measured cap.
  *
  * @param {typeof import('../src/helpers.js').helpers} h
@@ -39,13 +32,10 @@ const softBlur = (h, y) => Math.min(h.MAX_BLUR, y * 0.3);
 
 export default /** @satisfies {import("../src/types.js").Effect<{ y: number; o: number }>} */ ({
   id: "depth-float",
-  family: "depth",
   shape: "A",
   colors: 2,
   bg: "light",
-  odds: 4,
   fonts: { deny: [], prefer: ["fat", "rounded"] },
-  palettes: { prefer: [] },
   // `y` is the hover height in u; `o` how much ink the shadow carries, in percent.
   params: { y: [4, 10, 2], o: [18, 42, 8] },
 
@@ -55,7 +45,7 @@ export default /** @satisfies {import("../src/types.js").Effect<{ y: number; o: 
    * @param {typeof import('../src/helpers.js').helpers} h
    */
   bleed: (p, _lines, h) => {
-    const reach = SPREAD * softBlur(h, p.y);
+    const reach = h.REACH * softBlur(h, p.y);
     return { t: 0, r: reach, b: p.y + reach, l: reach };
   },
 
@@ -74,5 +64,4 @@ export default /** @satisfies {import("../src/types.js").Effect<{ y: number; o: 
   hover: (p, h) =>
     `text-shadow:0 ${h.u(p.y * 0.18)} ${h.u(tightBlur(h, p.y) * 0.7)} ${h.mix("var(--fg)", "var(--bg)", p.o * 1.15)},` +
     `0 ${h.u(p.y * 0.5)} ${h.u(softBlur(h, p.y) * 0.7)} ${h.mix("var(--fg)", "var(--bg)", p.o * 0.8)}`,
-  motion: null,
 });

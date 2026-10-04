@@ -23,13 +23,10 @@ const STEPS = 32;
 
 export default /** @satisfies {import("../src/types.js").Effect<{ d: number; a: number }>} */ ({
   id: "depth-iso",
-  family: "depth",
   shape: "A",
   colors: 4,
   bg: "any",
-  odds: 4,
   fonts: { deny: ["script", "brush", "hairline", "shaded"], prefer: ["fat", "slab"] },
-  palettes: { prefer: [] },
   params: { d: [1, 2.5, 0.5], a: [45, 315, 90] },
 
   /**
@@ -57,5 +54,4 @@ export default /** @satisfies {import("../src/types.js").Effect<{ d: number; a: 
   },
 
   hover: "filter:brightness(1.06)",
-  motion: null,
 });
