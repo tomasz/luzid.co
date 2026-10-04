@@ -143,9 +143,9 @@ grows. It never costs more than a third of the 1.5 % safety margin.
 
 ## Findings
 
-### F1 — `pacifico` `fina` variants break the fit contract in WebKit
+### F1 — `pacifico` `fina` variants broke the fit contract in WebKit (fixed)
 
-**What.** `fonts/meta/pacifico.json` ships two variants built with OpenType `fina` on. The
+**What.** `fonts/meta/pacifico.json` shipped two variants built with OpenType `fina` on. The
 build-time ink widths were measured with HarfBuzz, which applies a forced feature to the
 whole run whatever the script. **CoreText does not apply `fina` to Latin at all** — its
 output is byte-identical to the base, verified directly:
@@ -192,27 +192,24 @@ forced one on any script, CoreText only runs them for scripts with joining behav
 feature in that family will produce a variant that two engines render one way and Apple's
 renders another.
 
-**Recommended remedy**, for whoever owns the font pipeline (WP-11 / WP-14) — §5.2 already
-says a font the pixel scan rejects is dropped rather than fixed, and this is a variant, not
-a font:
+**Remedy taken.** Of the two this report recommended — drop `fina` from `pacifico`'s
+`features` alone, or reject the whole joining-context family in the pipeline — the second
+won, because it prevents the class rather than this instance: `FEATURE_DENY` in
+`scripts/fonts/rules.js` lists `fina init medi isol`, so §5.5 rule 4 never offers them as
+candidates. The deny is global rather than per script: every font in the library is Latin,
+so no joining script loses anything. That removed `pacifico`'s `n-fina-static` and
+`l-fina-static` and `norican`'s two `fina` variants, the only ones that shipped; no other
+font's output changed.
 
-1. Drop `fina` from `pacifico`'s `features` in `fonts/sources/seed.json` (removes two of
-   the ten variants), **or**
-2. have `scripts/fonts.mjs` reject the joining-context family `fina init medi isol` for
-   fonts whose script is not joining, which prevents the whole class rather than this
-   instance. Pacifico carries `connected`, so a trait check is not sufficient on its own.
-
-Until then the divergence is pinned by `known engine divergences` in `e2e/fit.spec.js`: it
-runs the unmodified normative assertion and is annotated as an expected failure, so it stays
-in every report and turns the run **red** the day it is fixed.
-
-The pin is armed on **WebKit *and* macOS**, not on WebKit alone. The divergence is a
-property of CoreText, and only Playwright's macOS WebKit shapes through it; its Linux
-WebKit is WPE with FreeType and HarfBuzz and no CoreText anywhere, so the variant renders
-at its declared width there and passes. That is a true statement about that engine rather
-than a missed failure — but an ungated `test.fail` inverts it into "expected to fail, but
-passed" and turns CI red for the wrong reason, which is exactly what happened on the first
-CI run of this branch. A pin has to fire only where the condition it describes can exist.
+Before that, the divergence was pinned by `known engine divergences` in `e2e/fit.spec.js`,
+which ran the unmodified normative assertion annotated as an expected failure, so it stayed
+in every report. The pin was armed on **WebKit *and* macOS**, not on WebKit alone. The
+divergence is a property of CoreText, and only Playwright's macOS WebKit shapes through it;
+its Linux WebKit is WPE with FreeType and HarfBuzz and no CoreText anywhere, so the variant
+rendered at its declared width there and passed. An ungated `test.fail` inverted that true
+statement into "expected to fail, but passed" and turned CI red for the wrong reason on the
+first CI run of that branch. A pin has to fire only where the condition it describes can
+exist; the `platform` field stays on `KNOWN_DIVERGENCE` for that reason.
 
 ### F6 — `bungee.n-ss12-static` is off-centre on Linux WebKit
 
@@ -528,7 +525,7 @@ through `ci.yml` with `fit-scope: all`; it is **not** a required check.
 Result when the catalogue was the 8 seed fonts: **765 passed, 4 failed, 3.0 minutes**. All four failures are
 `pacifico.n-fina-static` on WebKit — F1, once in the per-variant sweep and once in each of
 the three layout modes. Nothing else in the catalog fails anywhere, in any engine, at any
-viewport. `pacifico.l-fina-static` passes the full sweep, which is the whole margin it has.
+viewport (both `fina` variants have since been removed). `pacifico.l-fina-static` passes the full sweep, which is the whole margin it has.
 
 Two deliberate departures from §9.2, both cheap and both safe:
 
@@ -565,7 +562,7 @@ draws with no pin, so the specs search for a seed that lands on the value they w
 names a URL that reproduces byte for byte.
 
 ```
-# F1, the WebKit overrun
+# F1, the WebKit overrun (historical: the variant no longer ships)
 /?seed=q1&p=qa-bw&e=plain&f=pacifico&v=n-fina-static&l=stack-fit      at 390x844
 
 # F2, line 1 painting into line 2
