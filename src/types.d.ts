@@ -153,8 +153,8 @@ export interface Preset {
 export interface Catalog {
   fonts: readonly Font[];
   palettes: readonly Palette[];
-  /** The build fills `odds` where an effect file leaves it out. */
-  effects: readonly (Effect & { odds: number })[];
+  /** The build derives `family` and fills every default an effect file leaves out. */
+  effects: readonly Required<Effect>[];
   presets: readonly Preset[];
   deny: readonly DenyRule[];
   weights: Weights;
@@ -203,17 +203,18 @@ export type Helpers = typeof helpers;
 
 /**
  * §5.6. `P` names the effect's params; each one is drawn from its `ParamSpec`, so the hooks
- * see a number per name.
+ * see a number per name. The optional keys are the ones a file may leave out: the catalog
+ * build derives `family` from the id and fills the rest with their defaults.
  */
 export interface Effect<P extends Record<string, number> = Record<string, number>> {
   id: string;
-  family: string;
+  family?: string;
   shape: "A" | "B";
   colors: 2 | 3 | 4;
   bg: "any" | "dark" | "light";
   odds?: number;
-  fonts: { deny: readonly Trait[]; prefer: readonly Trait[] };
-  palettes: { prefer: readonly string[] };
+  fonts?: { deny: readonly Trait[]; prefer: readonly Trait[] };
+  palettes?: { prefer: readonly string[] };
   params: { readonly [K in keyof P]: ParamSpec };
   /**
    * Sees the line geometry only: `G` and `R` depend on the bleed, so it cannot see them.
@@ -225,8 +226,8 @@ export interface Effect<P extends Record<string, number> = Record<string, number
    * Declarations for `a.n:hover` / `a.n:active`; `render.js` owns the selector (R6). A
    * hover that reads no params may be the declaration string itself.
    */
-  hover: string | ((p: P, h: Helpers, m: Metrics) => string) | null;
-  motion: ((p: P, h: Helpers, m: Metrics) => string) | null;
+  hover?: string | ((p: P, h: Helpers, m: Metrics) => string) | null;
+  motion?: ((p: P, h: Helpers, m: Metrics) => string) | null;
 }
 
 /** The result of `pick()`: ids and drawn numbers only. Its text form is the Pick string. */
@@ -259,7 +260,7 @@ export interface Scene {
   file: FontFile;
   palette: Palette;
   roleSet: RoleSet;
-  effect: Effect;
+  effect: Required<Effect>;
   layout: Layout;
 }
 

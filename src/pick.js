@@ -317,7 +317,7 @@ export function drawParams(seed, effect, forced = {}) {
 /**
  * @param {Draws} s
  * @param {readonly Palette[]} palettes
- * @param {Effect} effect
+ * @param {Required<Effect>} effect
  * @param {Preset | null} preset
  */
 function drawPalette(s, palettes, effect, preset) {

@@ -18,6 +18,7 @@ const good = await readCatalog(resolve(fixtures, "catalog"));
 const BAD = {
   "effect-order": "effects/plain.js: /: keys must be in the order id, family, shape, colors,",
   "effect-id": 'effects/plain.js: /id: must equal the file name, got "plane"',
+  "effect-family": 'effects/plain.js: /family: must be "plain", the id up to its first -',
   "effect-shape": "effects/plain.js: /shape: must be A or B",
   "effect-trait": 'effects/plain.js: /fonts/deny/0: "bold" is not allowed here',
   "effect-step": "effects/plain.js: /params/d/2: step must be positive",
@@ -134,7 +135,7 @@ test("hover may be a function, a declaration string or null", () => {
 });
 
 test("defaults a file may leave out are filled in the module", () => {
-  const optional = ["odds", "fonts", "palettes", "hover"];
+  const optional = ["family", "odds", "fonts", "palettes", "hover", "motion"];
   const plain = good.effects.find((e) => e.data.id === "plain");
   const bare = Object.fromEntries(
     Object.entries(plain.data).filter(([k]) => !optional.includes(k)),
@@ -149,7 +150,7 @@ test("defaults a file may leave out are filled in the module", () => {
   const source = catalogModule(cat, resolve(fixtures, "catalog/build"));
   assert.ok(
     source.includes(
-      '{...fx1,"odds":4,"fonts":{"deny":[],"prefer":[]},"palettes":{"prefer":[]},"hover":null}',
+      '{...fx1,"family":"plain","odds":4,"fonts":{"deny":[],"prefer":[]},"palettes":{"prefer":[]},"hover":null,"motion":null}',
     ),
   );
   const emitted = JSON.parse(source.match(/^ palettes: (.*),$/m)[1]);

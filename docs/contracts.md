@@ -170,20 +170,23 @@ A variant id is `<case>-<features>-<stop>`: case `n` / `u` / `l` (none, uppercas
 
 ```js
 export default {
-  id: 'depth-extrude', family: 'depth',
+  id: 'depth-extrude',
+  family: 'depth',                  // optional, derived: the id up to its first `-` (`plain` is its own); if stated, must equal that
   shape: 'A',                       // 'A' plain text | 'B' uses .l::before/::after copies
   colors: 3,                        // role-set slots needed (§5.4 `colors`): 2 = bg,fg · 3 = +a1 · 4 = +a2
   bg: 'any',                        // 'any' | 'dark' | 'light'
-  odds: 6,                          // 0–16, default 4; `e` in data/weights.json overrides
-  fonts: { deny: ['script', 'hairline'], prefer: ['fat'] },     // traits; prefer = ×2 odds
-  palettes: { prefer: [] },         // tokens: source or id prefix, 'dark' | 'light', 'n2'…'n4', tier; ×2 odds
+  odds: 6,                          // optional, 0–16, default 4; `e` in data/weights.json overrides
+  fonts: { deny: ['script', 'hairline'], prefer: ['fat'] },     // optional, default {deny:[],prefer:[]}; traits; prefer = ×2 odds
+  palettes: { prefer: [] },         // optional, default {prefer:[]}; tokens: source or id prefix, 'dark' | 'light', 'n2'…'n4', tier; ×2 odds
   params: { d: [3, 9, 1], a: [45, 315, 90] },                    // [min,max,step], exact grid (§5.3); lengths in u, angles in deg
   bleed: (p, lines, h) => ({ t: 0, r: p.d, b: p.d, l: 0 }),      // u; must bound ALL painted ink incl. blur and hover
   css:   (p, h, m) => `.n{text-shadow:${h.stack(48, p.a, p.d, 'var(--a1)')}}`,
-  hover: null,                      // optional (p, h, m) => declarations, or the string itself; no selector (R6)
-  motion: null,                     // reserved for Wave 4; must be null in Waves 0–3
+  hover: null,                      // optional, default null; (p, h, m) => declarations, or the string itself; no selector (R6)
+  motion: null,                     // optional, default null; reserved for Wave 4; must be null in Waves 0–3
 }
 ```
+
+The keys a file states come in this order. `id shape colors bg params bleed css` are required; the other six are optional, and the catalog build derives `family` and fills the rest with their defaults, so the engine reads every key from the catalog and never from the file.
 
 `m` = `{fs, H, top, asc, desc, G, R, layout}` (needed by `text-emphasis`, underlines, floor shadows), lengths in u. `fs`, `H`, `top`, `asc` and `desc` are pairs `[line 1, line 2]` (`fs = [100/F1, 100/F2]`); `G` is the resolved gap, `R` the block height as a fraction of its width (so not in u), `layout` the layout id. `bleed(p, lines, h)` receives the line geometry only, `lines` = `{fs, H, top, asc, desc, layout}`: `G` and `R` depend on the bleed, so it cannot see them, and `fit()` calls it exactly once. Its `h` is the same helpers object the other hooks get, so a bleed can be `h.toward(p.a, p.d)`.
 
@@ -207,7 +210,7 @@ Lint (unit test over every effect file):
 - Inherited text paint (`text-shadow`, stroke, `paint-order`) goes on `.n`. Shadows reaching upward more than ~10u must paint as a group (`filter:drop-shadow` on `.n`, chain ≤ 4) or as `.l::before{z-index:-1}` copies. `.n` is an isolated stacking context, so blend effects paint their own ground inside `.n`.
 - `background-clip:text` only on `.l/.l1/.l2` or their pseudo-elements, never `.n` (older Chrome/Safari drop positioned descendants from the clip); always paired with `-webkit-background-clip:text`; all layers clipped to text; `color:transparent`; **never `text-shadow` on the same element** (it paints over the fill; use `filter:drop-shadow` or a shape-B copy).
 - Shape B sets exactly `content:attr(data-t) / ""`; the renderer wraps the whole effect in `@supports (content:"x" / ""){…}`, so older engines show plain text with one correct accessible name.
-- No `url()` except `data:`; no `@import`; no `animation/transition/@keyframes` outside `hover`/`motion`.
+- No `url()` at all, `data:` included; no `@import`; no `animation/transition/@keyframes` outside `hover`/`motion`.
 - Measured caps (Chromium, M-series; halve if phone QA complains): hard shadow layers ≤ 64; blurred shadows ≤ 4, radius ≤ 2.5u; `drop-shadow` chain ≤ 4 (cost doubles per pass from 6 up).
 
 ### 5.7 Presets hook (content arrives in Wave 4)
