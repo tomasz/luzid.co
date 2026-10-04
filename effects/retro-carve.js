@@ -34,16 +34,13 @@ export default /** @satisfies {import("../src/types.js").Effect<{ k: number; s: 
 
   /**
    * The shadow in the cut travels up and left, so that is where the reach is — and `t` is
-   * what keeps line 2's cut off line 1's glyphs. `1.5·s` and not `s` is R14: a blur radius
-   * is a Gaussian diameter hint, so the ink reaches about one and a half radii. The rule
-   * is written for `drop-shadow()`, but `text-shadow` defines its radius the same way and
-   * the tail is the same tail.
+   * what keeps line 2's cut off line 1's glyphs. The `1.5·s` predates R14's correction: a
+   * blurred layer reaches about 1.0 radii, and `h.REACH` (1.1) is the budget. Moving to it
+   * shrinks the bleed and with it the fit, so it is a behaviour change for its own PR.
    *
    * The bottom and the right are not just the lit bevel for the same reason as the emboss:
    * at the shallow end of `k` with the softest `s`, the shadow's tail reaches back across
    * the glyph and out the far side.
-   *
-   * @param {{k: number, s: number}} p
    */
   bleed: (p) => ({
     t: 2.4 * p.k + 1.5 * p.s,
@@ -52,15 +49,11 @@ export default /** @satisfies {import("../src/types.js").Effect<{ k: number; s: 
     l: 2.2 * p.k + 1.5 * p.s,
   }),
 
-  /**
-   * @param {{k: number, s: number}} p
-   * @param {typeof import('../src/helpers.js').helpers} h
-   */
   css: (p, h) =>
     `.n{text-shadow:${h.u(p.k)} ${h.u(p.k)} 0 ${h.mix("var(--fg)", "var(--bg)", 16)},` +
     `${h.u(-p.k)} ${h.u(-p.k)} 0 ${h.mix("var(--fg)", "var(--bg)", 58)},` +
     `${h.u(-2.2 * p.k)} ${h.u(-2.4 * p.k)} ${h.u(p.s)} ${h.mix("var(--a1)", "var(--bg)", 46)}}`,
 
-  hover: () => "filter:contrast(1.06)",
+  hover: "filter:contrast(1.06)",
   motion: null,
 });

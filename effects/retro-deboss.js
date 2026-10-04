@@ -56,33 +56,20 @@ export default /** @satisfies {import("../src/types.js").Effect<{ k: number; s: 
    * direction from its offset, so at a shallow `k` with a soft `s` it reaches back across
    * the glyph and out the far side — 1.5u to the right at `k=0.3, s=1.8`, where this bleed
    * used to promise 0.3u. Budgeting only the direction a layer travels is the mistake;
-   * `max(k, 1.1·s − 1.6·k)` budgets the tail that comes back.
-   *
-   * `1.1·s` and not `1.5·s` is R14 as corrected: the 1.5 came from "a Gaussian is visible
-   * to 3 sigma", but measured against real pixels a blurred layer reaches about 1.0 radii,
-   * so 1.1 is the radius plus a safety factor. `text-shadow` defines its radius the same
-   * way `drop-shadow()` does, and it is the same tail.
-   *
-   * @param {{k: number, s: number}} p
+   * `max(k, REACH·s − 1.6·k)` budgets the tail that comes back. `h.REACH` is R14: a blurred
+   * layer reaches about 1.0 radii, and 1.1 is that plus a safety factor.
    */
-  bleed: (p) => ({
-    t: 1.6 * p.k + 1.1 * p.s,
-    r: Math.max(p.k, 1.1 * p.s - 1.6 * p.k),
-    b: Math.max(p.k, 1.1 * p.s - 1.6 * p.k),
-    l: 1.6 * p.k + 1.1 * p.s,
+  bleed: (p, lines, h) => ({
+    t: 1.6 * p.k + h.REACH * p.s,
+    r: Math.max(p.k, h.REACH * p.s - 1.6 * p.k),
+    b: Math.max(p.k, h.REACH * p.s - 1.6 * p.k),
+    l: 1.6 * p.k + h.REACH * p.s,
   }),
 
-  /**
-   * @param {{k: number, s: number}} p
-   * @param {typeof import('../src/helpers.js').helpers} h
-   */
   css: (p, h) => `.n{text-shadow:${press(p, h, 20, 42)}}`,
 
   /**
    * Pressing harder deepens both tones without moving either, so the bleed is unchanged.
-   *
-   * @param {{k: number, s: number}} p
-   * @param {typeof import('../src/helpers.js').helpers} h
    */
   hover: (p, h) => `text-shadow:${press(p, h, 28, 54)}`,
 

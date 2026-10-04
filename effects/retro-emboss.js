@@ -42,16 +42,14 @@ export default /** @satisfies {import("../src/types.js").Effect<{ k: number; s: 
 
   /**
    * Hover lifts the letter further, so every side reserves the hover throw rather than the
-   * resting one. `1.5·s` and not `s` is R14: a blur radius is a Gaussian diameter hint, so
-   * the ink reaches about one and a half radii. The rule is written for `drop-shadow()`,
-   * but `text-shadow` defines its radius the same way and the tail is the same tail.
+   * resting one. The `1.5·s` predates R14's correction: a blurred layer reaches about 1.0
+   * radii, and `h.REACH` (1.1) is the budget. Moving to it shrinks the bleed and with it
+   * the fit, so it is a behaviour change for its own PR.
    *
    * That is also why the top and the left are not simply the hard rim. At the shallow end
    * of `k` with the softest `s`, the cast shadow's own tail reaches back past the glyph and
    * out the other side — about 2.4u above the block at `k = 0.3, s = 1.8`. It was the
    * phantom top bleed R13 has now removed that happened to be covering that.
-   *
-   * @param {{k: number, s: number}} p
    */
   bleed: (p) => {
     const tail = 1.5 * p.s * 1.3;
@@ -63,16 +61,8 @@ export default /** @satisfies {import("../src/types.js").Effect<{ k: number; s: 
     };
   },
 
-  /**
-   * @param {{k: number, s: number}} p
-   * @param {typeof import('../src/helpers.js').helpers} h
-   */
   css: (p, h) => `.n{text-shadow:${raise(p, h, 1)}}`,
 
-  /**
-   * @param {{k: number, s: number}} p
-   * @param {typeof import('../src/helpers.js').helpers} h
-   */
   hover: (p, h) => `text-shadow:${raise(p, h, 1.3)}`,
 
   motion: null,

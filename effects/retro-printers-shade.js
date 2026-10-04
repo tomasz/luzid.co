@@ -33,21 +33,14 @@ export default /** @satisfies {import("../src/types.js").Effect<{ b: number; d: 
 
   /**
    * Nothing reaches above or left of the block: every soft layer sits further out than its
-   * own tail, and R13 feeds `G` from `bleed.b`. The `1.5` is R14 — a blur radius is a
-   * Gaussian diameter hint, so the ink reaches about one and a half radii, not one. That
-   * rule is written for `drop-shadow()`, but `text-shadow` defines its radius the same way
-   * and the tail is the same tail; budgeting at 1x left about 0.03u of margin here.
-   *
-   * @param {{b: number, d: number}} p
+   * own tail, and R13 feeds `G` from `bleed.b`. The `1.5` predates R14's correction: a
+   * blurred layer reaches about 1.0 radii, and `h.REACH` (1.1) is the budget. Moving to it
+   * shrinks the bleed and with it the fit, so it is a behaviour change for its own PR.
    */
-  bleed: (p) => ({ t: 0, r: p.d + 1.5 * p.b, b: p.d + 1.5 * p.b, l: 0 }),
+  bleed: (p, lines, h) => h.toward(45, p.d + 1.5 * p.b),
 
-  /**
-   * @param {{b: number, d: number}} p
-   * @param {typeof import('../src/helpers.js').helpers} h
-   */
   css: (p, h) => {
-    const n = Math.min(60, Math.max(12, Math.round(14 * p.d)));
+    const n = h.layers(14 * p.d, 12);
     // Six bands, never a per-layer alternation. The nearest band is the accent itself,
     // which is what a 0% mix means and is a good deal shorter to say.
     /** @param {number} i */
@@ -55,11 +48,7 @@ export default /** @satisfies {import("../src/types.js").Effect<{ b: number; d: 
       const band = Math.min(5, Math.floor((6 * (i - 1)) / n));
       return band === 0 ? "var(--a1)" : h.mix("var(--fg)", "var(--a1)", 4 * band);
     };
-    const out = [];
-    for (let i = 1; i <= n; i++) {
-      const k = (p.d * i) / n;
-      out.push(`${h.u(k)} ${h.u(k)} 0 ${tone(i)}`);
-    }
+    const out = [h.march(n, 1, 1, 0, p.d, tone)];
     // Every soft layer sits further out than its own radius, so none of them reaches back
     // past the face: the bleed stays a clean {right, bottom} box.
     const soft = h.mix("var(--a1)", "var(--bg)", 62);
@@ -74,6 +63,6 @@ export default /** @satisfies {import("../src/types.js").Effect<{ b: number; d: 
     return `.n{text-shadow:${out.join(",")}}`;
   },
 
-  hover: () => "filter:brightness(1.05)",
+  hover: "filter:brightness(1.05)",
   motion: null,
 });

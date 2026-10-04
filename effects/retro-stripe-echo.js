@@ -10,10 +10,6 @@
  * count trade against each other — which is why the depth is capped at 6u per axis.
  */
 
-/** Horizontal sign per angle. Both fall, so nothing reaches up into the line above. */
-/** @type {Record<number, number>} */
-const SX = { 45: 1, 135: -1 };
-
 export default /** @satisfies {import("../src/types.js").Effect<{ a: number; k: number; s: number }>} */ ({
   id: "retro-stripe-echo",
   family: "retro",
@@ -27,22 +23,12 @@ export default /** @satisfies {import("../src/types.js").Effect<{ a: number; k: 
 
   /**
    * Nothing is painted above the block: both angles fall, and R13 feeds `G` from `bleed.b`.
-   *
-   * @param {{a: number, k: number, s: number}} p
    */
-  bleed: (p) => {
-    const d = p.k * p.s;
-    return { t: 0, r: p.a === 45 ? d : 0, b: d, l: p.a === 135 ? d : 0 };
-  },
+  bleed: (p, lines, h) => h.toward(p.a, p.k * p.s),
 
-  /**
-   * @param {{a: number, k: number, s: number}} p
-   * @param {typeof import('../src/helpers.js').helpers} h
-   */
   css: (p, h) => {
-    const sx = SX[p.a] ?? 1;
     const d = p.k * p.s;
-    const n = Math.min(64, Math.max(12, Math.round(11 * d)));
+    const n = h.layers(11 * d, 12);
     const cycle = [
       "var(--a1)",
       "var(--a2)",
@@ -50,15 +36,12 @@ export default /** @satisfies {import("../src/types.js").Effect<{ a: number; k: 
       h.mix("var(--a1)", "var(--bg)", 62),
       h.mix("var(--a2)", "var(--bg)", 62),
     ];
-    const out = [];
-    for (let i = 1; i <= n; i++) {
-      const k = (d * i) / n;
-      const stripe = Math.min(p.k - 1, Math.floor(((i - 1) * p.k) / n));
-      out.push(`${h.u(sx * k)} ${h.u(k)} 0 ${cycle[stripe]}`);
-    }
-    return `.n{text-shadow:${out.join(",")}}`;
+    /** @param {number} i */
+    const stripe = (i) =>
+      /** @type {string} */ (cycle[Math.min(p.k - 1, Math.floor(((i - 1) * p.k) / n))]);
+    return `.n{text-shadow:${h.march(n, h.fall(p.a), 1, 0, d, stripe)}}`;
   },
 
-  hover: () => "filter:brightness(1.07)",
+  hover: "filter:brightness(1.07)",
   motion: null,
 });
