@@ -57,7 +57,7 @@ export const ARCHETYPES = new Set(Object.keys(BUCKET_ODDS));
 export const LICENSE_IDS = new Set(["OFL-1.1", "Apache-2.0", "GUST"]);
 export const CASES = new Set(["none", "uppercase", "lowercase"]);
 
-/** §5.6, in the order every effect file states them. */
+/** §5.6, in the order an effect file states the ones it states. */
 export const EFFECT_KEYS = [
   "id",
   "family",
@@ -74,15 +74,22 @@ export const EFFECT_KEYS = [
   "motion",
 ];
 
+/** §5.6: an effect's family is its id up to the first `-`; `plain` is its own. */
+export const familyOf = (id) => id.split("-")[0];
+
 /**
  * What the engine reads for each effect key the contract lets a file leave out. Filled at
  * the build, so `src/` never has to guess.
+ *
+ * @param {{id: string}} fx
  */
-export const effectDefaults = () => ({
+export const effectDefaults = (fx) => ({
+  family: familyOf(fx.id),
   odds: 4,
   fonts: { deny: [], prefer: [] },
   palettes: { prefer: [] },
   hover: null,
+  motion: null,
 });
 
 /**
@@ -173,7 +180,7 @@ function finite(file, ptr, obj, names) {
  * @param {any} fx
  */
 export function checkEffect(file, fx) {
-  const required = ["id", "family", "shape", "colors", "bg", "params", "bleed", "css", "motion"];
+  const required = ["id", "shape", "colors", "bg", "params", "bleed", "css"];
   keys(file, "", fx, EFFECT_KEYS, required);
   const order = Object.keys(fx);
   const canonical = EFFECT_KEYS.filter((k) => k in fx);
@@ -181,9 +188,10 @@ export function checkEffect(file, fx) {
     throw at(file, "", `keys must be in the order ${canonical.join(", ")}`);
 
   if (fx.id !== stem(file)) throw at(file, "/id", `must equal the file name, got ${show(fx.id)}`);
-  if (!KEBAB.test(fx.family)) throw at(file, "/family", "must be kebab-case");
-  if (fx.id !== fx.family && !fx.id.startsWith(`${fx.family}-`))
-    throw at(file, "/id", "must be <family> or <family>-<slug>");
+  if (!KEBAB.test(fx.id)) throw at(file, "/id", "must be kebab-case");
+  // Derived, so a file may leave it out; one that states it must agree.
+  if ("family" in fx && fx.family !== familyOf(fx.id))
+    throw at(file, "/family", `must be ${show(familyOf(fx.id))}, the id up to its first -`);
   if (!["A", "B"].includes(fx.shape)) throw at(file, "/shape", "must be A or B");
   if (![2, 3, 4].includes(fx.colors)) throw at(file, "/colors", "must be 2, 3 or 4");
   if (!["any", "dark", "light"].includes(fx.bg))
@@ -228,7 +236,7 @@ export function checkEffect(file, fx) {
     typeof fx.hover !== "string"
   )
     throw at(file, "/hover", "must be a function, a string or null");
-  if (fx.motion !== null) throw at(file, "/motion", "must be null until Wave 4");
+  if ("motion" in fx && fx.motion !== null) throw at(file, "/motion", "must be null until Wave 4");
 
   // The cultural guards a string can prove (AGENTS.md): an effect never brings its own face,
   // so no faux-Asian display lettering can arrive through one, and never loads or embeds

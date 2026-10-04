@@ -26,10 +26,18 @@
  */
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
+import { resolve } from "node:path";
 import { expect, test } from "vite-plus/test";
+import { loadCatalog } from "../scripts/build.mjs";
 import { TRAITS } from "../scripts/catalog/check.js";
 import { helpers } from "../src/helpers.js";
 import { effects, grid, hoverOf, METRICS, parse, shadowLengths, topSplit } from "./effects-lint.js";
+
+// A file may leave out `family`, `motion` and the other defaulted keys (§5.6); the engine
+// reads them from the catalog, so that is where they are held to the contract.
+const live = new Map(
+  (await loadCatalog(resolve(import.meta.dirname, ".."))).effects.map((e) => [e.id, e]),
+);
 
 const SELECTOR = /^(\.n|\.l|\.l1|\.l2)(::(before|after))?$/;
 
@@ -267,16 +275,17 @@ test("the effects directory is not empty and ships the universal fallback", () =
 for (const { file, id, fx } of effects) {
   test(`effect lint: ${id}`, () => {
     assert.equal(fx.id, id, `${file}: id must equal the file basename`);
-    assert.match(fx.family, /^[a-z0-9]+(-[a-z0-9]+)*$/, `${file}: family must be kebab-case`);
+    const filled = live.get(id);
+    assert.match(filled.family, /^[a-z0-9]+$/, `${file}: family must be one kebab word`);
     assert.ok(
-      fx.id === fx.family || fx.id.startsWith(`${fx.family}-`),
+      id === filled.family || id.startsWith(`${filled.family}-`),
       `${file}: id must be <family> or <family>-<slug>`,
     );
     assert.ok(["A", "B"].includes(fx.shape), `${file}: shape must be A or B`);
     assert.ok([2, 3, 4].includes(fx.colors), `${file}: colors must be 2..4`);
     assert.ok(["any", "dark", "light"].includes(fx.bg), `${file}: bg must be any|dark|light`);
-    assert.ok(Number.isInteger(fx.odds ?? 4) && (fx.odds ?? 4) >= 0 && (fx.odds ?? 4) <= 16);
-    assert.equal(fx.motion, null, `${file}: motion is Wave 4; it must be null in v1.0`);
+    assert.ok(Number.isInteger(filled.odds) && filled.odds >= 0 && filled.odds <= 16);
+    assert.equal(filled.motion, null, `${file}: motion is Wave 4; it must be null in v1.0`);
 
     for (const key of ["deny", "prefer"]) {
       for (const t of fx.fonts?.[key] ?? []) {

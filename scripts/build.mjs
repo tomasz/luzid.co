@@ -188,7 +188,7 @@ function rows(cat) {
 
 /** The keys an effect left out, with their defaults; `{}` when it states all of them. */
 function missing(fx) {
-  return Object.fromEntries(Object.entries(effectDefaults()).filter(([k]) => !(k in fx)));
+  return Object.fromEntries(Object.entries(effectDefaults(fx)).filter(([k]) => !(k in fx)));
 }
 
 /**
