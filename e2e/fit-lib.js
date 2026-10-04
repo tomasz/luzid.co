@@ -14,7 +14,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { loadCatalog } from "../scripts/build.mjs";
-import { flag, step, weighted } from "../src/rand.js";
+import { drawLayoutAxes } from "../src/pick.js";
 import { bbox, decodePng, flatten } from "./png.js";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -138,42 +138,19 @@ export function seedAt(i) {
   return `q${s}`;
 }
 
-/** Layout axis values that no pin can reach: they are drawn from the seed alone. */
-export function axesOf(seed) {
-  const ALIGNS = [
-    { id: "center", odds: 8 },
-    { id: "flex-end", odds: 4 },
-    { id: "flex-start", odds: 4 },
-  ];
-  return {
-    side: flag(seed, "l/side", 1, 4),
-    g: step(seed, "l/g", [4, 10, 2]),
-    align: weighted(seed, "l/a", ALIGNS, (x) => x.odds).id,
-  };
-}
-
 /**
- * The first seed satisfying `pred`. Deterministic, so a failure message names a seed that
- * reproduces byte for byte.
+ * The first seed whose layout draws satisfy `pred`. Deterministic, so a failure message
+ * names a seed that reproduces byte for byte. The draws are the engine's own: a search
+ * that restated them would aim at a seed the page no longer draws the day they change.
  *
- * @param {(a: ReturnType<typeof axesOf>, seed: string) => boolean} pred
+ * @param {(a: ReturnType<typeof drawLayoutAxes>, seed: string) => boolean} pred
  */
 export function findSeed(pred) {
   for (let i = 0; i < 200000; i++) {
     const s = seedAt(i);
-    if (pred(axesOf(s), s)) return s;
+    if (pred(drawLayoutAxes(s), s)) return s;
   }
   throw new Error("no seed satisfies the predicate");
-}
-
-/** Effect params are drawn per seed too, so reaching an extreme means searching for it. */
-export function paramsOf(seed, effect) {
-  /** @type {Record<string, number>} */
-  const out = {};
-  for (const name of Object.keys(effect.params ?? {}).sort()) {
-    out[name] = step(seed, `e/${effect.id}/${name}`, effect.params[name]);
-  }
-  return out;
 }
 
 /** One stable seed per layout mode, chosen once so every failure is reproducible. */

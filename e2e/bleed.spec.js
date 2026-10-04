@@ -22,6 +22,9 @@
 
 import { expect, test } from "@playwright/test";
 
+import { parsePickString } from "../src/look.js";
+import { drawParams } from "../src/pick.js";
+
 import {
   corners,
   EFFECTS,
@@ -32,7 +35,6 @@ import {
   notGround,
   PORTRAIT,
   PR_VIEWPORTS,
-  paramsOf,
   SCOPE,
   SLACK,
   safeBox,
@@ -178,7 +180,7 @@ function seedFor(effect, params, side, g) {
     (a, s) =>
       a.side === side &&
       (g === undefined || a.g === g) &&
-      Object.entries(params).every(([k, v]) => paramsOf(s, effect)[k] === v),
+      Object.entries(params).every(([k, v]) => drawParams(s, effect)[k] === v),
   );
 }
 
@@ -189,17 +191,17 @@ function seedFor(effect, params, side, g) {
 async function paint(page, { effect, params, seed, layout = "stack-fit", vp, hover = false }) {
   const href = url({ seed, f: FONT.id, v: VARIANT.id, l: layout, e: effect.id });
   const { pick, geo, img } = await shoot(page, href, vp, { hover });
-  // `seedFor` reaches these params through its own copy of the engine's draws. If the two
-  // ever drift, every envelope below is aimed at the wrong effect, so the header decides.
+  // `seedFor` reaches these params through the engine's own draws, but a preset drawn off
+  // the same seed may force others. A wrong set aims every envelope below at the wrong
+  // effect, so the header decides.
   const tag = label(params);
   expect(pick, `the page drew other params than the seed search · ${href}`).toContain(
     ` e:${effect.id}${tag ? `(${tag})` : ""} l:`,
   );
   const side = geo.rotate !== "none";
   const u = geo.bw / 100;
-  // Anchored on the `l:` segment: an effect may have a param called `g` too (and
-  // `retro-relief-gap` does), which a bare /g=(\d+)/ would read as the layout gap.
-  const g = Number(/\sl:[a-z-]+\([^)]*?\bg=(\d+(?:\.\d+)?)/.exec(pick)?.[1]);
+  // The layout gap, not an effect param that happens to be called `g` too.
+  const g = Number(parsePickString(pick)?.g);
   const want = expectedFit(FONT, VARIANT, layout, g, effect, params);
   const box = inkBox(img, isPaint, geo.dpr);
   const where = `${vp.w}x${vp.h} ${href} [${pick}]`;
