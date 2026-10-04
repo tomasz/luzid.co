@@ -72,24 +72,24 @@ export interface Variant {
   w2: Ink;
 }
 
-/** A shipped font file. `asc`/`desc` are in font units when the font has `upm`, else in em. */
+/** A shipped font file. `asc`/`desc` are in font units; divide by the font's `upm` for em. */
 export interface FontFile {
   id: string;
   asc: number;
   desc: number;
   /** Byte length of the woff2; added by `scripts/build.mjs`. */
   bytes: number;
-  /** The woff2 as base64; added by `scripts/build.mjs`. `null` only for the system fallback. */
-  b64: string | null;
+  /** The woff2 as base64; added by `scripts/build.mjs`. */
+  b64: string;
 }
 
 export interface Font {
   id: string;
   family: string;
-  licenseId: string | null;
-  copyright: string | null;
-  odds?: number;
-  upm?: number;
+  licenseId: string;
+  copyright: string;
+  odds: number;
+  upm: number;
   archetype: readonly Bucket[];
   traits: readonly Trait[];
   files: readonly FontFile[];
@@ -109,7 +109,8 @@ export interface Palette {
   id: string;
   src: string;
   tier: string;
-  odds?: number;
+  /** Filled by the build when the row leaves it out. */
+  odds: number;
   names: readonly string[];
   hex: readonly string[];
   roles: readonly RoleSet[];
@@ -136,7 +137,7 @@ export interface Weights {
 /** §5.7 `presets/<id>.json`. */
 export interface Preset {
   id: string;
-  odds?: number;
+  odds: number;
   pins?: Pins;
   fonts?: { ids?: readonly string[]; traits?: readonly Trait[] };
   palettes?: { prefer?: readonly string[] };
@@ -148,7 +149,8 @@ export interface Preset {
 export interface Catalog {
   fonts: readonly Font[];
   palettes: readonly Palette[];
-  effects: readonly Effect[];
+  /** The build fills `odds` where an effect file leaves it out. */
+  effects: readonly (Effect & { odds: number })[];
   presets: readonly Preset[];
   deny: readonly DenyRule[];
   weights: Weights;
@@ -184,9 +186,9 @@ export interface LineGeometry {
   layout: string;
 }
 
-/** §5.6 `m`: the fitted geometry an effect may read, in u. */
+/** §5.6 `m`: the fitted geometry `css()`, `hover()` and `motion()` may read, in u. */
 export interface Metrics extends LineGeometry {
-  /** The final gap between the lines (provisional, `= g`, while `bleed()` runs). */
+  /** The final gap between the lines. */
   G: number;
   /** Block height over block width. */
   R: number;
@@ -209,7 +211,8 @@ export interface Effect<P extends Record<string, number> = Record<string, number
   fonts: { deny: readonly Trait[]; prefer: readonly Trait[] };
   palettes: { prefer: readonly string[] };
   params: { readonly [K in keyof P]: ParamSpec };
-  bleed: (p: P, m: Metrics) => Bleed;
+  /** Sees the line geometry only: `G` and `R` depend on the bleed, so it cannot see them. */
+  bleed: (p: P, lines: LineGeometry) => Bleed;
   css: (p: P, h: Helpers, m: Metrics) => string;
   /** Declarations for `a.n:hover` / `a.n:active`; `render.js` owns the selector (R6). */
   hover: ((p: P, h: Helpers, m: Metrics) => string) | null;

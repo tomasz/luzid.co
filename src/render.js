@@ -63,19 +63,23 @@ const HEX = /^#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i;
  * maths, and `names` stays the authoritative list for the credit line — a derived ground
  * is not a dictionary colour and is never credited as one.
  *
- * @param {{hex?: readonly string[], names?: readonly string[]}} palette
+ * The build checks that every slot of `o` that is not `-` points into `hex` (B2), so `at`
+ * always finds a colour.
+ *
+ * @param {{hex: readonly string[], names: readonly string[]}} palette
  * @param {{o: string}} roleSet
  */
 function roleColors(palette, roleSet) {
-  const hex = palette.hex ?? [];
-  const n = (palette.names ?? []).length;
+  const { hex, names } = palette;
+  const n = names.length;
+  const o = roleSet.o;
   /** @param {string | undefined} ch */
-  const at = (ch) => (ch === "w" ? hex[n] : ch === "k" ? hex[n + 1] : hex[Number(ch)]);
-  const o = String(roleSet.o ?? "");
-  const bg = at(o[0]) ?? "#ffffff";
-  const fg = at(o[1]) ?? "#000000";
-  const a1 = (o[2] === "-" ? fg : at(o[2])) ?? fg;
-  const a2 = (o[3] === "-" ? bg : at(o[3])) ?? bg;
+  const at = (ch) =>
+    /** @type {string} */ (ch === "w" ? hex[n] : ch === "k" ? hex[n + 1] : hex[Number(ch)]);
+  const bg = at(o[0]);
+  const fg = at(o[1]);
+  const a1 = o[2] === "-" ? fg : at(o[2]);
+  const a2 = o[3] === "-" ? bg : at(o[3]);
   return { bg, fg, a1, a2 };
 }
 
@@ -84,17 +88,11 @@ function roleColors(palette, roleSet) {
  * @param {Fit} fit
  */
 function baseCss(scene, fit) {
-  const { look, font, variant, file, palette, roleSet } = scene;
+  const { look, variant, file, palette, roleSet } = scene;
   const colors = roleColors(palette, roleSet);
-  const webfont = typeof file.b64 === "string" && file.b64.length > 0;
-  const family = webfont ? "f" : font.family;
-  const feat = variant.css?.feat ? variant.css.feat : "normal";
+  const feat = variant.css.feat || "normal";
   const w1 = variant.w1;
   const w2 = variant.w2;
-
-  const face = webfont
-    ? `@font-face{font-family:f;src:url(data:font/woff2;base64,${file.b64}) format("woff2");font-display:block}\n`
-    : "";
 
   const sideCss = look.side
     ? `\n@media (max-aspect-ratio:4/5){.n{` +
@@ -104,7 +102,8 @@ function baseCss(scene, fit) {
     : "";
 
   return `:root{--bg:${colors.bg};--fg:${colors.fg};--a1:${colors.a1};--a2:${colors.a2};color-scheme:${roleSet.dark ? "dark" : "light"}}
-${face}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+@font-face{font-family:f;src:url(data:font/woff2;base64,${file.b64}) format("woff2");font-display:block}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 html,body{height:100%;margin:0;overflow:clip;background:var(--bg)}
 body{display:grid;place-content:center;place-content:unsafe center}
 h1{margin:0;font:inherit}
@@ -114,8 +113,8 @@ h1{margin:0;font:inherit}
 --bw:calc(${SAFETY}*min(var(--aw)/${round4(fit.K1)},var(--ah)/${round4(fit.K2)}));--u:calc(var(--bw)/100);--bh:${round4(fit.BH)};
 display:flex;flex-direction:column;align-items:${look.align};width:var(--bw);isolation:isolate;
 translate:calc(${round4(fit.DX)}*var(--u)) calc(${round4(fit.DY)}*var(--u));
-font-family:${family};font-weight:${variant.css?.weight ?? 400};font-style:${variant.css?.style ?? "normal"};font-feature-settings:${feat};font-synthesis:none;font-kerning:normal;
-text-rendering:geometricPrecision;text-transform:${variant.case ?? "none"};white-space:nowrap;text-decoration:none;color:var(--fg)}
+font-family:f;font-weight:${variant.css.weight};font-style:${variant.css.style};font-feature-settings:${feat};font-synthesis:none;font-kerning:normal;
+text-rendering:geometricPrecision;text-transform:${variant.case};white-space:nowrap;text-decoration:none;color:var(--fg)}
 .l{display:block;position:relative}
 .l1{--y:0;font-size:calc(var(--bw)/${round4(fit.F1)});width:calc(1em*${round4(w1.W)});line-height:${round4(fit.L1)};height:calc(1em*${round4(w1.H)});text-indent:calc(-1em*${round4(w1.X)})}
 .l2{--y:${round4(fit.Y2)};font-size:calc(var(--bw)/${round4(fit.F2)});width:calc(1em*${round4(w2.W)});line-height:${round4(fit.L2)};height:calc(1em*${round4(w2.H)});text-indent:calc(-1em*${round4(w2.X)});margin-top:calc(${round4(fit.G)}*var(--u))}
@@ -132,13 +131,13 @@ a.n:focus-visible{outline:max(3px,.35vmin) solid var(--fg);outline-offset:max(4p
  */
 function effectCss(scene, fit) {
   const { look, effect } = scene;
-  const raw = effect.css?.(look.params, helpers, fit.m) ?? "";
+  const raw = effect.css(look.params, helpers, fit.m);
   // Shape B paints with ::before/::after copies. Older engines drop the alt-text form of
   // `content`, so the whole effect is wrapped: they show plain text with one correct
   // accessible name instead of a doubled one.
   const body = raw && effect.shape === "B" ? `@supports (content:"x" / ""){${raw}}` : raw;
 
-  const decls = effect.hover?.(look.params, helpers, fit.m) ?? null;
+  const decls = effect.hover?.(look.params, helpers, fit.m);
   const hover = decls
     ? `@media (hover:hover) and (pointer:fine){a.n:hover{${decls}}}a.n:active{${decls}}`
     : "a.n:active{scale:.985}";
@@ -192,14 +191,12 @@ function favicon(bg, fg) {
  * @returns {string}
  */
 export function render(scene, nonce) {
-  const { look, font, palette, roleSet, file } = scene;
+  const { look, font, palette, roleSet } = scene;
   const colors = roleColors(palette, roleSet);
   const css = stylesheet(scene, fit(scene));
 
-  const fontNote = file.b64
-    ? `font: subset of ${font.family}, © ${font.copyright ?? "see licence"}, ${font.licenseId ?? "see licence"}, modified (23-glyph subset, metrics) · licences: ${LICENSES}`
-    : `font: ${font.family} (system)`;
-  const palNote = `palette: ${(palette.names ?? []).join(", ")} (${palette.src ?? palette.id})`;
+  const fontNote = `font: subset of ${font.family}, © ${font.copyright}, ${font.licenseId}, modified (23-glyph subset, metrics) · licences: ${LICENSES}`;
+  const palNote = `palette: ${palette.names.join(", ")} (${palette.src})`;
   const colophon = `${cmt(pickString(look))} · ${note(fontNote)} · ${note(palNote)}`;
 
   return `<!doctype html>
