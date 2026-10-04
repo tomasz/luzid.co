@@ -97,7 +97,7 @@ export function outlineOf(font, gid) {
  * identically has changed the glyph stream and changed nothing a reader can see; Boldonse's
  * `ss01` in lowercase and Instrument Serif Italic's do exactly that.
  *
- * Deliberately not GPOS placement either — see `effectiveFeatures` in fonts.mjs.
+ * Deliberately not GPOS placement either — see `dedupeCombos` in variants.js.
  */
 export const drawn = (font, word, feats = []) =>
   shape(font, word, feats)
