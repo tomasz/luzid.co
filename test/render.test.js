@@ -13,7 +13,7 @@ const catalog = await fixtureCatalog();
 const GATE = "@media screen and (forced-colors:none) and (prefers-contrast:no-preference){";
 
 const page = (seed, pins = {}) => {
-  const p = pick(seed, pins, catalog);
+  const p = pick(catalog, seed, pins);
   return { p, html: render(resolve(catalog, p), "test") };
 };
 
@@ -131,7 +131,7 @@ test("the non-screen and high-contrast fallbacks are always present", () => {
 
 test("all four role variables always resolve", () => {
   for (let i = 0; i < 500; i++) {
-    const css = sheet(catalog, pick(`s${i}`, {}, catalog));
+    const css = sheet(catalog, pick(catalog, `s${i}`));
     const root = css.match(/^:root\{([^}]*)\}/)[1];
     for (const v of ["--bg", "--fg", "--a1", "--a2"]) {
       assert.match(root, new RegExp(`${v}:#[0-9a-f]{6}`), `${v} is not a literal in ${root}`);
@@ -144,9 +144,9 @@ test("a derived ground reads from the row hex past names.length", () => {
   const ground = catalog.palettes.find((x) => x.id === "fx-ground");
   assert.equal(ground.names.length, 2);
   assert.equal(ground.hex.length, 4);
-  const washi = sheet(catalog, pick("gt", {}, catalog));
+  const washi = sheet(catalog, pick(catalog, "gt"));
   assert.ok(washi.includes(`--bg:${ground.hex[2]}`), "w must be hex[names.length]");
-  const sumi = sheet(catalog, pick("gs", {}, catalog));
+  const sumi = sheet(catalog, pick(catalog, "gs"));
   assert.ok(sumi.includes(`--bg:${ground.hex[3]}`), "k must be hex[names.length + 1]");
   // The credit line names only the real colours, never a derived ground.
   const html = page("gt").html;
@@ -154,7 +154,7 @@ test("a derived ground reads from the row hex past names.length", () => {
 });
 
 test("the fit literals follow §5.2", () => {
-  const p = pick("gs", {}, catalog);
+  const p = pick(catalog, "gs");
   const parts = resolve(catalog, p);
   const f = fit(parts);
   const { w1, w2 } = parts.variant;
@@ -177,13 +177,13 @@ test("the fit literals follow §5.2", () => {
   assert.equal(f.DY, (f.bleed.t - f.bleed.b) / 2);
 
   // stack-eq shares one scale between the lines.
-  const eq = pick("gp", {}, catalog);
+  const eq = pick(catalog, "gp");
   const feq = fit(resolve(catalog, eq));
   assert.equal(feq.F1, feq.F2);
 
   // gs bleeds only upwards, so it cannot tell R13 from the old max(g, bt). s7 is
   // depth-extrude(a=135,d=9) at g=4: all of its bleed is downwards, and G must follow it.
-  const down = pick("s7", {}, catalog);
+  const down = pick(catalog, "s7");
   const fd = fit(resolve(catalog, down));
   assert.ok(fd.bleed.b > fd.bleed.t && fd.bleed.b > down.g, "s7 must bleed down past g");
   assert.equal(fd.G, Math.max(down.g, fd.bleed.t, fd.bleed.b));
@@ -195,7 +195,7 @@ test("the emitted gap is the resolved G, not the drawn g", () => {
   // two boxes is exactly G·u. That is the whole of the DOM-rect check; no browser needed.
   let widened = 0;
   for (let i = 0; i < 400; i++) {
-    const p = pick(`s${i}`, {}, catalog);
+    const p = pick(catalog, `s${i}`);
     const f = fit(resolve(catalog, p));
     assert.equal(f.G, Math.max(p.g, f.bleed.t, f.bleed.b), `s${i}: G is not max(g, bt, bb)`);
     const css = sheet(catalog, p);
@@ -209,7 +209,7 @@ test("the emitted gap is the resolved G, not the drawn g", () => {
 test("the gap clears ink in both directions", () => {
   // R13, on the corner that failed before it: depth-extrude at d=9 over the narrowest gap.
   // a=45 paints only downwards and a=225 only upwards; max(g, bt) missed the first one.
-  const base = pick("s7", {}, catalog);
+  const base = pick(catalog, "s7");
   assert.equal(base.e, "depth-extrude");
   for (const [a, side] of [
     [45, "b"],
@@ -223,11 +223,11 @@ test("the gap clears ink in both directions", () => {
 });
 
 test("side emits the rotated portrait block, and only then", () => {
-  const on = pick("gp", {}, catalog);
+  const on = pick(catalog, "gp");
   assert.equal(on.side, true);
   assert.match(sheet(catalog, on), /@media \(max-aspect-ratio:4\/5\)\{\.n\{[^}]*rotate:90deg/);
 
-  const off = pick("gs", {}, catalog);
+  const off = pick(catalog, "gs");
   assert.equal(off.side, false);
   assert.equal(sheet(catalog, off).includes("max-aspect-ratio"), false);
 });
@@ -244,7 +244,7 @@ test("the response fits the first flight", () => {
 });
 
 test("two renders of one seed differ only in the nonce", () => {
-  const p = pick("gs", {}, catalog);
+  const p = pick(catalog, "gs");
   const a = render(resolve(catalog, p), "AAAA");
   const b = render(resolve(catalog, p), "BBBB");
   assert.equal(a.replaceAll("AAAA", "N"), b.replaceAll("BBBB", "N"));
@@ -257,7 +257,7 @@ test("the colophon can never break out of its comment", () => {
       x.id === "fx-ink" ? { ...x, names: ["--> <script>alert(1)</script>", "x"] } : x,
     ),
   };
-  const p = pick("k3f9x2m7qa", {}, evil);
+  const p = pick(evil, "k3f9x2m7qa");
   const html = render(resolve(evil, p), "test");
   const comment = html.match(/<!-- ([\s\S]*?) -->/)[1];
   assert.equal(comment.includes("<"), false);
@@ -289,7 +289,7 @@ test("a system-font render emits no @font-face and keeps the family stack", () =
     deny: [],
     weights: {},
   };
-  const p = pick("a", {}, bare);
+  const p = pick(bare, "a");
   const css = sheet(bare, p);
   assert.equal(css.includes("@font-face"), false);
   assert.match(css, /font-family:Georgia,"Times New Roman",ui-serif,serif/);
