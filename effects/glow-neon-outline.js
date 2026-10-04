@@ -5,7 +5,7 @@
  * `--fg`, so the ground shows through the counters the way it does through real glass. The
  * bloom is a `filter: drop-shadow()` chain rather than `text-shadow` because the glow has to
  * follow the *stroke's* alpha, inside and outside the letter — `text-shadow` would silhouette
- * the (empty) glyph fill instead (R34).
+ * the (empty) glyph fill instead (recipe 34).
  *
  * Three passes, not the eight the recipe suggests: the spike measured the chain doubling in
  * GPU cost per pass from six up (8 passes = 33–121 ms), and §5.6 caps it at four. Chained
@@ -16,21 +16,8 @@
  */
 
 /**
- * What the stroke adds to the painted extent, as a multiple of its own width.
- *
- * Geometrically it is 0.5 — `-webkit-text-stroke` is centred, so half lies outside the glyph
- * contour. That is what the first version of this effect budgeted, and the pixel proof found
- * it short on all four sides. Chrome and WebKit *miter* their stroke joins (Firefox rounds
- * them, and §5.6 cannot control either), and a mitered join on a sharp serif corner runs out
- * to `w/2 ÷ sin(θ/2)` — several times the nominal half-width on the kind of acute corner a
- * display serif has. Budgeting the full width covers a miter of 2x, which is what the
- * measurement needed, and costs at most 0.4u.
- */
-const STROKE_OUTSET = 1;
-
-/**
- * R14 says a blurred layer reaches about one radius beyond its offset, and
- * `test/bleed.test.js` budgets 1.1 for safety. This chain needs a little more than that: the
+ * R14 says a blurred layer reaches about one radius beyond its offset, and `h.REACH`
+ * budgets 1.1 for safety. This chain needs a little more than that: the
  * blur does not start at the glyph, it starts at the stroke's antialiased outer edge, and
  * three passes compound. 1.3 clears the measured overshoot with about 0.7u to spare, which
  * is the margin the same number gives `glow-foil` in proportion.
@@ -62,12 +49,15 @@ export default /** @satisfies {import("../src/types.js").Effect<{ w: number; r: 
    * the glyph contour. Both terms were budgeted too tightly in the first version of this
    * effect, and `e2e/bleed.spec.js` measured the result: 0.83u l · 0.69u r · 0.66u b ·
    * 0.50u t at `r=25, t=100, w=80`, holding its value in u from a 1270 px block to a
-   * 3360 px one, i.e. real ink rather than rounding. `STROKE_OUTSET` and `REACH` are what
-   * that measurement costs.
+   * 3360 px one, i.e. real ink rather than rounding. `REACH` and `h.OUTSET` (the full stroke
+   * width, at most 0.8u here: a mitered join on an acute serif corner runs far past the
+   * geometric half) are what that measurement costs.
    * @param {{w: number, r: number}} p
+   * @param {import("../src/types.js").LineGeometry} _lines
+   * @param {typeof import('../src/helpers.js').helpers} h
    */
-  bleed: (p) => {
-    const o = REACH * SUM_R * (p.r / 10) + (STROKE_OUTSET * p.w) / 100;
+  bleed: (p, _lines, h) => {
+    const o = REACH * SUM_R * (p.r / 10) + (h.OUTSET * p.w) / 100;
     return { t: o, r: o, b: o, l: o };
   },
 
