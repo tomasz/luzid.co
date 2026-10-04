@@ -15,20 +15,41 @@ function fixture(tables) {
   return build({ flavor: 0x00010000, tables: tables.map(([tag, data]) => ({ tag, data })) });
 }
 
-test("decode(encode(x)) returns byte-identical tables", async () => {
+/**
+ * One shipped file of each flavour. Encoding runs brotli at quality 11, which costs
+ * ~30 ms a file, so the round trip covers the two code paths instead of all 174 files;
+ * the per-file invariants below only decode.
+ */
+async function samples() {
+  const first = new Map();
   for (const name of await shipped()) {
+    const flavor = (await read(name)).readUInt32BE(4);
+    if (!first.has(flavor)) first.set(flavor, name);
+  }
+  assert.equal(first.size, 2, "expected both TrueType and CFF fonts among the shipped files");
+  return [...first.values()];
+}
+
+test("decode(encode(x)) returns byte-identical tables, for TrueType and CFF", async () => {
+  for (const name of await samples()) {
     const sfnt = decode(await read(name));
-    const again = decode(encode(sfnt));
-    assert.ok(again.equals(sfnt), `${name}: the whole file changed across a round trip`);
+    const woff2 = encode(sfnt);
+    assert.ok(decode(woff2).equals(sfnt), `${name}: the whole file changed across a round trip`);
 
     const before = parse(sfnt).tables;
-    const after = decodeTables(encode(sfnt)).tables;
+    const after = decodeTables(woff2).tables;
     assert.equal(after.length, before.length, `${name}: table count changed`);
     for (const table of before) {
       const match = after.find((t) => t.tag === table.tag);
       assert.ok(match, `${name}: lost the ${table.tag} table`);
       assert.ok(match.data.equals(table.data), `${name}: ${table.tag} changed across a round trip`);
     }
+
+    // Quality 11 is the setting. A weaker level is several percent worse on this material,
+    // so comparing against one is a cheap way to catch the parameters going missing.
+    const body = Buffer.concat(before.map((t) => t.data));
+    const weaker = brotliCompressSync(body, { params: { [constants.BROTLI_PARAM_QUALITY]: 5 } });
+    assert.ok(woff2.readUInt32BE(20) < weaker.length, `${name}: quality 5 matched encode()`);
   }
 });
 
@@ -126,14 +147,8 @@ test("the payload is one brotli stream, and it is smaller than the tables", asyn
   for (const name of await shipped()) {
     const woff2 = await read(name);
     const compressed = woff2.readUInt32BE(20);
-    const sfnt = decode(woff2);
-    assert.ok(compressed < sfnt.length, `${name}: compression made the font bigger`);
+    assert.ok(compressed < decode(woff2).length, `${name}: compression made the font bigger`);
     assert.ok(48 + compressed <= woff2.length, `${name}: the compressed block runs past the file`);
-    // Quality 11 is the setting. A weaker level is several percent worse on this material,
-    // so comparing against one is a cheap way to catch the parameters going missing.
-    const body = Buffer.concat(parse(sfnt).tables.map((t) => t.data));
-    const weaker = brotliCompressSync(body, { params: { [constants.BROTLI_PARAM_QUALITY]: 5 } });
-    assert.ok(compressed < weaker.length, `${name}: quality 5 matched the shipped settings`);
   }
 });
 

@@ -6,8 +6,10 @@
  * the real `effects/` files: changing the effect contract *should* move the goldens.
  *
  * Vitest runs each test file in its own worker process, so the generated module gets a
- * per-process name; two files building at once can never read a half-written one.
+ * per-process name; two files building at once can never read a half-written one. It is
+ * deleted once imported, so runs do not pile one file per process up in `build/`.
  */
+import { unlink } from "node:fs/promises";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { build } from "../scripts/build.mjs";
@@ -21,6 +23,7 @@ export async function fixtureCatalog() {
   const out = resolve(here, `../build/fixture-catalog.${process.pid}.js`);
   await build({ root: resolve(here, "fixtures/catalog"), out, quiet: true });
   cached = (await import(pathToFileURL(out).href)).default;
+  await unlink(out);
   return cached;
 }
 

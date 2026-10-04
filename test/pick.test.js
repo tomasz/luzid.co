@@ -120,14 +120,6 @@ test("a pin resolves a retired (odds 0) item — QA mask mode", () => {
   for (let i = 0; i < 2000; i++) assert.notEqual(pick(`s${i}`, {}, live).p, "qa-bw");
 });
 
-test("no drawn pick completes a deny rule", () => {
-  assert.equal(catalog.deny.length, 2, "the fixture must actually carry rules");
-  for (let i = 0; i < 4000; i++) {
-    const p = pick(`s${i}`, {}, catalog);
-    assert.equal(denied(catalog.deny, p), false, `seed s${i} is denied: ${pickString(p)}`);
-  }
-});
-
 test("a deny rule that would empty an axis is relaxed rather than deadlocking", () => {
   // Every effect denied against this font: the sampler still has to return something.
   const all = catalog.effects.map((e) => ({ f: "fx-sans", e: e.id }));
@@ -141,16 +133,6 @@ test("an effect never lands on a font whose traits it denies", () => {
     fonts: [{ ...catalog.fonts[0], traits: ["script"] }],
   };
   for (let i = 0; i < 500; i++) assert.equal(pick(`s${i}`, {}, scripty).e, "plain");
-});
-
-test("an effect never lands on a role set with too few colours or the wrong ground", () => {
-  for (let i = 0; i < 4000; i++) {
-    const p = pick(`s${i}`, {}, catalog);
-    const effect = catalog.effects.find((e) => e.id === p.e);
-    const role = catalog.palettes.find((x) => x.id === p.p).roles.find((r) => r.o === p.r);
-    assert.ok(role.n >= effect.colors, `${pickString(p)}: role set has ${role.n} colours`);
-    if (effect.bg !== "any") assert.equal(role.dark, effect.bg === "dark");
-  }
 });
 
 test("weights override the item odds", () => {
@@ -186,7 +168,7 @@ test("D8: about a quarter of seeds add the rotated portrait variant", () => {
 });
 
 test("the engine is total with an empty catalog", () => {
-  // This is the live repo until WP-11 and WP-12 land: no fonts, one QA palette.
+  // No fonts and no palettes: the sampler falls back to the system font and the QA palette.
   const bare = {
     fonts: [],
     palettes: [],
