@@ -14,21 +14,15 @@
  * as depth rather than as three equal words.
  */
 
-/** Outward allowance per unit of stroke width; see `outline-hollow.js` for the derivation. */
-const MITER = 0.8;
-
 export default /** @satisfies {import("../src/types.js").Effect<{ sw: number; o: number; q: number }>} */ ({
   id: "outline-echo",
-  family: "outline",
   shape: "B",
   colors: 3,
   bg: "any",
-  odds: 4,
   fonts: {
     deny: ["hairline", "script", "brush", "connected", "inline", "shaded"],
     prefer: ["fat", "sans"],
   },
-  palettes: { prefer: [] },
   // Recipe 14: a .012-.03em stroke stepped .03-.08em per copy, converted at 1em = 100/W1 u
   // (24-33u for these faces). The top of that range was tried first and the screenshots
   // showed why it is the top: past ~2u the two trails tangle with the other line's and the
@@ -42,7 +36,7 @@ export default /** @satisfies {import("../src/types.js").Effect<{ sw: number; o:
    */
   bleed: (p, lines, h) => {
     const [sx, sy] = /** @type {import("../src/types.js").Pair} */ (h.QUAD[p.q]);
-    const s = MITER * p.sw;
+    const s = h.OUTSET * p.sw;
     const far = 2 * p.o;
     return {
       t: s + (sy < 0 ? far : 0),
@@ -75,5 +69,4 @@ export default /** @satisfies {import("../src/types.js").Effect<{ sw: number; o:
 
   /** The house lift. The stack must not move: every copy's reach is already in the bleed. */
   hover: "filter:brightness(1.06)",
-  motion: null,
 });

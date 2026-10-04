@@ -11,26 +11,16 @@
  * Legibility rides on the stroke, not on the face: `--fg` on `--bg` is the only pair the
  * engine guarantees at 3:1, so the keyline is `--fg` and the accent is spent on the shadow.
  *
- * The stroke is centred on the contour, so half of it lies outside the glyph (that half is
- * the bleed) and half is eaten back by the fill. Widths stop at 1.6u for that reason: at
- * this size a wider ink keyline starts to close the counters of `a`, `o` and `d` and to
- * pinch the bar of `ł`, which is also why `hairline` and the script-like traits are denied
- * outright.
+ * The stroke is centred on the contour, so half of it lies outside the glyph and half is
+ * eaten back by the fill. The bleed budgets `h.OUTSET` (the full width), not the half:
+ * Chromium and WebKit miter the joins, `stroke-linejoin` is not on the §5.6 allowlist, and
+ * a sharp apex spikes well past `sw/2`. Widths stop at 1.6u because at this size a wider
+ * ink keyline starts to close the counters of `a`, `o` and `d` and to pinch the bar of
+ * `ł`, which is also why `hairline` and the script-like traits are denied outright.
  */
-
-/**
- * Outward allowance per unit of stroke width. Geometrically a centred stroke reaches
- * `sw/2`, but Chromium miters the joins of `-webkit-text-stroke` and `stroke-linejoin` is
- * not on the §5.6 property allowlist, so a sharp apex spikes past that. 0.8·sw covers a
- * miter up to ~1.6× the geometric half; anything sharper than that is a font we deny.
- * It is below `h.OUTSET` (the full width); moving to that grows every outline bleed, so it
- * is its own change, not part of sharing the helpers.
- */
-const MITER = 0.8;
 
 export default /** @satisfies {import("../src/types.js").Effect<{ sw: number; d: number; q: number }>} */ ({
   id: "outline-hollow",
-  family: "outline",
   shape: "A",
   colors: 3,
   bg: "any",
@@ -39,7 +29,6 @@ export default /** @satisfies {import("../src/types.js").Effect<{ sw: number; d:
     deny: ["hairline", "script", "brush", "connected", "inline", "shaded"],
     prefer: ["fat", "sans"],
   },
-  palettes: { prefer: [] },
   // Recipe 16 asks for a .02-.06em stroke and copies .04-.12em apart. 1em is 100/W1 u,
   // and W1 (the ink width of "Tomasz") runs ~3-4.25em on the display faces this keeps, so
   // 1em is 24-33u and those ranges are below. Shorter than a shadow, longer than a seam.
@@ -52,7 +41,7 @@ export default /** @satisfies {import("../src/types.js").Effect<{ sw: number; d:
    */
   bleed: (p, lines, h) => {
     const [sx, sy] = /** @type {import("../src/types.js").Pair} */ (h.QUAD[p.q]);
-    const s = MITER * p.sw;
+    const s = h.OUTSET * p.sw;
     return {
       t: s + (sy < 0 ? p.d : 0),
       r: s + (sx > 0 ? p.d : 0),
@@ -75,5 +64,4 @@ export default /** @satisfies {import("../src/types.js").Effect<{ sw: number; d:
 
   /** The hole fills with ink: face and keyline become one solid letter over the shadow. */
   hover: "color:var(--fg)",
-  motion: null,
 });

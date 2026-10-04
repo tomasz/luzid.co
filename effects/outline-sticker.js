@@ -20,23 +20,11 @@
  * fits every palette in the catalog and the face keeps the guaranteed 3:1 contrast.
  */
 
-/** Outward allowance per unit of stroke width; see `outline-hollow.js` for the derivation. */
-const MITER = 0.8;
-
 /** Hover grows the drop by this much: the sticker lifts further off the page. */
 const LIFT = 1.5;
 
-/**
- * How far the blurred drop is budgeted past its offset, as a multiple of its radius. R14
- * (contracts) measured a blurred shadow painting ~1.0× its radius, and `h.REACH` (1.1) is
- * that with its safety factor. This predates the measurement and over-reserves; narrowing
- * it shrinks the bleed and so changes the fit, which is its own change.
- */
-const TAIL = 1.5;
-
 export default /** @satisfies {import("../src/types.js").Effect<{ sw: number; dy: number }>} */ ({
   id: "outline-sticker",
-  family: "outline",
   shape: "A",
   colors: 2,
   bg: "any",
@@ -45,20 +33,24 @@ export default /** @satisfies {import("../src/types.js").Effect<{ sw: number; dy
     deny: ["hairline", "script", "brush", "connected", "inline", "shaded", "stencil"],
     prefer: ["fat", "rounded", "soft"],
   },
-  palettes: { prefer: [] },
   // Recipe 20: a .08-.2em paper border over a .02-.06em drop, at 1em = 100/W1 u (24-33u).
   params: { sw: [3, 5, 0.5], dy: [0.6, 1.4, 0.4] },
 
   /**
-   * `sw` is centred, so the paper reaches `MITER·sw` outward on every side. The drop is
-   * measured at its hover size, per §5.6: bleed bounds all painted ink, hover included.
+   * The paper reaches `h.OUTSET·sw` on every side, and the drop shadows the papered
+   * silhouette, so its reach starts from there. The drop is measured at its hover size, per
+   * §5.6: bleed bounds all painted ink, hover included. Its blur reaches `h.REACH` times
+   * its radius (R14), a little past its own offset, so a sliver of it shows above too.
    *
    * @param {{sw: number, dy: number}} p
+   * @param {import("../src/types.js").LineGeometry} lines
+   * @param {typeof import('../src/helpers.js').helpers} h
    */
-  bleed: (p) => {
-    const s = MITER * p.sw;
-    const tail = TAIL * LIFT * p.dy;
-    return { t: s + tail, r: s + tail, b: s + LIFT * p.dy + tail, l: s + tail };
+  bleed: (p, lines, h) => {
+    const s = h.OUTSET * p.sw;
+    const drop = LIFT * p.dy;
+    const tail = h.REACH * drop;
+    return { t: s + tail - drop, r: s + tail, b: s + drop + tail, l: s + tail };
   },
 
   /**
@@ -82,5 +74,4 @@ export default /** @satisfies {import("../src/types.js").Effect<{ sw: number; dy
     const shade = h.mix("var(--fg)", "var(--bg)", 45);
     return `filter:drop-shadow(0 ${h.u(LIFT * p.dy)} ${h.u(LIFT * p.dy)} ${shade})`;
   },
-  motion: null,
 });

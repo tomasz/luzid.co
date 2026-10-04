@@ -164,20 +164,7 @@ test("every effect either bounds its own ink or says it cannot be scanned static
       }
     }
   }
-  // Scanning hover as a rule (it used to be dropped unread) found this one: its hover drop
-  // plus a full-width stroke outruns `bleed()` by up to 0.64u. Plan rows E5–E8 budget the
-  // reach constants and must delete the entry; until then a stale entry fails here.
-  const known = ["outline-sticker"];
-  for (const id of known) {
-    assert.ok(
-      problems.some((x) => x.startsWith(`${id} `)),
-      `${id} is clean; drop it from known`,
-    );
-  }
-  assert.deepEqual(
-    problems.filter((x) => !known.some((id) => x.startsWith(`${id} `))),
-    [],
-  );
+  assert.deepEqual(problems, []);
 });
 
 test("the scan refuses to score what it cannot parse", () => {
