@@ -1,9 +1,9 @@
 import { relative } from "node:path";
 import { cloudflare } from "@cloudflare/vite-plugin";
 import { defineConfig } from "vite-plus";
-import { build } from "./scripts/build.mjs";
+import { build } from "./scripts/catalog.js";
 
-// The directories scripts/build.mjs globs into build/catalog.js. Never add build/ itself:
+// The directories scripts/catalog.js globs into build/catalog.js. Never add build/ itself:
 // rebuilding on a change to its own output would loop.
 const SOURCES = ["effects/", "presets/", "fonts/meta/", "data/"];
 

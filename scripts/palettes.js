@@ -1,8 +1,8 @@
 /**
- * Regenerates the committed palette data: runs every adapter in `scripts/palette-sources/`,
- * assigns roles with `roles.mjs`, and writes `data/palettes/<source>.json`.
+ * Regenerates the committed palette data: runs every adapter in `scripts/palettes/sources/`,
+ * assigns roles with `palettes/roles.js`, and writes `data/palettes/<source>.json`.
  *
- *   node scripts/palettes.mjs [--source <id>] [--check]
+ *   node scripts/palettes.js [--source <id>] [--check]
  *
  * `--check` writes nothing and fails if a file on disk differs from what this run produces,
  * which is what `test/palettes.test.js` and CI rely on. The roles are committed inside each
@@ -30,10 +30,10 @@
  */
 import { glob, mkdir, readFile, writeFile } from "node:fs/promises";
 import { parseArgs } from "node:util";
-import { grounds, roleSets } from "./roles.mjs";
+import { grounds, roleSets } from "./palettes/roles.js";
 
 const ROOT = new URL("../", import.meta.url);
-const SOURCES = new URL("palette-sources/", import.meta.url);
+const SOURCES = new URL("palettes/sources/", import.meta.url);
 const TIERS = ["historical", "editorial", "era-approx"];
 const HEX = /^#[0-9a-f]{6}$/;
 
@@ -45,7 +45,7 @@ export async function main(argv) {
     options: { source: { type: "string" }, check: { type: "boolean", default: false } },
   });
 
-  const files = (await Array.fromAsync(glob("*.mjs", { cwd: SOURCES }))).sort();
+  const files = (await Array.fromAsync(glob("*.js", { cwd: SOURCES }))).sort();
   const adapters = [];
   for (const file of files) {
     const adapter = (await import(new URL(file, SOURCES).href)).default;
@@ -86,7 +86,7 @@ async function generate({ id, rows: source }) {
     checkRow(row, id);
     const roles = roleSets(row.hex);
     if (roles.length === 0)
-      throw new Error(`${row.id}: no role set — roles.mjs must always emit one`);
+      throw new Error(`${row.id}: no role set — roles.js must always emit one`);
     const hex = roles.some(onGround) ? [...row.hex, ...grounds(row.hex)] : row.hex;
     return {
       id: row.id,
@@ -121,7 +121,7 @@ const onGround = (role) => role.o[0] === "w" || role.o[0] === "k";
 
 function checkAdapter(adapter, file) {
   const fail = (what) => {
-    throw new Error(`palette-sources/${file}: ${what}`);
+    throw new Error(`palettes/sources/${file}: ${what}`);
   };
   if (!adapter) fail("needs a default export {id, tier, rows}");
   // The id names the output file, so keep it to a plain path segment.

@@ -8,9 +8,9 @@
   "scripts": {
     "check": "vp check && vp test",
     "e2e": "playwright test",
-    "fonts": "node scripts/fonts.mjs",
-    "palettes": "node scripts/palettes.mjs",
-    "sheet": "node scripts/sheet.mjs"
+    "fonts": "node scripts/fonts.js",
+    "palettes": "node scripts/palettes.js",
+    "sheet": "node scripts/sheet.js"
   },
   "devDependencies": {
     "@cloudflare/vite-plugin": "1.62.3",

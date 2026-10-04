@@ -15,7 +15,7 @@
  */
 import { readFile } from "node:fs/promises";
 
-const DATA = new URL("../../data/sources/wada1/", import.meta.url);
+const DATA = new URL("../../../data/sources/wada1/", import.meta.url);
 
 const id = "wada1";
 const tier = "historical";

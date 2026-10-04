@@ -25,8 +25,8 @@ import {
   serialize,
   withMetrics,
   withNames,
-} from "../sfnt.mjs";
-import { decode, encode } from "../woff2.mjs";
+} from "./sfnt.js";
+import { decode, encode } from "./woff2.js";
 import {
   BASE_FEATURES,
   BUDGET_BYTES,

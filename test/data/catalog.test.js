@@ -10,7 +10,7 @@ import assert from "node:assert/strict";
 import { readdir } from "node:fs/promises";
 import { resolve } from "node:path";
 import { expect, test } from "vite-plus/test";
-import { catalogModule, checkCatalog, loadCatalog, readCatalog } from "../../scripts/build.mjs";
+import { catalogModule, checkCatalog, loadCatalog, readCatalog } from "../../scripts/catalog.js";
 
 const fixtures = resolve(import.meta.dirname, "../fixtures");
 const good = await readCatalog(resolve(fixtures, "catalog"));

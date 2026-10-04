@@ -42,7 +42,7 @@ inverting that list. IDs 1–348 are contiguous: 1–120 are two-colour, 121–2
 sRGB ICC transform, which is why it is vivid enough for a display page.
 
 `errata.json` is our own reviewed patch (four CMYK fixes and the name typos) applied on top at
-build time by `scripts/palette-sources/wada1.mjs`; the upstream file is never edited. Read that
+build time by `scripts/palettes/sources/wada1.js`; the upstream file is never edited. Read that
 file for why the four corrected colours keep their old hex.
 
 ## Do not use these other datasets

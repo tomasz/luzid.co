@@ -1,5 +1,5 @@
 /**
- * Post-deploy smoke test.  node scripts/smoke.mjs https://luzid.co
+ * Post-deploy smoke test.  node scripts/smoke.js https://luzid.co
  *
  * Worker-level failures justify a rollback. Zone-level ones (an injected beacon, Speed
  * Brain) fail the job but must NOT roll the Worker back — the fix is a dashboard toggle.
@@ -94,7 +94,7 @@ function fetchRaw(target, encoding) {
 }
 
 async function main() {
-  // `pnpm run <script> -- <url>` forwards the separator itself, so drop it (as sheet.mjs does).
+  // `pnpm run <script> -- <url>` forwards the separator itself, so drop it (as sheet.js does).
   const { positionals } = parseArgs({
     args: process.argv.slice(2).filter((s) => s !== "--"),
     allowPositionals: true,

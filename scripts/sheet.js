@@ -10,7 +10,7 @@
  * the tile PNGs back into a blank page as `data:` URIs and screenshotting that. The
  * browser is already here and it is better at laying out a grid than we would be.
  *
- *   node scripts/sheet.mjs [--changed] [--kind auto|fonts|palettes|effects|slash|random]
+ *   node scripts/sheet.js [--changed] [--kind auto|fonts|palettes|effects|slash|random]
  *                          [--limit N] [--url http://…] [--out sheets] [--port N]
  *
  * `--kind auto`, the default, sheets every kind; `--limit` caps the sheets per kind.
@@ -29,7 +29,7 @@ import { chromium } from "@playwright/test";
 
 import { changedPaths, seedAt } from "../e2e/fit-lib.js";
 import { parsePickString } from "../src/look.js";
-import { loadCatalog } from "./build.mjs";
+import { loadCatalog } from "./catalog.js";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 

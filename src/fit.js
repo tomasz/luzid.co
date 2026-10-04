@@ -22,7 +22,7 @@ export function fit(scene) {
   const { w1, w2 } = variant;
   const [F1, F2] = layout.divisors(w1, w2);
 
-  // ASC/DESC are the rounded values `scripts/sfnt.mjs` actually wrote, in font units. The
+  // ASC/DESC are the rounded values `scripts/fonts/sfnt.js` actually wrote, in font units. The
   // baseline sits (L + ASC - DESC)/2 below the line top; setting that equal to top_i gives L_i.
   const ASC = file.asc / font.upm;
   const DESC = file.desc / font.upm;

@@ -10,8 +10,8 @@ import {
   table,
   withMetrics,
   withNames,
-} from "../scripts/sfnt.mjs";
-import { decode, decodeTables, encode } from "../scripts/woff2.mjs";
+} from "../scripts/fonts/sfnt.js";
+import { decode, decodeTables, encode } from "../scripts/fonts/woff2.js";
 
 const url = (p) => new URL(`../${p}`, import.meta.url);
 const shipped = async () =>

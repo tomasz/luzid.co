@@ -128,10 +128,16 @@ writes it whenever the config loads — before `vp dev`, `vp build`, `vp preview
 
 `src/` holds the engine, `effects/` one file per effect, `fonts/` and `data/` the generated
 and curated data, `scripts/` the generators and tools, `test/` the unit suite, `e2e/` the
-browser suite, `docs/` the contracts. The refactor plan's final layout (its §6: `src/`
-split into `look`, `layout`, `pick`, `fit`, `render` and `helpers`; `scripts/fonts/` and
-`scripts/palettes/` modules, `.mjs` renamed `.js`) is a **target** until its row Z1 lands:
-a new module takes its final name from the start, and Z1 moves the rest in one PR.
+browser suite, `docs/` the contracts. Every script is a plain `.js` ES module
+(`"type": "module"`). Each CLI is one file at the top of `scripts/` and its modules sit in
+the directory of the same name:
+
+- `scripts/catalog.js` builds `build/catalog.js`; `scripts/catalog/check.js` holds its asserts.
+- `scripts/fonts.js` is the font CLI; `scripts/fonts/` holds the pipeline, including
+  `sfnt.js` and `woff2.js`.
+- `scripts/palettes.js` regenerates `data/palettes/`; `scripts/palettes/roles.js` assigns
+  roles and `scripts/palettes/sources/<source>.js` holds one adapter per source.
+- `scripts/sheet.js` draws contact sheets; `scripts/smoke.js` is the post-deploy check.
 
 ## Working as one of several parallel agents
 
