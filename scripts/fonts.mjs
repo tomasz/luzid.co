@@ -4,12 +4,16 @@
  * Every rule of PLAN §5.5 is enforced here and every one of them is a hard failure.
  *
  *   node scripts/fonts.mjs                    every batch in fonts/sources
- *   node scripts/fonts.mjs --batch seed       one batch
- *   node scripts/fonts.mjs --id pacifico      one font
- *   node scripts/fonts.mjs --check            rebuild into memory and diff, write nothing
+ *   node scripts/fonts.mjs --batch seed,a     some batches (repeatable or comma-separated)
+ *   node scripts/fonts.mjs --id pacifico      some fonts (repeatable or comma-separated)
+ *   node scripts/fonts.mjs --check            rebuild into memory and byte-compare with disk;
+ *                                             list what is changed, missing or stale, exit 1
+ *   node scripts/fonts.mjs --traits           measure the geometric traits, build nothing
+ *   node scripts/fonts.mjs --root <dir>       read and write <dir>/fonts instead of ./fonts
  *
- * Nothing is ever written outside `fonts/`. Upstream originals are cached in the OS temp
- * directory, keyed by their sha256, so a re-run is offline and cannot be poisoned.
+ * Nothing is ever written outside `fonts/`, and `--check` and `--traits` write nothing there
+ * either. Upstream originals are cached in the OS temp directory, keyed by their sha256, so a
+ * re-run is offline and cannot be poisoned.
  *
  * The three deliberate choices worth knowing before changing anything here:
  *
@@ -24,10 +28,10 @@
  *    `gvar` costs several times the budget, and pinning also lets the renderer avoid
  *    `font-variation-settings` entirely.
  */
-import { createHash } from "node:crypto";
+import { hash } from "node:crypto";
 import { mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
+import { join, relative, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import * as hb from "harfbuzzjs";
 import subsetFont from "subset-font";
@@ -178,15 +182,27 @@ export const changeNotice = (family, version, url) =>
 /** PLAN §5.5 rule 7. The response budget (§9.1) is the final gate; this is the per-file one. */
 export function checkBudget(id, bytes) {
   if (bytes > BUDGET_BYTES)
-    throw new Error(`${id}: ${bytes} B is over the ${BUDGET_BYTES} B budget`);
+    throw new BudgetError(id, `${bytes} B is over the ${BUDGET_BYTES} B budget`);
   return bytes;
 }
 
 // ---------------------------------------------------------------- small helpers
 
-const sha256 = (buf) => createHash("sha256").update(buf).digest("hex");
+/** A hard failure of one row. `reason` is the message without the id in front of it. */
+export class RowError extends Error {
+  constructor(id, reason) {
+    super(`${id}: ${reason}`);
+    this.id = id;
+    this.reason = reason;
+  }
+}
+
+/** Rule 7's failure, the one the ladder in `shedToBudget` may recover from. */
+export class BudgetError extends RowError {}
+
+const sha256 = (data) => hash("sha256", data);
 const fail = (id, message) => {
-  throw new Error(`${id}: ${message}`);
+  throw new RowError(id, message);
 };
 
 /**
@@ -632,8 +648,10 @@ function scanline(rings, at, axis = 1) {
   return runs;
 }
 
+const median = (values) => [...values].sort((a, b) => a - b)[Math.floor(values.length / 2)];
+
 /**
- * Stem width, from the capital I — the one letter that is nothing but a stem.
+ * Stem width in em, from the capital I — the one letter that is nothing but a stem.
  *
  * Measured across the outline, not around it: the ink bounding box is not the stem. In an
  * inline, outline or looped-script face the box spans the whole letter while the strokes
@@ -645,9 +663,6 @@ function scanline(rings, at, axis = 1) {
  * with holes punched through it, and pooling every run through the holes makes it look like
  * a hairline. The widest run on a scanline is the stroke itself in both cases.
  */
-const median = (values) => [...values].sort((a, b) => a - b)[Math.floor(values.length / 2)];
-
-/** Stem width in em, from the capital I — the one letter that is nothing but a stem. */
 export function measureStem({ font, upem }) {
   const gid = font.nominalGlyph("I".codePointAt(0));
   const extents = font.glyphExtents(gid);
@@ -776,15 +791,6 @@ export function measureTraits({ face, upem }, axes = {}) {
   }
 }
 
-/**
- * Merge a source row's traits with the measured ones.
- *
- * A row may declare a measured trait, because a batch file should read as a description of
- * the face and not only as build input. The pipeline measures it anyway and the two have to
- * agree: a curator who believes a font is caps-only when it is not has made an error worth
- * surfacing, so a disagreement is a hard failure rather than a silent override in either
- * direction. Traits the row leaves out are filled in from the measurement.
- */
 /** Every measured trait the row declares that the outlines do not bear out. */
 export function traitDisagreements(declared, measured) {
   return MEASURED_TRAITS.filter((trait) => {
@@ -795,6 +801,15 @@ export function traitDisagreements(declared, measured) {
   });
 }
 
+/**
+ * Merge a source row's traits with the measured ones.
+ *
+ * A row may declare a measured trait, because a batch file should read as a description of
+ * the face and not only as build input. The pipeline measures it anyway and the two have to
+ * agree: a curator who believes a font is caps-only when it is not has made an error worth
+ * surfacing, so a disagreement is a hard failure rather than a silent override in either
+ * direction. Traits the row leaves out are filled in from the measurement.
+ */
 export function reconcileTraits(id, declared, measured) {
   const wrong = traitDisagreements(declared, measured);
   if (wrong.length > 0) {
@@ -1046,22 +1061,24 @@ export const upstreamPaths = (row) => ({
 const cacheDir = join(tmpdir(), "luzid-fonts");
 
 async function fetchBinary(url) {
-  const response = await fetch(url, { redirect: "follow" });
+  // A stalled host would otherwise hang the whole batch with no error at all.
+  const response = await fetch(url, { redirect: "follow", signal: AbortSignal.timeout(30_000) });
   if (!response.ok) throw new Error(`GET ${url} → ${response.status}`);
   return Buffer.from(await response.arrayBuffer());
 }
 
 /**
  * Upstream original, from `fonts/upstream` when committed, else from a sha-keyed cache.
- * `readOnly` keeps the auditor from committing another batch's original into this branch.
+ * The temp cache is always written. The repository is written only when `writeRepo` says so:
+ * `--check` and `--traits` must leave the tree exactly as they found it.
  */
-async function source(row, dirs, readOnly = false) {
+async function source(row, dirs, { writeRepo }) {
   if (!pinnedToCommit(row.url)) {
     const path = join(dirs.upstream, upstreamPaths(row).original);
     const buffer = await readFile(path).catch(() => null);
     if (buffer) return buffer;
     const fetched = await fetchBinary(row.url);
-    if (readOnly) return fetched;
+    if (!writeRepo) return fetched;
     await mkdir(dirs.upstream, { recursive: true });
     await writeFile(path, fetched);
     return fetched;
@@ -1080,7 +1097,7 @@ async function licenseText(row, dirs) {
   await mkdir(cacheDir, { recursive: true });
   const parts = [];
   for (const url of [row.licenseUrl]) {
-    const key = join(cacheDir, `${createHash("sha256").update(url).digest("hex")}.txt`);
+    const key = join(cacheDir, `${sha256(url)}.txt`);
     let text = await readFile(key, "utf8").catch(() => null);
     if (text === null) {
       text = (await fetchBinary(url)).toString("utf8");
@@ -1181,8 +1198,8 @@ export async function shedToBudget({ id, cases, featuresByCase, stops, log = () 
     try {
       return await attempt(state);
     } catch (error) {
-      if (!/over the .* budget/.test(error.message)) throw error;
-      const over = error.message.replace(`${id}: `, "");
+      if (!(error instanceof BudgetError)) throw error;
+      const over = error.reason;
       if (cases.some((c) => state.featuresByCase[c].length > 0)) {
         for (const c of cases) state.featuresByCase[c] = state.featuresByCase[c].slice(0, -1);
         log(`${id}: ${over}; dropped the last effective feature`);
@@ -1193,7 +1210,7 @@ export async function shedToBudget({ id, cases, featuresByCase, stops, log = () 
         log(`${id}: ${over}; dropped a stop`);
         continue;
       }
-      throw new Error(`${id}: ${over} with nothing left to trim — drop the font`);
+      fail(id, `${over} with nothing left to trim — drop the font`);
     }
   }
 }
@@ -1233,9 +1250,9 @@ function verifyFile(id, woff2, metrics, forbidden = []) {
   }
 }
 
-async function processRow(row, dirs, log) {
+async function processRow(row, dirs, log, { writeRepo }) {
   const id = row.id;
-  const original = await source(row, dirs);
+  const original = await source(row, dirs, { writeRepo });
   const digest = sha256(original);
   if (row.sha256 && row.sha256 !== digest)
     fail(id, `sha256 mismatch: row says ${row.sha256}, file is ${digest}`);
@@ -1436,7 +1453,7 @@ async function processRow(row, dirs, log) {
             case: v.case,
             css: {
               weight: file.stop.axes.wght ?? file.weight ?? 400,
-              style: row.italic ? "italic" : "normal",
+              style: "normal",
               feat: v.feats.length ? v.feats.map((t) => `"${t}" 1`).join(",") : "normal",
             },
             w1: word(words[0]),
@@ -1468,7 +1485,7 @@ async function auditTraits(rows, dirs, log) {
   for (const { row, batch } of rows) {
     let opened = null;
     try {
-      const original = await source(row, dirs, true);
+      const original = await source(row, dirs, { writeRepo: false });
       const digest = sha256(original);
       if (row.sha256 && row.sha256 !== digest)
         throw new Error(`sha256 mismatch, file is ${digest}`);
@@ -1479,14 +1496,14 @@ async function auditTraits(rows, dirs, log) {
       try {
         reconcileTraits(row.id, row.traits, measured);
       } catch (error) {
-        disagreements.push({ batch, id: row.id, why: error.message.replace(`${row.id}: `, "") });
+        disagreements.push({ batch, id: row.id, why: error.reason ?? error.message });
       }
       for (const trait of MEASURED_TRAITS) {
         if (!row.traits.includes(trait) && measured[trait])
           added.set(trait, (added.get(trait) ?? 0) + 1);
       }
     } catch (error) {
-      unreadable.push({ batch, id: row.id, why: error.message.replace(`${row.id}: `, "") });
+      unreadable.push({ batch, id: row.id, why: error.reason ?? error.message });
     } finally {
       opened?.close();
     }
@@ -1502,13 +1519,26 @@ async function auditTraits(rows, dirs, log) {
     log(`Rows that could not be read at all: ${unreadable.length}`);
     for (const u of unreadable) log(`  ${u.batch} ${u.id}: ${u.why}`);
   }
-  if (disagreements.length > 0 || unreadable.length > 0) process.exitCode = 1;
+  return disagreements.length > 0 || unreadable.length > 0 ? 1 : 0;
 }
 
 // ---------------------------------------------------------------- entry point
 
-async function main() {
+/**
+ * The files one built row owns: its woff2 files, its meta and its licence, exactly as they
+ * are written. `--check` compares this list with the disk, so the two modes cannot disagree.
+ */
+const outputsOf = (dirs, row, out) => [
+  ...out.files.map((file) => ({ path: join(dirs.files, file.name), data: file.data })),
+  { path: join(dirs.meta, `${row.id}.json`), data: `${JSON.stringify(out.meta, null, 1)}\n` },
+  { path: join(dirs.licenses, `${row.id}.txt`), data: `${out.license.trimEnd()}\n` },
+];
+
+/** Runs the pipeline; resolves to the exit code. Throws on a bad argument or source row. */
+export async function main(argv) {
   const { values } = parseArgs({
+    // `pnpm run fonts -- --check` forwards the separator itself, so drop it.
+    args: argv.slice(2).filter((a) => a !== "--"),
     options: {
       root: { type: "string", default: "." },
       batch: { type: "string", multiple: true },
@@ -1525,7 +1555,9 @@ async function main() {
     licenses: join(root, "fonts/licenses"),
     upstream: join(root, "fonts/upstream"),
   };
-  const wanted = values.id?.length ? new Set(values.id.flatMap((v) => v.split(","))) : null;
+  const list = (option) => (option?.length ? new Set(option.flatMap((v) => v.split(","))) : null);
+  const wantedBatches = list(values.batch);
+  const wanted = list(values.id);
   const batches = (await readdir(dirs.sources)).filter((f) => f.endsWith(".json"));
   const seen = new Set();
   const rows = [];
@@ -1533,7 +1565,7 @@ async function main() {
     const name = batch.replace(/\.json$/, "");
     for (const row of JSON.parse(await readFile(join(dirs.sources, batch), "utf8"))) {
       validateRow(row, seen);
-      if (values.batch?.length && !values.batch.includes(name)) continue;
+      if (wantedBatches && !wantedBatches.has(name)) continue;
       if (wanted && !wanted.has(row.id)) continue;
       rows.push({ row, batch });
     }
@@ -1542,15 +1574,17 @@ async function main() {
 
   const log = (line) => console.log(line);
   if (values.traits) return await auditTraits(rows, dirs, log);
+  const writeRepo = !values.check;
   const filled = new Map();
   // A row that cannot be built is still a hard failure — nothing is written for it and the
   // run exits non-zero — but the rest of the batch is built anyway. A curator needs the
   // whole list of fonts to replace, not just the first one that stopped the run.
   const refused = [];
+  const drift = [];
   for (const { row } of rows) {
     let out;
     try {
-      out = await processRow(row, dirs, log);
+      out = await processRow(row, dirs, log, { writeRepo });
     } catch (error) {
       refused.push(error.message);
       log(`${error.message}`);
@@ -1561,30 +1595,49 @@ async function main() {
     log(
       `${row.id}: ${out.meta.files.length} file(s), ${out.meta.variants.length} variants — ${sizes}`,
     );
-    if (values.check) continue;
+    const outputs = outputsOf(dirs, row, out);
+    const stale = (await readdir(dirs.files).catch(() => []))
+      .filter((f) => f.startsWith(`${row.id}.`) && !out.files.some((w) => w.name === f))
+      .map((f) => join(dirs.files, f));
+    if (values.check) {
+      const where = (path) => relative(root, path);
+      for (const { path, data } of outputs) {
+        const disk = await readFile(path).catch(() => null);
+        if (disk === null) drift.push(`missing ${where(path)}`);
+        else if (!disk.equals(Buffer.from(data))) drift.push(`changed ${where(path)}`);
+      }
+      for (const path of stale) drift.push(`stale   ${where(path)}`);
+      // The build read the original without committing it; a clean tree has to carry it.
+      if (!pinnedToCommit(row.url)) {
+        const path = join(dirs.upstream, upstreamPaths(row).original);
+        if (!(await readFile(path).catch(() => null))) drift.push(`missing ${where(path)}`);
+      }
+      continue;
+    }
     for (const dir of [dirs.files, dirs.meta, dirs.licenses]) await mkdir(dir, { recursive: true });
-    const stale = (await readdir(dirs.files)).filter(
-      (f) => f.startsWith(`${row.id}.`) && !out.files.some((w) => w.name === f),
-    );
-    for (const f of stale) await rm(join(dirs.files, f));
-    for (const file of out.files) await writeFile(join(dirs.files, file.name), file.data);
-    await writeFile(join(dirs.meta, `${row.id}.json`), `${JSON.stringify(out.meta, null, 1)}\n`);
-    await writeFile(join(dirs.licenses, `${row.id}.txt`), `${out.license.trimEnd()}\n`);
+    for (const path of stale) await rm(path);
+    for (const { path, data } of outputs) await writeFile(path, data);
   }
   if (filled.size > 0) {
     log("\nFill these sha256 values into the source rows and commit them:");
     for (const [id, digest] of filled) log(`  ${id}  ${digest}`);
   }
+  if (drift.length > 0) {
+    log(`\n--check: ${drift.length} paths differ from a fresh build — run \`pnpm run fonts\`:`);
+    for (const line of drift) log(`  ${line}`);
+  }
   if (refused.length > 0) {
     log(`\n${refused.length} of ${rows.length} rows were refused:`);
     for (const why of refused) log(`  ${why}`);
-    process.exitCode = 1;
   }
+  return drift.length > 0 || refused.length > 0 ? 1 : 0;
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
-  await main().catch((error) => {
+if (import.meta.main) {
+  try {
+    process.exitCode = await main(process.argv);
+  } catch (error) {
     console.error(error.message);
     process.exitCode = 1;
-  });
+  }
 }
