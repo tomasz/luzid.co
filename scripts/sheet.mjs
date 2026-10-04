@@ -28,6 +28,7 @@ import { parseArgs } from "node:util";
 import { chromium } from "@playwright/test";
 
 import { changedPaths, seedAt } from "../e2e/fit-lib.js";
+import { parsePickString } from "../src/look.js";
 import { loadCatalog } from "./build.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -325,11 +326,14 @@ async function compose(browser, shots, rows, sheet) {
 
 /** The shortest string that still identifies the tile in the picture. */
 function label(row, sheet) {
-  const pick = row.pick;
-  if (sheet.crop) return /f:(\S+)/.exec(pick)?.[1] ?? row.seed;
-  if (sheet.name.startsWith("fonts")) return /f:(\S+)/.exec(pick)?.[1] ?? row.seed;
-  if (sheet.name.startsWith("palettes")) return /p:(\S+)/.exec(pick)?.[1] ?? row.seed;
-  if (sheet.name.startsWith("effects")) return /e:(\S+)/.exec(pick)?.[1] ?? row.seed;
+  const x = parsePickString(row.pick);
+  if (!x) return row.seed;
+  if (sheet.crop || sheet.name.startsWith("fonts")) return `${x.f}.${x.v}`;
+  if (sheet.name.startsWith("palettes")) return `${x.p}.${x.r}`;
+  if (sheet.name.startsWith("effects")) {
+    const kv = Object.entries(x.params).map(([k, n]) => `${k}=${n}`);
+    return kv.length ? `${x.e}(${kv.join(",")})` : x.e;
+  }
   return row.seed;
 }
 
