@@ -161,11 +161,10 @@ export function normalizeMetrics(tables, { asc, desc }) {
   return { asc, desc };
 }
 
-/** `head.unitsPerEm`: the grid every metric and ink measurement in the metadata is in. */
-export function unitsPerEm(tables) {
-  const head = tables.find((t) => t.tag === "head");
-  if (!head || head.data.length < 20) throw new Error("sfnt: cannot read head.unitsPerEm");
-  return head.data.readUInt16BE(18);
+/** `OS/2.usWeightClass`, the `css.weight` fallback; `undefined` for a font without OS/2. */
+export function readWeightClass(tables) {
+  const os2 = tables.find((t) => t.tag === "OS/2");
+  return os2 ? os2.data.readUInt16BE(4) : undefined;
 }
 
 /** Read back what `normalizeMetrics` wrote, for verification. */
