@@ -72,8 +72,9 @@ function effective(odds) {
  * that is present but broken fails the build instead of silently dropping every rule in it.
  *
  * @param {string} root
+ * @param {boolean} [fresh] bypass Node's module cache for effects (the dev watcher)
  */
-export async function readCatalog(root) {
+export async function readCatalog(root, fresh = false) {
   root = resolve(root);
   const read = async (pattern) =>
     Promise.all(
@@ -88,7 +89,9 @@ export async function readCatalog(root) {
   const effects = await Promise.all(
     (await find(root, "effects/*.js")).map(async (file) => ({
       file,
-      data: (await import(pathToFileURL(resolve(root, file)).href)).default,
+      data: (
+        await import(pathToFileURL(resolve(root, file)).href + (fresh ? `?t=${Date.now()}` : ""))
+      ).default,
     })),
   );
   const woff2 = new Map();
@@ -219,11 +222,11 @@ export async function loadCatalog(root = ".") {
  * Reads, checks and writes `out` plus its `.d.ts`. The `catalog` plugin in vite.config.js
  * calls this as `build()`.
  *
- * @param {{root?: string, out?: string, quiet?: boolean}} [opts]
+ * @param {{root?: string, out?: string, quiet?: boolean, fresh?: boolean}} [opts]
  */
 export async function writeCatalog(opts = {}) {
   const out = resolve(opts.out ?? "build/catalog.js");
-  const cat = await readCatalog(opts.root ?? ".");
+  const cat = await readCatalog(opts.root ?? ".", opts.fresh);
   const warnings = checkCatalog(cat);
 
   // The type check reads this declaration instead of the module, whose inferred type would
