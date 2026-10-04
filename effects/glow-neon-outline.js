@@ -15,26 +15,15 @@
  * hence `deny: ['overlap']`; `paint-order: stroke fill` is belt and braces for the same thing.
  */
 
-/**
- * R14 says a blurred layer reaches about one radius beyond its offset, and `h.REACH`
- * budgets 1.1 for safety. This chain needs a little more than that: the
- * blur does not start at the glyph, it starts at the stroke's antialiased outer edge, and
- * three passes compound. 1.3 clears the measured overshoot with about 0.7u to spare, which
- * is the margin the same number gives `glow-foil` in proportion.
- */
-const REACH = 1.3;
-
 /** The three bloom radii, as fractions of `r`. `bleed()` sums them; the passes chain. */
 const RADII = [0.12, 0.42, 1];
 const SUM_R = RADII.reduce((a, b) => a + b, 0);
 
 export default /** @satisfies {import("../src/types.js").Effect<{ w: number; r: number; t: number }>} */ ({
   id: "glow-neon-outline",
-  family: "glow",
   shape: "A",
   colors: 3,
   bg: "dark",
-  odds: 4,
   fonts: { deny: ["hairline", "overlap", "inline", "shaded"], prefer: ["fat", "rounded"] },
   palettes: { prefer: ["dark"] },
   // w = stroke width in hundredths of a u (0.35u–0.80u). The floor is set by the phone: at
@@ -46,18 +35,16 @@ export default /** @satisfies {import("../src/types.js").Effect<{ w: number; r: 
   /**
    * Chained drop-shadows compound, so the blur term is the *sum* of the three radii and not
    * the largest of them — and the whole chain starts from the stroke's outer edge, not from
-   * the glyph contour. Both terms were budgeted too tightly in the first version of this
-   * effect, and `e2e/bleed.spec.js` measured the result: 0.83u l · 0.69u r · 0.66u b ·
-   * 0.50u t at `r=25, t=100, w=80`, holding its value in u from a 1270 px block to a
-   * 3360 px one, i.e. real ink rather than rounding. `REACH` and `h.OUTSET` (the full stroke
-   * width, at most 0.8u here: a mitered join on an acute serif corner runs far past the
-   * geometric half) are what that measurement costs.
+   * the glyph contour, so the stroke's `h.OUTSET` adds to it (R14). The first version
+   * counted half the stroke and the radii at 1.0x, and `e2e/bleed.spec.js` measured 0.81u of
+   * real ink past that at `r=25, t=100, w=80`, holding its value in u from a 1270 px block
+   * to a 3360 px one. The full stroke width and `h.REACH` add 0.79u there.
    * @param {{w: number, r: number}} p
    * @param {import("../src/types.js").LineGeometry} _lines
    * @param {typeof import('../src/helpers.js').helpers} h
    */
   bleed: (p, _lines, h) => {
-    const o = REACH * SUM_R * (p.r / 10) + (h.OUTSET * p.w) / 100;
+    const o = h.REACH * SUM_R * (p.r / 10) + (h.OUTSET * p.w) / 100;
     return { t: o, r: o, b: o, l: o };
   },
 
@@ -71,7 +58,6 @@ export default /** @satisfies {import("../src/types.js").Effect<{ w: number; r: 
 
   /** @param {{w: number, r: number, t: number}} p @param {typeof import('../src/helpers.js').helpers} h */
   hover: (p, h) => `filter:${bloom(p, h)} brightness(1.16)`,
-  motion: null,
 });
 
 /**

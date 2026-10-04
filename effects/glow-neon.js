@@ -19,7 +19,6 @@
  */
 export default /** @satisfies {import("../src/types.js").Effect<{ r: number; t: number }>} */ ({
   id: "glow-neon",
-  family: "glow",
   shape: "A",
   colors: 3,
   bg: "dark",
@@ -37,8 +36,17 @@ export default /** @satisfies {import("../src/types.js").Effect<{ r: number; t: 
   // as a soft rim rather than as coloured light.
   params: { r: [15, 25, 1], t: [60, 100, 10] },
 
-  /** The bloom is centred, so the full radius outsets on every side. @param {{r: number}} p */
-  bleed: (p) => ({ t: p.r / 10, r: p.r / 10, b: p.r / 10, l: p.r / 10 }),
+  /**
+   * The bloom is centred, so the widest layer reaches `h.REACH` of its radius on every side
+   * (R14).
+   * @param {{r: number}} p
+   * @param {import("../src/types.js").LineGeometry} _lines
+   * @param {typeof import('../src/helpers.js').helpers} h
+   */
+  bleed: (p, _lines, h) => {
+    const o = (h.REACH * p.r) / 10;
+    return { t: o, r: o, b: o, l: o };
+  },
 
   /**
    * @param {{r: number, t: number}} p
@@ -56,5 +64,4 @@ export default /** @satisfies {import("../src/types.js").Effect<{ r: number; t: 
 
   // Brightness is a compositor-side filter and adds no painted area, so the bleed still holds.
   hover: () => "filter:brightness(1.18)",
-  motion: null,
 });
