@@ -33,15 +33,9 @@ export function* seeds(n, prefix = "s") {
 }
 
 /**
- * The seeds every golden runs on. Chosen by set cover over the fixture catalog so that
- * four of them exercise both layouts, `side`, all three variants, all three palettes, both
- * derived grounds, both effects and a dark role set.
+ * The seeds every golden runs on. Chosen by set cover over valid public seeds (the
+ * worker's SEED_RE), so each golden reproduces at `/?seed=<name>`: together they exercise
+ * both layouts, `side`, all three variants, all three palettes, both derived grounds, both
+ * effects and a dark role set.
  */
-export const GOLDEN_SEEDS = [
-  "golden-001",
-  "golden-004",
-  "golden-005",
-  "golden-006",
-  "k3f9x2m7qa",
-  "a",
-];
+export const GOLDEN_SEEDS = ["gs", "gt", "gp", "gn", "k3f9x2m7qa", "a"];

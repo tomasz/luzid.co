@@ -28,12 +28,11 @@ function gateRange(css) {
   throw new Error("unbalanced gate");
 }
 
-test("golden HTML per fixture seed", async () => {
-  // One file per seed, never one shared snapshot: a diff has to be readable, and the file
-  // opens in a browser as-is. The path is relative to this file. Refresh with `vp test -u`.
-  for (const seed of GOLDEN_SEEDS) {
-    await expect(page(seed).html).toMatchFileSnapshot(`./golden/html/${seed}.html`);
-  }
+// One file and one test per seed, never one shared snapshot: a diff has to be readable,
+// the file opens in a browser as-is, and one mismatch must not hide the others. The path is
+// relative to this file. Refresh with `vp test -u`.
+test.each(GOLDEN_SEEDS)("golden HTML for %s", async (seed) => {
+  await expect(page(seed).html).toMatchFileSnapshot(`./golden/${seed}.html`);
 });
 
 test("the document carries exactly one style element, one link and no style attribute", () => {
@@ -137,17 +136,17 @@ test("a derived ground reads from the row hex past names.length", () => {
   const ground = catalog.palettes.find((x) => x.id === "fx-ground");
   assert.equal(ground.names.length, 2);
   assert.equal(ground.hex.length, 4);
-  const washi = stylesheet(pick("golden-004", {}, catalog), catalog);
+  const washi = stylesheet(pick("gt", {}, catalog), catalog);
   assert.ok(washi.includes(`--bg:${ground.hex[2]}`), "w must be hex[names.length]");
-  const sumi = stylesheet(pick("golden-001", {}, catalog), catalog);
+  const sumi = stylesheet(pick("gs", {}, catalog), catalog);
   assert.ok(sumi.includes(`--bg:${ground.hex[3]}`), "k must be hex[names.length + 1]");
   // The credit line names only the real colours, never a derived ground.
-  const html = page("golden-004").html;
+  const html = page("gt").html;
   assert.ok(html.includes("palette: Moss, Olive (fixture)"));
 });
 
 test("the fit literals follow §5.2", () => {
-  const p = pick("golden-001", {}, catalog);
+  const p = pick("gs", {}, catalog);
   const parts = resolve(p, catalog);
   const f = fit(p, parts);
   const { w1, w2 } = parts.variant;
@@ -170,11 +169,11 @@ test("the fit literals follow §5.2", () => {
   assert.equal(f.DY, (f.bleed.t - f.bleed.b) / 2);
 
   // stack-eq shares one scale between the lines.
-  const eq = pick("golden-005", {}, catalog);
+  const eq = pick("gp", {}, catalog);
   const feq = fit(eq, resolve(eq, catalog));
   assert.equal(feq.F1, feq.F2);
 
-  // golden-001 bleeds only upwards, so it cannot tell R13 from the old max(g, bt). s7 is
+  // gs bleeds only upwards, so it cannot tell R13 from the old max(g, bt). s7 is
   // depth-extrude(a=135,d=9) at g=4: all of its bleed is downwards, and G must follow it.
   const down = pick("s7", {}, catalog);
   const fd = fit(down, resolve(down, catalog));
@@ -216,11 +215,11 @@ test("the gap clears ink in both directions", () => {
 });
 
 test("side emits the rotated portrait block, and only then", () => {
-  const on = pick("golden-004", {}, catalog);
+  const on = pick("gp", {}, catalog);
   assert.equal(on.side, true);
   assert.match(stylesheet(on, catalog), /@media \(max-aspect-ratio:4\/5\)\{\.n\{[^}]*rotate:90deg/);
 
-  const off = pick("golden-001", {}, catalog);
+  const off = pick("gs", {}, catalog);
   assert.equal(off.side, false);
   assert.equal(stylesheet(off, catalog).includes("max-aspect-ratio"), false);
 });
@@ -237,7 +236,7 @@ test("the response fits the first flight", () => {
 });
 
 test("two renders of one seed differ only in the nonce", () => {
-  const p = pick("golden-001", {}, catalog);
+  const p = pick("gs", {}, catalog);
   const a = render(p, catalog, { nonce: "AAAA", pick: pickString(p) });
   const b = render(p, catalog, { nonce: "BBBB", pick: pickString(p) });
   assert.equal(a.replaceAll("AAAA", "N"), b.replaceAll("BBBB", "N"));
@@ -266,7 +265,7 @@ test("the colophon can never break out of its comment", () => {
 });
 
 test("the favicon data URI escapes its hashes", () => {
-  const { html } = page("golden-001");
+  const { html } = page("gs");
   const href = html.match(/href="(data:image\/svg\+xml,[^"]*)"/)[1];
   assert.equal(href.includes("#"), false, "a raw # would truncate the data URI at the fragment");
   assert.equal(href.includes("<"), false);

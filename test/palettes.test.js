@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFileSync, spawnSync } from "node:child_process";
-import { access, readFile } from "node:fs/promises";
+import { access, readdir, readFile } from "node:fs/promises";
 import { test } from "vite-plus/test";
 import { fileURLToPath } from "node:url";
 import { colors } from "../scripts/palette-sources/wada1.mjs";
@@ -8,7 +8,20 @@ import { contrast, grounds, roleSets } from "../scripts/roles.mjs";
 
 const HEX = /^#[0-9a-f]{6}$/;
 const path = (p) => fileURLToPath(new URL(`../${p}`, import.meta.url));
-const wada1 = JSON.parse(await readFile(path("data/palettes/wada1.json"), "utf8"));
+const TIERS = ["historical", "editorial", "era-approx"];
+
+// Every palette file, qa.json included: the shape and contrast rules hold for all of them.
+const files = (await readdir(path("data/palettes"))).filter((f) => f.endsWith(".json"));
+const sources = Object.fromEntries(
+  await Promise.all(
+    files.map(async (f) => [
+      f.slice(0, -5),
+      JSON.parse(await readFile(path(`data/palettes/${f}`), "utf8")),
+    ]),
+  ),
+);
+const rows = Object.values(sources).flat();
+const wada1 = sources.wada1;
 
 /** `o` resolves to four concrete colours: a digit indexes `hex`, `w`/`k` are the grounds. */
 function resolve(row) {
@@ -18,7 +31,9 @@ function resolve(row) {
   return { bg, fg, a1: a1 ?? fg, a2: a2 ?? bg };
 }
 
-const sets = wada1.flatMap((r) => r.roles.map((s) => ({ ...s, id: r.id, hex: r.hex, o0: s.o })));
+const sets = rows.flatMap((r) =>
+  r.roles.map((s) => ({ ...s, id: r.id, hex: r.hex, o0: s.o, names: r.names })),
+);
 
 test("the committed data is what the generator produces", () => {
   // The roles are committed so a deploy never runs colour maths; this is what keeps them honest.
@@ -52,7 +67,11 @@ test("Wada vol. 1 has 159 colours", async () => {
 test("Wada vol. 1 has 348 combos, 120 duos / 120 trios / 108 quads", () => {
   assert.equal(wada1.length, 348);
   const sizes = { 2: 0, 3: 0, 4: 0 };
-  for (const row of wada1) sizes[row.names.length]++;
+  for (const row of wada1) {
+    sizes[row.names.length]++;
+    assert.equal(row.tier, "historical", `${row.id}: tier`);
+    assert.equal(row.odds, 4, `${row.id}: odds`);
+  }
   assert.deepEqual(sizes, { 2: 120, 3: 120, 4: 108 });
 });
 
@@ -65,11 +84,25 @@ test("every combo id is unique and namespaced wada1-001…wada1-348", () => {
   );
 });
 
+test("palette ids are unique across every file", () => {
+  assert.equal(new Set(rows.map((r) => r.id)).size, rows.length, "duplicate palette id");
+  assert.ok(
+    sources.qa?.some((r) => r.id === "qa-bw"),
+    "qa-bw must ship",
+  );
+});
+
 test("every row has the §5.4 shape", () => {
-  for (const row of wada1) {
-    assert.equal(row.src, "wada1", `${row.id}: src`);
-    assert.equal(row.tier, "historical", `${row.id}: tier`);
-    assert.equal(row.odds, 4, `${row.id}: odds`);
+  for (const [src, list] of Object.entries(sources)) {
+    for (const row of list) assert.equal(row.src, src, `${row.id}: src must name its file`);
+  }
+  for (const row of rows) {
+    assert.ok(TIERS.includes(row.tier), `${row.id}: tier "${row.tier}"`);
+    assert.ok(
+      row.odds === undefined || (Number.isInteger(row.odds) && row.odds >= 0),
+      `${row.id}: odds`,
+    );
+    assert.ok(row.names.length >= 2 && row.names.length <= 4, `${row.id}: 2–4 colours`);
     assert.ok(
       row.names.every((n) => typeof n === "string" && n.length > 0),
       `${row.id}: names`,
@@ -89,7 +122,7 @@ test("every row has the §5.4 shape", () => {
 });
 
 test("every hex is a lowercase six-digit sRGB literal", () => {
-  for (const row of wada1) {
+  for (const row of rows) {
     for (const hex of row.hex) assert.match(hex, HEX, `${row.id}`);
   }
 });
@@ -97,7 +130,7 @@ test("every hex is a lowercase six-digit sRGB literal", () => {
 test("every role set names a background and a foreground, and aliases the rest", () => {
   for (const s of sets) {
     assert.match(s.o, /^[0-3wk][0-3][0-3-][0-3-]$/, `${s.id}: o "${s.o}"`);
-    assert.equal(s.n, wada1.find((r) => r.id === s.id).names.length, `${s.id}: n`);
+    assert.equal(s.n, s.names.length, `${s.id}: n`);
     assert.equal(s.derivedBg, "wk".includes(s.o[0]) ? s.o[0] : null, `${s.id}: derivedBg`);
     const used = [...s.o].filter((c) => c !== "-");
     assert.equal(new Set(used).size, used.length, `${s.id}: a colour holds two roles in "${s.o}"`);
@@ -125,7 +158,7 @@ test("every emitted role set reaches WCAG 3:1 between bg and fg", () => {
 });
 
 test("a combo falls back to a derived ground only when no pair of its own colours passes", () => {
-  for (const row of wada1) {
+  for (const row of rows) {
     const own = row.hex.slice(0, row.names.length);
     const best = Math.max(...own.flatMap((a) => own.map((b) => contrast(a, b))));
     assert.equal(
@@ -157,15 +190,4 @@ test("the vendored MIT licence ships with the data", async () => {
   const licence = await readFile(path("data/sources/wada1/LICENSE"), "utf8");
   assert.match(licence, /MIT License/);
   assert.match(licence, /Copyright/);
-});
-
-test("report: role sets and derived grounds", () => {
-  const derived = sets.filter((s) => s.derivedBg);
-  const combos = wada1.filter((r) => r.roles.some((s) => s.derivedBg)).length;
-  console.log(
-    `wada1: ${wada1.length} combos → ${sets.length} role sets; derivedBg on ${derived.length} ` +
-      `(${derived.filter((s) => s.derivedBg === "w").length} washi, ` +
-      `${derived.filter((s) => s.derivedBg === "k").length} sumi) across ${combos} combos; ` +
-      `${sets.filter((s) => s.dark).length} dark grounds`,
-  );
 });

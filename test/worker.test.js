@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { beforeAll, test, vi } from "vite-plus/test";
 import worker from "../src/worker.js";
+import { GOLDEN_SEEDS } from "./catalog.js";
 
 /**
  * The HTTP contract of the one route, against the live catalog that the catalog plugin
@@ -82,6 +83,13 @@ test("a malformed seed is rejected", async () => {
     assert.equal((await get(`/?seed=${encodeURIComponent(seed)}`)).status, 400, seed);
   }
   assert.equal((await get(`/?seed=${SEED}`)).status, 200);
+});
+
+test("every golden seed is a valid public seed", async () => {
+  // A golden is only useful as a bug report if its page reproduces at /?seed=<name>.
+  for (const seed of GOLDEN_SEEDS) {
+    assert.equal((await get(`/?seed=${seed}`)).status, 200, seed);
+  }
 });
 
 test("a malformed or unknown pin is rejected without echoing the input", async () => {
