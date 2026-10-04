@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
-import { test } from "vite-plus/test";
+import { expect, test } from "vite-plus/test";
 import { BUCKET_ODDS, denied, LAYOUTS, PickError, pick, pickString } from "../src/pick.js";
-import { fixtureCatalog, GOLDEN_SEEDS } from "./catalog.js";
+import { fixtureCatalog } from "./catalog.js";
 
 const catalog = await fixtureCatalog();
 const str = (seed, pins = {}) => pickString(pick(seed, pins, catalog));
@@ -9,28 +9,36 @@ const str = (seed, pins = {}) => pickString(pick(seed, pins, catalog));
 test("pick golden vectors", () => {
   // The frozen mini-catalog plus these seeds pin the whole sampler: the axis order, the
   // odds, the deny handling and the canonical string format. A diff here means the look of
-  // every seed on the live site moved.
-  assert.deepEqual(Object.fromEntries(GOLDEN_SEEDS.map((s) => [s, str(s)])), {
-    "golden-001":
-      "f:fx-sans.up p:fx-ground.k10- e:depth-extrude(a=225,d=8) l:stack-fit(g=6,a=flex-start)",
-    "golden-004":
-      "f:fx-sans.as p:fx-ground.w01- e:depth-extrude(a=45,d=3) l:stack-fit(g=8,a=flex-end,side)",
-    "golden-005": "f:fx-sans.lo p:fx-dusk.2103 e:plain l:stack-eq(g=6,a=flex-end)",
-    "golden-006": "f:fx-sans.up p:fx-ink.01-- e:plain l:stack-eq(g=4,a=flex-start,side)",
-    k3f9x2m7qa: "f:fx-sans.as p:fx-ink.10-- e:plain l:stack-fit(g=8,a=flex-end)",
-    a: "f:fx-sans.up p:fx-ground.k10- e:plain l:stack-fit(g=6,a=center)",
-  });
+  // every seed on the live site moved. Refresh with `vp test -u`.
+  expect(str("gs")).toMatchInlineSnapshot(
+    `"f:fx-sans.up p:fx-ground.k10- e:depth-extrude(a=225,d=5) l:stack-fit(g=6,a=center)"`,
+  );
+  expect(str("gt")).toMatchInlineSnapshot(
+    `"f:fx-sans.as p:fx-ground.w01- e:depth-extrude(a=135,d=4) l:stack-fit(g=6,a=flex-start)"`,
+  );
+  expect(str("gp")).toMatchInlineSnapshot(
+    `"f:fx-sans.lo p:fx-dusk.012- e:plain l:stack-eq(g=4,a=flex-end,side)"`,
+  );
+  expect(str("gn")).toMatchInlineSnapshot(
+    `"f:fx-sans.as p:fx-ink.01-- e:plain l:stack-fit(g=10,a=flex-start,side)"`,
+  );
+  expect(str("k3f9x2m7qa")).toMatchInlineSnapshot(
+    `"f:fx-sans.as p:fx-ink.10-- e:plain l:stack-fit(g=8,a=flex-end)"`,
+  );
+  expect(str("a")).toMatchInlineSnapshot(
+    `"f:fx-sans.up p:fx-ground.k10- e:plain l:stack-fit(g=6,a=center)"`,
+  );
 });
 
 test("the same seed always gives the same pick", () => {
-  for (const s of ["a", "golden-001", "k3f9x2m7qa"]) {
+  for (const s of ["a", "gs", "k3f9x2m7qa"]) {
     assert.deepEqual(pick(s, {}, catalog), pick(s, {}, catalog));
   }
 });
 
 test("every pin is honoured exactly", () => {
   const p = pick(
-    "golden-001",
+    "gs",
     { f: "fx-sans", v: "lo", p: "fx-dusk", r: "0123", e: "plain", l: "stack-eq" },
     catalog,
   );
@@ -184,7 +192,7 @@ test("the engine is total with an empty catalog", () => {
 });
 
 test("the canonical string round-trips through the deny matcher", () => {
-  const p = pick("golden-001", {}, catalog);
+  const p = pick("gs", {}, catalog);
   assert.equal(denied([{ f: p.f, e: p.e }], p), true);
   assert.equal(denied([{ f: p.f, e: "nope" }], p), false);
   assert.equal(denied([{}], p), false, "an empty rule must never match everything");
