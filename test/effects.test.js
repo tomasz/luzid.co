@@ -1,19 +1,41 @@
 /**
- * The effect lint (§5.6), run over every file in `effects/`.
+ * The effect lint (§5.6), run over every file in `effects/`, and the grid hashes that pin
+ * what every effect emits.
  *
- * It is a unit test rather than a Biome rule because the thing being checked is the CSS an
- * effect *emits*, at both ends of its parameter space — not the JS that emits it.
+ * It is a unit test rather than a lint rule because the thing being checked is the CSS an
+ * effect *emits*, at every point of its parameter grid — not the JS that emits it.
+ *
+ * **Grid hashes** (`test/golden/effects/<id>.sha256`). They make "this refactor left every
+ * effect byte-identical" a one-line check: `git status --porcelain test/golden/effects/`.
+ * To reproduce one by hand:
+ *
+ *  1. The grid is every value the engine can draw (`step()` in `src/rand.js`): per param
+ *     `[min, max, step]`, `n = Math.floor((max - min) / step) + 1` values
+ *     `round4(min + i * step)` for `i = 0 … n-1`.
+ *  2. Combinations are enumerated with param names sorted by code unit; the first name is
+ *     the outermost loop and the last name varies fastest. `plain` has one: `{}`.
+ *  3. Each combination `p` appends four lines, each ending in `\n`:
+ *     `JSON.stringify(p)` (keys in sorted order), the bleed as `t r b l` joined by spaces,
+ *     `css(p, helpers, METRICS)`, and `hover(p, helpers, METRICS)` (empty when `hover` is
+ *     null). `bleed` is called as `bleed(p, METRICS)`.
+ *  4. The file holds the lowercase hex sha256 of that UTF-8 string, then `\n`.
+ *
+ * `METRICS` below is the fixed metrics object for all three calls. Changing it, or this
+ * recipe, moves all 30 hashes at once. `vp test -u` rewrites the files after an intended
+ * change; say which effects moved and why in the PR.
  *
  * `parse()` deliberately only understands a flat list of style rules. Effects never write
  * an at-rule: `@media`, `@supports` and the reduced-motion nesting all belong to
  * `render.js`, which is what makes the accessibility gate provable.
  */
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { glob } from "node:fs/promises";
 import { basename, resolve } from "node:path";
-import { test } from "vite-plus/test";
+import { expect, test } from "vite-plus/test";
 import { pathToFileURL } from "node:url";
 import { helpers } from "../src/helpers.js";
+import { round4 } from "../src/rand.js";
 
 const root = resolve(import.meta.dirname, "..");
 
@@ -24,6 +46,9 @@ const TRAITS = new Set(
 );
 
 const SELECTOR = /^(\.n|\.l|\.l1|\.l2)(::(before|after))?$/;
+
+/** The one way a shape-B effect copies the text (§5.6): visible ink, empty accessible name. */
+const COPY = 'attr(data-t) / ""';
 
 /** Properties allowed on `.n` / `.l` / `.l1` / `.l2`. */
 const PROPS = [
@@ -57,8 +82,45 @@ const HOVER_PROPS = [/^translate$/, /^scale$/, /^rotate$/];
 /** Any unit that is not `u`. Time and angle units are fine; lengths are not. */
 const BAD_UNIT =
   /(?<![a-z0-9#_-])\d*\.?\d+(px|r?em|ex|ch|ic|lh|rlh|v[wh]|v(min|max|i|b)|[sdl]v[wh]|cq[a-z]+|cm|mm|Q|in|pt|pc)\b/i;
-const BAD_COLOR = /#[0-9a-f]{3,8}\b|(?<![-\w])(rgba?|hsla?|hwb|lab|lch|oklab|oklch|color)\(/i;
 const ROLE_VARS = new Set(["--bg", "--fg", "--a1", "--a2", "--u", "--y", "--bh", "--m"]);
+
+/**
+ * The value grammar, stated positively: a value may hold numbers, role variables, and the
+ * functions and keywords below — anything else fails, so a named colour (`red`), a hex or
+ * `rgb(…)` cannot slip through the way they could past a list of bad patterns. Colours come
+ * from role variables, `color-mix()` of them, or a relative colour of one
+ * (`oklch(from var(--fg) l c h)`). Extend a list when an effect genuinely needs a new word.
+ */
+const FUNCTIONS = new Set(
+  `var calc cos sin color-mix attr linear-gradient drop-shadow blur brightness contrast saturate
+   scaley skewx translatey`.split(/\s+/),
+);
+const COLOR_FUNCTIONS = new Set(`rgb rgba hsl hsla hwb lab lch oklab oklch color`.split(" "));
+const KEYWORDS = new Set(
+  // `in oklab`: color-mix's interpolation space. `from` and the channel names: relative colours.
+  `transparent currentcolor in oklab from r g b h s l w c alpha stroke fill no-repeat text
+   data-t`.split(/\s+/),
+);
+
+/** The first token of `value` outside the grammar above, or null. */
+function offGrammar(value) {
+  // url() is checked on its own (data: only) and strings are content, not values.
+  const v = value.replace(/url\([^)]*\)/g, " ").replace(/"[^"]*"|'[^']*'/g, " ");
+  for (const m of v.matchAll(/#\w+|-?(?:\d*\.)?\d+[a-z%]*|--[\w-]+|(-?[a-z][\w-]*)(\(?)/gi)) {
+    if (m[0].startsWith("#")) return m[0];
+    if (!m[1]) continue; // a number or a custom property (role vars are checked separately)
+    const word = m[1].toLowerCase();
+    if (m[2]) {
+      const relative =
+        COLOR_FUNCTIONS.has(word) && /^\s*from\s+var\(--/.test(v.slice(m.index + m[0].length));
+      if (!FUNCTIONS.has(word) && !relative) return `${m[1]}()`;
+    } else if (!KEYWORDS.has(word)) return m[1];
+  }
+  return null;
+}
+
+/** Palette prefer-tokens: polarity, colour count, tier, or a source / id prefix (`pick.js`). */
+const PREFER_TOKEN = /^(dark|light|n[234]|historical|editorial|era-approx|[a-z0-9-]+)$/;
 
 /** Split on `sep` at paren depth 0. */
 function topSplit(s, sep) {
@@ -111,7 +173,7 @@ function parse(css, where) {
  * The shared body of the lint: everything that applies to any CSS an effect emits.
  * `mode` is `'css'` or `'hover'`; hover declarations arrive without a selector.
  */
-function lintCss(css, where, { shape, mode }) {
+function lintCss(css, where, { mode }) {
   // :hover / :active live in hover(), which returns declarations only — the renderer owns
   // the selector. So no CSS an effect emits ever carries an interaction pseudo-class.
   assert.equal(
@@ -130,38 +192,41 @@ function lintCss(css, where, { shape, mode }) {
   let grouped = false;
 
   for (const { sel, decls } of rules) {
-    const pseudo = sel.some((s) => s.includes("::"));
+    // Each selector in a list is checked on its own: `.n,.l::after{transform:…}` must not
+    // borrow the pseudo-element's allowance for `.n`.
     for (const s of sel) {
       assert.match(
         s,
         SELECTOR,
         `${where}: selector "${s}" is outside .n/.l/.l1/.l2 (+ ::before/::after)`,
       );
+      const allowed = [
+        ...PROPS,
+        ...(s.includes("::") ? PSEUDO_PROPS : []),
+        ...(mode === "hover" ? HOVER_PROPS : []),
+      ];
+      for (const [prop] of decls) {
+        assert.ok(
+          allowed.some((re) => re.test(prop)),
+          `${where}: property "${prop}" is not allowed on ${s}`,
+        );
+      }
     }
 
     const props = new Set(decls.map(([k]) => k));
     for (const [prop, value] of decls) {
-      const allowed = [
-        ...PROPS,
-        ...(pseudo ? PSEUDO_PROPS : []),
-        ...(mode === "hover" ? HOVER_PROPS : []),
-      ];
-      assert.ok(
-        allowed.some((re) => re.test(prop)),
-        `${where}: property "${prop}" is not allowed on ${sel.join(",")}`,
-      );
-
       const unit = value.match(BAD_UNIT);
       assert.equal(
         unit,
         null,
         `${where}: "${prop}: ${value}" uses ${unit?.[1]}; lengths go through h.u()`,
       );
-      const colour = value.match(BAD_COLOR);
+      const word = offGrammar(value);
       assert.equal(
-        colour,
+        word,
         null,
-        `${where}: "${prop}: ${value}" writes a literal colour (${colour?.[0]})`,
+        `${where}: "${prop}: ${value}" uses ${word}, which is outside the value grammar ` +
+          `(colours come from role variables)`,
       );
       for (const [, name] of value.matchAll(/var\(\s*(--[\w-]+)/g)) {
         assert.ok(ROLE_VARS.has(name), `${where}: var(${name}) is not a role variable`);
@@ -177,12 +242,9 @@ function lintCss(css, where, { shape, mode }) {
 
       if (prop === "content") {
         assert.ok(
-          value === '""' || value === 'attr(data-t) / ""',
-          `${where}: content must be exactly \`attr(data-t) / ""\` or \`""\`, got ${value}`,
+          value === '""' || value === COPY,
+          `${where}: content must be exactly \`${COPY}\` or \`""\`, got ${value}`,
         );
-        if (value.startsWith("attr")) {
-          assert.equal(shape, "B", `${where}: a data-t copy makes this shape B, not ${shape}`);
-        }
       }
 
       if (prop === "text-shadow") {
@@ -220,9 +282,9 @@ function lintCss(css, where, { shape, mode }) {
       if (prop === "z-index" && Number(value) < 0) grouped = true;
 
       if ((prop === "background-clip" || prop === "-webkit-background-clip") && value === "text") {
-        assert.notDeepEqual(
-          sel,
-          [".n"],
+        assert.equal(
+          sel.includes(".n"),
+          false,
           `${where}: background-clip:text on .n drops positioned descendants`,
         );
         assert.ok(
@@ -259,17 +321,20 @@ function lintCss(css, where, { shape, mode }) {
   }
 }
 
-/** Corners of the parameter space, plus the midpoint of each axis. */
-function corners(params) {
-  const names = Object.keys(params).sort();
+/**
+ * Every combination the engine can draw: per param, the values `step()` in `src/rand.js`
+ * can return. Names are sorted; the last one varies fastest. See the header for why the
+ * order matters (it is part of the hash).
+ */
+function grid(params) {
   let sets = [{}];
-  for (const n of names) {
-    const [min, max, size] = params[n];
-    const steps = Math.floor((max - min) / size);
-    const values = [...new Set([min, max, min + Math.floor(steps / 2) * size])];
-    sets = sets.flatMap((s) => values.map((v) => ({ ...s, [n]: v })));
+  for (const name of Object.keys(params).sort()) {
+    const [min, max, size] = params[name];
+    const n = Math.floor((max - min) / size) + 1;
+    const values = Array.from({ length: n }, (_, i) => round4(min + i * size));
+    sets = sets.flatMap((s) => values.map((v) => ({ ...s, [name]: v })));
   }
-  return sets.slice(0, 64);
+  return sets;
 }
 
 /** A plausible metrics object; effects may read it but must not depend on exact values. */
@@ -287,6 +352,9 @@ const METRICS = {
 const files = [];
 for await (const f of glob("effects/*.js", { cwd: root })) files.push(f);
 files.sort();
+const effects = await Promise.all(
+  files.map(async (f) => (await import(pathToFileURL(resolve(root, f)).href)).default),
+);
 
 test("the effects directory is not empty and ships the universal fallback", () => {
   assert.ok(files.length >= 2, "expected at least plain and depth-extrude");
@@ -296,11 +364,11 @@ test("the effects directory is not empty and ships the universal fallback", () =
   );
 });
 
-for (const file of files) {
+files.forEach((file, k) => {
   const id = basename(file, ".js");
-  test(`effect lint: ${id}`, async () => {
-    const fx = (await import(pathToFileURL(resolve(root, file)).href)).default;
+  const fx = effects[k];
 
+  test(`effect lint: ${id}`, () => {
     assert.equal(fx.id, id, `${file}: id must equal the file basename`);
     assert.match(fx.family, /^[a-z0-9]+(-[a-z0-9]+)*$/, `${file}: family must be kebab-case`);
     assert.ok(
@@ -321,7 +389,9 @@ for (const file of files) {
         );
       }
     }
-    for (const t of fx.palettes?.prefer ?? []) assert.equal(typeof t, "string");
+    for (const t of fx.palettes?.prefer ?? []) {
+      assert.match(t, PREFER_TOKEN, `${file}: palettes.prefer token "${t}" is malformed`);
+    }
 
     for (const [name, spec] of Object.entries(fx.params ?? {})) {
       assert.ok(
@@ -331,9 +401,14 @@ for (const file of files) {
       const [min, max, size] = spec;
       assert.ok(spec.every(Number.isFinite), `${file}: param ${name} has a non-finite bound`);
       assert.ok(size > 0 && max >= min, `${file}: param ${name} has an empty range`);
+      // A warning until S3 makes the engine draw the last step of every grid; then an error.
+      const steps = (max - min) / size;
+      if (Math.abs(steps - Math.round(steps)) > 1e-9) {
+        console.warn(`${file}: param ${name} [${spec}] is not an exact grid; max is never drawn`);
+      }
     }
 
-    for (const p of corners(fx.params ?? {})) {
+    for (const p of grid(fx.params ?? {})) {
       const where = `${file} ${JSON.stringify(p)}`;
 
       const bleed = fx.bleed(p, METRICS);
@@ -345,7 +420,14 @@ for (const file of files) {
 
       const css = fx.css(p, helpers, METRICS);
       assert.equal(typeof css, "string", `${where}: css() must return a string`);
-      if (css) lintCss(css, where, { shape: fx.shape, mode: "css" });
+      if (css) lintCss(css, where, { mode: "css" });
+
+      // Shape B is defined by its text copy; shape A must not make one.
+      const copies = (css ? parse(css, where) : [])
+        .flatMap((r) => r.decls)
+        .filter(([k, v]) => k === "content" && v === COPY).length;
+      if (fx.shape === "B") assert.ok(copies >= 1, `${where}: shape B emits no ${COPY} copy`);
+      else assert.equal(copies, 0, `${where}: a ${COPY} copy makes this shape B, not A`);
 
       if (fx.hover) {
         const decls = fx.hover(p, helpers, METRICS);
@@ -355,16 +437,34 @@ for (const file of files) {
           false,
           `${where}: hover() returns declarations; render.js adds the selector`,
         );
-        lintCss(decls, `${where} hover`, { shape: fx.shape, mode: "hover" });
+        lintCss(decls, `${where} hover`, { mode: "hover" });
       }
     }
   });
-}
+
+  test(`effect grid hash: ${id}`, async () => {
+    // The recipe is spelled out in the header; keep the two in step.
+    let text = "";
+    for (const p of grid(fx.params ?? {})) {
+      const b = fx.bleed(p, METRICS);
+      text += `${JSON.stringify(p)}\n${b.t} ${b.r} ${b.b} ${b.l}\n`;
+      text += `${fx.css(p, helpers, METRICS)}\n${fx.hover?.(p, helpers, METRICS) ?? ""}\n`;
+    }
+    const hash = createHash("sha256").update(text, "utf8").digest("hex");
+    await expect(`${hash}\n`).toMatchFileSnapshot(`./golden/effects/${id}.sha256`);
+  });
+});
 
 test("the lint actually rejects the things it claims to", () => {
   const cases = {
     "a length in px": [".n{text-shadow:2px 2px 0 var(--a1)}", /lengths go through h\.u/],
-    "a literal colour": [".n{color:#ff0000}", /literal colour/],
+    "a hex colour": [".n{color:#ff0000}", /uses #ff0000, which is outside the value grammar/],
+    "a named colour": [".n{color:red}", /uses red, which is outside/],
+    "a functional colour": [".n{color:oklch(.5 .1 20)}", /uses oklch\(\), which is outside/],
+    "a named colour in a shadow": [
+      ".n{text-shadow:0 0 0 navy}",
+      /uses navy, which is outside the value grammar/,
+    ],
     "a foreign selector": ["body{color:var(--fg)}", /outside \.n/],
     "a property off the allowlist": [".n{font-size:calc(2*var(--u))}", /not allowed/],
     "an at-rule": ["@media print{.n{opacity:1}}", /never write an at-rule/],
@@ -380,6 +480,14 @@ test("the lint actually rejects the things it claims to", () => {
       ".n{background-clip:text;-webkit-background-clip:text;color:transparent}",
       /drops positioned descendants/,
     ],
+    "clip-text on .n inside a selector list": [
+      ".n,.l{background-clip:text;-webkit-background-clip:text;color:transparent}",
+      /drops positioned descendants/,
+    ],
+    "a pseudo-element property borrowed by .n in a list": [
+      ".n,.l::after{transform:scale(2)}",
+      /"transform" is not allowed on \.n$/,
+    ],
     "clip-text with a shadow": [
       ".l1{background-clip:text;-webkit-background-clip:text;color:transparent;text-shadow:0 0 0 var(--a1)}",
       /paints over a clipped fill/,
@@ -388,10 +496,17 @@ test("the lint actually rejects the things it claims to", () => {
     "a wrong content value": [".l1::before{content:attr(data-t)}", /content must be exactly/],
   };
   for (const [name, [css, re]] of Object.entries(cases)) {
-    assert.throws(
-      () => lintCss(css, name, { shape: "B", mode: "css" }),
-      re,
-      `the lint let "${name}" through`,
-    );
+    assert.throws(() => lintCss(css, name, { mode: "css" }), re, `the lint let "${name}" through`);
+  }
+});
+
+test("the value grammar accepts the colours it promises", () => {
+  for (const css of [
+    ".n{color:var(--fg)}",
+    ".n{color:currentcolor;-webkit-text-fill-color:transparent}",
+    `.n{color:${helpers.mix("var(--a1)", "var(--bg)", 40)}}`,
+    ".n{color:oklch(from var(--a1) l c h / 50%)}",
+  ]) {
+    assert.doesNotThrow(() => lintCss(css, css, { mode: "css" }));
   }
 });
