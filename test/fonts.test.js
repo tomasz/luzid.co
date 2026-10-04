@@ -6,6 +6,7 @@ import * as hb from "harfbuzzjs";
 import {
   ARCHETYPES,
   BUDGET_BYTES,
+  BudgetError,
   CASES,
   changeNotice,
   checkBudget,
@@ -16,6 +17,7 @@ import {
   LETTERS,
   LICENSE_IDS,
   lintNames,
+  main,
   MAX_STOPS,
   MAX_VARIANTS,
   MEASURED_TRAITS,
@@ -864,7 +866,13 @@ test("rule 5: the metrics derivation refuses what it cannot write", () => {
 test("rule 7: no file is over 10,500 bytes", async () => {
   assert.equal(BUDGET_BYTES, 10_500);
   assert.equal(checkBudget("ok", BUDGET_BYTES), BUDGET_BYTES);
-  assert.throws(() => checkBudget("fat", BUDGET_BYTES + 1), /10501 B is over the 10500 B budget/);
+  assert.throws(
+    () => checkBudget("fat", BUDGET_BYTES + 1),
+    (error) =>
+      error instanceof BudgetError &&
+      error.id === "fat" &&
+      error.message === "fat: 10501 B is over the 10500 B budget",
+  );
 
   for (const meta of metas) {
     for (const file of meta.files) {
@@ -888,7 +896,8 @@ test("rule 7: the ladder sheds features, then stops, before the font is dropped"
     log: (line) => shed.push(line),
     attempt: async (state) => {
       const size = 10_000 + 400 * state.featuresByCase.none.length + 300 * (state.stops.length - 1);
-      if (overBudgetWhile(state)) throw new Error(`heavy: ${size} B is over the 10500 B budget`);
+      if (overBudgetWhile(state))
+        throw new BudgetError("heavy", `${size} B is over the 10500 B budget`);
       return state;
     },
   });
@@ -921,15 +930,18 @@ test("rule 7: the ladder sheds features, then stops, before the font is dropped"
   ({ attempt, ...state } = ladder(() => true));
   await assert.rejects(() => shedToBudget(state, attempt), /heavy: .* with nothing left to trim/);
 
-  // Anything that is not a budget failure is not the ladder's business.
+  // Anything that is not a budget failure is not the ladder's business, even when its
+  // message happens to read like one: the ladder goes by the error's type, not its words.
+  shed.length = 0;
   ({ attempt, ...state } = ladder(() => false));
   await assert.rejects(
     () =>
       shedToBudget(state, async () => {
-        throw new Error("heavy: Ł is the same glyph as L");
+        throw new Error("heavy: 99999 B is over the 10500 B budget");
       }),
-    /Ł is the same glyph as L/,
+    /99999 B/,
   );
+  assert.equal(shed.length, 0);
 });
 
 // ---------------------------------------------------------------- rule 8: licence files
@@ -1211,4 +1223,12 @@ test("the shaped letters are the 22 the site draws, plus a space", () => {
   const used = new Set(Object.values(WORDS).flat().join(""));
   for (const ch of used) assert.ok(TEXT.includes(ch), `"${ch}" is shaped but never subset in`);
   assert.equal(new Set([...TEXT]).size, 23);
+});
+
+test("the cli accepts the `--` that `pnpm run fonts -- …` forwards", async () => {
+  // Strict parseArgs used to throw on the separator itself, before any option was read.
+  await assert.rejects(
+    () => main(["node", "fonts.mjs", "--", "--check", "--batch", "seed,a", "--id", "no-such-font"]),
+    /no source rows selected/,
+  );
 });
