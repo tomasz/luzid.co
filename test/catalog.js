@@ -5,7 +5,7 @@
  * effect PR cannot move another package's snapshots. The two effects are re-exported from
  * the real `effects/` files: changing the effect contract *should* move the goldens.
  *
- * Each test file is its own process under `node --test`, so the generated module gets a
+ * Vitest runs each test file in its own worker process, so the generated module gets a
  * per-process name; two files building at once can never read a half-written one.
  */
 import { resolve } from "node:path";

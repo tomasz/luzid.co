@@ -107,9 +107,11 @@ devcontainer exec --workspace-folder . cursor-agent
 | Command | What |
 |---|---|
 | `pnpm run check` | `vp check` (Oxfmt, Oxlint), then `vp test` (Vitest). The gate for every PR. |
-| `pnpm run dev` | `vp dev`: the Worker in workerd on 5173, reloading on data changes |
-| `pnpm run build` | `vp build`: the Worker to `dist/`, which `wrangler deploy` ships |
+| `vp dev` | the Worker in workerd on 5173, reloading on data changes |
+| `vp build` | the Worker to `dist/`, which `wrangler deploy` ships |
+| `vp test` | Vitest alone, without the format and lint pass |
 | `pnpm run e2e` | Playwright in Chromium, Firefox and WebKit against `vp build` + `vp preview` |
+| `FIT_SCOPE=all pnpm run e2e` | the same, across every font and variant (`docs/fit.md`) |
 | `pnpm run fonts` / `palettes` | regenerate committed font subsets / palette data |
 | `pnpm run sheet -- --changed` | contact sheets of what this branch changed |
 
@@ -123,27 +125,28 @@ writes it whenever the config loads — before `vp dev`, `vp build`, `vp preview
 ```
 ROOT=/workspaces/luzid.co           inside the devcontainer
 WT=$ROOT/.claude/worktrees/<wp>     the orchestrator creates this; you work only inside it
-RESEARCH=$ROOT/.research            absolute path — it is gitignored and NOT in your worktree
+PLANS=$ROOT/.plans                  absolute path — it is gitignored and NOT in your worktree
 PORT=$((8800 + <wp number>))        export it; never use 8787 while others are running
 ```
 
 1. `cd $WT && pnpm install --frozen-lockfile`
 2. `ssh-add -l` must list a key. If it does not, **stop and report** — never disable signing.
-3. Read your work package row in `$RESEARCH/PLAN.md` and the reports it names under "Read first".
-4. Work only inside your work package's Paths. Touching anything else fails the path guard.
+3. Read your PR row in `$PLANS/2026-10-02-consolidated-plan.md` and the reports it cites
+   under `$PLANS/reports/`.
+4. Work only inside your PR row's Paths.
 5. `pnpm run check`, plus your package's e2e command.
 6. Review your own contact sheets (read the PNGs in `$WT/sheets/`) and put the verdict in the PR body.
 7. `git commit` (signed; `git log -1 --format=%G?` must print `G`), then
    `git push origin HEAD` (never `-u`), then `gh pr create --head <branch>`.
 
-**Agents never merge.** The orchestrator merges in dependency order after the path guard
-and the required `ci` check pass. The one exception is Dependabot: its minor and patch
-updates auto-merge once `ci` is green; majors wait for the owner.
+**Agents never merge.** The orchestrator merges in dependency order after the required
+`ci` check passes. The one exception is Dependabot: its minor and patch updates
+auto-merge once `ci` is green; majors wait for the owner.
 
 ## Branch, commit and PR rules
 
 - Scoped Commits: `<scope>: <description>`, lowercase imperative, no `feat:`/`fix:` types.
-  Scopes: `worker effects presets fonts palettes scripts ci docs deps treewide`.
+  Scopes: `worker effects presets fonts palettes scripts ci docs deps treewide test e2e`.
 - **The PR title must equal the subject of the PR's first commit.** GitHub's squash default
   takes the commit message for single-commit PRs, which keeps the trailer intact.
 - Commit trailer `Co-Authored-By: Claude <noreply@anthropic.com>`; PR bodies end with
