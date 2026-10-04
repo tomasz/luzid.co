@@ -140,8 +140,7 @@ PORT=$((8800 + <wp number>))        export it; never use 8787 while others are r
    `git push origin HEAD` (never `-u`), then `gh pr create --head <branch>`.
 
 **Agents never merge.** The orchestrator merges in dependency order after the required
-`ci` check passes. The one exception is Dependabot: its minor and patch updates
-auto-merge once `ci` is green; majors wait for the owner.
+`ci` check passes. Dependabot's weekly grouped PR is merged by the owner like any other.
 
 ## Branch, commit and PR rules
 
