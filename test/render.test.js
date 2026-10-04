@@ -4,7 +4,7 @@ import { brotliCompressSync } from "node:zlib";
 import { helpers } from "../src/helpers.js";
 import { fit } from "../src/fit.js";
 import { pickString } from "../src/look.js";
-import { FALLBACK_FONT, pick, resolve } from "../src/pick.js";
+import { pick, resolve } from "../src/pick.js";
 import { round4 } from "../src/rand.js";
 import { render, stylesheet } from "../src/render.js";
 import { fixtureCatalog, GOLDEN_SEEDS } from "./catalog.js";
@@ -278,28 +278,4 @@ test("the favicon data URI escapes its hashes", () => {
   assert.equal(href.includes("#"), false, "a raw # would truncate the data URI at the fragment");
   assert.equal(href.includes("<"), false);
   assert.ok(href.includes("%23"));
-});
-
-test("a system-font render emits no @font-face and keeps the family stack", () => {
-  const bare = {
-    fonts: [],
-    palettes: [],
-    effects: catalog.effects,
-    presets: [],
-    deny: [],
-    weights: {},
-  };
-  const p = pick(bare, "a");
-  const css = sheet(bare, p);
-  assert.equal(css.includes("@font-face"), false);
-  assert.match(css, /font-family:Georgia,"Times New Roman",ui-serif,serif/);
-
-  assert.equal(p.f, FALLBACK_FONT.id);
-
-  // The stand-in's metrics are a deliberate upper bound on every plausible system serif —
-  // Georgia is the widest at 3.94 / 3.84 em bold — so the ink always comes out narrower
-  // than its box. Under-fill is benign; overflow would put the name past the viewport.
-  const { w1, w2 } = FALLBACK_FONT.variants[0];
-  assert.ok(w1.W > 3.94, `fallback w1 ${w1.W} must exceed Georgia's 3.94`);
-  assert.ok(w2.W > 3.84, `fallback w2 ${w2.W} must exceed Georgia's 3.84`);
 });

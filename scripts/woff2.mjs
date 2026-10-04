@@ -11,7 +11,7 @@
  * Brotli at quality 11 in BROTLI_MODE_FONT gets back more than the glyph transform gave up.
  */
 import { brotliCompressSync, brotliDecompressSync, constants } from "node:zlib";
-import { build, parse } from "./sfnt.mjs";
+import { canonical, serialize } from "./sfnt.mjs";
 
 const SIGNATURE = 0x774f4632; // 'wOF2'
 
@@ -121,10 +121,13 @@ function orderTables(tables) {
   return out;
 }
 
-/** @param {Buffer} sfnt a complete TrueType/OpenType file @returns {Buffer} */
+/**
+ * Encode the tables `serialize` would write, so `decode(encode(x))` is `serialize(x)`.
+ * @param {import("./sfnt.mjs").Sfnt} sfnt @returns {Buffer}
+ */
 export function encode(sfnt) {
-  const { flavor, tables: parsed } = parse(sfnt);
-  const tables = orderTables(parsed);
+  const { flavor, tables: sorted } = canonical(sfnt);
+  const tables = orderTables(sorted);
   const directory = [];
   for (const { tag, data } of tables) {
     const index = KNOWN_TAGS.indexOf(tag);
@@ -161,7 +164,7 @@ export function encode(sfnt) {
   return Buffer.concat([header, body, compressed, padding]);
 }
 
-/** @param {Buffer} woff2 @returns {{flavor: number, tables: {tag: string, data: Buffer}[]}} */
+/** @param {Buffer} woff2 @returns {import("./sfnt.mjs").Sfnt} */
 export function decodeTables(woff2) {
   if (woff2.length < 48 || woff2.readUInt32BE(0) !== SIGNATURE)
     throw new Error("woff2: not a WOFF2 file");
@@ -208,5 +211,5 @@ export function decodeTables(woff2) {
  * @param {Buffer} woff2 @returns {Buffer}
  */
 export function decode(woff2) {
-  return build(decodeTables(woff2));
+  return serialize(decodeTables(woff2));
 }

@@ -86,9 +86,13 @@ for (const [dir, message] of Object.entries(BAD)) {
   });
 }
 
-test("the build rejects a catalog the engine has no fallback for", () => {
+test("the build rejects an empty catalog", () => {
+  // The engine has no fallbacks (R11): an empty pool, a missing `plain` or a missing `qa-bw`
+  // must stop the build, never reach the edge.
   const without = (patch) => () => checkCatalog({ ...good, ...patch });
   assert.throws(without({ fonts: [] }), /^Error: fonts\/meta: \/: no font metas/);
+  assert.throws(without({ effects: [] }), /^Error: effects: \/: plain\.js is missing/);
+  assert.throws(without({ palettes: [] }), /^Error: data\/palettes: \/: qa-bw is missing/);
   assert.throws(
     without({ effects: good.effects.filter((e) => e.data.id !== "plain") }),
     /^Error: effects: \/: plain\.js is missing/,

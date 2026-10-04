@@ -30,8 +30,8 @@ function violations(p, catalog) {
   const palette = catalog.palettes.find((x) => x.id === p.p);
   const effect = catalog.effects.find((x) => x.id === p.e);
 
-  if (!font && p.f !== "system") out.push(`unknown font ${p.f}`);
-  if (!palette && p.p !== "qa-bw") out.push(`unknown palette ${p.p}`);
+  if (!font) out.push(`unknown font ${p.f}`);
+  if (!palette) out.push(`unknown palette ${p.p}`);
   if (!effect) out.push(`unknown effect ${p.e}`);
   if (!LAYOUT_IDS.has(p.l)) out.push(`unknown layout ${p.l}`);
   if (!"ABCDEFX".includes(p.bucket)) out.push(`unknown bucket ${p.bucket}`);

@@ -3,7 +3,7 @@
  * `min()` and nothing shifts. Numbers only: `render.js` turns them into CSS.
  */
 
-/** @import { Fit, Metrics, Scene } from "./types.js" */
+/** @import { Fit, LineGeometry, Scene } from "./types.js" */
 
 /** Shrink factor covering sub-pixel rounding and Safari's CoreText shaping differences. */
 export const SAFETY = 0.985;
@@ -20,11 +20,10 @@ export function fit(scene) {
   const { w1, w2 } = variant;
   const [F1, F2] = layout.divisors(w1, w2);
 
-  // ASC/DESC are the rounded values `scripts/sfnt.mjs` actually wrote, in em. The baseline
-  // sits (L + ASC - DESC)/2 below the line top; setting that equal to top_i gives L_i.
-  const upm = Number(font.upm ?? 0);
-  const ASC = upm > 0 ? file.asc / upm : file.asc;
-  const DESC = upm > 0 ? file.desc / upm : file.desc;
+  // ASC/DESC are the rounded values `scripts/sfnt.mjs` actually wrote, in font units. The
+  // baseline sits (L + ASC - DESC)/2 below the line top; setting that equal to top_i gives L_i.
+  const ASC = file.asc / font.upm;
+  const DESC = file.desc / font.upm;
   const L1 = 2 * w1.top - ASC + DESC;
   const L2 = 2 * w2.top - ASC + DESC;
 
@@ -32,25 +31,18 @@ export function fit(scene) {
   const h1 = (100 * w1.H) / F1;
   const h2 = (100 * w2.H) / F2;
 
-  // The effect's bleed may depend on the metrics, and G depends on the bleed's top. Two
-  // passes: bleed() sees G = g (the layout gap), css() sees the final G and R.
-  /**
-   * @param {number} G
-   * @param {number} R
-   * @returns {Metrics}
-   */
-  const metrics = (G, R) => ({
+  // bleed() sees the line geometry only. G depends on the bleed, so handing it G would be a
+  // cycle; css() and hover() get the final G and R on top.
+  /** @type {LineGeometry} */
+  const lines = {
     fs: [100 / F1, 100 / F2],
     H: [h1, h2],
     top: [(100 * w1.top) / F1, (100 * w2.top) / F2],
     asc: [(100 * ASC) / F1, (100 * ASC) / F2],
     desc: [(100 * DESC) / F1, (100 * DESC) / F2],
-    G,
-    R,
     layout: look.l,
-  });
-  const provisional = metrics(look.g, (h1 + h2 + look.g) / 100);
-  const declared = effect.bleed?.(look.params, provisional) ?? { t: 0, r: 0, b: 0, l: 0 };
+  };
+  const declared = effect.bleed(look.params, lines);
   const bleed = {
     t: Math.max(0, Number(declared.t) || 0),
     r: Math.max(0, Number(declared.r) || 0),
@@ -82,6 +74,6 @@ export function fit(scene) {
     DX: (bleed.l - bleed.r) / 2,
     DY: (bleed.t - bleed.b) / 2,
     bleed,
-    m: metrics(G, R),
+    m: { ...lines, G, R },
   };
 }
