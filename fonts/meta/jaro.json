@@ -1,23 +1,9 @@
 {
  "id": "jaro",
- "family": "Jaro",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/jaro/Jaro[opsz].ttf",
-  "sha256": "38d50e38a6fb082069984b363eb0a9280fc6a5e7f8a69fce2afce52bb6bc9670"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2023 The Jaro Project Authors (https://github.com/googlefonts/googlefonts-project-template)",
  "rfn": [],
- "archetype": [
-  "B"
+ "measured": [
+  "overlap"
  ],
- "traits": [
-  "fat",
-  "overlap",
-  "sans",
-  "wide"
- ],
- "odds": 7,
  "upm": 2000,
  "files": [
   {

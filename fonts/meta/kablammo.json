@@ -1,24 +1,10 @@
 {
  "id": "kablammo",
- "family": "Kablammo",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/kablammo/Kablammo[MORF].ttf",
-  "sha256": "900c8c183efc8d913da30dceb9e4e9886888bbd48847455343f12ce85a334925"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2023 The Kablammo Project Authors (https://github.com/Vectro-Type-Foundry/kablammo)",
  "rfn": [],
- "archetype": [
-  "D"
- ],
- "traits": [
+ "measured": [
   "capsOnly",
-  "fat",
-  "groovy",
-  "overlap",
-  "sans"
+  "overlap"
  ],
- "odds": 7,
  "upm": 2000,
  "files": [
   {

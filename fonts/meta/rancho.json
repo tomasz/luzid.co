@@ -1,21 +1,7 @@
 {
  "id": "rancho",
- "family": "Rancho",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/rancho/Rancho-Regular.ttf",
-  "sha256": "1add7ee1a98ace8d687935b2a1735e1c53efc8a2108b73c8828db2df8a231306"
- },
- "licenseId": "Apache-2.0",
- "copyright": "Copyright License. Subject to the terms and conditions of",
  "rfn": [],
- "archetype": [
-  "C"
- ],
- "traits": [
-  "brush",
-  "script"
- ],
- "odds": 8,
+ "measured": [],
  "upm": 1024,
  "files": [
   {

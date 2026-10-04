@@ -1,23 +1,9 @@
 {
  "id": "luckiest-guy",
- "family": "Luckiest Guy",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/luckiestguy/LuckiestGuy-Regular.ttf",
-  "sha256": "cfbdd68a039f92df51cf3721506af6242e64594c6325fe0bedbeff3fe385d980"
- },
- "licenseId": "Apache-2.0",
- "copyright": "Copyright License. Subject to the terms and conditions of",
  "rfn": [],
- "archetype": [
-  "D"
- ],
- "traits": [
-  "fat",
-  "groovy",
-  "sans",
+ "measured": [
   "unicase"
  ],
- "odds": 9,
  "upm": 2048,
  "files": [
   {

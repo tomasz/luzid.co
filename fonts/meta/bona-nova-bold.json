@@ -1,21 +1,7 @@
 {
  "id": "bona-nova-bold",
- "family": "Bona Nova",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bonanova/BonaNova-Bold.ttf",
-  "sha256": "c59ccb3ba8f0151236b1b427b58bee0c90607c82ef747cc6e19d5e20138385dd"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2020 The Bona Nova Project Authors (https://github.com/kosmynkab/Brygada-1918)",
  "rfn": [],
- "archetype": [
-  "A",
-  "F"
- ],
- "traits": [
-  "serif"
- ],
- "odds": 8,
+ "measured": [],
  "upm": 1000,
  "files": [
   {

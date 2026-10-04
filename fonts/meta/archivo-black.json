@@ -1,21 +1,7 @@
 {
  "id": "archivo-black",
- "family": "Archivo Black",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/archivoblack/ArchivoBlack-Regular.ttf",
-  "sha256": "dd9a89a019b4849f66ab75455fe7bdf931311042cbb0f0f97acc061539703180"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2017 The Archivo Black Project Authors (https://github.com/Omnibus-Type/ArchivoBlack)",
  "rfn": [],
- "archetype": [
-  "B"
- ],
- "traits": [
-  "fat",
-  "sans"
- ],
- "odds": 8,
+ "measured": [],
  "upm": 1000,
  "files": [
   {

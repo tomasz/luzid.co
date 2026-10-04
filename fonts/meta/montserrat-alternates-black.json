@@ -1,24 +1,9 @@
 {
  "id": "montserrat-alternates-black",
- "family": "Montserrat Alternates",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/montserratalternates/MontserratAlternates-Black.ttf",
-  "sha256": "6fa4bf87ef8927790cc11cc87b8bcadefe2d8a1326664b6d750f5b4e5e2cf943"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2011 The Montserrat Project Authors (https://github.com/JulietaUla/Montserrat)",
  "rfn": [],
- "archetype": [
-  "E",
-  "F"
+ "measured": [
+  "overlap"
  ],
- "traits": [
-  "fat",
-  "overlap",
-  "rounded",
-  "sans"
- ],
- "odds": 8,
  "upm": 1000,
  "files": [
   {

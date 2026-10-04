@@ -1,22 +1,9 @@
 {
  "id": "satisfy",
- "family": "Satisfy",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/satisfy/Satisfy-Regular.ttf",
-  "sha256": "55bb141a0a23a32278d5fa7fd2e853824faa173b94774660ebeddb106be07c80"
- },
- "licenseId": "Apache-2.0",
- "copyright": "Copyright License. Subject to the terms and conditions of",
  "rfn": [],
- "archetype": [
-  "C"
+ "measured": [
+  "connected"
  ],
- "traits": [
-  "brush",
-  "connected",
-  "script"
- ],
- "odds": 9,
  "upm": 1024,
  "files": [
   {

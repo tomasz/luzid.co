@@ -1,21 +1,7 @@
 {
  "id": "ortica-angular-bold",
- "family": "Ortica Angular",
- "src": {
-  "url": "https://raw.githubusercontent.com/collletttivo/ortica/27bf44d3ea5057b7abcd09a8922d43d0b37a4f06/fonts/OrticaAngular-Bold.otf",
-  "sha256": "0ad5997ccb75e228e3946557e8ac83902c208be00e83fed35d61f070d296085f"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright © 2023, Collletttivo (https://www.collletttivo.it/)",
  "rfn": [],
- "archetype": [
-  "F"
- ],
- "traits": [
-  "deco",
-  "serif"
- ],
- "odds": 7,
+ "measured": [],
  "upm": 1000,
  "files": [
   {

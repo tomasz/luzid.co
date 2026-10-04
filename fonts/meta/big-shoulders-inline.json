@@ -1,23 +1,9 @@
 {
  "id": "big-shoulders-inline",
- "family": "Big Shoulders Inline",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bigshouldersinline/BigShouldersInline[opsz,wght].ttf",
-  "sha256": "417c1d07898a6648faa9e3a95d7302aa44ee614e2236a2b336e16922569d1fa3"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2019 The Big Shoulders Project Authors (https://github.com/xotypeco/big_shoulders)",
  "rfn": [],
- "archetype": [
-  "B"
+ "measured": [
+  "hairline"
  ],
- "traits": [
-  "condensed",
-  "hairline",
-  "inline",
-  "sans"
- ],
- "odds": 8,
  "upm": 4000,
  "files": [
   {

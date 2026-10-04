@@ -32,7 +32,12 @@ const BAD = {
   "font-ink": "fonts/meta/fx-sans.json: /variants/0/w1/W: must be a finite number",
   "font-bytes":
     "fonts/meta/fx-sans.json: /files/0/bytes: fonts/files/fx-sans.w700.woff2 is 150 bytes, not 151",
-  "font-trait": 'fonts/meta/fx-sans.json: /traits/1: "bold" is not allowed here',
+  // Curated facts live in the source row (§5.5); a meta that stores one is not trusted.
+  "font-stored-odds": "fonts/meta/fx-sans.json: /odds: unknown key",
+  "font-trait": 'fonts/sources/fx-sans.json: /traits/1: "bold" is not allowed here',
+  "font-measured":
+    "fonts/sources/fx-sans.json: /traits/2: fonts/meta/fx-sans.json did not measure capsOnly",
+  "font-sha256": "fonts/sources/fx-sans.json: /sha256: must be the upstream's sha256",
   "palette-hex": 'data/palettes/fx.json: /0/hex/1: "#FFF" is not allowed here',
   "palette-ground": "data/palettes/fx.json: /0/roles/0/o: w points past the end of hex (2)",
   "palette-names": "data/palettes/fx.json: /0/names: must name 2–4 colours, got 5",
@@ -63,6 +68,7 @@ async function plant(dir) {
   return {
     ...good,
     fonts: over(good.fonts, bad.fonts),
+    sources: over(good.sources, bad.sources),
     palettes: over(good.palettes, bad.palettes),
     presets: over(good.presets, bad.presets),
     effects: over(good.effects, bad.effects),
@@ -154,4 +160,25 @@ test("the build derives src, tier, colors and ground instead of reading them (§
   // A derived ground is a slot like any other: a two-colour palette on washi fills three.
   assert.deepEqual(roles["w01-"], { colors: 3, ground: "w" });
   assert.deepEqual(roles["k10-"], { colors: 3, ground: "k" });
+});
+
+test("a font's curated facts come from its source row, its measurements from its meta", () => {
+  // Re-bucketing a font is a row edit the catalog picks up without the font pipeline.
+  const sources = good.sources.map((e) => ({
+    ...e,
+    data: { ...e.data, odds: 3, traits: ["sans", "unicase"] },
+  }));
+  const fonts = good.fonts.map((e) => ({
+    ...e,
+    data: { ...e.data, measured: ["capsOnly", "overlap"] },
+  }));
+  const cat = { ...good, sources, fonts };
+  assert.deepEqual(checkCatalog(cat), []);
+  const source = catalogModule(cat, resolve(fixtures, "catalog/build"));
+  const [font] = JSON.parse(source.match(/^ fonts: (.*),$/m)[1]);
+  assert.equal(font.family, "FX Sans");
+  assert.equal(font.odds, 3);
+  // The row named the case label, so its word wins over the measured one.
+  assert.deepEqual(font.traits, ["overlap", "sans", "unicase"]);
+  assert.equal(font.upm, 1000);
 });

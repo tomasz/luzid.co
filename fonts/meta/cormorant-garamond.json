@@ -1,22 +1,9 @@
 {
  "id": "cormorant-garamond",
- "family": "Cormorant Garamond",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/cormorantgaramond/CormorantGaramond[wght].ttf",
-  "sha256": "b20b7d9626dd956b2c5e558692ad328b1f19e3275e2782db4fa07670d83f35e0"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2015 the Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
  "rfn": [],
- "archetype": [
-  "F"
+ "measured": [
+  "overlap"
  ],
- "traits": [
-  "deco",
-  "overlap",
-  "serif"
- ],
- "odds": 8,
  "upm": 1000,
  "files": [
   {

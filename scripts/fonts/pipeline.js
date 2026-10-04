@@ -32,6 +32,7 @@ import {
   BUDGET_BYTES,
   casesFor,
   LETTERS,
+  MEASURED_TRAITS,
   RowError,
   stopsOf,
   TEXT,
@@ -205,9 +206,10 @@ export async function buildFont({ row, upstream, license, extras, log }) {
     }
 
     // Measured traits and the cases that are worth randomising over.
-    // Traits describe the font as it ships, so they are measured at its first stop.
+    // Traits describe the font as it ships, so they are measured at its first stop. The
+    // meta records only what was measured; the catalog build joins it with the row's.
     const measured = measureTraits(opened, stops[0].axes);
-    const traits = reconcileTraits(id, row.traits, measured);
+    reconcileTraits(id, row.traits, measured);
     const cases = casesFor(row, measured);
 
     const candidates = candidateFeatures(opened.face, row.features);
@@ -300,20 +302,17 @@ export async function buildFont({ row, upstream, license, extras, log }) {
     const em = (value, upem) => Number((value / upem).toFixed(5));
 
     result = {
+      // Measured facts only. What a curator decides — family, source, licence, buckets,
+      // declared traits, odds — stays in `fonts/sources/<id>.json`, and the catalog build
+      // joins it in by id, so re-bucketing a font never needs the font toolchain.
       meta: {
         id,
-        family: row.family,
-        src: { url: row.url, sha256: sha256(upstream) },
-        licenseId: row.licenseId,
-        copyright: row.copyright,
         // Rule 3: the names the licence reserves, `[]` when it reserves none. A non-empty
         // array means the shipped files carry `neutralName(id, [family, ...rfn])` in their
-        // name table instead of `family`; `family` above is still the upstream face, which
-        // is what the colophon and `fonts/licenses/<id>.txt` credit.
+        // name table instead of `family`; the row's `family` is still the upstream face,
+        // which is what the colophon and `fonts/licenses/<id>.txt` credit.
         rfn,
-        archetype: row.archetype,
-        traits,
-        odds: row.odds,
+        measured: MEASURED_TRAITS.filter((t) => measured[t]),
         upm,
         files: files.map((f) => ({
           id: f.stop.id,

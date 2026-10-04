@@ -1,21 +1,7 @@
 {
  "id": "rozha-one",
- "family": "Rozha One",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rozhaone/RozhaOne-Regular.ttf",
-  "sha256": "8491b838c31f30272aa6da67e4749afabab8297db82a055fd2d0aa689f500ee3"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright (c) 2014, Indian Type Foundry (info@indiantypefoundry.com).",
  "rfn": [],
- "archetype": [
-  "A"
- ],
- "traits": [
-  "fat",
-  "serif"
- ],
- "odds": 8,
+ "measured": [],
  "upm": 1000,
  "files": [
   {

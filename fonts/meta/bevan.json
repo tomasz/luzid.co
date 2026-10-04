@@ -1,23 +1,9 @@
 {
  "id": "bevan",
- "family": "Bevan",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bevan/Bevan-Regular.ttf",
-  "sha256": "8d16c0920330f1def84e342ce70626c27fbf179b4294e6391b19301ff5873469"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2016 The Bevan Project Authors (https://github.com/googlefonts/BevanFont)",
  "rfn": [],
- "archetype": [
-  "A"
+ "measured": [
+  "overlap"
  ],
- "traits": [
-  "fat",
-  "overlap",
-  "serif",
-  "slab"
- ],
- "odds": 8,
  "upm": 2048,
  "files": [
   {

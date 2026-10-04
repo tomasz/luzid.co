@@ -1,21 +1,9 @@
 {
  "id": "rochester",
- "family": "Rochester",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/rochester/Rochester-Regular.ttf",
-  "sha256": "38657df5e357e841a39995592970ac14ea96a1376f178f0d8e0231fd5d630b2b"
- },
- "licenseId": "Apache-2.0",
- "copyright": "Copyright License. Subject to the terms and conditions of",
  "rfn": [],
- "archetype": [
-  "C"
+ "measured": [
+  "connected"
  ],
- "traits": [
-  "connected",
-  "script"
- ],
- "odds": 5,
  "upm": 2048,
  "files": [
   {

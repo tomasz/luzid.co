@@ -1,21 +1,7 @@
 {
  "id": "messapia-bold",
- "family": "Messapia",
- "src": {
-  "url": "https://raw.githubusercontent.com/collletttivo/messapia/c7fbc664055d3f16f5d7431271f738ab5cdc6373/fonts/Messapia-Bold.otf",
-  "sha256": "6628fcd4b211a50e001c974f3b0e7d5e1db4547b9a470b052ea14fced07bd779"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright © 2023, Collletttivo (https://www.collletttivo.it/)",
  "rfn": [],
- "archetype": [
-  "B"
- ],
- "traits": [
-  "sans",
-  "wide"
- ],
- "odds": 8,
+ "measured": [],
  "upm": 1000,
  "files": [
   {

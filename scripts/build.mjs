@@ -3,8 +3,9 @@
  *
  * It does no maths and no network: fonts and palettes arrive already measured and
  * role-assigned from `scripts/fonts.mjs` and `scripts/palettes.mjs`, so a deploy never
- * runs the font or colour toolchain. The one thing it computes is base64 — doing that per
- * request would burn CPU on every visit.
+ * runs the font or colour toolchain. A font's curated facts are joined in from its source
+ * row, so changing its buckets, traits or odds never needs that toolchain either. The one
+ * thing it computes is base64 — doing that per request would burn CPU on every visit.
  *
  * Effects are JS modules with functions in them, so they are re-exported by a static
  * import rather than serialized; Rolldown inlines them when `vp build` bundles the Worker.
@@ -23,7 +24,7 @@ import { glob, mkdir, readFile, writeFile } from "node:fs/promises";
 import { basename, dirname, relative, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { parseArgs } from "node:util";
-import { checkCatalog, effectDefaults, PALETTE_ODDS } from "./catalog/check.js";
+import { CASE_TRAITS, checkCatalog, effectDefaults, PALETTE_ODDS } from "./catalog/check.js";
 
 const byId = (a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
 
@@ -112,6 +113,7 @@ export async function readCatalog(root, fresh = false) {
   return {
     root,
     fonts: await read("fonts/meta/*.json"),
+    sources: await read("fonts/sources/*.json"),
     palettes,
     presets: await read("presets/*.json"),
     effects,
@@ -133,13 +135,32 @@ export { checkCatalog };
  * @param {Awaited<ReturnType<typeof readCatalog>>} cat
  */
 function rows(cat) {
-  const fonts = cat.fonts.map(({ data: meta }) => ({
-    ...meta,
-    files: meta.files.map((f) => ({
-      ...f,
-      b64: cat.woff2.get(`fonts/files/${meta.id}.${f.id}.woff2`).toString("base64"),
-    })),
-  }));
+  const sources = new Map(cat.sources.map((e) => [e.data.id, e.data]));
+  // §5.5: the curated facts come from the source row, the measured ones from the meta. The
+  // traits are the row's plus what the pipeline measured, as `reconcileTraits` merges them:
+  // a row that names one of the two case labels keeps its word for it.
+  const fonts = cat.fonts.map(({ data: meta }) => {
+    const row = sources.get(meta.id);
+    const named = row.traits.some((t) => CASE_TRAITS.includes(t));
+    const measured = meta.measured.filter((t) => !(named && CASE_TRAITS.includes(t)));
+    return {
+      id: meta.id,
+      family: row.family,
+      src: { url: row.url, sha256: row.sha256 },
+      licenseId: row.licenseId,
+      copyright: row.copyright,
+      rfn: meta.rfn,
+      archetype: row.archetype,
+      traits: [...new Set([...row.traits, ...measured])].sort((a, b) => (a < b ? -1 : 1)),
+      odds: row.odds,
+      upm: meta.upm,
+      files: meta.files.map((f) => ({
+        ...f,
+        b64: cat.woff2.get(`fonts/files/${meta.id}.${f.id}.woff2`).toString("base64"),
+      })),
+      variants: meta.variants,
+    };
+  });
   // §5.4: what a palette file never stores. The source is the file name; a role set's
   // `colors` is the number of distinct slots its `o` fills, and its `ground` the derived
   // washi or sumi it sits on.

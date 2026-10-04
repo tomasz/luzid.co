@@ -1,21 +1,7 @@
 {
  "id": "permanent-marker",
- "family": "Permanent Marker",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/permanentmarker/PermanentMarker-Regular.ttf",
-  "sha256": "28f82c8a7943cb8e9d599f8554da1d4fc75dbcf69b9885ad6c0611d20c6946c5"
- },
- "licenseId": "Apache-2.0",
- "copyright": "Copyright License. Subject to the terms and conditions of",
  "rfn": [],
- "archetype": [
-  "C"
- ],
- "traits": [
-  "brush",
-  "script"
- ],
- "odds": 8,
+ "measured": [],
  "upm": 1024,
  "files": [
   {

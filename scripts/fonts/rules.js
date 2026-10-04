@@ -2,13 +2,20 @@
  * The font source-row schema and the contract constants the pipeline is built on (PLAN §5.5):
  * one home for both, so the CLI, the tests and the catalog build cannot disagree.
  *
- * The closed vocabularies (traits, archetypes, licence ids, cases) are not defined here. The
- * catalog build validates every font meta against them too, so they live in
- * `scripts/catalog/check.js` and are re-exported from this file.
+ * The closed vocabularies (traits, measured traits, archetypes, licence ids, cases) are not
+ * defined here. The catalog build validates every font meta and source row against them
+ * too, so they live in `scripts/catalog/check.js` and are re-exported from this file.
  */
-import { ARCHETYPES, CASES, LICENSE_IDS, TRAITS } from "../catalog/check.js";
+import {
+  ARCHETYPES,
+  CASE_TRAITS,
+  CASES,
+  LICENSE_IDS,
+  MEASURED_TRAITS,
+  TRAITS,
+} from "../catalog/check.js";
 
-export { ARCHETYPES, CASES, LICENSE_IDS, TRAITS };
+export { ARCHETYPES, CASE_TRAITS, CASES, LICENSE_IDS, MEASURED_TRAITS, TRAITS };
 
 // ---------------------------------------------------------------- contract constants
 
@@ -78,16 +85,6 @@ export const FEATURE_DENY = new Set([
   "medi",
   "isol",
 ]);
-
-/**
- * Traits the pipeline measures from the outlines. A source row may still declare one — a
- * reader of a batch file should be able to see that a face is caps-only without building
- * it — but the two have to agree; see `reconcileTraits`.
- */
-export const MEASURED_TRAITS = ["capsOnly", "unicase", "connected", "hairline", "overlap"];
-
-/** The two labels for one measurement: the lowercase letters are the capitals. */
-export const CASE_TRAITS = ["capsOnly", "unicase"];
 
 /** The §5.5 source-row keys. Anything else the pipeline needs is found by id instead. */
 const ROW_KEYS = new Set([

@@ -1,22 +1,7 @@
 {
  "id": "kiwi-maru-medium",
- "family": "Kiwi Maru",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/kiwimaru/KiwiMaru-Medium.ttf",
-  "sha256": "b2659f300a7d48c3f29eb273ffc5e1b26cc416ac8c37ff6bb2f3e43c2f4d235a"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2020 The Kiwi Maru Project Authors (https://github.com/Kiwi-KawagotoKajiru/Kiwi-Maru)",
  "rfn": [],
- "archetype": [
-  "E"
- ],
- "traits": [
-  "jp",
-  "rounded",
-  "serif"
- ],
- "odds": 6,
+ "measured": [],
  "upm": 1000,
  "files": [
   {

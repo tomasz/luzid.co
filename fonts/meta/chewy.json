@@ -1,23 +1,7 @@
 {
  "id": "chewy",
- "family": "Chewy",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/chewy/Chewy-Regular.ttf",
-  "sha256": "7cf75ea288f82fd20badea8ab4da7a656a96a7277c170811e813b3d3d6294147"
- },
- "licenseId": "Apache-2.0",
- "copyright": "Copyright License. Subject to the terms and conditions of",
  "rfn": [],
- "archetype": [
-  "C",
-  "D"
- ],
- "traits": [
-  "brush",
-  "rounded",
-  "script"
- ],
- "odds": 7,
+ "measured": [],
  "upm": 1024,
  "files": [
   {

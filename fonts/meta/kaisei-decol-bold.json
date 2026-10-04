@@ -1,23 +1,7 @@
 {
  "id": "kaisei-decol-bold",
- "family": "Kaisei Decol",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/kaiseidecol/KaiseiDecol-Bold.ttf",
-  "sha256": "0e3a6da5145fdbba32cfb1c806812d95457506e1698f5d61e8f834fb847f0d6f"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2020 The Kaisei Project Authors (https://github.com/Font-Kai/Kaisei)",
  "rfn": [],
- "archetype": [
-  "A"
- ],
- "traits": [
-  "jp",
-  "rounded",
-  "serif",
-  "soft"
- ],
- "odds": 7,
+ "measured": [],
  "upm": 1000,
  "files": [
   {

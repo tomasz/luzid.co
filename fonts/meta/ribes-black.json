@@ -1,22 +1,7 @@
 {
  "id": "ribes-black",
- "family": "Ribes",
- "src": {
-  "url": "https://raw.githubusercontent.com/collletttivo/ribes/e5f58f6ef719ff69b599a3155c66f4cecaed0a0f/fonts/Ribes-Black.otf",
-  "sha256": "c38f7389c5cc2317372954552d9aaaad6ef12024b98d27eb146f871ebc6ecb0f"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright © 2023, Collletttivo (https://www.collletttivo.it/)",
  "rfn": [],
- "archetype": [
-  "D"
- ],
- "traits": [
-  "fat",
-  "groovy",
-  "sans"
- ],
- "odds": 9,
+ "measured": [],
  "upm": 1000,
  "files": [
   {

@@ -1,23 +1,9 @@
 {
  "id": "smooch-sans",
- "family": "Smooch Sans",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/smoochsans/SmoochSans[wght].ttf",
-  "sha256": "6d82f480d71365d9c6c4f96ad1f3cab44053ea3f0b63650b1e0e539d915aff49"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2016 The Smooch Sans Project Authors (https://github.com/googlefonts/smooch-sans)",
  "rfn": [],
- "archetype": [
-  "E"
+ "measured": [
+  "overlap"
  ],
- "traits": [
-  "condensed",
-  "overlap",
-  "rounded",
-  "sans"
- ],
- "odds": 6,
  "upm": 1000,
  "files": [
   {

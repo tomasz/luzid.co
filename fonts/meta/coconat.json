@@ -1,23 +1,9 @@
 {
  "id": "coconat",
- "family": "Coconat",
- "src": {
-  "url": "https://raw.githubusercontent.com/collletttivo/coconat/75f0bf21470de362ebee2f173e99505b7a7e977b/fonts/Coconat-Regular.otf",
-  "sha256": "782e06a11fba0d6a07b4ebad6cd45ddc324dec62bb67cbc7bd57a233b2069221"
- },
- "licenseId": "OFL-1.1",
- "copyright": "© 2023, Collletttivo & Sara Lavazza",
  "rfn": [],
- "archetype": [
-  "A",
-  "F"
+ "measured": [
+  "overlap"
  ],
- "traits": [
-  "deco",
-  "overlap",
-  "serif"
- ],
- "odds": 4,
  "upm": 1000,
  "files": [
   {

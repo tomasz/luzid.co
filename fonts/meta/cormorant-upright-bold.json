@@ -1,21 +1,7 @@
 {
  "id": "cormorant-upright-bold",
- "family": "Cormorant Upright",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/cormorantupright/CormorantUpright-Bold.ttf",
-  "sha256": "4b691441a35a78ec69490c046596f3b326235e3a3f88a56d3b288b4f2844aa6f"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright (c) 2015, Christian Thalmann and the Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
  "rfn": [],
- "archetype": [
-  "F"
- ],
- "traits": [
-  "deco",
-  "serif"
- ],
- "odds": 8,
+ "measured": [],
  "upm": 1000,
  "files": [
   {

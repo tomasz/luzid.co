@@ -1,23 +1,10 @@
 {
  "id": "danfo",
- "family": "Danfo",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/danfo/Danfo[ELSH].ttf",
-  "sha256": "7e88c371ac63b0e4d0140812e703a3e021d37147a0df4f167ac324255a39d42f"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2023 The Danfo Project Authors (https://github.com/Afrotype/danfo)",
  "rfn": [],
- "archetype": [
-  "B"
- ],
- "traits": [
+ "measured": [
   "capsOnly",
-  "fat",
-  "overlap",
-  "sans"
+  "overlap"
  ],
- "odds": 7,
  "upm": 1000,
  "files": [
   {
