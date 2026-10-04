@@ -169,8 +169,12 @@ PORT=$((8800 + <wp number>))        export it; never use 8787 while others are r
   is your work package.
 
 Owner-merged paths (a PR touching them gets the `needs-owner` label and waits):
-`.github/**`, `wrangler.jsonc`, `package.json`, `pnpm-*.yaml`, `vite.config.js`,
-`scripts/ruleset.json`, `.claude/**`, `.devcontainer/**`, and `src/**` once WP-13 has merged.
+`.github/**` (including `.github/ruleset.json`), `wrangler.jsonc`, `package.json`,
+`pnpm-*.yaml`, `vite.config.js`, `.claude/**`, `.devcontainer/**`, and `src/**` once WP-13
+has merged.
+
+`.github/ruleset.json` records the live `main` ruleset. The owner applies it after a merge
+that changes it: `gh api -X PUT repos/tomasz/luzid.co/rulesets/23998451 --input .github/ruleset.json`.
 
 ## Hard rules
 
