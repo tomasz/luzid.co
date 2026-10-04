@@ -16,9 +16,6 @@ env:
   WRANGLER_SEND_METRICS: "false"
   # Read by e2e/fit-lib.js. A pull_request run has no inputs, so it is always `changed`.
   FIT_SCOPE: ${{ inputs.fit-scope || 'changed' }}
-  # pnpm for `vp install` and for the pnpm shim; test/repo.test.js keeps both = devEngines.packageManager.
-  VP_PACKAGE_MANAGER: "pnpm@12.8.1"
-  VP_PNPM_VERSION: "12.8.1"
 
 # Called from cd.yml or sweep.yml, `github.workflow` is the caller's name, so each caller
 # gets its own group and a sweep never queues a deploy. Neither caller sets a top-level
@@ -37,6 +34,7 @@ jobs:
       - uses: voidzero-dev/setup-vp@3754dd7dbdb32bd8f6d28b6043de13ad3a75f21f # v1.21.1
         with:
           cache: true # vp version from package.json, Node from engines.node; runs vp install
+      - run: pnpm --version
       - run: pnpm run check
 
   e2e:
