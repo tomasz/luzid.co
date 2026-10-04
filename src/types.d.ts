@@ -215,11 +215,17 @@ export interface Effect<P extends Record<string, number> = Record<string, number
   fonts: { deny: readonly Trait[]; prefer: readonly Trait[] };
   palettes: { prefer: readonly string[] };
   params: { readonly [K in keyof P]: ParamSpec };
-  /** Sees the line geometry only: `G` and `R` depend on the bleed, so it cannot see them. */
-  bleed: (p: P, lines: LineGeometry) => Bleed;
+  /**
+   * Sees the line geometry only: `G` and `R` depend on the bleed, so it cannot see them.
+   * `h` is the same helpers object `css()` gets, for `h.toward` and the reach constants.
+   */
+  bleed: (p: P, lines: LineGeometry, h: Helpers) => Bleed;
   css: (p: P, h: Helpers, m: Metrics) => string;
-  /** Declarations for `a.n:hover` / `a.n:active`; `render.js` owns the selector (R6). */
-  hover: ((p: P, h: Helpers, m: Metrics) => string) | null;
+  /**
+   * Declarations for `a.n:hover` / `a.n:active`; `render.js` owns the selector (R6). A
+   * hover that reads no params may be the declaration string itself.
+   */
+  hover: string | ((p: P, h: Helpers, m: Metrics) => string) | null;
   motion: ((p: P, h: Helpers, m: Metrics) => string) | null;
 }
 

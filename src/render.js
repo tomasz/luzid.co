@@ -137,7 +137,9 @@ function effectCss(scene, fit) {
   // accessible name instead of a doubled one.
   const body = raw && effect.shape === "B" ? `@supports (content:"x" / ""){${raw}}` : raw;
 
-  const decls = effect.hover?.(look.params, helpers, fit.m);
+  // A hover that reads no params may be the declaration string itself.
+  const decls =
+    typeof effect.hover === "string" ? effect.hover : effect.hover?.(look.params, helpers, fit.m);
   const hover = decls
     ? `@media (hover:hover) and (pointer:fine){a.n:hover{${decls}}}a.n:active{${decls}}`
     : "a.n:active{scale:.985}";

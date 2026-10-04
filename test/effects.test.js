@@ -16,8 +16,8 @@
  *     the outermost loop and the last name varies fastest. `plain` has one: `{}`.
  *  3. Each combination `p` appends four lines, each ending in `\n`:
  *     `JSON.stringify(p)` (keys in sorted order), the bleed as `t r b l` joined by spaces,
- *     `css(p, helpers, METRICS)`, and `hover(p, helpers, METRICS)` (empty when `hover` is
- *     null). `bleed` is called as `bleed(p, METRICS)`.
+ *     `css(p, helpers, METRICS)`, and `hover(p, helpers, METRICS)` (the string itself when
+ *     `hover` is a string, empty when it is null). `bleed` is called as `bleed(p, METRICS, helpers)`.
  *  4. The file holds the lowercase hex sha256 of that UTF-8 string, then `\n`.
  *
  * `METRICS` (in `test/effects-lint.js`, with `grid()`) is the fixed metrics object for all
@@ -29,7 +29,7 @@ import { createHash } from "node:crypto";
 import { expect, test } from "vite-plus/test";
 import { TRAITS } from "../scripts/catalog/check.js";
 import { helpers } from "../src/helpers.js";
-import { effects, grid, METRICS, parse, shadowLengths, topSplit } from "./effects-lint.js";
+import { effects, grid, hoverOf, METRICS, parse, shadowLengths, topSplit } from "./effects-lint.js";
 
 const SELECTOR = /^(\.n|\.l|\.l1|\.l2)(::(before|after))?$/;
 
@@ -191,7 +191,10 @@ function lintCss(css, where, { mode }) {
           const [, y = 0, r = 0] = shadowLengths(layer);
           if (r > 0) {
             blurLayers++;
-            assert.ok(r <= 2.5, `${where}: blur radius ${r}u exceeds the 2.5u cap`);
+            assert.ok(
+              r <= helpers.MAX_BLUR,
+              `${where}: blur radius ${r}u exceeds the ${helpers.MAX_BLUR}u cap`,
+            );
           } else hardLayers++;
           if (y < 0) upward = Math.max(upward, -y);
         }
@@ -224,13 +227,16 @@ function lintCss(css, where, { mode }) {
   }
 
   assert.ok(
-    hardLayers <= 64,
-    `${where}: ${hardLayers} hard shadow layers exceeds the measured cap of 64`,
+    hardLayers <= helpers.CAP,
+    `${where}: ${hardLayers} hard shadow layers exceeds the measured cap of ${helpers.CAP}`,
   );
-  assert.ok(blurLayers <= 4, `${where}: ${blurLayers} blurred layers exceeds the cap of 4`);
   assert.ok(
-    dropShadows <= 4,
-    `${where}: a drop-shadow chain of ${dropShadows} exceeds the cap of 4`,
+    blurLayers <= helpers.BLURS,
+    `${where}: ${blurLayers} blurred layers exceeds the cap of ${helpers.BLURS}`,
+  );
+  assert.ok(
+    dropShadows <= helpers.CHAIN,
+    `${where}: a drop-shadow chain of ${dropShadows} exceeds the cap of ${helpers.CHAIN}`,
   );
   if (upward > 10) {
     assert.ok(
@@ -292,7 +298,7 @@ for (const { file, id, fx } of effects) {
     for (const p of grid(fx.params ?? {})) {
       const where = `${file} ${JSON.stringify(p)}`;
 
-      const bleed = fx.bleed(p, METRICS);
+      const bleed = fx.bleed(p, METRICS, helpers);
       for (const side of ["t", "r", "b", "l"]) {
         const v = bleed[side];
         assert.ok(Number.isFinite(v) && v >= 0, `${where}: bleed.${side} = ${v}`);
@@ -311,7 +317,7 @@ for (const { file, id, fx } of effects) {
       else assert.equal(copies, 0, `${where}: a ${COPY} copy makes this shape B, not A`);
 
       if (fx.hover) {
-        const decls = fx.hover(p, helpers, METRICS);
+        const decls = hoverOf(fx, p, helpers, METRICS);
         assert.equal(typeof decls, "string", `${where}: hover() returns declarations, not a rule`);
         assert.equal(
           decls.includes("{"),
@@ -327,9 +333,9 @@ for (const { file, id, fx } of effects) {
     // The recipe is spelled out in the header; keep the two in step.
     let text = "";
     for (const p of grid(fx.params ?? {})) {
-      const b = fx.bleed(p, METRICS);
+      const b = fx.bleed(p, METRICS, helpers);
       text += `${JSON.stringify(p)}\n${b.t} ${b.r} ${b.b} ${b.l}\n`;
-      text += `${fx.css(p, helpers, METRICS)}\n${fx.hover?.(p, helpers, METRICS) ?? ""}\n`;
+      text += `${fx.css(p, helpers, METRICS)}\n${hoverOf(fx, p, helpers, METRICS)}\n`;
     }
     const hash = createHash("sha256").update(text, "utf8").digest("hex");
     await expect(`${hash}\n`).toMatchFileSnapshot(`./golden/effects/${id}.sha256`);

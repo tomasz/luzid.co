@@ -14,6 +14,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { loadCatalog } from "../scripts/build.mjs";
+import { helpers } from "../src/helpers.js";
 import { drawLayoutAxes } from "../src/pick.js";
 import { bbox, decodePng, flatten } from "./png.js";
 
@@ -206,7 +207,12 @@ export function expectedFit(font, variant, layout, g, effect, params) {
     R,
     layout,
   });
-  const raw = effect.bleed?.(params, metrics(g, (h1 + h2 + g) / 100)) ?? { t: 0, r: 0, b: 0, l: 0 };
+  const raw = effect.bleed?.(params, metrics(g, (h1 + h2 + g) / 100), helpers) ?? {
+    t: 0,
+    r: 0,
+    b: 0,
+    l: 0,
+  };
   const b = {
     t: Math.max(0, Number(raw.t) || 0),
     r: Math.max(0, Number(raw.r) || 0),

@@ -179,8 +179,13 @@ export function checkEffect(file, fx) {
 
   for (const k of ["bleed", "css"])
     if (typeof fx[k] !== "function") throw at(file, `/${k}`, "must be a function");
-  if ("hover" in fx && fx.hover !== null && typeof fx.hover !== "function")
-    throw at(file, "/hover", "must be a function or null");
+  if (
+    "hover" in fx &&
+    fx.hover !== null &&
+    typeof fx.hover !== "function" &&
+    typeof fx.hover !== "string"
+  )
+    throw at(file, "/hover", "must be a function, a string or null");
   if (fx.motion !== null) throw at(file, "/motion", "must be null until Wave 4");
   return warnings;
 }

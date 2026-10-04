@@ -3,6 +3,8 @@
  * `min()` and nothing shifts. Numbers only: `render.js` turns them into CSS.
  */
 
+import { helpers } from "./helpers.js";
+
 /** @import { Fit, LineGeometry, Scene } from "./types.js" */
 
 /** Shrink factor covering sub-pixel rounding and Safari's CoreText shaping differences. */
@@ -42,7 +44,7 @@ export function fit(scene) {
     desc: [(100 * DESC) / F1, (100 * DESC) / F2],
     layout: look.l,
   };
-  const declared = effect.bleed(look.params, lines);
+  const declared = effect.bleed(look.params, lines, helpers);
   const bleed = {
     t: Math.max(0, Number(declared.t) || 0),
     r: Math.max(0, Number(declared.r) || 0),
