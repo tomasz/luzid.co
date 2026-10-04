@@ -10,9 +10,10 @@
  * the tile PNGs back into a blank page as `data:` URIs and screenshotting that. The
  * browser is already here and it is better at laying out a grid than we would be.
  *
- *   node scripts/sheet.mjs [--changed] [--kind fonts|palettes|effects|slash|random]
+ *   node scripts/sheet.mjs [--changed] [--kind auto|fonts|palettes|effects|slash|random]
  *                          [--limit N] [--url http://…] [--out sheets] [--port N]
  *
+ * `--kind auto`, the default, sheets every kind; `--limit` caps the sheets per kind.
  * `--changed` sheets exactly the items that differ from `origin/main`, which is what a
  * content PR wants; with nothing changed it falls back to one random sheet.
  */
@@ -20,7 +21,7 @@
 import { execFileSync, spawn } from "node:child_process";
 import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
-import { argv, env, exit } from "node:process";
+import { argv, env } from "node:process";
 import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
 
@@ -248,24 +249,25 @@ async function main() {
         const seed = seedAt(n++);
         const href = tileUrl(server.base, seed, pins);
 
-        let png;
+        let png, res;
         if (sheet.crop) {
           // A crop wants the glyph as large as it gets, so it is taken off a wide viewport
           // and then clipped rather than scaled up from a tile.
           const view = { width: 1600, height: 1000 };
           await page.setViewportSize(view);
-          await page.goto(href, { waitUntil: "load" });
+          res = await page.goto(href, { waitUntil: "load" });
           await page.evaluate(() => document.fonts.ready);
           png = await page.screenshot({ clip: frame(await page.evaluate(SLASH_RECT), view) });
         } else {
           await page.setViewportSize({ width: TILE.w, height: TILE.h });
-          await page.goto(href, { waitUntil: "load" });
+          res = await page.goto(href, { waitUntil: "load" });
           await page.evaluate(() => document.fonts.ready);
           png = await page.screenshot();
         }
 
-        const res = await fetch(href);
-        const pick = res.headers.get("luzid-pick") ?? "";
+        // The pick comes off the navigation itself: one request per tile. Firefox and WebKit
+        // join a multi-value header with ", ", so normalise as fit-lib does.
+        const pick = (await res.headerValue("luzid-pick"))?.replaceAll(", ", ",") ?? "";
         shots.push(png.toString("base64"));
         rows.push({ tile: i, seed, pick, url: href.slice(server.base.length) });
       }
@@ -336,5 +338,6 @@ const escapeHtml = (s) => String(s).replace(/[&<>"]/g, (c) => HTML[c]);
 
 main().catch((err) => {
   console.error(err);
-  exit(1);
+  // Not exit(): it can cut off the error above before stderr has flushed.
+  process.exitCode = 1;
 });
