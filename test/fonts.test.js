@@ -459,9 +459,7 @@ test("rule 3: a reserved name is renamed rather than refused, and a font with no
     // The licence file carries name ID 0 as "Upstream copyright: …", so this is the same
     // pair of strings the pipeline read when it decided whether to rename.
     const reserved = reservedFontNames(text, meta.copyright);
-    // A meta written before the rename landed has no `rfn` key; it was built under the v1.0
-    // rule, which refused anything reserving a name, so it reserves nothing.
-    assert.deepEqual(meta.rfn ?? [], reserved, `${meta.id}: meta.rfn disagrees with the licence`);
+    assert.deepEqual(meta.rfn, reserved, `${meta.id}: meta.rfn disagrees with the licence`);
 
     const forbidden = reserved.length > 0 ? [meta.family, ...reserved] : [];
     for (const file of meta.files) {
