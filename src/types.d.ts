@@ -1,6 +1,6 @@
 /**
  * The shapes that cross a boundary: data files into the catalog, the catalog into `pick()`,
- * a pick into `render()`, and the engine into an effect. Type-only: nothing imports this at
+ * a look into a scene, a scene into `fit()` and `render()`, and the engine into an effect. Type-only: nothing imports this at
  * runtime, and `vp check` is the only reader. The prose source of truth is
  * `docs/contracts.md`; where the two disagree, the contract wins and this file is wrong.
  */
@@ -166,23 +166,30 @@ export type LayoutId = "stack-eq" | "stack-fit";
 
 export type Align = "center" | "flex-end" | "flex-start";
 
+/** A `src/layout.js` row. */
 export interface Layout {
   id: LayoutId;
   odds: number;
+  /** The §5.2 font-size divisors `F1`, `F2` for the two lines' ink boxes. */
+  divisors: (w1: Ink, w2: Ink) => Pair;
 }
 
-/** §5.6 `m`: the fitted geometry an effect may read, in u. */
-export interface Metrics {
+/** The two lines' fitted geometry, in u: what the layout alone decides. */
+export interface LineGeometry {
   fs: Pair;
   H: Pair;
   top: Pair;
   asc: Pair;
   desc: Pair;
+  layout: string;
+}
+
+/** §5.6 `m`: the fitted geometry an effect may read, in u. */
+export interface Metrics extends LineGeometry {
   /** The final gap between the lines (provisional, `= g`, while `bleed()` runs). */
   G: number;
   /** Block height over block width. */
   R: number;
-  layout: string;
 }
 
 /** The object effects receive as `h`. */
@@ -231,17 +238,19 @@ export interface Look {
   pinned: AxisKey[];
 }
 
-/** A look resolved back to the catalog rows the renderer needs. */
+/** A look resolved back to the catalog rows `fit()` and `render()` need. */
 export interface Scene {
+  look: Look;
   font: Font;
   variant: Variant;
   file: FontFile;
   palette: Palette;
-  role: RoleSet;
+  roleSet: RoleSet;
   effect: Effect;
+  layout: Layout;
 }
 
-/** The §5.2 literals `render.js` writes into the stylesheet. */
+/** The §5.2 numbers `fit.js` computes and `render.js` writes into the stylesheet. */
 export interface Fit {
   F1: number;
   F2: number;

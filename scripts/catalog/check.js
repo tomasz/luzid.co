@@ -12,7 +12,8 @@
  */
 import { createHash } from "node:crypto";
 import { basename } from "node:path";
-import { BUCKET_ODDS, LAYOUTS } from "../../src/pick.js";
+import { LAYOUTS } from "../../src/layout.js";
+import { BUCKET_ODDS } from "../../src/pick.js";
 
 /** §5.5: closed enum. Adding one is a `contract` PR. */
 export const TRAITS = new Set([

@@ -12,11 +12,12 @@
  * `pick()` is pure. It never touches the network, the clock or `Math.random`.
  */
 
+import { ALIGNS, GAP, LAYOUTS, SIDE } from "./layout.js";
 import { flag, step, weighted } from "./rand.js";
 
 /**
- * @import { Align, AxisKey, Bucket, Catalog, Chance, DenyRule, Effect, Font, Layout, Look,
- *   Palette, ParamSpec, Pins, Preset, Scene } from "./types.js"
+ * @import { AxisKey, Bucket, Catalog, DenyRule, Effect, Font, Look, Palette, ParamSpec, Pins,
+ *   Preset, Scene } from "./types.js"
  */
 
 /** A pin naming something that does not exist, or a pin combination nothing satisfies. */
@@ -37,25 +38,6 @@ export class PickError extends Error {
 export const PIN_KEYS = /** @type {const} */ (["f", "v", "p", "r", "e", "l"]);
 
 /**
- * Layouts are engine, not data: adding one is a change to `render.js` as well.
- * @type {Layout[]}
- */
-export const LAYOUTS = [
-  { id: "stack-eq", odds: 4 },
-  { id: "stack-fit", odds: 12 },
-];
-
-/**
- * Cross-axis alignment of the two lines. Only `stack-eq` can show a difference.
- * @type {{id: Align, odds: number}[]}
- */
-const ALIGNS = [
-  { id: "center", odds: 8 },
-  { id: "flex-end", odds: 4 },
-  { id: "flex-start", odds: 4 },
-];
-
-/**
  * D4: 90% of visits draw from the six taste archetypes, equal share each.
  *
  * A soft 70s display serif · B ultra-heavy wide caps with inline or stencil cuts ·
@@ -67,12 +49,6 @@ const ALIGNS = [
  * @type {Record<Bucket, number>}
  */
 export const BUCKET_ODDS = { A: 3, B: 3, C: 3, D: 3, E: 3, F: 3, X: 2 };
-
-/** @type {ParamSpec} Gap between the two lines, in u. */
-const G_SPEC = [4, 10, 2];
-
-/** @type {Chance} D8: about a quarter of seeds add the rotated portrait variant. */
-const SIDE_ODDS = [1, 4];
 
 const DEFAULT_ODDS = 4;
 
@@ -445,8 +421,8 @@ export function pick(seed, pins, catalog) {
   });
   fixed.l = layout.id;
 
-  const side = flag(seed, "l/side", SIDE_ODDS[0], SIDE_ODDS[1]);
-  const g = step(seed, "l/g", G_SPEC);
+  const side = flag(seed, "l/side", SIDE[0], SIDE[1]);
+  const g = step(seed, "l/g", GAP);
   const align = /** @type {(typeof ALIGNS)[number]} */ (
     weighted(seed, "l/a", ALIGNS, (x) => x.odds)
   ).id;
@@ -471,43 +447,26 @@ export function pick(seed, pins, catalog) {
 }
 
 /**
- * The canonical Pick string: the `Luzid-Pick` header, the colophon comment and the unit
- * that a deny rule or a bug report is written against.
+ * Resolve a look's ids back to the catalog rows the fit and the renderer need.
  *
- *   f:<id>.<variant> p:<id>.<roles> e:<id>(k=v,…) l:<id>(g=…,a=…[,side])
- *
- * @param {Look} p
- * @returns {string}
- */
-export function pickString(p) {
-  const kv = Object.keys(p.params)
-    .sort()
-    .map((k) => `${k}=${p.params[k]}`)
-    .join(",");
-  const lp = [`g=${p.g}`, `a=${p.align}`, ...(p.side ? ["side"] : [])].join(",");
-  return `f:${p.f}.${p.v} p:${p.p}.${p.r} e:${p.e}${kv ? `(${kv})` : ""} l:${p.l}(${lp})`;
-}
-
-/**
- * Resolve a Pick's ids back to the catalog rows the renderer needs.
- *
- * @param {Look} p
  * @param {Catalog} catalog
+ * @param {Look} look
  * @returns {Scene}
  */
-export function resolve(p, catalog) {
+export function resolve(catalog, look) {
   const fonts = catalog.fonts?.length ? catalog.fonts : [FALLBACK_FONT];
   const palettes = catalog.palettes?.length ? catalog.palettes : [FALLBACK_PALETTE];
   const effects = catalog.effects?.length ? catalog.effects : [NULL_EFFECT];
 
-  const font = fonts.find((x) => x.id === p.f);
-  const variant = font?.variants.find((x) => x.id === p.v);
+  const font = fonts.find((x) => x.id === look.f);
+  const variant = font?.variants.find((x) => x.id === look.v);
   const file = font?.files.find((x) => x.id === variant?.file) ?? font?.files[0];
-  const palette = palettes.find((x) => x.id === p.p);
-  const role = palette?.roles.find((x) => x.o === p.r);
-  const effect = effects.find((x) => x.id === p.e);
-  if (!font || !variant || !file || !palette || !role || !effect) {
+  const palette = palettes.find((x) => x.id === look.p);
+  const roleSet = palette?.roles.find((x) => x.o === look.r);
+  const effect = effects.find((x) => x.id === look.e);
+  const layout = LAYOUTS.find((x) => x.id === look.l);
+  if (!font || !variant || !file || !palette || !roleSet || !effect || !layout) {
     throw new PickError("incompatible", "resolve");
   }
-  return { font, variant, file, palette, role, effect };
+  return { look, font, variant, file, palette, roleSet, effect, layout };
 }

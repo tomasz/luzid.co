@@ -3,12 +3,13 @@
  *
  * One route. The seed and the CSP nonce are the only two random values, both drawn inside
  * the fetch handler (Workers forbid random generation at global scope). Everything else is
- * `pick()` and `render()`, which are pure: the same seed and the same catalog give the
- * same bytes in Node, in workerd and in a browser.
+ * `pick()`, `resolve()` and `render()`, which are pure: the same seed and the same catalog
+ * give the same bytes in Node, in workerd and in a browser.
  */
 
 import catalog from "../build/catalog.js";
-import { PickError, pick, pickString } from "./pick.js";
+import { pickString } from "./look.js";
+import { PickError, pick, resolve } from "./pick.js";
 import { render } from "./render.js";
 
 const SEED_ALPHABET = "0123456789abcdefghjkmnpqrstvwxyz"; // Crockford base32, lowercase
@@ -87,17 +88,17 @@ export default {
       pins[k] = v;
     }
 
-    let chosen;
+    let look;
     try {
-      chosen = pick(seed, pins, catalog);
+      look = pick(seed, pins, catalog);
     } catch (err) {
       if (err instanceof PickError) return new Response("Bad pin", { status: 400 });
       throw err;
     }
 
     const n = nonce();
-    const pickStr = pickString(chosen);
-    const body = render(chosen, catalog, { nonce: n, pick: pickStr });
+    const pickStr = pickString(look);
+    const body = render(resolve(catalog, look), n);
 
     console.log(JSON.stringify({ seed, pick: pickStr }));
     return new Response(request.method === "HEAD" ? null : body, { headers: headers(n, pickStr) });

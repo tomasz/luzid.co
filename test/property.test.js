@@ -9,7 +9,9 @@
 import assert from "node:assert/strict";
 import { test } from "vite-plus/test";
 import { brotliCompressSync } from "node:zlib";
-import { denied, LAYOUTS, pick, pickString, resolve } from "../src/pick.js";
+import { LAYOUTS } from "../src/layout.js";
+import { pickString } from "../src/look.js";
+import { denied, pick, resolve } from "../src/pick.js";
 import { render } from "../src/render.js";
 import { fixtureCatalog, seeds } from "./catalog.js";
 
@@ -87,7 +89,7 @@ for (const [name, catalog, n] of [
       assert.deepEqual(bad, [], `seed ${seed} (${pickString(p)}): ${bad.join("; ")}`);
       for (const k of Object.keys(axes)) axes[k].add(p[k]);
       // resolve() has to find every row the Pick names, or render would throw at the edge.
-      assert.ok(resolve(p, catalog).effect);
+      assert.ok(resolve(catalog, p).effect);
     }
     // Every axis that has more than one live candidate should actually vary.
     assert.ok(axes.l.size === 2, "both layouts must occur");
@@ -100,13 +102,8 @@ for (const [name, catalog, n] of [
 test("rendering is deterministic and the stylesheet is well-formed", () => {
   for (const seed of seeds(500, "r")) {
     const p = pick(seed, {}, fixture);
-    const str = pickString(p);
-    const html = render(p, fixture, { nonce: "test", pick: str });
-    assert.equal(
-      html,
-      render(p, fixture, { nonce: "test", pick: str }),
-      `${seed} is not deterministic`,
-    );
+    const html = render(resolve(fixture, p), "test");
+    assert.equal(html, render(resolve(fixture, p), "test"), `${seed} is not deterministic`);
 
     // P6, zero-dependency tier: the stylesheet must at least be well-formed.
     const css = html.match(/<style nonce="test">([\s\S]*?)<\/style>/)[1];
@@ -145,7 +142,7 @@ test("the heaviest live fonts under every effect stay inside the byte budget", (
         const params = Object.fromEntries(spec.map(([k, range]) => [k, range[end]]));
         const p = { ...base, f: font.id, v: v.id, e: effect.id, params, side: true };
         const str = pickString(p);
-        const html = render(p, live, { nonce: "q7Lp2Xv9mK3sT8wR4yN1bA==", pick: str });
+        const html = render(resolve(live, p), "q7Lp2Xv9mK3sT8wR4yN1bA==");
         const size = brotliCompressSync(Buffer.from(html, "utf8")).length;
         if (size > worst.size) worst = { size, pick: str };
       }
@@ -162,7 +159,7 @@ test("pick + render stay far inside the CPU budget", () => {
   for (const seed of seeds(300, "t")) {
     const t0 = performance.now();
     const p = pick(seed, {}, fixture);
-    render(p, fixture, { nonce: "test", pick: pickString(p) });
+    render(resolve(fixture, p), "test");
     samples.push(performance.now() - t0);
   }
   samples.sort((a, b) => a - b);
