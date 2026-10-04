@@ -21,10 +21,18 @@
 import assert from "node:assert/strict";
 import { test } from "vite-plus/test";
 import { helpers as h } from "../src/helpers.js";
-import { effects, grid, METRICS as M, parse, shadowLengths, topSplit } from "./effects-lint.js";
+import {
+  effects,
+  grid,
+  hoverOf,
+  METRICS as M,
+  parse,
+  shadowLengths,
+  topSplit,
+} from "./effects-lint.js";
 
-/** R14: a blurred layer paints to about one radius beyond its offset. 1.1 is the safety factor. */
-const BLUR_REACH = 1.1;
+/** R14: a blurred layer paints to about one radius beyond its offset; `h.REACH` budgets it. */
+const BLUR_REACH = h.REACH;
 
 /**
  * How far past its declaration an effect may score before this test complains, in u.
@@ -131,7 +139,7 @@ test("every effect either bounds its own ink or says it cannot be scanned static
   for (const { id, fx: e } of effects) {
     for (const p of grid(e.params)) {
       // Hover ink is painted ink too (§5.6), so its declarations are scanned as a rule.
-      const hover = e.hover?.(p, h, M);
+      const hover = hoverOf(e, p, h, M);
       const css = e.css(p, h, M) + (hover ? `.n{${hover}}` : "");
       const { ext, opaque } = extent(css);
       const declared = e.bleed?.(p, M) ?? { t: 0, r: 0, b: 0, l: 0 };

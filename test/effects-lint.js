@@ -60,6 +60,14 @@ export function grid(params) {
   return sets;
 }
 
+/**
+ * What an effect's `hover` emits at `p`: a string hover is the declarations themselves, a
+ * function is called like `css`, and `null` emits nothing.
+ */
+export function hoverOf(fx, p, h, m) {
+  return typeof fx.hover === "string" ? fx.hover : (fx.hover?.(p, h, m) ?? "");
+}
+
 /** Split on `sep` at paren depth 0. */
 export function topSplit(s, sep) {
   const out = [];
