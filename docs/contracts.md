@@ -299,7 +299,7 @@ property (4.8% of seeds move when 4.76% of weight is added, against 93.9% for an
 scan). §5.3 overrides it with "cumulative scan over candidates sorted by id", and the plan
 wins. Sorting by **id** rather than array order removes the worst of the index dependence —
 a glob-order change cannot move a pick — but adding an item still shifts the seeds of every
-item sorted after it. `test/property.test.js` measures and bounds that drift. Soft
+item sorted after it. `test/pick.property.test.js` measures and bounds that drift. Soft
 permalinks are therefore weaker here than the research assumed; pins remain the stable repro.
 
 ### R3 — the effect axis checks its colour and polarity needs forward

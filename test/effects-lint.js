@@ -1,7 +1,7 @@
 /**
- * What `effects.test.js` (the lint and the grid hashes) and `bleed.test.js` (the static ink
- * scan) both need: the effects themselves, one parameter grid, one metrics object, and one
- * reader for the CSS an effect emits.
+ * What `data/effects.test.js` (the lint and the grid hashes) and `data/bleed.test.js` (the
+ * static ink scan) both need: the effects themselves, one parameter grid, one metrics object,
+ * and one reader for the CSS an effect emits.
  *
  * `parse()` deliberately only understands a flat list of style rules. Effects never write
  * an at-rule: `@media`, `@supports` and the reduced-motion nesting all belong to

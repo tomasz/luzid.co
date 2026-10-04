@@ -3,11 +3,11 @@ import { execFileSync, spawnSync } from "node:child_process";
 import { access, readdir, readFile } from "node:fs/promises";
 import { test } from "vite-plus/test";
 import { fileURLToPath } from "node:url";
-import { colors } from "../scripts/palettes/sources/wada1.js";
-import { contrast, grounds, roleSets } from "../scripts/palettes/roles.js";
+import { colors } from "../../scripts/palettes/sources/wada1.js";
+import { contrast, grounds, roleSets } from "../../scripts/palettes/roles.js";
 
 const HEX = /^#[0-9a-f]{6}$/;
-const path = (p) => fileURLToPath(new URL(`../${p}`, import.meta.url));
+const path = (p) => fileURLToPath(new URL(`../../${p}`, import.meta.url));
 // §5.4: a row stores only what cannot be derived. `src`, `tier`, a role set's `colors` and
 // `ground` are filled by the catalog build, so the files must not carry them.
 const ROW_KEYS = ["id", "odds", "names", "namesJa", "hex", "roles"];
