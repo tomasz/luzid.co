@@ -10,7 +10,6 @@ import {
   table,
   withMetrics,
   withNames,
-  withOverlapFlags,
 } from "../scripts/sfnt.mjs";
 import { decode, decodeTables, encode } from "../scripts/woff2.mjs";
 
@@ -187,7 +186,7 @@ test("encode refuses a font with loca but no glyf", () => {
 
 /**
  * One simple glyph and one composite, neither flagged: every shipped font is flagged already,
- * so only a font like this one shows whether setting the flags writes into its input.
+ * so only a font like this one shows whether the verifier would notice a missing flag.
  */
 function unflaggedGlyf() {
   const head = Buffer.alloc(54); // indexToLocFormat at 50 stays 0: short offsets
@@ -210,15 +209,18 @@ function unflaggedGlyf() {
   ]);
 }
 
-test("the overlap flags land on the first flag byte and the first component", () => {
+test("the overlap flags are read from the first flag byte and the first component", () => {
   const font = unflaggedGlyf();
   assert.deepEqual(overlapFlags(font), { glyphs: 2, flagged: 0 });
-  const flagged = withOverlapFlags(font);
+  const glyf = Buffer.from(table(font, "glyf"));
+  glyf[14] = 0x40; // OVERLAP_SIMPLE
+  glyf.writeUInt16BE(0x0400, 26); // OVERLAP_COMPOUND
+  const flagged = {
+    ...font,
+    tables: font.tables.map((t) => (t.tag === "glyf" ? { ...t, data: glyf } : t)),
+  };
   assert.deepEqual(overlapFlags(flagged), { glyphs: 2, flagged: 2 });
-  const glyf = table(flagged, "glyf");
-  assert.equal(glyf[14], 0x40, "OVERLAP_SIMPLE");
-  assert.equal(glyf.readUInt16BE(26), 0x0400, "OVERLAP_COMPOUND");
-  assert.equal(withOverlapFlags(fixture([["CFF ", Buffer.alloc(4)]])).tables.length, 1);
+  assert.deepEqual(overlapFlags(fixture([["CFF ", Buffer.alloc(4)]])), { glyphs: 0, flagged: 0 });
 });
 
 test("no sfnt or woff2 function writes into its argument", () => {
@@ -234,7 +236,6 @@ test("no sfnt or woff2 function writes into its argument", () => {
   const records = Object.freeze([Object.freeze(record)]);
 
   const outputs = [
-    withOverlapFlags(frozen),
     withMetrics(frozen, { asc: 900, desc: 300 }),
     withNames(frozen, records),
     canonical(frozen),

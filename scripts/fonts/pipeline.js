@@ -1,7 +1,7 @@
 /**
  * The font pipeline proper: one source row, its upstream original and its licence in; the
  * WOFF2 subsets, the meta and the licence file out. Every rule of PLAN §5.5 after rule 1 is
- * enforced here and every one of them is a hard failure. No files and no network (subset-font
+ * enforced here and every one of them is a hard failure. No files and no network (`subset.js`
  * loads its own wasm on first use): the CLI reads the inputs through `fetch.js` and decides
  * what to do with the outputs.
  *
@@ -15,7 +15,6 @@
  *    `font-variation-settings` entirely.
  */
 import { hash } from "node:crypto";
-import subsetFont from "subset-font";
 import {
   deriveMetrics,
   overlapFlags,
@@ -26,7 +25,6 @@ import {
   serialize,
   withMetrics,
   withNames,
-  withOverlapFlags,
 } from "../sfnt.mjs";
 import { decode, encode } from "../woff2.mjs";
 import {
@@ -50,6 +48,7 @@ import {
   upstreamVersion,
 } from "./licence.js";
 import { inkBox, openFont, shape } from "./shape.js";
+import { subset } from "./subset.js";
 import { measureCrossbar, measureStem, measureTraits, reconcileTraits } from "./measure.js";
 import {
   BudgetError,
@@ -92,8 +91,8 @@ export function checkCoverage(id, { face, font }) {
 }
 
 /**
- * Subset one stop, set the overlap flags and rename it. Returns the parsed subset and its
- * serialized bytes; `packStop` writes the metrics and packs it.
+ * Subset one stop (hb-subset sets the overlap flags, rule 5) and rename it. Returns the parsed
+ * subset and its serialized bytes; `packStop` writes the metrics and packs it.
  *
  * `rename` is `{name, version}` for a font whose licence reserves its name and `null` for
  * one that does not — a font with no Reserved Font Name keeps its own name table untouched.
@@ -102,16 +101,17 @@ export function checkCoverage(id, { face, font }) {
  * short one costs less than rebuilding the upstream's hundred records.
  */
 async function subsetStop({ original, axes, keepFeatures, rename }) {
-  const subset = await subsetFont(original, TEXT, {
-    targetFormat: "sfnt",
-    noHinting: true,
-    preserveNameIds: [13, 14],
-    dropTables: ["STAT", "MVAR"],
-    ...(Object.keys(axes).length > 0 ? { variationAxes: axes } : {}),
-    keepFeatures,
-  });
-  const flagged = withOverlapFlags(parse(subset));
-  const parsed = rename ? withNames(flagged, renameRecords(readNames(flagged), rename)) : flagged;
+  const subsetted = parse(
+    await subset(original, TEXT, {
+      axes,
+      features: keepFeatures,
+      nameIds: [13, 14],
+      dropTables: ["STAT", "MVAR"],
+    }),
+  );
+  const parsed = rename
+    ? withNames(subsetted, renameRecords(readNames(subsetted), rename))
+    : subsetted;
   // The ink has to be measured before the metrics can be derived, and the metrics have to
   // be written before the file can be weighed, so the subset is handed back in between.
   return { parsed, sfnt: serialize(parsed) };

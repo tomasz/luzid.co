@@ -59,8 +59,8 @@ the same unless its `onFail` is `"ignore"`, so it carries that. That field is th
 declaration (no `engines.pnpm`, no `VP_PNPM_VERSION` in the workflows), and
 `test/repo.test.js` fails if this file stops quoting its version. Node
 built-ins are preferred over packages in scripts: `node:zlib`, `fs.glob`, `parseArgs`,
-`fetch`. There are exactly six devDependencies (`vite-plus`, `@cloudflare/vite-plugin`,
-`wrangler`, `@playwright/test`, `harfbuzzjs`, `subset-font`) and zero runtime dependencies.
+`fetch`. There are exactly five devDependencies (`vite-plus`, `@cloudflare/vite-plugin`,
+`wrangler`, `@playwright/test`, `harfbuzzjs`) and zero runtime dependencies.
 
 Vite+ (`vp`) is the whole toolchain: Vite 8 with Rolldown builds the Worker, Vitest runs
 the unit tests, Oxlint lints and Oxfmt formats, all with their defaults, configured in the

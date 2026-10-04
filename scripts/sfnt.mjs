@@ -1,22 +1,21 @@
 /**
  * Minimal SFNT (TrueType/OpenType) reader, writer and patcher. No dependencies.
  *
- * Four jobs, all of them required by PLAN §5.2 and §5.5 rules 3 and 5:
+ * Three jobs, all of them required by PLAN §5.2 and §5.5 rules 3 and 5:
  *
  *  1. `withMetrics` rewrites the vertical metrics so that every engine and OS puts the
  *     baseline in the same place. Without this the pseudo-element copies an effect paints
  *     drift away from the real text on one platform or another, and `ascent-override` is not
  *     an option because Safari does not support it.
- *  2. `withOverlapFlags` sets OVERLAP_SIMPLE / OVERLAP_COMPOUND on every `glyf` glyph.
- *     A pinned instance of a variable font almost always has overlapping contours, and
- *     Apple's rasterizer punches holes through them unless the flag says not to.
- *  3. `readNames` / `withNames` rebuild the `name` table. The OFL requires a Modified
+ *  2. `readNames` / `withNames` rebuild the `name` table. The OFL requires a Modified
  *     Version of a font that declares a Reserved Font Name to carry a different name, and
- *     neither `subset-font` nor `hb-subset` can rewrite name IDs 1-6 (subset-font 2.9.0,
- *     verified in its source): hb-subset only chooses which records to *keep*.
- *  4. `serialize` reassembles a font with correct table checksums and
+ *     `hb-subset` cannot rewrite name IDs 1-6: it only chooses which records to *keep*.
+ *  3. `serialize` reassembles a font with correct table checksums and
  *     `head.checkSumAdjustment`, which both WOFF2 encoding and decoding need (WOFF2 does not
  *     carry checksums).
+ *
+ * The overlap flags of rule 5 are set by hb-subset itself (`fonts/subset.js`); `overlapFlags`
+ * here only proves that they survived.
  *
  * Every `with*` function returns a new `Sfnt` and leaves its argument alone: the pipeline
  * holds one parsed subset across several steps, and a step that patched it in place would
@@ -375,19 +374,6 @@ function* glyfFlagOffsets(sfnt) {
       yield [start + 10, 0x04];
     }
   }
-}
-
-/**
- * Set the overlap flag on every glyph that can carry one. CFF fonts have no `glyf` and
- * need nothing: the PostScript rasterizer uses the non-zero winding rule already.
- * @param {Sfnt} sfnt @returns {Sfnt}
- */
-export function withOverlapFlags(sfnt) {
-  const glyf = table(sfnt, "glyf");
-  if (!glyf) return sfnt;
-  const data = Buffer.from(glyf);
-  for (const [at, bit] of glyfFlagOffsets(sfnt)) data[at] |= bit;
-  return withTable(sfnt, "glyf", data);
 }
 
 /** How many glyphs can carry an overlap flag, and how many do. Used by the verifier. */
