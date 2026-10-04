@@ -11,7 +11,6 @@ import {
   changeNotice,
   checkBudget,
   checkCoverage,
-  declaresReservedFontName,
   dedupeCombos,
   effectiveFeatures,
   LETTERS,
@@ -45,7 +44,6 @@ import {
   parse,
   readMetrics,
   readNames,
-  unitsPerEm,
   writeNames,
 } from "../scripts/sfnt.mjs";
 import { decode } from "../scripts/woff2.mjs";
@@ -210,7 +208,7 @@ test("rule 3: the OFL body is not a false positive, and the header is where it i
   // search matches every OFL font in existence. Only the copyright block above the first
   // rule of dashes is read.
   assert.deepEqual(reservedFontNames(OFL, "Copyright 2018 The Fraunces Project Authors"), []);
-  assert.equal(declaresReservedFontName(OFL, ""), false);
+  assert.equal(reservedFontNames(OFL, "").length, 0);
 
   const reserved = OFL.replace(
     "Authors (github",
@@ -794,14 +792,8 @@ test("§5.2: the metadata records the em grid its metrics are on", async () => {
       `${meta.id}: upm must be a positive integer`,
     );
     for (const file of meta.files) {
-      const { tables } = parse(
-        decode(await readFile(url(`fonts/files/${meta.id}.${file.id}.woff2`))),
-      );
-      assert.equal(
-        unitsPerEm(tables),
-        meta.upm,
-        `${meta.id}.${file.id}: head.unitsPerEm is not meta.upm`,
-      );
+      const { upem } = await openShipped(`${meta.id}.${file.id}.woff2`);
+      assert.equal(upem, meta.upm, `${meta.id}.${file.id}: head.unitsPerEm is not meta.upm`);
       assert.ok(!("upem" in file), `${meta.id}.${file.id}: upm is recorded once, at the top level`);
     }
   }

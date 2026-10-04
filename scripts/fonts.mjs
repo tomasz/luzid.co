@@ -43,8 +43,8 @@ import {
   parse,
   readMetrics,
   readNames,
+  readWeightClass,
   setOverlapFlags,
-  unitsPerEm,
   writeNames,
 } from "./sfnt.mjs";
 import { decode, encode } from "./woff2.mjs";
@@ -385,10 +385,6 @@ export function reservedFontNames(licenseText, copyrightName = "") {
   for (const name of names) if (!seen.has(squash(name))) seen.set(squash(name), name);
   return [...seen.values()];
 }
-
-/** Kept for the tests and for reading a shipped licence file back: does it reserve anything? */
-export const declaresReservedFontName = (licenseText, copyrightName) =>
-  reservedFontNames(licenseText, copyrightName).length > 0;
 
 // ---------------------------------------------------------------- rule 3: renaming
 
@@ -928,24 +924,6 @@ function candidateFeatures(face, allowed) {
 
 // ---------------------------------------------------------------- source rows
 
-/** `fvar` axis records. Needed because every axis has to be pinned, not just the ones we vary. */
-function axisTags(tables) {
-  const fvar = tables.find((t) => t.tag === "fvar");
-  if (!fvar) return [];
-  const at = fvar.data.readUInt16BE(4);
-  const count = fvar.data.readUInt16BE(8);
-  const size = fvar.data.readUInt16BE(10);
-  return Array.from({ length: count }, (_, i) => {
-    const p = at + i * size;
-    return {
-      tag: fvar.data.toString("latin1", p, p + 4),
-      min: fvar.data.readInt32BE(p + 4) / 65536,
-      default: fvar.data.readInt32BE(p + 8) / 65536,
-      max: fvar.data.readInt32BE(p + 12) / 65536,
-    };
-  });
-}
-
 /** Kebab-case: the form of a row id and of a stop id, which both end up in filenames. */
 const KEBAB = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 
@@ -1244,7 +1222,7 @@ function verifyFile(id, woff2, metrics, forbidden = []) {
   try {
     const covered = checkCoverage(id, opened);
     if (covered !== 23) fail(id, `the shipped file maps ${covered} code points, expected 23`);
-    return { glyphs: covered, overlap, names, upm: unitsPerEm(tables) };
+    return { glyphs: covered, overlap, names, upm: opened.upem };
   } finally {
     opened.close();
   }
@@ -1290,7 +1268,8 @@ async function processRow(row, dirs, log, { writeRepo }) {
     if (rename)
       log(`${id}: reserves ${rfn.map((n) => `"${n}"`).join(", ")} — shipping as ${rename.name}`);
 
-    const axes = axisTags(parse(original).tables);
+    // Every axis has to be pinned, not just the ones we vary, so all of them are read.
+    const axes = Object.values(upstream.face.getAxisInfos());
     const stops = normalizeStops(row);
     if (axes.length > 0 && !row.stops) fail(id, "a variable font must list its static stops");
     for (const stop of stops) {
@@ -1366,9 +1345,7 @@ async function processRow(row, dirs, log, { writeRepo }) {
           file.upem = instance.upem;
           // Stroke widths are read off the shipped instance, so a pinned wght is included.
           file.stroke = { stem: measureStem(instance), crossbar: measureCrossbar(instance) };
-          // referenceTable hands back a Uint8Array; usWeightClass is OS/2 offset 4.
-          const os2 = instance.face.referenceTable("OS/2");
-          file.weight = os2 ? (os2[4] << 8) | os2[5] : undefined;
+          file.weight = readWeightClass(file.parsed.tables);
         } finally {
           instance.close();
         }
