@@ -19,9 +19,27 @@ function catalog() {
       await build({ quiet: true });
     },
     configureServer(server) {
+      // A burst of saves must not start overlapping builds that interleave their writes:
+      // while one runs, later events only mark it dirty, and it runs once more at the end.
+      // `fresh` re-imports effect modules, which Node would otherwise serve from its cache.
+      let running = false;
+      let dirty = false;
       server.watcher.on("all", async (_event, file) => {
         const rel = relative(server.config.root, file);
-        if (SOURCES.some((dir) => rel.startsWith(dir))) await build({ quiet: true });
+        if (!SOURCES.some((dir) => rel.startsWith(dir))) return;
+        if (running) {
+          dirty = true;
+          return;
+        }
+        running = true;
+        try {
+          do {
+            dirty = false;
+            await build({ quiet: true, fresh: true });
+          } while (dirty);
+        } finally {
+          running = false;
+        }
       });
     },
   };

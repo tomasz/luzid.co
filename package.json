@@ -16,7 +16,6 @@
     "@cloudflare/vite-plugin": "1.62.3",
     "@playwright/test": "1.63.0",
     "harfbuzzjs": "1.6.2",
-    "subset-font": "2.9.0",
     "vite-plus": "1.0.0",
     "wrangler": "4.145.0"
   },

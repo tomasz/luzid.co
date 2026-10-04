@@ -45,7 +45,6 @@ export const TRAITS = new Set([
 export const ARCHETYPES = new Set(Object.keys(BUCKET_ODDS));
 export const LICENSE_IDS = new Set(["OFL-1.1", "Apache-2.0", "GUST"]);
 export const CASES = new Set(["none", "uppercase", "lowercase"]);
-export const TIERS = new Set(["historical", "editorial", "era-approx"]);
 
 /** §5.6, in the order every effect file states them. */
 export const EFFECT_KEYS = [
@@ -269,14 +268,16 @@ export function checkFontMeta(file, meta) {
 }
 
 /**
- * `data/palettes/<source>.json`: an array of rows.
+ * `data/palettes/<source>.json`: an array of rows. A row stores only what cannot be
+ * derived; `src`, `tier`, each role set's `colors` and `ground` are filled by the build
+ * (§5.4), so a file that stores them is rejected rather than trusted.
  *
  * @param {string} file
  * @param {any} rows
  */
 export function checkPalette(file, rows) {
   if (!Array.isArray(rows)) throw at(file, "", "must be an array of palette rows");
-  const all = ["id", "src", "tier", "odds", "names", "namesJa", "hex", "roles"];
+  const all = ["id", "odds", "names", "namesJa", "hex", "roles"];
   rows.forEach((row, i) => {
     const ptr = `/${i}`;
     keys(
@@ -289,9 +290,6 @@ export function checkPalette(file, rows) {
     // Namespaced by the file it lives in, which is the source (§5.4: `wada1-176`).
     if (typeof row.id !== "string" || !row.id.startsWith(`${stem(file)}-`) || !KEBAB.test(row.id))
       throw at(file, `${ptr}/id`, `must be kebab-case and start with ${stem(file)}-`);
-    if (!KEBAB.test(row.src)) throw at(file, `${ptr}/src`, "must be kebab-case");
-    if (!TIERS.has(row.tier))
-      throw at(file, `${ptr}/tier`, `must be one of ${[...TIERS].join(", ")}`);
     if ("odds" in row && !isOdds(row.odds))
       throw at(file, `${ptr}/odds`, "must be an integer 0–16");
     strings(file, `${ptr}/names`, row.names);
@@ -312,7 +310,7 @@ export function checkPalette(file, rows) {
     const orders = new Set();
     row.roles.forEach((role, j) => {
       const rp = `${ptr}/roles/${j}`;
-      keys(file, rp, role, ["o", "dark", "n", "derivedBg"], ["o", "dark"]);
+      keys(file, rp, role, ["o", "dark"]);
       if (typeof role.o !== "string" || !ORDER.test(role.o))
         throw at(file, `${rp}/o`, `${show(role.o)} is not a role order like 10-- or w012`);
       if (orders.has(role.o)) throw at(file, `${rp}/o`, `duplicate role order ${role.o}`);

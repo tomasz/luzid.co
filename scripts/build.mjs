@@ -20,7 +20,7 @@
  * `<file>: /<pointer>: <message>` (the rules are in `scripts/catalog/check.js`).
  */
 import { glob, mkdir, readFile, writeFile } from "node:fs/promises";
-import { dirname, relative, resolve } from "node:path";
+import { basename, dirname, relative, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { parseArgs } from "node:util";
 import { checkCatalog, effectDefaults, PALETTE_ODDS } from "./catalog/check.js";
@@ -72,8 +72,9 @@ function effective(odds) {
  * that is present but broken fails the build instead of silently dropping every rule in it.
  *
  * @param {string} root
+ * @param {boolean} [fresh] bypass Node's module cache for effects (the dev watcher)
  */
-export async function readCatalog(root) {
+export async function readCatalog(root, fresh = false) {
   root = resolve(root);
   const read = async (pattern) =>
     Promise.all(
@@ -88,17 +89,30 @@ export async function readCatalog(root) {
   const effects = await Promise.all(
     (await find(root, "effects/*.js")).map(async (file) => ({
       file,
-      data: (await import(pathToFileURL(resolve(root, file)).href)).default,
+      data: (
+        await import(pathToFileURL(resolve(root, file)).href + (fresh ? `?t=${Date.now()}` : ""))
+      ).default,
     })),
   );
   const woff2 = new Map();
   for (const file of await find(root, "fonts/files/*.woff2"))
     woff2.set(file, await readFile(resolve(root, file)));
 
+  // A palette file's tier is its source's, and the source's adapter is where it is stated
+  // (§5.4). A file with no adapter (the hand-written qa.json, the fixtures) has no tier.
+  const palettes = await Promise.all(
+    (await read("data/palettes/*.json")).map(async (entry) => {
+      const adapter = `scripts/palette-sources/${basename(entry.file, ".json")}.mjs`;
+      if ((await find(root, adapter)).length === 0) return entry;
+      const { tier } = (await import(pathToFileURL(resolve(root, adapter)).href)).default;
+      return { ...entry, tier };
+    }),
+  );
+
   return {
     root,
     fonts: await read("fonts/meta/*.json"),
-    palettes: await read("data/palettes/*.json"),
+    palettes,
     presets: await read("presets/*.json"),
     effects,
     deny: await optional("data/deny.json"),
@@ -126,9 +140,22 @@ function rows(cat) {
       b64: cat.woff2.get(`fonts/files/${meta.id}.${f.id}.woff2`).toString("base64"),
     })),
   }));
-  const palettes = cat.palettes
-    .flatMap((e) => e.data)
-    .map((row) => ({ ...row, odds: row.odds ?? PALETTE_ODDS }));
+  // §5.4: what a palette file never stores. The source is the file name; a role set's
+  // `colors` is the number of distinct slots its `o` fills, and its `ground` the derived
+  // washi or sumi it sits on.
+  const palettes = cat.palettes.flatMap((e) =>
+    e.data.map((row) => ({
+      ...row,
+      src: basename(e.file, ".json"),
+      ...(e.tier ? { tier: e.tier } : {}),
+      odds: row.odds ?? PALETTE_ODDS,
+      roles: row.roles.map((r) => ({
+        ...r,
+        colors: new Set(r.o.replaceAll("-", "")).size,
+        ground: r.o[0] === "w" || r.o[0] === "k" ? r.o[0] : null,
+      })),
+    })),
+  );
   return {
     fonts: fonts.sort(byId),
     palettes: palettes.sort(byId),
@@ -195,11 +222,11 @@ export async function loadCatalog(root = ".") {
  * Reads, checks and writes `out` plus its `.d.ts`. The `catalog` plugin in vite.config.js
  * calls this as `build()`.
  *
- * @param {{root?: string, out?: string, quiet?: boolean}} [opts]
+ * @param {{root?: string, out?: string, quiet?: boolean, fresh?: boolean}} [opts]
  */
 export async function writeCatalog(opts = {}) {
   const out = resolve(opts.out ?? "build/catalog.js");
-  const cat = await readCatalog(opts.root ?? ".");
+  const cat = await readCatalog(opts.root ?? ".", opts.fresh);
   const warnings = checkCatalog(cat);
 
   // The type check reads this declaration instead of the module, whose inferred type would

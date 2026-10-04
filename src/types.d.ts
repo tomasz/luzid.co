@@ -96,19 +96,23 @@ export interface Font {
   variants: readonly Variant[];
 }
 
-/** §5.4 rule 3. `o` = bg, fg, a1, a2: a hex index, `w`/`k` for a derived ground, `-` for an alias. */
+/**
+ * §5.4 rule 3. `o` = bg, fg, a1, a2: a hex index, `w`/`k` for a derived ground, `-` for an
+ * alias. `colors` and `ground` are derived from `o` by the catalog build, never stored.
+ */
 export interface RoleSet {
   o: string;
   dark: boolean;
-  n: number;
-  derivedBg: "w" | "k" | null;
+  colors: number;
+  ground: "w" | "k" | null;
   odds?: number;
 }
 
+/** `src` is the file name and `tier` the source adapter's, both filled by the catalog build. */
 export interface Palette {
   id: string;
   src: string;
-  tier: string;
+  tier?: string;
   /** Filled by the build when the row leaves it out. */
   odds: number;
   names: readonly string[];

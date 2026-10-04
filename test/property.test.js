@@ -51,8 +51,8 @@ function violations(p, catalog) {
     const role = palette.roles.find((r) => r.o === p.r);
     if (!role) out.push(`${p.p} has no role set ${p.r}`);
     else {
-      if (role.n < effect.colors)
-        out.push(`${p.e} needs ${effect.colors} colours, ${p.r} has ${role.n}`);
+      if (role.colors < effect.colors)
+        out.push(`${p.e} needs ${effect.colors} colours, ${p.r} has ${role.colors}`);
       if (effect.bg !== "any" && role.dark !== (effect.bg === "dark"))
         out.push(`${p.e} needs a ${effect.bg} ground`);
     }

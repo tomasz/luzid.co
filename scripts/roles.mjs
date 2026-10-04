@@ -4,7 +4,7 @@
  * A palette arrives as 2–4 unordered colours. A *role set* orders them into
  * `bg, fg, a1, a2` — the only four custom properties the runtime ever sees:
  *
- *     {o: '1023', dark: false, n: 4, derivedBg: null}
+ *     {o: '1023', dark: false}
  *
  * `o` is four characters, one per role: a digit is an index into the row's `hex`,
  * `w`/`k` is the derived ground (see below) and `-` means the role is aliased, so
@@ -12,6 +12,9 @@
  *
  *     o[2] === '-'  →  --a1: var(--fg)
  *     o[3] === '-'  →  --a2: var(--bg)
+ *
+ * Nothing else is stored: the catalog build derives a role set's colour count and its
+ * ground from `o` (§5.4), so they can never disagree with it.
  *
  * Tier A: keep ordered `(bg, fg)` pairs reaching WCAG 3:1 (the large-text threshold;
  * the name is always large text). Leftover colours become `a1`, `a2` in both orders.
@@ -68,12 +71,12 @@ export function grounds(hex) {
 export function roleSets(hex) {
   const n = hex.length;
   const out = [];
-  const emit = (bg, o, derivedBg) => out.push({ o, dark: luminance(bg) < DARK, n, derivedBg });
+  const emit = (bg, o) => out.push({ o, dark: luminance(bg) < DARK });
 
   for (let bg = 0; bg < n; bg++) {
     for (let fg = 0; fg < n; fg++) {
       if (bg === fg || contrast(hex[bg], hex[fg]) < 3) continue;
-      for (const a of accents(n, [bg, fg])) emit(hex[bg], `${bg}${fg}${a}`, null);
+      for (const a of accents(n, [bg, fg])) emit(hex[bg], `${bg}${fg}${a}`);
     }
   }
   if (out.length > 0) return out;
@@ -85,7 +88,7 @@ export function roleSets(hex) {
   ]) {
     for (let fg = 0; fg < n; fg++) {
       if (contrast(bg, hex[fg]) < 3) continue;
-      for (const a of accents(n, [fg])) emit(bg, `${key}${fg}${a}`, key);
+      for (const a of accents(n, [fg])) emit(bg, `${key}${fg}${a}`);
     }
   }
   return out;

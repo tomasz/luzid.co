@@ -153,12 +153,12 @@ function drawAxis(s, { axis, pool, compatible, oddsOf, fallback }) {
  *
  * @param {string} token
  * @param {{id: string, src?: string, tier?: string}} palette
- * @param {readonly {dark: boolean, n: number}[]} sets
+ * @param {readonly {dark: boolean, colors: number}[]} sets
  */
 function prefers(token, palette, sets) {
   if (token === "dark") return sets.some((r) => r.dark);
   if (token === "light") return sets.some((r) => !r.dark);
-  if (/^n[234]$/.test(token)) return sets.some((r) => r.n === Number(token.slice(1)));
+  if (/^n[234]$/.test(token)) return sets.some((r) => r.colors === Number(token.slice(1)));
   if (palette.tier === token) return true;
   return palette.src === token || palette.id.startsWith(`${token}-`);
 }
@@ -167,10 +167,11 @@ function prefers(token, palette, sets) {
  * Role sets this effect can paint on: enough colours, and the right ground polarity.
  *
  * @param {{colors: number, bg: string}} effect
- * @param {{dark: boolean, n: number}} roleSet
+ * @param {{dark: boolean, colors: number}} roleSet
  */
 const roleFits = (effect, roleSet) =>
-  roleSet.n >= effect.colors && (effect.bg === "any" || (effect.bg === "dark") === roleSet.dark);
+  roleSet.colors >= effect.colors &&
+  (effect.bg === "any" || (effect.bg === "dark") === roleSet.dark);
 
 /**
  * Free draw or preset. Without presets there is nothing to draw.

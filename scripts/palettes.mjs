@@ -10,7 +10,11 @@
  *
  * Row shape:
  *
- *   {id, src, tier, odds, names[], namesJa[]?, hex[], roles[]}
+ *   {id, odds?, names[], namesJa[]?, hex[], roles[{o, dark}]}
+ *
+ * Only what cannot be derived is written. The catalog build fills the rest (§5.4): `src` is
+ * the file name, `tier` the adapter's, `odds` defaults to 4, and each role set's `colors`
+ * and `ground` come from its `o`.
  *
  * `hex` holds the palette's own colours first, `names` names them one for one. A row whose
  * combination has no pair reaching 3:1 gets both derived grounds appended after them, always
@@ -75,7 +79,7 @@ export async function main(argv) {
   return failed ? 1 : 0;
 }
 
-async function generate({ id, tier, rows: source }) {
+async function generate({ id, rows: source }) {
   const input = await source();
   if (!Array.isArray(input)) throw new Error(`${id}: rows() must return an array`);
   const rows = input.map((row) => {
@@ -83,12 +87,10 @@ async function generate({ id, tier, rows: source }) {
     const roles = roleSets(row.hex);
     if (roles.length === 0)
       throw new Error(`${row.id}: no role set — roles.mjs must always emit one`);
-    const hex = roles.some((r) => r.derivedBg) ? [...row.hex, ...grounds(row.hex)] : row.hex;
+    const hex = roles.some(onGround) ? [...row.hex, ...grounds(row.hex)] : row.hex;
     return {
       id: row.id,
-      src: id,
-      tier,
-      odds: row.odds ?? 4,
+      ...(row.odds !== undefined ? { odds: row.odds } : {}),
       names: row.names,
       ...(row.namesJa ? { namesJa: row.namesJa } : {}),
       hex,
@@ -102,17 +104,20 @@ async function generate({ id, tier, rows: source }) {
   const json = `[\n${rows.map((r) => JSON.stringify(r)).join(",\n")}\n]\n`;
 
   const sets = rows.flatMap((r) => r.roles);
-  const derived = sets.filter((r) => r.derivedBg);
-  const combos = rows.filter((r) => r.roles.some((s) => s.derivedBg)).length;
+  const derived = sets.filter(onGround);
+  const combos = rows.filter((r) => r.roles.some(onGround)).length;
   console.log(
     `${id}: ${rows.length} combos → ${sets.length} role sets, ` +
       `${derived.length} on a derived ground (${combos} combos, ` +
-      `${derived.filter((r) => r.derivedBg === "w").length} washi / ` +
-      `${derived.filter((r) => r.derivedBg === "k").length} sumi), ` +
+      `${derived.filter((r) => r.o[0] === "w").length} washi / ` +
+      `${derived.filter((r) => r.o[0] === "k").length} sumi), ` +
       `${sets.filter((r) => r.dark).length} dark · ${json.length} B`,
   );
   return { id, json };
 }
+
+/** A role set sits on a derived ground when its bg is `w` or `k`. */
+const onGround = (role) => role.o[0] === "w" || role.o[0] === "k";
 
 function checkAdapter(adapter, file) {
   const fail = (what) => {
