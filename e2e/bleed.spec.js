@@ -94,6 +94,7 @@ const WATCHLIST = [
   { id: "retro-deboss", params: { k: 0.3, s: 1.8 }, predicted: "1.92u on r, b" },
   { id: "glow-neon", params: { r: 25, t: 60 }, predicted: "1.25u on all four" },
   { id: "glow-fire", params: { r: 25, l: 6 }, predicted: "1.25u on l, r, t" },
+  { id: "glow-anaglyph", params: { s: 12, a: 0 }, hover: true, predicted: "none: 1.8u l, r" },
   { id: "depth-float", params: { y: 10, o: 18 }, hover: true, predicted: "0.09u on t (hover)" },
   { id: "depth-drop", params: { d: 3, a: 225 }, hover: true, predicted: "none (hover)" },
   // Outline hovers that move paint, each at its widest corner. All four now budget their
@@ -160,17 +161,10 @@ const label = (params) =>
  * Every entry is a recorded defect, not accepted behaviour. Each one drops to 0 when its
  * effect's `bleed()` is corrected. `docs/fit.md` has the per-side numbers and the analysis.
  */
-const ALLOWANCE = {
-  // Real ink, and the largest: 0.83u l · 0.69u r · 0.66u b · 0.50u t, holding its value in
-  // u from a 1270 px block to a 3360 px one. Also reaches the inter-line band.
-  "glow-neon-outline": 0.9,
-  // Real ink: 0.26u at 1440x900 and 0.32u at 3840x2160, again u-constant. Below the
-  // quantisation floor at the sweep's own viewports, which is why RESOLVE exists.
-  "glow-foil": 0.35,
-};
+const ALLOWANCE = /** @type {Record<string, number>} */ ({});
 
 /** Same idea for the inter-line band: an upward bleed that under-declares reaches it. */
-const BAND_ALLOWANCE = { "glow-neon-outline": 0.7 };
+const BAND_ALLOWANCE = /** @type {Record<string, number>} */ ({});
 
 /**
  * A seed that draws exactly these params, and the wanted `side` flag and gap. Params, the
