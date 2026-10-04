@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { existsSync } from "node:fs";
 import { beforeAll, test, vi } from "vite-plus/test";
 import worker from "../src/worker.js";
 import { GOLDEN_SEEDS } from "./catalog.js";
@@ -138,4 +139,18 @@ test("the same seed renders the same page; different visits differ", async () =>
   const picks = new Set();
   for (let i = 0; i < 6; i++) picks.add((await get("/")).headers.get("luzid-pick"));
   assert.ok(picks.size > 1);
+});
+
+test("every same-origin URL the page links is served", async () => {
+  // The owner still has to supply og.png (issue #114); it is the one known gap.
+  const ownerSupplied = new Set(["/og.png"]);
+  for (const seed of GOLDEN_SEEDS) {
+    const html = await (await get(`/?seed=${seed}`)).text();
+    for (const [, url] of html.matchAll(/\s(?:href|content)="([^"]*)"/g)) {
+      const path = url.startsWith("https://luzid.co/") ? url.slice(16) : url;
+      if (!path.startsWith("/") || path.startsWith("//") || path === "/") continue;
+      const file = new URL(`../public${path}`, import.meta.url);
+      assert.ok(existsSync(file) || ownerSupplied.has(path), `${seed}: ${path} is not in public/`);
+    }
+  }
 });

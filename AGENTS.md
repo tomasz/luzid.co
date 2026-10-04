@@ -248,8 +248,4 @@ that changes it: `gh api -X PUT repos/tomasz/luzid.co/rulesets/23998451 --input 
 
 Everything in the 2026-10 refactor plan has merged except:
 
-- **Supply the advertised assets** (issue #114). `src/render.js` links `/favicon.ico`,
-  `/apple-touch-icon.png` and `/og.png`, and `public/` holds none of them, so all three
-  return 404 until the owner provides the artwork and that PR lands. Meanwhile the tab
-  icon is the inline two-swatch data URI the renderer emits whenever both colour roles are
-  plain hex.
+- **og.png** (issue #114): owner supplies `public/og.png` (1200×630); nothing else is linked.
