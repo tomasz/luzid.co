@@ -271,7 +271,7 @@ export function corners(effect) {
   let out = [{}];
   for (const name of Object.keys(effect.params ?? {}).sort()) {
     const [min, max, size] = effect.params[name];
-    const n = Math.floor((max - min) / size) + 1;
+    const n = Math.round((max - min) / size) + 1;
     const all = Array.from({ length: n }, (_, i) => Math.round((min + i * size) * 10000) / 10000);
     const vals = n <= 4 ? all : [all[0], all[n - 1]];
     out = out.flatMap((o) => vals.map((v) => ({ ...o, [name]: v })));

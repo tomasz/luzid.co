@@ -103,13 +103,15 @@ test("the build rejects an empty catalog", () => {
   );
 });
 
-test("an inexact parameter grid is a warning until S3", () => {
-  const effects = good.effects.map((e) =>
-    e.data.id === "plain" ? { ...e, data: { ...e.data, params: { x: [0, 1, 0.3] } } } : e,
+test("an inexact parameter grid is an error; a float-inexact exact one is not", () => {
+  const withParams = (params) =>
+    good.effects.map((e) => (e.data.id === "plain" ? { ...e, data: { ...e.data, params } } : e));
+  assert.throws(
+    () => checkCatalog({ ...good, effects: withParams({ x: [0, 1, 0.3] }) }),
+    /^Error: effects\/plain\.js: \/params\/x: \[0,1,0\.3\] is not an exact grid/,
   );
-  assert.deepEqual(checkCatalog({ ...good, effects }), [
-    "effects/plain.js: /params/x: [0,1,0.3] is not an exact grid; max is never drawn",
-  ]);
+  // (2 - 0.8) / 0.4 is 2.9999999999999996 in floating point: exact at four decimals.
+  assert.deepEqual(checkCatalog({ ...good, effects: withParams({ r: [0.8, 2, 0.4] }) }), []);
 });
 
 test("defaults a file may leave out are filled in the module", () => {

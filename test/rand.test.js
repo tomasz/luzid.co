@@ -118,6 +118,20 @@ test("step lands on a quantized value and covers the whole range", () => {
   }
 });
 
+test("step draws the last point of a grid whose quotient is just under an integer", () => {
+  // (2 - 0.8) / 0.4 is 2.9999999999999996; flooring it once made 2 unreachable.
+  const seen = new Set();
+  for (let i = 0; i < 20000; i++) seen.add(step(`s${i}`, "e/outline-ring/r", [0.8, 2, 0.4]));
+  assert.deepEqual(
+    [...seen].sort((a, b) => a - b),
+    [0.8, 1.2, 1.6, 2],
+  );
+});
+
+test("step refuses an inexact grid instead of drawing part of it", () => {
+  assert.throws(() => step("s", "p", [0, 1, 0.3]), /p: \[0,1,0\.3\] is not an exact grid/);
+});
+
 test("flag hits its declared probability", () => {
   let on = 0;
   const n = 40000;
