@@ -2,7 +2,7 @@
  * Sign-painter inline shade: a channel of bare background separates the face from its drop
  * shade, so the letter reads as a plate applied to the wall rather than printed on it.
  *
- * R09 as published paints `color` + a background-coloured `-webkit-text-stroke` +
+ * Recipe 09 as published paints `color` + a background-coloured `-webkit-text-stroke` +
  * `paint-order:stroke fill` + `text-shadow` on one element, and produces no channel at
  * all: with `paint-order` the engine runs the stroke pass first and then the fill pass
  * *with the fill's own shadow layers over it*, so the extrusion covers the very ring it is
@@ -40,33 +40,24 @@ export default /** @satisfies {import("../src/types.js").Effect<{ a: number; d: 
    * `h.stack()` measures its distance along the angle, so the reach on each axis is
    * `d·cos45`, not `d`. That is exact rather than conservative on purpose: `b` now sets
    * the line gap as well as the safe box, so rounding it up would cost size twice.
-   *
-   * @param {{a: number, d: number, g: number}} p
    */
-  bleed: (p) => {
-    const q = Math.SQRT1_2 * p.d;
-    return {
-      t: p.g,
-      r: (p.a === 45 ? q : 0) + p.g,
-      b: q + p.g,
-      l: (p.a === 135 ? q : 0) + p.g,
-    };
+  bleed: (p, lines, h) => {
+    const q = h.toward(p.a, Math.SQRT1_2 * p.d);
+    return { t: q.t + p.g, r: q.r + p.g, b: q.b + p.g, l: q.l + p.g };
   },
 
-  /**
-   * @param {{a: number, d: number, g: number}} p
-   * @param {typeof import('../src/helpers.js').helpers} h
-   */
   css: (p, h) => {
-    const n = Math.min(64, Math.max(12, Math.round(10 * p.d)));
     const sw = h.u(2 * p.g);
     return (
       `.n{-webkit-text-stroke:${sw} var(--bg);paint-order:stroke fill}` +
-      `.l::before{content:attr(data-t) / "";z-index:-1;color:var(--a1);` +
-      `-webkit-text-stroke:${sw} var(--a1);text-shadow:${h.stack(n, p.a, p.d, "var(--a1)")}}`
+      h.copy(
+        "before",
+        `z-index:-1;color:var(--a1);-webkit-text-stroke:${sw} var(--a1);` +
+          `text-shadow:${h.stack(h.layers(10 * p.d, 12), p.a, p.d, "var(--a1)")}`,
+      )
     );
   },
 
-  hover: () => "filter:brightness(1.06)",
+  hover: "filter:brightness(1.06)",
   motion: null,
 });

@@ -12,10 +12,6 @@
  * Needs a flat ground the colour of `--bg`, which v1.0 always has.
  */
 
-/** Horizontal sign per angle. Both fall, so nothing reaches up into the line above. */
-/** @type {Record<number, number>} */
-const SX = { 45: 1, 135: -1 };
-
 export default /** @satisfies {import("../src/types.js").Effect<{ a: number; c: number; e: number; w: number }>} */ ({
   id: "retro-echo-lines",
   family: "retro",
@@ -33,20 +29,12 @@ export default /** @satisfies {import("../src/types.js").Effect<{ a: number; c: 
 
   /**
    * Nothing is painted above the block: both angles fall, and R13 feeds `G` from `bleed.b`.
-   *
-   * @param {{a: number, c: number, e: number, w: number}} p
    */
-  bleed: (p) => {
-    const d = p.e * (p.c + p.w);
-    return { t: 0, r: p.a === 45 ? d : 0, b: d, l: p.a === 135 ? d : 0 };
-  },
+  bleed: (p, lines, h) => h.toward(p.a, p.e * (p.c + p.w)),
 
-  /**
-   * @param {{a: number, c: number, e: number, w: number}} p
-   * @param {typeof import('../src/helpers.js').helpers} h
-   */
   css: (p, h) => {
-    const sx = SX[p.a] ?? 1;
+    const sx = h.fall(p.a);
+    // 16 per echo is the 64-layer cap shared by four echoes.
     const nb = Math.min(16, Math.max(5, Math.round(12 * p.w)));
     const cycle = ["var(--a1)", "var(--a2)", "var(--a1)", "var(--a2)"];
     const out = [];
@@ -54,6 +42,8 @@ export default /** @satisfies {import("../src/types.js").Effect<{ a: number; c: 
       const start = i * (p.c + p.w) + p.c;
       const back = 100 - i * 15;
       const color = i === 0 ? cycle[0] : h.mix(/** @type {string} */ (cycle[i]), "var(--bg)", back);
+      // By hand, not `h.march()`: its `(start + w) - start` is not always `w` to the last
+      // bit, which moves a rounded offset.
       for (let j = 1; j <= nb; j++) {
         const k = start + (p.w * j) / nb;
         out.push(`${h.u(sx * k)} ${h.u(k)} 0 ${color}`);
@@ -62,6 +52,6 @@ export default /** @satisfies {import("../src/types.js").Effect<{ a: number; c: 
     return `.n{text-shadow:${out.join(",")}}`;
   },
 
-  hover: () => "filter:saturate(1.2)",
+  hover: "filter:saturate(1.2)",
   motion: null,
 });
