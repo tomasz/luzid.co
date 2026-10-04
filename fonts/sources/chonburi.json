@@ -1,0 +1,18 @@
+{
+  "id": "chonburi",
+  "family": "Chonburi",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/chonburi/Chonburi-Regular.ttf",
+  "sha256": "aa0dac4df08af10785ba1dc10121492227f8e4288f0a23d11dd1d1f5a7f6ebfa",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/chonburi/OFL.txt",
+  "copyright": "Copyright (c) 2015, Cadson Demak (info@cadsondemak.com)",
+  "archetype": [
+    "A"
+  ],
+  "traits": [
+    "serif",
+    "fat",
+    "soft"
+  ],
+  "odds": 8
+}

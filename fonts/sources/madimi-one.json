@@ -1,0 +1,18 @@
+{
+  "id": "madimi-one",
+  "family": "Madimi One",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/madimione/MadimiOne-Regular.ttf",
+  "sha256": "e70355081d3f4eb1fb3d523c4b803a8977669f6ba7c2c14ecee88d2d19fec690",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/madimione/OFL.txt",
+  "copyright": "Copyright 2023 The Madimi One Project Authors (https://github.com/TaVaTake/madimi)",
+  "archetype": [
+    "E"
+  ],
+  "traits": [
+    "sans",
+    "rounded",
+    "fat"
+  ],
+  "odds": 7
+}

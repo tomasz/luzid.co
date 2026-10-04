@@ -1,0 +1,17 @@
+{
+  "id": "belleza",
+  "family": "Belleza",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/belleza/Belleza-Regular.ttf",
+  "sha256": "a88eb0fdf4e78687a40d3478e1c90d4d3079e8c0d7d3a2452488a3ba805bff1d",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/belleza/OFL.txt",
+  "copyright": "Copyright 2012 The Belleza Project Authors (https://github.com/etunni/belleza)",
+  "archetype": [
+    "F"
+  ],
+  "traits": [
+    "sans",
+    "deco"
+  ],
+  "odds": 6
+}

@@ -1,0 +1,34 @@
+{
+  "id": "imbue",
+  "family": "Imbue",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/imbue/Imbue[opsz,wght].ttf",
+  "sha256": "bf45ff1dc01974acedf4f11bcbfa7365053d97f4d598ddafe189d238ac80a534",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/imbue/OFL.txt",
+  "copyright": "Copyright 2020 The Imbue Project Authors (https://github.com/Etcetera-Type-Co/Imbue)",
+  "archetype": [
+    "F"
+  ],
+  "traits": [
+    "serif",
+    "condensed",
+    "deco"
+  ],
+  "odds": 7,
+  "stops": [
+    {
+      "id": "w900d",
+      "wght": 900,
+      "opsz": 40
+    },
+    {
+      "id": "w400t",
+      "wght": 400,
+      "opsz": 10
+    }
+  ],
+  "features": [
+    "smcp",
+    "c2sc"
+  ]
+}

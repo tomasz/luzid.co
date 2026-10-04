@@ -1,0 +1,17 @@
+{
+  "id": "girassol",
+  "family": "Girassol",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/girassol/Girassol-Regular.ttf",
+  "sha256": "84c229dea2428bf26808d985a44262fd57f47a17b1722497c9d4ec5bba94fafc",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/girassol/OFL.txt",
+  "copyright": "Copyright 2019 The Girassol Project Authors (https://github.com/liamspradlin/Girassol-Display)",
+  "archetype": [
+    "F"
+  ],
+  "traits": [
+    "serif",
+    "deco"
+  ],
+  "odds": 7
+}

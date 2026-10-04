@@ -1,0 +1,21 @@
+{
+  "id": "licorice",
+  "family": "Licorice",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/licorice/Licorice-Regular.ttf",
+  "sha256": "c72d8cb2f56e6995b3682d8620e2d602bacf78b67121cdfbface9acc422750d8",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/licorice/OFL.txt",
+  "copyright": "Copyright 2004 The Licorice Project Authors (https://github.com/googlefonts/licorice)",
+  "archetype": [
+    "C"
+  ],
+  "traits": [
+    "script",
+    "hairline"
+  ],
+  "odds": 4,
+  "cases": [
+    "none",
+    "lowercase"
+  ]
+}

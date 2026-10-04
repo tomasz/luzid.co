@@ -1,0 +1,28 @@
+{
+  "id": "climate-crisis",
+  "family": "Climate Crisis",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/climatecrisis/ClimateCrisis[YEAR].ttf",
+  "sha256": "4b25279f80e420f9f09dbba13eb14d0beabfa013d17f74bad19cc9fdf4d55523",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/climatecrisis/OFL.txt",
+  "copyright": "Copyright 2020 The Climate Crisis Project Authors (https://github.com/dancoull/ClimateCrisis)",
+  "archetype": [
+    "B"
+  ],
+  "traits": [
+    "sans",
+    "fat",
+    "wide"
+  ],
+  "odds": 8,
+  "stops": [
+    {
+      "id": "y1979",
+      "YEAR": 1979
+    },
+    {
+      "id": "y2019",
+      "YEAR": 2019
+    }
+  ]
+}

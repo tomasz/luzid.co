@@ -1,0 +1,21 @@
+{
+  "id": "inknut-antiqua-black",
+  "family": "Inknut Antiqua",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/inknutantiqua/InknutAntiqua-Black.ttf",
+  "sha256": "279de2d9b3f21796a2a367cc55d8654eee9534a4f329d5d442294d82a333c361",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/inknutantiqua/OFL.txt",
+  "copyright": "Copyright 2014 The Inknut Antiqua Project Authors (https://github.com/clauseggers/Inknut-Antiqua)",
+  "archetype": [
+    "A"
+  ],
+  "traits": [
+    "serif",
+    "fat"
+  ],
+  "odds": 6,
+  "features": [
+    "ss01",
+    "ss02"
+  ]
+}

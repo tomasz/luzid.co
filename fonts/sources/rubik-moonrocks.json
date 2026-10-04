@@ -1,0 +1,18 @@
+{
+  "id": "rubik-moonrocks",
+  "family": "Rubik Moonrocks",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikmoonrocks/RubikMoonrocks-Regular.ttf",
+  "sha256": "",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikmoonrocks/OFL.txt",
+  "copyright": "Copyright 2020 The Rubik Filtered Project Authors (https://https://github.com/NaN-xyz/Rubik-Filtered)",
+  "archetype": [
+    "X"
+  ],
+  "traits": [
+    "sans",
+    "fat",
+    "groovy"
+  ],
+  "odds": 6
+}

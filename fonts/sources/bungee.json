@@ -1,0 +1,18 @@
+{
+  "id": "bungee",
+  "family": "Bungee",
+  "url": "https://raw.githubusercontent.com/google/fonts/6bc4f73e2ba5dddbf82aa93e4d6a57abebdc6940/ofl/bungee/Bungee-Regular.ttf",
+  "sha256": "c4f5361ce120af3e6b9156d0bf379fa19cda2ea0cd18ac01fd99596c6bf66e3f",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/6bc4f73e2ba5dddbf82aa93e4d6a57abebdc6940/ofl/bungee/OFL.txt",
+  "copyright": "Copyright 2023 The Bungee Project Authors (https://github.com/djrrb/Bungee)",
+  "archetype": [
+    "B"
+  ],
+  "traits": [
+    "sans",
+    "fat"
+  ],
+  "odds": 4,
+  "seed": true
+}

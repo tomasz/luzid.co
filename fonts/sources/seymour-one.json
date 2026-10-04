@@ -1,0 +1,18 @@
+{
+  "id": "seymour-one",
+  "family": "Seymour One",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/seymourone/SeymourOne-Regular.ttf",
+  "sha256": "8699709245074a91a64b43495bf864f6df6d43648d7e9d0d09144ca74433c3d4",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/seymourone/OFL.txt",
+  "copyright": "Copyright 2011 The Seymour One Project Authors (https://github.com/googlefonts/seymourFont)",
+  "archetype": [
+    "B"
+  ],
+  "traits": [
+    "sans",
+    "fat",
+    "wide"
+  ],
+  "odds": 6
+}

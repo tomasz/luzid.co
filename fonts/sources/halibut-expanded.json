@@ -1,0 +1,18 @@
+{
+  "id": "halibut-expanded",
+  "family": "Halibut",
+  "url": "https://raw.githubusercontent.com/collletttivo/halibut/13df8fd7ea926f9a47049ec1426fcce186909ee8/fonts/Halibut-ExpandedRegular.otf",
+  "sha256": "50243aff06928e792dcb4ecbb5b5b1ea2ba22313a72a79b72784007ecc73a937",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/collletttivo/halibut/13df8fd7ea926f9a47049ec1426fcce186909ee8/LICENSE.txt",
+  "copyright": "Copyright © 2023, Collletttivo (https://www.collletttivo.it/)",
+  "archetype": [
+    "F"
+  ],
+  "traits": [
+    "serif",
+    "deco",
+    "wide"
+  ],
+  "odds": 7
+}

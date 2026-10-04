@@ -52,15 +52,11 @@ import { decode } from "../scripts/woff2.mjs";
 const url = (p) => new URL(`../${p}`, import.meta.url);
 const readJson = async (p) => JSON.parse(await readFile(url(p), "utf8"));
 
-// Every batch, not just the seed set: once a Wave-2 batch ships, its metas are on disk
-// and a seed-only source list makes every cross-check below compare two different worlds.
-const batches = new Map();
-for (const name of (await readdir(url("fonts/sources")))
-  .filter((f) => f.endsWith(".json"))
-  .sort()) {
-  batches.set(name.replace(/\.json$/, ""), await readJson(`fonts/sources/${name}`));
-}
-const sources = [...batches.values()].flat();
+// Every row, not just the seed set: the metas of every shipped font are on disk, and a
+// partial source list makes every cross-check below compare two different worlds.
+const sourceFiles = (await readdir(url("fonts/sources"))).filter((f) => f.endsWith(".json")).sort();
+const sources = [];
+for (const name of sourceFiles) sources.push(await readJson(`fonts/sources/${name}`));
 /** A known-good row for the negative cases below, found by id rather than by position. */
 const seedRow = sources.find((r) => r.id === "boldonse");
 const metas = [];
@@ -877,7 +873,7 @@ test("rule 7: no file is over 10,500 bytes", async () => {
 test("rule 7: the ladder sheds features, then stops, before the font is dropped", async () => {
   // The ladder is driven by the whole build, weighing included. When the weighing sat
   // outside the try, the budget error escaped and took the rest of the batch with it, so
-  // these three cases never ran on a real font: `--batch c` stopped dead on its third row.
+  // these three cases never ran on a real font: batch C stopped dead on its third row.
   const shed = [];
   const ladder = (overBudgetWhile) => ({
     id: "heavy",
@@ -967,6 +963,7 @@ test("source rows validate, with disjoint ids", () => {
   assert.throws(() => validateRow({ ...base, id: "Not Kebab" }), /kebab-case/);
   assert.throws(() => validateRow({ ...base, odds: 17 }), /odds must be an integer 0-16/);
   assert.throws(() => validateRow({ ...base, archetype: ["Z"] }), /unknown archetype Z/);
+  assert.throws(() => validateRow({ ...base, seed: "yes" }), /seed must be a boolean/);
   assert.throws(() => validateRow({ ...base, traits: ["wobbly"] }), /unknown trait wobbly/);
   assert.throws(() => validateRow({ ...base, sha256: "cafe" }), /64 lowercase hex/);
   assert.throws(
@@ -1013,7 +1010,7 @@ test("source rows validate, with disjoint ids", () => {
     () => validateRow({ ...base, traits: ["connected"], cases: ["uppercase"] }),
     /connected script must declare cases without uppercase/,
   );
-  // A measured trait is legal in a row: the batch files are read by people, and the check
+  // A measured trait is legal in a row: the source files are read by people, and the check
   // is against the outlines, not against the schema.
   for (const trait of MEASURED_TRAITS) {
     assert.doesNotThrow(
@@ -1111,14 +1108,16 @@ test("every shipped font agrees with its own source row", () => {
   }
 });
 
-test("each archetype batch claims its archetype and ships enough fonts not to feel repetitive", () => {
-  // The floor is on fonts that SHIP, not on rows in a list: a row a batch agent dropped --
-  // for a reserved name, an unreadable Ł, or not belonging to the archetype -- adds nothing
-  // to what a visitor sees, and counting rows blocked moving a misfiled font out of a batch.
-  for (const letter of ["A", "B", "C", "D", "E", "F"]) {
-    for (const row of batches.get(letter.toLowerCase())) {
-      assert.ok(row.archetype.includes(letter), `${row.id} does not list archetype ${letter}`);
-    }
+test("each row names its file and every shipped archetype ships enough fonts", () => {
+  // One row per file, named by id: the file name is what a curator searches for.
+  assert.deepEqual(
+    sourceFiles,
+    sources.map((row) => `${row.id}.json`),
+  );
+  for (const row of sources) assert.ok(row.archetype.length > 0, `${row.id} has no archetype`);
+  // The floor is on fonts that SHIP, not on rows: a dropped row (a reserved name, an
+  // unreadable Ł, a misfiled face) adds nothing to what a visitor sees.
+  for (const letter of new Set(metas.flatMap((m) => m.archetype))) {
     const shipped = metas.filter((m) => m.archetype.includes(letter)).length;
     assert.ok(shipped >= 20, `archetype ${letter} ships ${shipped} fonts, needs 20`);
   }
@@ -1176,7 +1175,7 @@ test("the eight seed fonts cover the eight risky branches", () => {
   const byId = Object.fromEntries(metas.map((m) => [m.id, m]));
   // The seed set is what proves each branch of the pipeline; it is not the whole catalogue.
   // Wave-2 batches add to it, so assert the eight are PRESENT rather than alone.
-  const ids = batches.get("seed").map((row) => row.id);
+  const ids = sources.filter((row) => row.seed === true).map((row) => row.id);
   assert.equal(ids.length, 8);
   for (const id of ids) assert.ok(byId[id], `the ${id} seed font is missing from the catalogue`);
 
@@ -1218,7 +1217,18 @@ test("the shaped letters are the 22 the site draws, plus a space", () => {
 test("the cli accepts the `--` that `pnpm run fonts -- …` forwards", async () => {
   // Strict parseArgs used to throw on the separator itself, before any option was read.
   await assert.rejects(
-    () => main(["node", "fonts.mjs", "--", "--check", "--batch", "seed,a", "--id", "no-such-font"]),
+    () =>
+      main([
+        "node",
+        "fonts.mjs",
+        "--",
+        "--check",
+        "--seed",
+        "--archetype",
+        "A,F",
+        "--id",
+        "no-such-font",
+      ]),
     /no source rows selected/,
   );
 });

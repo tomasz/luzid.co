@@ -1,0 +1,22 @@
+{
+  "id": "sigmar-one",
+  "family": "Sigmar One",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sigmarone/SigmarOne-Regular.ttf",
+  "sha256": "0817eb698a5c4aac2c07bb84be1ead806494c489da468db23f5ffd9bcf3f0970",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sigmarone/OFL.txt",
+  "copyright": "Copyright 2011 The Sigmar One Project Authors (contact@sansoxygen.com)",
+  "archetype": [
+    "D"
+  ],
+  "traits": [
+    "sans",
+    "fat",
+    "groovy"
+  ],
+  "odds": 8,
+  "features": [
+    "ss01",
+    "salt"
+  ]
+}

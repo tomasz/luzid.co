@@ -1,0 +1,30 @@
+{
+  "id": "big-shoulders-stencil",
+  "family": "Big Shoulders Stencil",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bigshouldersstencil/BigShouldersStencil[opsz,wght].ttf",
+  "sha256": "758ec880296a8bdaf736a31fc57e90fa16673d8c357efc3c36bdb6582d625f0a",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bigshouldersstencil/OFL.txt",
+  "copyright": "Copyright 2019 The Big Shoulders Project Authors (https://github.com/xotypeco/big_shoulders)",
+  "archetype": [
+    "B"
+  ],
+  "traits": [
+    "sans",
+    "condensed",
+    "stencil"
+  ],
+  "odds": 8,
+  "stops": [
+    {
+      "id": "w900",
+      "wght": 900,
+      "opsz": 72
+    }
+  ],
+  "features": [
+    "ss01",
+    "salt",
+    "smcp"
+  ]
+}

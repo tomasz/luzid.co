@@ -1,0 +1,27 @@
+{
+  "id": "tagger",
+  "family": "Tagger",
+  "url": "https://raw.githubusercontent.com/warszawskie-kroje/tagger/a283c4bb3d583b308c074c06fb8291f6be352598/Tagger-Regular/Tagger-Regular.ttf",
+  "sha256": "8452b7bb65999c0243f4fd2c0196ca4aedf1d3814ff71e88811a53066abada41",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/warszawskie-kroje/tagger/a283c4bb3d583b308c074c06fb8291f6be352598/README.md",
+  "copyright": "Copyright © 2016 Stowarzyszenie Kulturotwórcze Miastodwa",
+  "archetype": [
+    "C"
+  ],
+  "traits": [
+    "script",
+    "brush",
+    "connected"
+  ],
+  "odds": 9,
+  "features": [
+    "ss01",
+    "ss02",
+    "salt"
+  ],
+  "cases": [
+    "none",
+    "lowercase"
+  ]
+}

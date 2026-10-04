@@ -1,0 +1,21 @@
+{
+  "id": "cyrulik-sharp",
+  "family": "Cyrulik Sharp",
+  "url": "https://raw.githubusercontent.com/warszawskie-kroje/cyrulik/b279c7d408e42649e64b970737bd3703d8412138/Cyrulik-Sharp/Cyrulik-Sharp.ttf",
+  "sha256": "",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/warszawskie-kroje/cyrulik/b279c7d408e42649e64b970737bd3703d8412138/README.md",
+  "copyright": "Copyright © 2016 Stowarzyszenie Kulturotwórcze Miastodwa",
+  "archetype": [
+    "X"
+  ],
+  "traits": [
+    "sans",
+    "condensed"
+  ],
+  "odds": 9,
+  "features": [
+    "ss01",
+    "salt"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "id": "sriracha",
+  "family": "Sriracha",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sriracha/Sriracha-Regular.ttf",
+  "sha256": "c3128c30cb21e8724b792586c87059d1b5eceae10d9957ba2ab26c80bbed3669",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sriracha/OFL.txt",
+  "copyright": "Copyright (c) 2015, Cadson Demak (info@cadsondemak.com), Copyright (c) 2014, Pablo Impallari (www.impallari.com|impallari@gmail.com)",
+  "archetype": [
+    "C"
+  ],
+  "traits": [
+    "script",
+    "brush"
+  ],
+  "odds": 7
+}

@@ -1,0 +1,17 @@
+{
+  "id": "new-amsterdam",
+  "family": "New Amsterdam",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/newamsterdam/NewAmsterdam-Regular.ttf",
+  "sha256": "",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/newamsterdam/OFL.txt",
+  "copyright": "Copyright 2024 The New Amsterdam Project Authors (https://github.com/vladimirnikolic1/NewAmsterdam)",
+  "archetype": [
+    "X"
+  ],
+  "traits": [
+    "sans",
+    "condensed"
+  ],
+  "odds": 7
+}

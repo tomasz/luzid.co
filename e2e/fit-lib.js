@@ -9,7 +9,7 @@
  */
 
 import { execFileSync } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -31,13 +31,16 @@ export const { fonts: FONTS, effects: EFFECTS } = await loadCatalog(ROOT);
 export const ALL_FONTS = FONTS.map((f) => f.id);
 
 /**
- * The 8 fonts `fonts/sources/seed.json` brought in; §9.2's always-on scope. Read from the
- * source list, not the catalogue: the two were the same set when this was written, and
- * every later batch then widened each PR's sweep with it.
+ * The 8 source rows marked `"seed": true`; §9.2's always-on scope. Read from the source
+ * rows, not the catalogue: the two were the same set once, and every later batch then
+ * widened each PR's sweep with it.
  */
-export const SEED_FONTS = JSON.parse(
-  readFileSync(resolve(ROOT, "fonts/sources/seed.json"), "utf8"),
-).map((f) => f.id);
+export const SEED_FONTS = readdirSync(resolve(ROOT, "fonts/sources"))
+  .filter((f) => f.endsWith(".json"))
+  .sort()
+  .map((f) => JSON.parse(readFileSync(resolve(ROOT, "fonts/sources", f), "utf8")))
+  .filter((row) => row.seed === true)
+  .map((row) => row.id);
 
 // --- viewports ---------------------------------------------------------------
 

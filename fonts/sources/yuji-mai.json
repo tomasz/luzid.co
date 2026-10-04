@@ -1,0 +1,17 @@
+{
+  "id": "yuji-mai",
+  "family": "Yuji Mai",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/yujimai/YujiMai-Regular.ttf",
+  "sha256": "",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/yujimai/OFL.txt",
+  "copyright": "Copyright 2021 The Yuji Project Authors (https://github.com/Kinutafontfactory/Yuji)",
+  "archetype": [
+    "X"
+  ],
+  "traits": [
+    "brush",
+    "jp"
+  ],
+  "odds": 7
+}

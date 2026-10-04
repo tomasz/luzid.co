@@ -1,0 +1,22 @@
+{
+  "id": "cormorant-sc-bold",
+  "family": "Cormorant SC",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/cormorantsc/CormorantSC-Bold.ttf",
+  "sha256": "78f70c79b5c0a1e66641d4b4a2e2ed32e1a45774b3de94e56f8de68510219177",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/cormorantsc/OFL.txt",
+  "copyright": "Copyright 2015 the Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+  "archetype": [
+    "F"
+  ],
+  "traits": [
+    "serif",
+    "deco"
+  ],
+  "odds": 7,
+  "features": [
+    "ss12",
+    "ss13",
+    "smcp"
+  ]
+}

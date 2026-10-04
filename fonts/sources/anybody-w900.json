@@ -1,0 +1,38 @@
+{
+  "id": "anybody-w900",
+  "family": "Anybody",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/anybody/Anybody[wdth,wght].ttf",
+  "sha256": "b184bd7e6ca8348bbaecec98951565729d7e89b7872d4898a1f9981342b5b64c",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/anybody/OFL.txt",
+  "copyright": "Copyright 2020 The Anybody Project Authors (https://github.com/Etcetera-Type-Co/Anybody)",
+  "archetype": [
+    "B"
+  ],
+  "traits": [
+    "sans",
+    "fat",
+    "wide"
+  ],
+  "odds": 8,
+  "stops": [
+    {
+      "id": "w900n",
+      "wght": 900,
+      "wdth": 100
+    },
+    {
+      "id": "w900x",
+      "wght": 900,
+      "wdth": 150
+    },
+    {
+      "id": "w900c",
+      "wght": 900,
+      "wdth": 50
+    }
+  ],
+  "features": [
+    "ss01"
+  ]
+}

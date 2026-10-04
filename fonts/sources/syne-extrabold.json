@@ -1,0 +1,30 @@
+{
+  "id": "syne-extrabold",
+  "family": "Syne",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/syne/Syne[wght].ttf",
+  "sha256": "ce5ac77142a65cab2248a1a2ebb740b1d4d9c20b52488877d3ff664d1356104a",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/syne/OFL.txt",
+  "copyright": "Copyright 2017 The Syne Project Authors (https://gitlab.com/bonjour-monde/fonderie/syne-typeface)",
+  "archetype": [
+    "B",
+    "E"
+  ],
+  "traits": [
+    "sans",
+    "fat",
+    "wide"
+  ],
+  "odds": 8,
+  "stops": [
+    {
+      "id": "w800",
+      "wght": 800
+    }
+  ],
+  "features": [
+    "ss01",
+    "ss02",
+    "ss03"
+  ]
+}

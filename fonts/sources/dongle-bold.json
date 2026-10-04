@@ -1,0 +1,17 @@
+{
+  "id": "dongle-bold",
+  "family": "Dongle",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/dongle/Dongle-Bold.ttf",
+  "sha256": "944c498c0d1a1832ab36f173b1b3aa5ae77b2a914e00c4d79e05338fae36472d",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/dongle/OFL.txt",
+  "copyright": "Copyright 2021 The Dongle Project Authors (https://github.com/yangheeryu/Dongle)",
+  "archetype": [
+    "E"
+  ],
+  "traits": [
+    "sans",
+    "rounded"
+  ],
+  "odds": 6
+}

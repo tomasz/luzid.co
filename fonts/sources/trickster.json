@@ -1,0 +1,23 @@
+{
+  "id": "trickster",
+  "family": "Trickster",
+  "url": "https://gitlab.com/velvetyne/Trickster/-/raw/751b1fa5fd5293614d0eb4df4962ec195fa243ab/fonts/Trickster-Reg.ttf",
+  "sha256": "39f93ce2b34de5b800daeab0e6460cdd7340d0636e8474a0a3d79e803287105b",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://gitlab.com/velvetyne/Trickster/-/raw/751b1fa5fd5293614d0eb4df4962ec195fa243ab/LICENSE.txt",
+  "copyright": "Copyright Jean-Baptiste Morizot (Velvetyne Type Foundry).",
+  "archetype": [
+    "F"
+  ],
+  "traits": [
+    "serif",
+    "deco"
+  ],
+  "odds": 8,
+  "features": [
+    "ss01",
+    "ss02",
+    "ss03",
+    "swsh"
+  ]
+}

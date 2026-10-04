@@ -1,0 +1,18 @@
+{
+  "id": "sancreek",
+  "family": "Sancreek",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sancreek/Sancreek-Regular.ttf",
+  "sha256": "",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sancreek/OFL.txt",
+  "copyright": "Copyright 2011 The Sancreek Project Authors (https://github.com/googlefonts/sancreek)",
+  "archetype": [
+    "X"
+  ],
+  "traits": [
+    "serif",
+    "slab",
+    "deco"
+  ],
+  "odds": 8
+}

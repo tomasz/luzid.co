@@ -1,0 +1,35 @@
+{
+  "id": "bodoni-moda",
+  "family": "Bodoni Moda",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bodonimoda/BodoniModa[opsz,wght].ttf",
+  "sha256": "550f5e34ee0a828d7941b1fe9bc58b34e5260d3f33a61532e6d0a0114e79a5cf",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bodonimoda/OFL.txt",
+  "copyright": "Copyright 2020 The Bodoni Moda Project Authors (https://github.com/indestructible-type/Bodoni)",
+  "archetype": [
+    "F"
+  ],
+  "traits": [
+    "serif",
+    "deco"
+  ],
+  "odds": 9,
+  "stops": [
+    {
+      "id": "w900d",
+      "wght": 900,
+      "opsz": 14
+    },
+    {
+      "id": "w400t",
+      "wght": 400,
+      "opsz": 11
+    }
+  ],
+  "features": [
+    "ss01",
+    "ss02",
+    "ss03",
+    "smcp"
+  ]
+}

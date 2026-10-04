@@ -1,0 +1,21 @@
+{
+  "id": "mattone-black",
+  "family": "Mattone",
+  "url": "https://raw.githubusercontent.com/collletttivo/mattone/b1dc55dc6a432708ab00329d452d8f6907c6e570/fonts/Mattone-Black.ttf",
+  "sha256": "ca095d075d591e2a30b360c9a5c0377160d0de6a1592d9c5d337b23eba9a35ae",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/collletttivo/mattone/b1dc55dc6a432708ab00329d452d8f6907c6e570/LICENSE.txt",
+  "copyright": "Copyright © 2023, Collletttivo (https://www.collletttivo.it/)",
+  "archetype": [
+    "B"
+  ],
+  "traits": [
+    "sans",
+    "fat",
+    "wide"
+  ],
+  "odds": 8,
+  "features": [
+    "ss01"
+  ]
+}

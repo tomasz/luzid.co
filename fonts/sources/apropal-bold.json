@@ -1,0 +1,23 @@
+{
+  "id": "apropal-bold",
+  "family": "Apropal",
+  "url": "https://raw.githubusercontent.com/warszawskie-kroje/apropal/c174a9c5066d126299cba6adf7f8d3ee0362d629/Apropal-Bold/Apropal-Bold.ttf",
+  "sha256": "eb1ba7686b1353ecedc25e33a4b1c09a085412e1520e78d6fc9e677d72d34e6c",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/warszawskie-kroje/apropal/c174a9c5066d126299cba6adf7f8d3ee0362d629/README.md",
+  "copyright": "Copyright © 2016 Stowarzyszenie Kulturotwórcze Miastodwa",
+  "archetype": [
+    "F"
+  ],
+  "traits": [
+    "serif",
+    "deco"
+  ],
+  "odds": 10,
+  "features": [
+    "ss01",
+    "ss02",
+    "ss03",
+    "salt"
+  ]
+}

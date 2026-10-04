@@ -1,0 +1,21 @@
+{
+  "id": "aboreto",
+  "family": "Aboreto",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/aboreto/Aboreto-Regular.ttf",
+  "sha256": "fc702d535857fa2bda802647b9d55f82a07502d4acdfd95b47279b3bf479eaa1",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/aboreto/OFL.txt",
+  "copyright": "Copyright 2022 The Aboreto Project Authors (https://github.com/domija/Aboreto)",
+  "archetype": [
+    "F"
+  ],
+  "traits": [
+    "serif",
+    "deco",
+    "capsOnly"
+  ],
+  "odds": 8,
+  "cases": [
+    "none"
+  ]
+}

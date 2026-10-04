@@ -1,0 +1,18 @@
+{
+  "id": "rocknroll-one",
+  "family": "RocknRoll One",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rocknrollone/RocknRollOne-Regular.ttf",
+  "sha256": "",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rocknrollone/OFL.txt",
+  "copyright": "Copyright 2020 The RocknRoll Project Authors (https://github.com/fontworks-fonts/RocknRoll)",
+  "archetype": [
+    "X"
+  ],
+  "traits": [
+    "sans",
+    "rounded",
+    "jp"
+  ],
+  "odds": 8
+}

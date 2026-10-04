@@ -1,0 +1,19 @@
+{
+  "id": "smokum",
+  "family": "Smokum",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/smokum/Smokum-Regular.ttf",
+  "sha256": "",
+  "licenseId": "Apache-2.0",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/smokum/LICENSE.txt",
+  "copyright": "Copyright (c) 2011 by Brian J. Bonislawsky DBA Astigmatic (AOETI). All rights reserved.",
+  "archetype": [
+    "X"
+  ],
+  "traits": [
+    "serif",
+    "slab",
+    "fat",
+    "shaded"
+  ],
+  "odds": 7
+}

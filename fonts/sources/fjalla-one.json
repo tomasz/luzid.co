@@ -1,0 +1,17 @@
+{
+  "id": "fjalla-one",
+  "family": "Fjalla One",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/fjallaone/FjallaOne-Regular.ttf",
+  "sha256": "",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/fjallaone/OFL.txt",
+  "copyright": "Copyright 2012 The Fjalla One Project Authors (https://github.com/SorkinType/FjallaOne)",
+  "archetype": [
+    "X"
+  ],
+  "traits": [
+    "sans",
+    "condensed"
+  ],
+  "odds": 7
+}

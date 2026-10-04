@@ -1,0 +1,19 @@
+{
+  "id": "rampart-one",
+  "family": "Rampart One",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rampartone/RampartOne-Regular.ttf",
+  "sha256": "",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rampartone/OFL.txt",
+  "copyright": "Copyright 2020 The Rampart Project Authors (https://github.com/fontworks-fonts/Rampart)",
+  "archetype": [
+    "X"
+  ],
+  "traits": [
+    "sans",
+    "fat",
+    "shaded",
+    "jp"
+  ],
+  "odds": 8
+}

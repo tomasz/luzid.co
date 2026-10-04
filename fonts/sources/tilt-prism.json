@@ -1,0 +1,31 @@
+{
+  "id": "tilt-prism",
+  "family": "Tilt Prism",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/tiltprism/TiltPrism[XROT,YROT].ttf",
+  "sha256": "28e96351753e177dc6e097f7f089c6942cdf26416e861f4ab9d6ee0bc57c7515",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/tiltprism/OFL.txt",
+  "copyright": "Copyright 2019 The Tilt Project Authors (https://github.com/googlefonts/Tilt-Fonts)",
+  "archetype": [
+    "B"
+  ],
+  "traits": [
+    "sans",
+    "fat",
+    "inline",
+    "shaded"
+  ],
+  "odds": 7,
+  "stops": [
+    {
+      "id": "flat",
+      "XROT": 0,
+      "YROT": 0
+    },
+    {
+      "id": "tilt",
+      "XROT": -30,
+      "YROT": 30
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "id": "bungee-shade",
+  "family": "Bungee Shade",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bungeeshade/BungeeShade-Regular.ttf",
+  "sha256": "665c626082682b462f4e696308eafa7071c114da8f8ff3fb73a289c7ff7df482",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bungeeshade/OFL.txt",
+  "copyright": "Copyright 2023 The Bungee Project Authors (https://github.com/djrrb/Bungee)",
+  "archetype": [
+    "B"
+  ],
+  "traits": [
+    "sans",
+    "fat",
+    "shaded",
+    "capsOnly"
+  ],
+  "odds": 10,
+  "features": [
+    "ss01",
+    "ss02",
+    "ss03",
+    "salt"
+  ],
+  "cases": [
+    "none"
+  ]
+}

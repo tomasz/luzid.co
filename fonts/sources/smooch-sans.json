@@ -1,0 +1,28 @@
+{
+  "id": "smooch-sans",
+  "family": "Smooch Sans",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/smoochsans/SmoochSans[wght].ttf",
+  "sha256": "6d82f480d71365d9c6c4f96ad1f3cab44053ea3f0b63650b1e0e539d915aff49",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/smoochsans/OFL.txt",
+  "copyright": "Copyright 2016 The Smooch Sans Project Authors (https://github.com/googlefonts/smooch-sans)",
+  "archetype": [
+    "E"
+  ],
+  "traits": [
+    "sans",
+    "condensed",
+    "rounded"
+  ],
+  "odds": 6,
+  "stops": [
+    {
+      "id": "w900",
+      "wght": 900
+    }
+  ],
+  "cases": [
+    "none",
+    "lowercase"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "cyklop",
+  "family": "Cyklop",
+  "url": "https://mirrors.ctan.org/fonts/cyklop/fonts/opentype/public/cyklop/cyklop-regular.otf",
+  "sha256": "dec04a1ed2805a2d41251ad1253831169c00d8617904b91558cffab762281c1d",
+  "licenseId": "GUST",
+  "licenseUrl": "https://mirrors.ctan.org/fonts/cyklop/doc/fonts/cyklop/GUST-FONT-LICENSE.txt",
+  "copyright": "Copyright (c) 2008, Digitized by Janusz M. Nowacki - 2007-2008, Grudziadz, Poland",
+  "archetype": [
+    "B"
+  ],
+  "traits": [
+    "sans",
+    "fat"
+  ],
+  "odds": 5,
+  "seed": true
+}

@@ -1,0 +1,30 @@
+{
+  "id": "fredoka",
+  "family": "Fredoka",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/fredoka/Fredoka[wdth,wght].ttf",
+  "sha256": "2ba02e68b152868aef9ba28e24b3648c7d457fe6f25c761f2c2c53fb61a73fc8",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/fredoka/OFL.txt",
+  "copyright": "Copyright 2016 The Fredoka Project Authors (https://github.com/hafontia/Fredoka-One)",
+  "archetype": [
+    "E"
+  ],
+  "traits": [
+    "sans",
+    "rounded",
+    "fat"
+  ],
+  "odds": 9,
+  "stops": [
+    {
+      "id": "w700x",
+      "wght": 700,
+      "wdth": 125
+    },
+    {
+      "id": "w700n",
+      "wght": 700,
+      "wdth": 100
+    }
+  ]
+}

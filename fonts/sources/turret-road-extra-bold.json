@@ -1,0 +1,18 @@
+{
+  "id": "turret-road-extra-bold",
+  "family": "Turret Road",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/turretroad/TurretRoad-ExtraBold.ttf",
+  "sha256": "566338de973b47357317a9af96fe5e99c0fefe3d4e7707780bd78e8090c652b8",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/turretroad/OFL.txt",
+  "copyright": "Copyright 2018 The Turret Road Project Authors (https://github.com/noponies/turret-road)",
+  "archetype": [
+    "E"
+  ],
+  "traits": [
+    "sans",
+    "rounded",
+    "fat"
+  ],
+  "odds": 7
+}

@@ -3,8 +3,11 @@
  * The font pipeline: source rows in → committed WOFF2 subsets, metadata and licences out.
  * Every rule of PLAN §5.5 is enforced here and every one of them is a hard failure.
  *
- *   node scripts/fonts.mjs                    every batch in fonts/sources
- *   node scripts/fonts.mjs --batch seed,a     some batches (repeatable or comma-separated)
+ *   node scripts/fonts.mjs                    every row in fonts/sources (one <id>.json each)
+ *   node scripts/fonts.mjs --archetype A,F    rows whose `archetype` lists any of these letters
+ *                                             (A–F, or X for the unbuilt rows; repeatable or
+ *                                             comma-separated)
+ *   node scripts/fonts.mjs --seed             the eight rows marked `"seed": true`
  *   node scripts/fonts.mjs --id pacifico      some fonts (repeatable or comma-separated)
  *   node scripts/fonts.mjs --check            rebuild into memory and byte-compare with disk;
  *                                             list what is changed, missing or stale, exit 1
@@ -1075,7 +1078,7 @@ async function auditTraits(rows, dirs, log) {
   const disagreements = [];
   const unreadable = [];
   const added = new Map();
-  for (const { row, batch } of rows) {
+  for (const { row } of rows) {
     let opened = null;
     try {
       const original = await source(row, dirs, { writeRepo: false });
@@ -1089,14 +1092,14 @@ async function auditTraits(rows, dirs, log) {
       try {
         reconcileTraits(row.id, row.traits, measured);
       } catch (error) {
-        disagreements.push({ batch, id: row.id, why: error.reason ?? error.message });
+        disagreements.push({ id: row.id, why: error.reason ?? error.message });
       }
       for (const trait of MEASURED_TRAITS) {
         if (!row.traits.includes(trait) && measured[trait])
           added.set(trait, (added.get(trait) ?? 0) + 1);
       }
     } catch (error) {
-      unreadable.push({ batch, id: row.id, why: error.reason ?? error.message });
+      unreadable.push({ id: row.id, why: error.reason ?? error.message });
     } finally {
       opened?.close();
     }
@@ -1104,13 +1107,13 @@ async function auditTraits(rows, dirs, log) {
 
   log(`\nChecked ${rows.length} rows.`);
   log(`Traits the rows declare and the outlines disagree with: ${disagreements.length}`);
-  for (const d of disagreements) log(`  ${d.batch} ${d.id}: ${d.why}`);
+  for (const d of disagreements) log(`  ${d.id}: ${d.why}`);
   log(
     `Traits the rows leave out and the pipeline fills in: ${[...added].map(([t, n]) => `${t} ${n}`).join(", ")}`,
   );
   if (unreadable.length > 0) {
     log(`Rows that could not be read at all: ${unreadable.length}`);
-    for (const u of unreadable) log(`  ${u.batch} ${u.id}: ${u.why}`);
+    for (const u of unreadable) log(`  ${u.id}: ${u.why}`);
   }
   return disagreements.length > 0 || unreadable.length > 0 ? 1 : 0;
 }
@@ -1134,7 +1137,8 @@ export async function main(argv) {
     args: argv.slice(2).filter((a) => a !== "--"),
     options: {
       root: { type: "string", default: "." },
-      batch: { type: "string", multiple: true },
+      archetype: { type: "string", multiple: true },
+      seed: { type: "boolean", default: false },
       id: { type: "string", multiple: true },
       check: { type: "boolean", default: false },
       traits: { type: "boolean", default: false },
@@ -1149,21 +1153,23 @@ export async function main(argv) {
     upstream: join(root, "fonts/upstream"),
   };
   const list = (option) => (option?.length ? new Set(option.flatMap((v) => v.split(","))) : null);
-  const wantedBatches = list(values.batch);
+  const archetypes = list(values.archetype);
   const wanted = list(values.id);
-  const batches = (await readdir(dirs.sources)).filter((f) => f.endsWith(".json"));
+  // `--archetype` and `--seed` add to each other; `--id` narrows whatever they selected.
+  const picked = (row) =>
+    (!archetypes && !values.seed) ||
+    (archetypes && row.archetype.some((a) => archetypes.has(a))) ||
+    (values.seed && row.seed === true);
+  const files = (await readdir(dirs.sources)).filter((f) => f.endsWith(".json"));
   const all = [];
   const rows = [];
-  for (const batch of batches.sort()) {
-    const name = batch.replace(/\.json$/, "");
-    for (const row of JSON.parse(await readFile(join(dirs.sources, batch), "utf8"))) {
-      all.push(validateRow(row));
-      if (wantedBatches && !wantedBatches.has(name)) continue;
-      if (wanted && !wanted.has(row.id)) continue;
-      rows.push({ row, batch });
-    }
+  for (const file of files.sort()) {
+    const row = validateRow(JSON.parse(await readFile(join(dirs.sources, file), "utf8")));
+    if (file !== `${row.id}.json`) throw new Error(`fonts/sources/${file} holds row ${row.id}`);
+    all.push(row);
+    if (picked(row) && (!wanted || wanted.has(row.id))) rows.push({ row });
   }
-  // Every row, not just the selected ones: a duplicate in another batch still collides.
+  // Every row, not just the selected ones: two files with one id would still collide.
   assertUniqueIds(all);
   if (rows.length === 0) throw new Error("no source rows selected");
 

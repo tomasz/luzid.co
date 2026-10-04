@@ -1,0 +1,17 @@
+{
+  "id": "rubik-burned",
+  "family": "Rubik Burned",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikburned/RubikBurned-Regular.ttf",
+  "sha256": "",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rubikburned/OFL.txt",
+  "copyright": "Copyright 2020 The Rubik Filtered Project Authors (https://https://github.com/NaN-xyz/Rubik-Filtered)",
+  "archetype": [
+    "X"
+  ],
+  "traits": [
+    "sans",
+    "fat"
+  ],
+  "odds": 6
+}

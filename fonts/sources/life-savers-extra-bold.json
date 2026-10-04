@@ -1,0 +1,23 @@
+{
+  "id": "life-savers-extra-bold",
+  "family": "Life Savers",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/lifesavers/LifeSavers-ExtraBold.ttf",
+  "sha256": "a7392b6a21ec8f22e5019d0adf9945fc4acba8761d4ff1e53eec65c9a230b454",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/lifesavers/OFL.txt",
+  "copyright": "Copyright 2012 The Life Savers Project Authors (https://github.com/googlefonts/life-savers)",
+  "archetype": [
+    "E",
+    "F"
+  ],
+  "traits": [
+    "serif",
+    "rounded",
+    "deco"
+  ],
+  "odds": 7,
+  "features": [
+    "ss01",
+    "salt"
+  ]
+}

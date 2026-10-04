@@ -1,0 +1,18 @@
+{
+  "id": "major-mono-display",
+  "family": "Major Mono Display",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/majormonodisplay/MajorMonoDisplay-Regular.ttf",
+  "sha256": "3f2ee71c2b8464f065bf960a148be81d68fcc13385df87737928f948208dffc6",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/majormonodisplay/OFL.txt",
+  "copyright": "Copyright 2018 The Major Mono Project Authors (https://github.com/googlefonts/majormono)",
+  "archetype": [
+    "E"
+  ],
+  "traits": [
+    "mono",
+    "unicase",
+    "rounded"
+  ],
+  "odds": 7
+}

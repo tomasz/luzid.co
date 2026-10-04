@@ -1,0 +1,18 @@
+{
+  "id": "fontdiner-swanky",
+  "family": "Fontdiner Swanky",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/fontdinerswanky/FontdinerSwanky-Regular.ttf",
+  "sha256": "847229fbf58c7f7479f93fd7cf9fc269b54c0c9f6465abcb65a206fb261be41b",
+  "licenseId": "Apache-2.0",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/fontdinerswanky/LICENSE.txt",
+  "copyright": "Copyright (c) 2010 by Stuart Sandler. All rights reserved.",
+  "archetype": [
+    "D"
+  ],
+  "traits": [
+    "sans",
+    "fat",
+    "groovy"
+  ],
+  "odds": 7
+}

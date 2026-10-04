@@ -1,0 +1,18 @@
+{
+  "id": "holtwood-one-sc",
+  "family": "Holtwood One SC",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/holtwoodonesc/HoltwoodOneSC-Regular.ttf",
+  "sha256": "",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/holtwoodonesc/OFL.txt",
+  "copyright": "Copyright 2011 The Holtwood Project Authors (https://github.com/googlefonts/HoltwoodFont)",
+  "archetype": [
+    "X"
+  ],
+  "traits": [
+    "serif",
+    "slab",
+    "fat"
+  ],
+  "odds": 8
+}

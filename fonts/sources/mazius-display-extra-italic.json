@@ -1,0 +1,18 @@
+{
+  "id": "mazius-display-extra-italic",
+  "family": "Mazius Display",
+  "url": "https://raw.githubusercontent.com/collletttivo/mazius-display/5798d69b14f0b7c1691f031f2ecb98ebdb709b54/fonts/MaziusDisplay-Extraitalic.otf",
+  "sha256": "8f6a5b0559e36bfcfc8b4433cf0480d45477127620213d343cfe400fe1bb0adf",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/collletttivo/mazius-display/5798d69b14f0b7c1691f031f2ecb98ebdb709b54/LICENSE.txt",
+  "copyright": "Copyright © 2023, Collletttivo (https://www.collletttivo.it/)",
+  "archetype": [
+    "A",
+    "F"
+  ],
+  "traits": [
+    "serif",
+    "fat"
+  ],
+  "odds": 7
+}

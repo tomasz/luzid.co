@@ -1,0 +1,17 @@
+{
+  "id": "lalezar",
+  "family": "Lalezar",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/lalezar/Lalezar-Regular.ttf",
+  "sha256": "7b80807bc831f141de0f7dcf6816412bf0c548968d548c5156ca388733390ea9",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/lalezar/OFL.txt",
+  "copyright": "Copyright 2015 The Lalezar Project Authors (https://github.com/BornaIz/Lalezar)",
+  "archetype": [
+    "D"
+  ],
+  "traits": [
+    "sans",
+    "fat"
+  ],
+  "odds": 7
+}

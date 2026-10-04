@@ -1,0 +1,19 @@
+{
+  "id": "magiel-black",
+  "family": "Magiel",
+  "url": "https://raw.githubusercontent.com/warszawskie-kroje/magiel/f6f3fd11f3e72a5363aaa3e28769a88eb9c6c9b8/Magiel-Black/Magiel-Black.ttf",
+  "sha256": "82a43f2c245c8f236862136930624129ec6154763b8088bfdebfa930ed44e240",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/warszawskie-kroje/magiel/f6f3fd11f3e72a5363aaa3e28769a88eb9c6c9b8/README.md",
+  "copyright": "Copyright © 2016 Stowarzyszenie Kulturotwórcze Miastodwa",
+  "archetype": [
+    "B",
+    "E"
+  ],
+  "traits": [
+    "sans",
+    "fat",
+    "condensed"
+  ],
+  "odds": 10
+}

@@ -1,0 +1,31 @@
+{
+  "id": "grenze-gotisch",
+  "family": "Grenze Gotisch",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/grenzegotisch/GrenzeGotisch[wght].ttf",
+  "sha256": "",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/grenzegotisch/OFL.txt",
+  "copyright": "Copyright 2020 The Grenze Gotisch Project Authors (https://github.com/Omnibus-Type/Grenze-Gotisch)",
+  "archetype": [
+    "X"
+  ],
+  "traits": [
+    "blackletter",
+    "condensed"
+  ],
+  "odds": 8,
+  "stops": [
+    {
+      "id": "w900",
+      "wght": 900
+    },
+    {
+      "id": "w400",
+      "wght": 400
+    }
+  ],
+  "features": [
+    "ss01",
+    "salt"
+  ]
+}

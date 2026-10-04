@@ -1,0 +1,25 @@
+{
+  "id": "moon-dance",
+  "family": "Moon Dance",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/moondance/MoonDance-Regular.ttf",
+  "sha256": "f25e6830b0c1b95df85446fc064cc0bc8db1588600a260a441b03011189e8335",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/moondance/OFL.txt",
+  "copyright": "Copyright 2004 The Moon Dance Project Authors (https://github.com/googlefonts/moondance)",
+  "archetype": [
+    "C"
+  ],
+  "traits": [
+    "script",
+    "hairline"
+  ],
+  "odds": 4,
+  "features": [
+    "ss01",
+    "salt"
+  ],
+  "cases": [
+    "none",
+    "lowercase"
+  ]
+}

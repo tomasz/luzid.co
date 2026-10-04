@@ -1,0 +1,18 @@
+{
+  "id": "potta-one",
+  "family": "Potta One",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/pottaone/PottaOne-Regular.ttf",
+  "sha256": "",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/pottaone/OFL.txt",
+  "copyright": "Copyright 2020 The Potta Project Authors (https://github.com/go108go/Potta)",
+  "archetype": [
+    "X"
+  ],
+  "traits": [
+    "sans",
+    "fat",
+    "jp"
+  ],
+  "odds": 8
+}

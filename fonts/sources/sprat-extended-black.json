@@ -1,0 +1,19 @@
+{
+  "id": "sprat-extended-black",
+  "family": "Sprat",
+  "url": "https://raw.githubusercontent.com/collletttivo/sprat/bdf9c50243d647290ecb21555b03a1aafba447ac/fonts/Sprat-ExtendedBlack.otf",
+  "sha256": "a1eee9ff68b4f6efd07f36d84c146e20b31d6ebefeaf19add995da786f9e6f15",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/collletttivo/sprat/bdf9c50243d647290ecb21555b03a1aafba447ac/LICENSE.txt",
+  "copyright": "Copyright © 2023, Collletttivo (https://www.collletttivo.it/)",
+  "archetype": [
+    "F"
+  ],
+  "traits": [
+    "serif",
+    "fat",
+    "deco",
+    "wide"
+  ],
+  "odds": 9
+}
