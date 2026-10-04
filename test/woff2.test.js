@@ -2,7 +2,16 @@ import assert from "node:assert/strict";
 import { readdir, readFile } from "node:fs/promises";
 import { test } from "vite-plus/test";
 import { brotliCompressSync, constants } from "node:zlib";
-import { build, parse } from "../scripts/sfnt.mjs";
+import {
+  canonical,
+  overlapFlags,
+  parse,
+  serialize,
+  table,
+  withMetrics,
+  withNames,
+  withOverlapFlags,
+} from "../scripts/sfnt.mjs";
 import { decode, decodeTables, encode } from "../scripts/woff2.mjs";
 
 const url = (p) => new URL(`../${p}`, import.meta.url);
@@ -12,7 +21,7 @@ const read = (name) => readFile(url(`fonts/files/${name}`));
 
 /** A minimal but structurally valid SFNT, for the cases no shipped font exercises. */
 function fixture(tables) {
-  return build({ flavor: 0x00010000, tables: tables.map(([tag, data]) => ({ tag, data })) });
+  return { flavor: 0x00010000, tables: tables.map(([tag, data]) => ({ tag, data })) };
 }
 
 /**
@@ -33,7 +42,7 @@ async function samples() {
 test("decode(encode(x)) returns byte-identical tables, for TrueType and CFF", async () => {
   for (const name of await samples()) {
     const sfnt = decode(await read(name));
-    const woff2 = encode(sfnt);
+    const woff2 = encode(parse(sfnt));
     assert.ok(decode(woff2).equals(sfnt), `${name}: the whole file changed across a round trip`);
 
     const before = parse(sfnt).tables;
@@ -132,7 +141,7 @@ test("known tags use their index and unknown tags fall back to a literal tag", (
   assert.equal(woff2.toString("latin1", 49, 53), "ABCD");
   // 1 flag byte + the 4-byte literal tag + a one-byte length, then the next entry.
   assert.equal(woff2[54] & 0x3f, 0, "cmap is known tag index 0");
-  assert.ok(decode(woff2).equals(font));
+  assert.ok(decode(woff2).equals(serialize(font)));
 });
 
 test("UIntBase128 lengths survive past one, two and three bytes", () => {
@@ -174,4 +183,74 @@ test("decode refuses a file it cannot faithfully reverse", async () => {
 
 test("encode refuses a font with loca but no glyf", () => {
   assert.throws(() => encode(fixture([["loca", Buffer.alloc(8)]])), /must have glyf/);
+});
+
+/**
+ * One simple glyph and one composite, neither flagged: every shipped font is flagged already,
+ * so only a font like this one shows whether setting the flags writes into its input.
+ */
+function unflaggedGlyf() {
+  const head = Buffer.alloc(54); // indexToLocFormat at 50 stays 0: short offsets
+  head.writeUInt32BE(0x12345678, 8); // a stale checkSumAdjustment that serialize must not zero in place
+  const maxp = Buffer.alloc(6);
+  maxp.writeUInt16BE(2, 4);
+  const glyf = Buffer.alloc(32);
+  glyf.writeInt16BE(1, 0); // one contour; endPts, a zero instructionLength, then flags at 14
+  glyf.writeInt16BE(-1, 16); // a composite; its first component's flags are at 26
+  const loca = Buffer.alloc(6);
+  [0, 8, 16].forEach((half, i) => loca.writeUInt16BE(half, i * 2));
+  return fixture([
+    ["glyf", glyf],
+    ["head", head],
+    ["hhea", Buffer.alloc(36)],
+    ["loca", loca],
+    ["maxp", maxp],
+    ["name", Buffer.alloc(6)],
+    ["OS/2", Buffer.alloc(78)],
+  ]);
+}
+
+test("the overlap flags land on the first flag byte and the first component", () => {
+  const font = unflaggedGlyf();
+  assert.deepEqual(overlapFlags(font), { glyphs: 2, flagged: 0 });
+  const flagged = withOverlapFlags(font);
+  assert.deepEqual(overlapFlags(flagged), { glyphs: 2, flagged: 2 });
+  const glyf = table(flagged, "glyf");
+  assert.equal(glyf[14], 0x40, "OVERLAP_SIMPLE");
+  assert.equal(glyf.readUInt16BE(26), 0x0400, "OVERLAP_COMPOUND");
+  assert.equal(withOverlapFlags(fixture([["CFF ", Buffer.alloc(4)]])).tables.length, 1);
+});
+
+test("no sfnt or woff2 function writes into its argument", () => {
+  const font = unflaggedGlyf();
+  const before = font.tables.map((t) => ({ tag: t.tag, data: Buffer.from(t.data) }));
+  // Freezing catches a replaced table or array; a Buffer cannot be frozen, so its bytes are
+  // compared against the copy instead.
+  const frozen = Object.freeze({
+    flavor: font.flavor,
+    tables: Object.freeze(font.tables.map((t) => Object.freeze(t))),
+  });
+  const record = { platformID: 3, encodingID: 1, languageID: 0x409, nameID: 1, text: "LZ" };
+  const records = Object.freeze([Object.freeze(record)]);
+
+  const outputs = [
+    withOverlapFlags(frozen),
+    withMetrics(frozen, { asc: 900, desc: 300 }),
+    withNames(frozen, records),
+    canonical(frozen),
+  ];
+  const bytes = serialize(frozen);
+  const woff2 = encode(frozen);
+  const sfnt = Buffer.from(bytes);
+  parse(sfnt);
+  decode(woff2);
+
+  assert.deepEqual(
+    frozen.tables.map((t) => [t.tag, t.data.toString("hex")]),
+    before.map((t) => [t.tag, t.data.toString("hex")]),
+  );
+  assert.ok(sfnt.equals(bytes), "parse wrote into its buffer");
+  // Each result really is different from the input, so the comparison above means something.
+  for (const out of outputs) assert.notDeepEqual(out.tables, frozen.tables);
+  assert.ok(decode(woff2).equals(bytes));
 });

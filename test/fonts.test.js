@@ -40,12 +40,13 @@ import {
 } from "../scripts/fonts.mjs";
 import {
   deriveMetrics,
-  hasOverlapFlags,
-  normalizeMetrics,
+  overlapFlags,
   parse,
   readMetrics,
   readNames,
-  writeNames,
+  table,
+  withMetrics,
+  withNames,
 } from "../scripts/sfnt.mjs";
 import { decode } from "../scripts/woff2.mjs";
 
@@ -333,7 +334,7 @@ test("rule 3: renaming keeps attribution and drops everything else", () => {
     },
     { platformID: 3, encodingID: 1, languageID: 0x409, nameID: 16, text: "Lobster" },
     { platformID: 3, encodingID: 1, languageID: 0x409, nameID: 256, text: "Alternate Lobster a" },
-    // A language-tag record belongs to a format 1 table, which `writeNames` does not emit.
+    // A language-tag record belongs to a format 1 table, which `withNames` does not emit.
     { platformID: 3, encodingID: 1, languageID: 0x8000, nameID: 1, text: "Lobster" },
   ];
   const renamed = renameRecords(upstream, { name: "LZ A2E1C4", version: "Version 2.100" });
@@ -398,7 +399,7 @@ test("rule 3: a name record that still carries a reserved word fails the lint", 
 });
 
 test("rule 3: the name table survives a rebuild", () => {
-  // `writeNames` is what makes renaming possible at all: neither subset-font nor hb-subset
+  // `withNames` is what makes renaming possible at all: neither subset-font nor hb-subset
   // can rewrite name IDs 1-6, they can only choose which records to keep.
   const records = [
     { platformID: 3, encodingID: 1, languageID: 0x409, nameID: 1, text: "LZ A2E1C4" },
@@ -412,9 +413,11 @@ test("rule 3: the name table survives a rebuild", () => {
       text: "Copyright © 2010 Ünïcødé",
     },
   ];
-  const tables = [{ tag: "name", data: Buffer.alloc(6) }];
-  assert.equal(writeNames(tables, records), 4);
-  const read = readNames(tables);
+  const named = withNames(
+    { flavor: 0x00010000, tables: [{ tag: "name", data: Buffer.alloc(6) }] },
+    records,
+  );
+  const read = readNames(named);
   assert.deepEqual(
     read.map((r) => [r.platformID, r.nameID, r.text]),
     [
@@ -431,7 +434,7 @@ test("rule 3: the name table survives a rebuild", () => {
   // Macintosh one, and the copyright.
   const storage =
     "LZ A2E1C4".length * 2 + "LZ A2E1C4".length + "Copyright © 2010 Ünïcødé".length * 2;
-  assert.equal(tables[0].data.length, 6 + 4 * 12 + storage);
+  assert.equal(table(named, "name").length, 6 + 4 * 12 + storage);
 });
 
 test("rule 3: licenseId is one of the three allowed, and every shipped font ships a licence", async () => {
@@ -460,10 +463,8 @@ test("rule 3: a reserved name is renamed rather than refused, and a font with no
 
     const forbidden = reserved.length > 0 ? [meta.family, ...reserved] : [];
     for (const file of meta.files) {
-      const { tables } = parse(
-        decode(await readFile(url(`fonts/files/${meta.id}.${file.id}.woff2`))),
-      );
-      const names = readNames(tables);
+      const font = parse(decode(await readFile(url(`fonts/files/${meta.id}.${file.id}.woff2`))));
+      const names = readNames(font);
       assert.ok(names.length > 0, `${meta.id}.${file.id}: no name table`);
       assert.doesNotThrow(() => lintNames(meta.id, names, forbidden), `${meta.id}.${file.id}`);
       const family = names.find((r) => r.nameID === 1)?.text ?? "";
@@ -742,10 +743,8 @@ test("rule 5: every glyf glyph carries an overlap flag", async () => {
   let glyfFiles = 0;
   for (const meta of metas) {
     for (const file of meta.files) {
-      const { tables } = parse(
-        decode(await readFile(url(`fonts/files/${meta.id}.${file.id}.woff2`))),
-      );
-      const { glyphs, flagged } = hasOverlapFlags(tables);
+      const font = parse(decode(await readFile(url(`fonts/files/${meta.id}.${file.id}.woff2`))));
+      const { glyphs, flagged } = overlapFlags(font);
       if (glyphs === 0) continue; // a CFF font has no glyf and needs no flag
       glyfFiles++;
       assert.equal(
@@ -761,10 +760,8 @@ test("rule 5: every glyf glyph carries an overlap flag", async () => {
 test("rule 5: the written metrics are the ones the metadata promises", async () => {
   for (const meta of metas) {
     for (const file of meta.files) {
-      const { tables } = parse(
-        decode(await readFile(url(`fonts/files/${meta.id}.${file.id}.woff2`))),
-      );
-      const m = readMetrics(tables);
+      const font = parse(decode(await readFile(url(`fonts/files/${meta.id}.${file.id}.woff2`))));
+      const m = readMetrics(font);
       const where = `${meta.id}.${file.id}`;
       assert.equal(m.ascender, file.asc, `${where}: hhea.ascender`);
       assert.equal(m.descender, file.desc === 0 ? 0 : -file.desc, `${where}: hhea.descender`);
@@ -834,16 +831,17 @@ test("rule 5: the metrics derivation refuses what it cannot write", () => {
     /do not fit in int16/,
   );
 
-  const short = [
+  const font = (tables) => ({ flavor: 0x00010000, tables });
+  const short = font([
     { tag: "hhea", data: Buffer.alloc(36) },
     { tag: "OS/2", data: Buffer.alloc(68) },
-  ];
+  ]);
   assert.throws(
-    () => normalizeMetrics(short, { asc: 700, desc: 200 }),
+    () => withMetrics(short, { asc: 700, desc: 200 }),
     /OS\/2 table is 68 bytes, need >= 78/,
   );
   assert.throws(
-    () => normalizeMetrics([{ tag: "hhea", data: Buffer.alloc(36) }], { asc: 1, desc: 1 }),
+    () => withMetrics(font([{ tag: "hhea", data: Buffer.alloc(36) }]), { asc: 1, desc: 1 }),
     /OS\/2/,
   );
 });
