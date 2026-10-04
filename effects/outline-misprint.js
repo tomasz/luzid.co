@@ -1,6 +1,6 @@
 /**
- * The keyline that missed its register (R15): a solid face, and a stroked copy of the same
- * word sitting a hair off it, the way a second plate lands when the sheet has shifted.
+ * The keyline that missed its register (recipe 15): a solid face, and a stroked copy of the
+ * same word sitting a hair off it, the way a second plate lands when the sheet has shifted.
  *
  * The copy is a real shape-B `::after` rather than a shadow because a shadow is a filled
  * silhouette — there is no way to get an unfilled one out of `text-shadow` at a single
@@ -17,17 +17,6 @@
  * guaranteed 3:1 whatever the accent does. The keyline is decoration on top of that.
  */
 
-/**
- * The four diagonals as exact ±1 pairs. No trig, so no golden can depend on `Math.cos`.
- * @type {import("../src/types.js").Pair[]}
- */
-const DIR = [
-  [1, 1],
-  [-1, 1],
-  [-1, -1],
-  [1, -1],
-];
-
 /** Outward allowance per unit of stroke width; see `outline-hollow.js` for the derivation. */
 const MITER = 0.8;
 
@@ -43,13 +32,17 @@ export default /** @satisfies {import("../src/types.js").Effect<{ sw: number; o:
     prefer: ["fat", "sans", "slab"],
   },
   palettes: { prefer: [] },
-  // R15: a .008-.025em keyline offset .02-.08em. 1em is 24-33u here (1em = 100/W1 u), so a
-  // misregistration this small stays a misregistration and never becomes a second word.
+  // Recipe 15: a .008-.025em keyline offset .02-.08em. 1em is 24-33u here (1em = 100/W1
+  // u), so a misregistration this small stays one and never becomes a second word.
   params: { sw: [0.3, 0.9, 0.2], o: [0.8, 2, 0.4], q: [0, 3, 1] },
 
-  /** @param {{sw: number, o: number, q: number}} p */
-  bleed: (p) => {
-    const [sx, sy] = /** @type {import("../src/types.js").Pair} */ (DIR[p.q]);
+  /**
+   * @param {{sw: number, o: number, q: number}} p
+   * @param {import("../src/types.js").LineGeometry} lines
+   * @param {typeof import('../src/helpers.js').helpers} h
+   */
+  bleed: (p, lines, h) => {
+    const [sx, sy] = /** @type {import("../src/types.js").Pair} */ (h.QUAD[p.q]);
     const s = MITER * p.sw;
     return {
       t: s + (sy < 0 ? p.o : 0),
@@ -64,11 +57,11 @@ export default /** @satisfies {import("../src/types.js").Effect<{ sw: number; o:
    * @param {typeof import('../src/helpers.js').helpers} h
    */
   css: (p, h) => {
-    const [sx, sy] = /** @type {import("../src/types.js").Pair} */ (DIR[p.q]);
-    return (
-      `.l::after{content:attr(data-t) / "";-webkit-text-fill-color:transparent;` +
-      `-webkit-text-stroke:${h.u(p.sw)} var(--a1);` +
-      `translate:${h.u(sx * p.o)} ${h.u(sy * p.o)}}`
+    const [sx, sy] = /** @type {import("../src/types.js").Pair} */ (h.QUAD[p.q]);
+    return h.copy(
+      "after",
+      `-webkit-text-fill-color:transparent;-webkit-text-stroke:${h.u(p.sw)} var(--a1);` +
+        `translate:${h.u(sx * p.o)} ${h.u(sy * p.o)}`,
     );
   },
 
@@ -78,7 +71,7 @@ export default /** @satisfies {import("../src/types.js").Effect<{ sw: number; o:
    * it leaves the face `--fg` — a hover state must not trade away the guaranteed contrast.
    */
   hover: (p, h) => {
-    const [sx, sy] = /** @type {import("../src/types.js").Pair} */ (DIR[p.q]);
+    const [sx, sy] = /** @type {import("../src/types.js").Pair} */ (h.QUAD[p.q]);
     return `text-shadow:${h.u(sx * p.o)} ${h.u(sy * p.o)} 0 ${h.mix("var(--a1)", "var(--bg)", 40)}`;
   },
   motion: null,

@@ -1,7 +1,7 @@
 /**
- * An outline with no stroke property (R18): `h.ring()` puts N zero-blur copies of the word
- * on a circle of radius `r`, the face is painted in the ground colour, and what is left
- * visible is a band of exactly `r` around every letter.
+ * An outline with no stroke property (recipe 18): `h.ring()` puts N zero-blur copies of the
+ * word on a circle of radius `r`, the face is painted in the ground colour, and what is
+ * left visible is a band of exactly `r` around every letter.
  *
  * Why bother when `-webkit-text-stroke` exists: shadows are round-joined in every engine
  * (no Chromium miter spikes, and `stroke-linejoin` is not on the §5.6 allowlist), the band
@@ -33,7 +33,7 @@
  */
 const FIT_PX = 600;
 
-/** Per-ring layer cap, so the two rings together can never exceed the measured 64. */
+/** Per-ring layer cap: half of `h.CAP`, so the two rings together can never exceed it. */
 const CAP = 32;
 
 /**
@@ -56,8 +56,8 @@ export default /** @satisfies {import("../src/types.js").Effect<{ r: number }>} 
     prefer: ["fat"],
   },
   palettes: { prefer: [] },
-  // R18's .01-.08em radius at 1em = 100/W1 u, i.e. ~25u, so .08em is 2u. The top of the
-  // range is where the stem rule starts to bite even on a fat face.
+  // Recipe 18's .01-.08em radius at 1em = 100/W1 u, i.e. ~25u, so .08em is 2u. The top of
+  // the range is where the stem rule starts to bite even on a fat face.
   params: { r: [0.8, 2, 0.4] },
 
   /** @param {{r: number}} p */
@@ -83,6 +83,6 @@ export default /** @satisfies {import("../src/types.js").Effect<{ r: number }>} 
   },
 
   /** The outline fills in: face and ring become one solid letter. */
-  hover: () => "color:var(--fg)",
+  hover: "color:var(--fg)",
   motion: null,
 });

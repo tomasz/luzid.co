@@ -1,6 +1,6 @@
 /**
- * Concentric varsity rings (R19): the athletic double outline — ink face, a ground-coloured
- * keyline holding it off the field, then a wider accent ring around both.
+ * Concentric varsity rings (recipe 19): the athletic double outline — ink face, a
+ * ground-coloured keyline holding it off the field, then a wider accent ring around both.
  *
  * Built from two shape-B copies behind the face, each one filled *and* stroked in the same
  * colour. That is the trick that keeps it seam-free: a copy whose fill matches its stroke
@@ -31,17 +31,18 @@ export default /** @satisfies {import("../src/types.js").Effect<{ w1: number; x:
     prefer: ["fat", "slab", "sans"],
   },
   palettes: { prefer: [] },
-  // R19's .04-.08em inner and .1-.18em outer ring, at 1em = 100/W1 u (24-33u for these
-  // faces), expressed as the inner width plus the step out to the outer one.
+  // Recipe 19's .04-.08em inner and .1-.18em outer ring, at 1em = 100/W1 u (24-33u for
+  // these faces), expressed as the inner width plus the step out to the outer one.
   params: { w1: [1, 2, 0.5], x: [1, 2.5, 0.5] },
 
   /**
    * The rings are concentric, so the reach is the same on every side. The extra below is
    * the hover drop, which §5.6 counts as painted ink like any other: `0.8·w2` of offset
-   * plus a blur of `0.6·w2`, budgeted at 1.5× the radius because that is where a Gaussian
-   * of σ = radius/2 actually stops painting. Sized off `w2` so the patch lifts by the same
-   * fraction of its own rings at either end of the range — a drop sized in flat u was
-   * invisible at `w2`'s minimum when I looked at it.
+   * plus a blur of `0.6·w2`, budgeted at 1.5× the radius. R14 (contracts) measured ~1.0×
+   * (budget `h.REACH`, 1.1), so this over-reserves; narrowing it changes the fit and is its
+   * own change. Sized off `w2` so the patch lifts by the same fraction of its own rings at
+   * either end of the range — a drop sized in flat u was invisible at `w2`'s minimum when I
+   * looked at it.
    *
    * @param {{w1: number, x: number}} p
    */
@@ -58,10 +59,8 @@ export default /** @satisfies {import("../src/types.js").Effect<{ w1: number; x:
   css: (p, h) => {
     const w2 = p.w1 + p.x;
     return (
-      `.l::before{content:attr(data-t) / "";color:var(--bg);` +
-      `-webkit-text-stroke:${h.u(p.w1)} var(--bg);z-index:-1}` +
-      `.l::after{content:attr(data-t) / "";color:var(--a1);` +
-      `-webkit-text-stroke:${h.u(w2)} var(--a1);z-index:-2}`
+      h.copy("before", `color:var(--bg);-webkit-text-stroke:${h.u(p.w1)} var(--bg);z-index:-1`) +
+      h.copy("after", `color:var(--a1);-webkit-text-stroke:${h.u(w2)} var(--a1);z-index:-2`)
     );
   },
 

@@ -1,5 +1,5 @@
 /**
- * The poster classic (R16): a hollow face, a keyline around it, one solid offset copy.
+ * The poster classic (recipe 16): a hollow face, a keyline around it, one solid offset copy.
  *
  * The face is painted in the *ground* colour rather than left transparent. With
  * `paint-order:stroke fill` the fill covers the inner half of the stroke, which keeps the
@@ -19,21 +19,12 @@
  */
 
 /**
- * The four diagonals as exact ±1 pairs. No trig, so no golden can depend on `Math.cos`.
- * @type {import("../src/types.js").Pair[]}
- */
-const DIR = [
-  [1, 1],
-  [-1, 1],
-  [-1, -1],
-  [1, -1],
-];
-
-/**
  * Outward allowance per unit of stroke width. Geometrically a centred stroke reaches
  * `sw/2`, but Chromium miters the joins of `-webkit-text-stroke` and `stroke-linejoin` is
  * not on the §5.6 property allowlist, so a sharp apex spikes past that. 0.8·sw covers a
  * miter up to ~1.6× the geometric half; anything sharper than that is a font we deny.
+ * It is below `h.OUTSET` (the full width); moving to that grows every outline bleed, so it
+ * is its own change, not part of sharing the helpers.
  */
 const MITER = 0.8;
 
@@ -49,14 +40,18 @@ export default /** @satisfies {import("../src/types.js").Effect<{ sw: number; d:
     prefer: ["fat", "sans"],
   },
   palettes: { prefer: [] },
-  // R16 asks for a .02-.06em stroke and copies .04-.12em apart. 1em is 100/W1 u, and W1
-  // (the ink width of "Tomasz") runs ~3-4.25em on the display faces this keeps, so 1em is
-  // 24-33u and those ranges are the ones below. Shorter than a shadow, longer than a seam.
+  // Recipe 16 asks for a .02-.06em stroke and copies .04-.12em apart. 1em is 100/W1 u,
+  // and W1 (the ink width of "Tomasz") runs ~3-4.25em on the display faces this keeps, so
+  // 1em is 24-33u and those ranges are below. Shorter than a shadow, longer than a seam.
   params: { sw: [0.6, 1.6, 0.25], d: [1.5, 3.5, 0.5], q: [0, 3, 1] },
 
-  /** @param {{sw: number, d: number, q: number}} p */
-  bleed: (p) => {
-    const [sx, sy] = /** @type {import("../src/types.js").Pair} */ (DIR[p.q]);
+  /**
+   * @param {{sw: number, d: number, q: number}} p
+   * @param {import("../src/types.js").LineGeometry} lines
+   * @param {typeof import('../src/helpers.js').helpers} h
+   */
+  bleed: (p, lines, h) => {
+    const [sx, sy] = /** @type {import("../src/types.js").Pair} */ (h.QUAD[p.q]);
     const s = MITER * p.sw;
     return {
       t: s + (sy < 0 ? p.d : 0),
@@ -71,7 +66,7 @@ export default /** @satisfies {import("../src/types.js").Effect<{ sw: number; d:
    * @param {typeof import('../src/helpers.js').helpers} h
    */
   css: (p, h) => {
-    const [sx, sy] = /** @type {import("../src/types.js").Pair} */ (DIR[p.q]);
+    const [sx, sy] = /** @type {import("../src/types.js").Pair} */ (h.QUAD[p.q]);
     return (
       `.n{color:var(--bg);-webkit-text-stroke:${h.u(p.sw)} var(--fg);paint-order:stroke fill;` +
       `text-shadow:${h.u(sx * p.d)} ${h.u(sy * p.d)} 0 var(--a1)}`
@@ -79,6 +74,6 @@ export default /** @satisfies {import("../src/types.js").Effect<{ sw: number; d:
   },
 
   /** The hole fills with ink: face and keyline become one solid letter over the shadow. */
-  hover: () => "color:var(--fg)",
+  hover: "color:var(--fg)",
   motion: null,
 });
