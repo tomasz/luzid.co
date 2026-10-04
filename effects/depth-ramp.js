@@ -9,37 +9,9 @@
  * direction that works on both polarities: the wall keeps its full contrast against the
  * face, where legibility lives, and loses it into the distance, where it does not.
  *
- * `h.stack(1, …)` is called once per layer so that every length still comes out of a
- * helper and the trigonometry still happens in CSS; `h.stack` itself takes one colour for
- * the whole ramp, which is exactly what this effect is not.
+ * `h.ramp` rather than `h.stack`: the wall needs a colour per layer, and `h.stack` takes
+ * one colour for the whole ramp, which is exactly what this effect is not.
  */
-
-/**
- * `n` hard layers from the face out to `d` u at `a` degrees, `tint(t)` giving the colour
- * at fraction `t` of the way out. Nearest layer first, because the first-listed shadow
- * paints on top.
- *
- * @param {typeof import('../src/helpers.js').helpers} h
- * @param {number} n
- * @param {number} a
- * @param {number} d
- * @param {(t: number) => string} tint
- */
-const ramp = (h, n, a, d, tint) =>
-  Array.from({ length: n }, (_, i) => h.stack(1, a, (d * (i + 1)) / n, tint((i + 1) / n))).join(
-    ",",
-  );
-
-/**
- * @param {number} a
- * @param {number} d
- */
-const dir = (a, d) => ({
-  t: a > 180 ? d : 0,
-  r: a < 90 || a > 270 ? d : 0,
-  b: a > 0 && a < 180 ? d : 0,
-  l: a > 90 && a < 270 ? d : 0,
-});
 
 export default /** @satisfies {import("../src/types.js").Effect<{ d: number; a: number; s: number }>} */ ({
   id: "depth-ramp",
@@ -53,20 +25,24 @@ export default /** @satisfies {import("../src/types.js").Effect<{ d: number; a: 
   // `s` is the ramp strength: how much ground colour the far end has taken on, in percent.
   params: { d: [4, 10, 2], a: [45, 315, 90], s: [20, 60, 20] },
 
-  /** @param {{d: number, a: number, s: number}} p */
-  bleed: (p) => dir(p.a, p.d),
+  /**
+   * @param {{d: number, a: number, s: number}} p
+   * @param {import("../src/types.js").LineGeometry} _lines
+   * @param {typeof import('../src/helpers.js').helpers} h
+   */
+  bleed: (p, _lines, h) => h.toward(p.a, p.d),
 
   /**
    * @param {{d: number, a: number, s: number}} p
    * @param {typeof import('../src/helpers.js').helpers} h
    */
   css: (p, h) => {
-    const n = Math.min(64, Math.round(8 * p.d));
+    const n = h.layers(8 * p.d);
     /** @param {number} t */
     const tint = (t) => (t === 0 ? "var(--a1)" : h.mix("var(--bg)", "var(--a1)", p.s * t));
-    return `.n{text-shadow:${ramp(h, n, p.a, p.d, tint)}}`;
+    return `.n{text-shadow:${h.ramp(n, p.a, p.d, tint)}}`;
   },
 
-  hover: () => "filter:brightness(1.06)",
+  hover: "filter:brightness(1.06)",
   motion: null,
 });

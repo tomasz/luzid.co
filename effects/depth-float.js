@@ -17,16 +17,25 @@
  * from, and the soft radius is clamped to the measured 2.5u cap on top of it.
  */
 
-/** Blur radius to painted reach: sigma is r/2, so 2r is a conservative bound. */
+/**
+ * Blur radius to reserved reach. Ink stops near 1.0x the radius (`h.REACH` budgets 1.1);
+ * this effect still reserves 2x, the older bound, so its bleed and goldens stay put until
+ * moving it onto `h.REACH` is checked against the e2e bleed scan.
+ */
 const SPREAD = 2;
 
-/** Measured cap on a blurred text-shadow radius, in u. */
-const MAX_BLUR = 2.5;
-
-/** @param {number} y */
-const tightBlur = (y) => Math.min(MAX_BLUR, y * 0.18);
-/** @param {number} y */
-const softBlur = (y) => Math.min(MAX_BLUR, y * 0.3);
+/**
+ * The two blur radii for height `y`, clamped to the measured cap.
+ *
+ * @param {typeof import('../src/helpers.js').helpers} h
+ * @param {number} y
+ */
+const tightBlur = (h, y) => Math.min(h.MAX_BLUR, y * 0.18);
+/**
+ * @param {typeof import('../src/helpers.js').helpers} h
+ * @param {number} y
+ */
+const softBlur = (h, y) => Math.min(h.MAX_BLUR, y * 0.3);
 
 export default /** @satisfies {import("../src/types.js").Effect<{ y: number; o: number }>} */ ({
   id: "depth-float",
@@ -40,9 +49,13 @@ export default /** @satisfies {import("../src/types.js").Effect<{ y: number; o: 
   // `y` is the hover height in u; `o` how much ink the shadow carries, in percent.
   params: { y: [4, 10, 2], o: [18, 42, 8] },
 
-  /** @param {{y: number, o: number}} p */
-  bleed: (p) => {
-    const reach = SPREAD * softBlur(p.y);
+  /**
+   * @param {{y: number, o: number}} p
+   * @param {import("../src/types.js").LineGeometry} _lines
+   * @param {typeof import('../src/helpers.js').helpers} h
+   */
+  bleed: (p, _lines, h) => {
+    const reach = SPREAD * softBlur(h, p.y);
     return { t: 0, r: reach, b: p.y + reach, l: reach };
   },
 
@@ -51,15 +64,15 @@ export default /** @satisfies {import("../src/types.js").Effect<{ y: number; o: 
    * @param {typeof import('../src/helpers.js').helpers} h
    */
   css: (p, h) =>
-    `.n{text-shadow:0 ${h.u(p.y * 0.35)} ${h.u(tightBlur(p.y))} ${h.mix("var(--fg)", "var(--bg)", p.o)},` +
-    `0 ${h.u(p.y)} ${h.u(softBlur(p.y))} ${h.mix("var(--fg)", "var(--bg)", p.o * 0.65)}}`,
+    `.n{text-shadow:0 ${h.u(p.y * 0.35)} ${h.u(tightBlur(h, p.y))} ${h.mix("var(--fg)", "var(--bg)", p.o)},` +
+    `0 ${h.u(p.y)} ${h.u(softBlur(h, p.y))} ${h.mix("var(--fg)", "var(--bg)", p.o * 0.65)}}`,
 
   /**
    * @param {{y: number, o: number}} p
    * @param {typeof import('../src/helpers.js').helpers} h
    */
   hover: (p, h) =>
-    `text-shadow:0 ${h.u(p.y * 0.18)} ${h.u(tightBlur(p.y) * 0.7)} ${h.mix("var(--fg)", "var(--bg)", p.o * 1.15)},` +
-    `0 ${h.u(p.y * 0.5)} ${h.u(softBlur(p.y) * 0.7)} ${h.mix("var(--fg)", "var(--bg)", p.o * 0.8)}`,
+    `text-shadow:0 ${h.u(p.y * 0.18)} ${h.u(tightBlur(h, p.y) * 0.7)} ${h.mix("var(--fg)", "var(--bg)", p.o * 1.15)},` +
+    `0 ${h.u(p.y * 0.5)} ${h.u(softBlur(h, p.y) * 0.7)} ${h.mix("var(--fg)", "var(--bg)", p.o * 0.8)}`,
   motion: null,
 });
