@@ -39,15 +39,6 @@ jobs:
         with:
           cache: true # vp version from package.json, Node from engines.node; runs vp install
 
-      # Recorded first, so a rollback targets this version explicitly.
-      - name: record live version
-        id: live
-        run: |
-          version=$(pnpm exec wrangler deployments status --json 2>/dev/null \
-                | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{const j=JSON.parse(s);console.log(j?.versions?.[0]?.version_id??j?.["Version ID"]??"")}catch{console.log("")}})')
-          echo "version=$version" >> "$GITHUB_OUTPUT"
-          echo "live version: ${version:-none}"
-
       # `vp build` writes dist/ and .wrangler/deploy/config.json, which `wrangler deploy`
       # follows to dist/luzid_co/wrangler.json. Deploying without it ships nothing new.
       - run: pnpm exec vp build
@@ -60,9 +51,11 @@ jobs:
         id: smoke
         run: node scripts/smoke.mjs https://luzid.co
 
-      # Only when the deploy succeeded but the smoke test failed.
+      # smoke.mjs writes rollback=true only for worker-level failures; zone-level ones (exit 2)
+      # fail the job without touching the Worker. With no version id, `wrangler rollback`
+      # picks the most recent earlier deployment at 100%, i.e. what was live before this run.
       - name: roll back
-        if: failure() && steps.deploy.outcome == 'success' && steps.smoke.outcome == 'failure' && steps.live.outputs.version != ''
+        if: failure() && steps.smoke.outputs.rollback == 'true'
         run: |
-          pnpm exec wrangler rollback "${{ steps.live.outputs.version }}" --message "smoke failed $GITHUB_SHA"
-          echo "::error::Rolled production back to ${{ steps.live.outputs.version }}."
+          pnpm exec wrangler rollback --yes --message "smoke failed $GITHUB_SHA"
+          echo "::error::Smoke test failed at the Worker level; production was rolled back."
