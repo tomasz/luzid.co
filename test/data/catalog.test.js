@@ -23,6 +23,7 @@ const BAD = {
   "effect-step": "effects/plain.js: /params/d/2: step must be positive",
   "effect-range": "effects/plain.js: /params/d/1: max must be ≥ min",
   "effect-hook": "effects/plain.js: /css: must be a function",
+  "effect-hover": "effects/plain.js: /hover: must be a function, a string or null",
   "effect-motion": "effects/plain.js: /motion: must be null until Wave 4",
   "effect-unknown-key": "effects/plain.js: /extra: unknown key",
   "font-upm": "fonts/meta/fx-sans.json: /upm: must be a positive integer",
@@ -112,6 +113,14 @@ test("an inexact parameter grid is an error; a float-inexact exact one is not", 
   );
   // (2 - 0.8) / 0.4 is 2.9999999999999996 in floating point: exact at four decimals.
   assert.deepEqual(checkCatalog({ ...good, effects: withParams({ r: [0.8, 2, 0.4] }) }), []);
+});
+
+test("hover may be a function, a declaration string or null", () => {
+  const withHover = (hover) =>
+    good.effects.map((e) => (e.data.id === "plain" ? { ...e, data: { ...e.data, hover } } : e));
+  for (const hover of [() => "opacity:.9", "opacity:.9", null]) {
+    assert.deepEqual(checkCatalog({ ...good, effects: withHover(hover) }), []);
+  }
 });
 
 test("defaults a file may leave out are filled in the module", () => {

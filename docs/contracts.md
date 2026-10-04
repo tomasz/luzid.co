@@ -178,18 +178,18 @@ export default {
   fonts: { deny: ['script', 'hairline'], prefer: ['fat'] },     // traits; prefer = ×2 odds
   palettes: { prefer: [] },         // tokens: source or id prefix, 'dark' | 'light', 'n2'…'n4', tier; ×2 odds
   params: { d: [3, 9, 1], a: [45, 315, 90] },                    // [min,max,step], exact grid (§5.3); lengths in u, angles in deg
-  bleed: (p, lines) => ({ t: 0, r: p.d, b: p.d, l: 0 }),         // u; must bound ALL painted ink incl. blur and hover
+  bleed: (p, lines, h) => ({ t: 0, r: p.d, b: p.d, l: 0 }),      // u; must bound ALL painted ink incl. blur and hover
   css:   (p, h, m) => `.n{text-shadow:${h.stack(48, p.a, p.d, 'var(--a1)')}}`,
   hover: null,                      // optional (p, h, m) => declarations, or the string itself; no selector (R6)
   motion: null,                     // reserved for Wave 4; must be null in Waves 0–3
 }
 ```
 
-`m` = `{fs, H, top, asc, desc, G, R, layout}` (needed by `text-emphasis`, underlines, floor shadows), lengths in u. `fs`, `H`, `top`, `asc` and `desc` are pairs `[line 1, line 2]` (`fs = [100/F1, 100/F2]`); `G` is the resolved gap, `R` the block height as a fraction of its width (so not in u), `layout` the layout id. `bleed(p, lines)` receives the line geometry only, `lines` = `{fs, H, top, asc, desc, layout}`: `G` and `R` depend on the bleed, so it cannot see them, and `fit()` calls it exactly once.
+`m` = `{fs, H, top, asc, desc, G, R, layout}` (needed by `text-emphasis`, underlines, floor shadows), lengths in u. `fs`, `H`, `top`, `asc` and `desc` are pairs `[line 1, line 2]` (`fs = [100/F1, 100/F2]`); `G` is the resolved gap, `R` the block height as a fraction of its width (so not in u), `layout` the layout id. `bleed(p, lines, h)` receives the line geometry only, `lines` = `{fs, H, top, asc, desc, layout}`: `G` and `R` depend on the bleed, so it cannot see them, and `fit()` calls it exactly once. Its `h` is the same helpers object the other hooks get, so a bleed can be `h.toward(p.a, p.d)`.
 
 **Where hover lands.** The renderer emits the declarations as `@media (hover:hover) and (pointer:fine){a.n:hover{…}}a.n:active{…}` inside the §5.8 gate and **outside** `prefers-reduced-motion:no-preference`; effects with `hover:null` get the shared default `a.n:active{scale:.985}`. Only the renderer's transitions (`.18s` on `scale translate filter opacity text-shadow`, never more than 200 ms) and `motion` sit inside the reduced-motion block. Under `prefers-reduced-motion:reduce` the hover state therefore still applies, instantly — the policy is in [`a11y.md`](a11y.md). Zero JS, zero DOM: this is v1.0's interactivity.
 
-**Hook signatures.** `css`, `hover` and `motion` receive `(p, h, m)`; `bleed` receives `(p, lines)` (above). An effect whose hover reads no params may give the declaration string itself instead of a function (`hover: "filter:brightness(1.05)"`); the renderer and the grid hash treat the two identically.
+**Hook signatures.** `css`, `hover` and `motion` receive `(p, h, m)`; `bleed` receives `(p, lines, h)` (above). An effect whose hover reads no params may give the declaration string itself instead of a function (`hover: "filter:brightness(1.05)"`); the renderer and the grid hash treat the two identically.
 
 **The helpers `h`** (`src/helpers.js`, frozen, pure; it is authoritative for the signatures). Lengths come out through `u()`, and trigonometry stays in CSS: no helper calls `Math.cos` or `Math.sin`.
 - Constants: `REACH = 1.1` (R14's blur reach with its safety factor), `OUTSET = 1` (a `-webkit-text-stroke` budgeted at its full width outside the contour, for mitered joins), and the caps below as `CAP = 64`, `BLURS = 4`, `MAX_BLUR = 2.5`, `CHAIN = 4`. Effects use the named constant instead of restating the number, and an effect that budgets more than `REACH` says why next to its own factor.

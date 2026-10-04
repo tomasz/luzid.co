@@ -142,7 +142,7 @@ test("every effect either bounds its own ink or says it cannot be scanned static
       const hover = hoverOf(e, p, h, M);
       const css = e.css(p, h, M) + (hover ? `.n{${hover}}` : "");
       const { ext, opaque } = extent(css);
-      const declared = e.bleed?.(p, M) ?? { t: 0, r: 0, b: 0, l: 0 };
+      const declared = e.bleed?.(p, M, h) ?? { t: 0, r: 0, b: 0, l: 0 };
 
       if (opaque.length) {
         if (!abstain.has(id)) {

@@ -151,7 +151,11 @@ test("toward is the dir() the depth effects and the falling retro effects copy",
   ]) {
     const fx = byId[id];
     for (const p of grid(fx.params)) {
-      assert.deepEqual(fx.bleed(p), toward(p[a], p[d]), `${id} ${JSON.stringify(p)}`);
+      assert.deepEqual(
+        fx.bleed(p, METRICS, helpers),
+        toward(p[a], p[d]),
+        `${id} ${JSON.stringify(p)}`,
+      );
     }
   }
 });

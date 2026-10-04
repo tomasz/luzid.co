@@ -17,7 +17,7 @@
  *  3. Each combination `p` appends four lines, each ending in `\n`:
  *     `JSON.stringify(p)` (keys in sorted order), the bleed as `t r b l` joined by spaces,
  *     `css(p, helpers, METRICS)`, and `hover(p, helpers, METRICS)` (the string itself when
- *     `hover` is a string, empty when it is null). `bleed` is called as `bleed(p, METRICS)`.
+ *     `hover` is a string, empty when it is null). `bleed` is called as `bleed(p, METRICS, helpers)`.
  *  4. The file holds the lowercase hex sha256 of that UTF-8 string, then `\n`.
  *
  * `METRICS` (in `test/effects-lint.js`, with `grid()`) is the fixed metrics object for all
@@ -298,7 +298,7 @@ for (const { file, id, fx } of effects) {
     for (const p of grid(fx.params ?? {})) {
       const where = `${file} ${JSON.stringify(p)}`;
 
-      const bleed = fx.bleed(p, METRICS);
+      const bleed = fx.bleed(p, METRICS, helpers);
       for (const side of ["t", "r", "b", "l"]) {
         const v = bleed[side];
         assert.ok(Number.isFinite(v) && v >= 0, `${where}: bleed.${side} = ${v}`);
@@ -333,7 +333,7 @@ for (const { file, id, fx } of effects) {
     // The recipe is spelled out in the header; keep the two in step.
     let text = "";
     for (const p of grid(fx.params ?? {})) {
-      const b = fx.bleed(p, METRICS);
+      const b = fx.bleed(p, METRICS, helpers);
       text += `${JSON.stringify(p)}\n${b.t} ${b.r} ${b.b} ${b.l}\n`;
       text += `${fx.css(p, helpers, METRICS)}\n${hoverOf(fx, p, helpers, METRICS)}\n`;
     }
