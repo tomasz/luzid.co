@@ -46,6 +46,11 @@ export const CASE_FEATURES = ["smcp", "c2sc", "unic", "titl"];
  * Never candidates. `aalt` is an index of all alternates rather than a look, and the
  * numeric and positional features only bloat the glyph closure with junk forms of our
  * letters (superiors, inferiors, fractions) that the two words can never select.
+ *
+ * `fina init medi isol` are joining-context features. HarfBuzz honours a forced one on
+ * any script, so the build measures it, but CoreText runs them only for joining scripts
+ * and paints Latin with the base glyphs: Safari then draws the name wider than its
+ * metric (docs/fit.md, F1).
  */
 export const FEATURE_DENY = new Set([
   "aalt",
@@ -68,6 +73,10 @@ export const FEATURE_DENY = new Set([
   "halt",
   "size",
   "cpsp",
+  "fina",
+  "init",
+  "medi",
+  "isol",
 ]);
 
 /**
