@@ -31,11 +31,19 @@
  * Output is committed to `data/palettes/<source>.json`, so a deploy runs no colour maths.
  */
 
+/** A ground is `dark` below this luminance: exactly where white starts out-contrasting black. */
+const DARK = Math.sqrt(1.05 * 0.05) - 0.05;
+
+/** The linear-light sRGB channels of an `#rrggbb` string, shared by WCAG and OKLab. */
+const linear = (hex) =>
+  [1, 3, 5].map((i) => {
+    const v = Number.parseInt(hex.slice(i, i + 2), 16) / 255;
+    return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+  });
+
 /** WCAG 2.x relative luminance of an `#rrggbb` string. */
 export function luminance(hex) {
-  const [r, g, b] = channels(hex).map((v) =>
-    v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4,
-  );
+  const [r, g, b] = linear(hex);
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 }
 
@@ -83,11 +91,6 @@ export function roleSets(hex) {
   return out;
 }
 
-/** A ground is `dark` below this luminance: exactly where white starts out-contrasting black. */
-const DARK = Math.sqrt(1.05 * 0.05) - 0.05;
-
-const channels = (hex) => [1, 3, 5].map((i) => Number.parseInt(hex.slice(i, i + 2), 16) / 255);
-
 /** Ordered `a1 a2` pairs from the indices `taken` leaves over; `-` fills an empty slot. */
 function accents(n, taken) {
   const rest = [...Array(n).keys()].filter((i) => !taken.includes(i));
@@ -98,9 +101,7 @@ function accents(n, taken) {
 
 /** The `a`, `b` of an `#rrggbb` string in OKLab (Ottosson's matrices; `L` is not needed here). */
 function oklab(hex) {
-  const [r, g, b] = channels(hex).map((v) =>
-    v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4,
-  );
+  const [r, g, b] = linear(hex);
   const l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b);
   const m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b);
   const s = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b);
