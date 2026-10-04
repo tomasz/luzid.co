@@ -1,6 +1,6 @@
 /**
  * 80s chrome horizon: a hard-stop sky/ground gradient clipped to the letters, a bright
- * keyline, and a solid raised wall under the face (R35).
+ * keyline, and a solid raised wall under the face (recipe 35).
  *
  * The fill is one gradient spanning **both lines**, not one per line. `render.js` emits
  * `--bh` (the block height in u) and `--y` (each line's top in u) exactly so an effect can
@@ -19,9 +19,8 @@
  * keyline is 80% `--fg`, so the silhouette of every letter is drawn in very nearly the
  * guaranteed ink even where a band goes quiet against the ground.
  *
- * The wall falls downward, and nothing in §5.2 widens the line gap for downward ink — `G`
- * is `max(g, bleed.t)` and has no bottom counterpart. It does not need one here: the wall
- * is at most 2.1u deep against a layout gap of at least 4u.
+ * The wall falls downward, so it is the bottom bleed that carries it: `G = max(g, bt, bb)`
+ * (§5.2, R13), so the gap clears the wall's full depth, at most 2.1u plus the keyline.
  */
 /** @param {number} x */
 const pc = (x) => `${Math.round(x * 10) / 10}%`;
@@ -89,11 +88,7 @@ export default /** @satisfies {import("../src/types.js").Effect<{ z: number; s: 
     return (
       `.n{-webkit-text-stroke:${h.u(p.k / 100)} ${h.mix("var(--fg)", "var(--a1)", 80)};` +
       `filter:${raise(p, h)}}` +
-      `.l{background-image:linear-gradient(180deg,${stops.join(",")});` +
-      `background-size:100% calc(var(--bh)*var(--u));` +
-      `background-position:0 calc(-1*var(--y)*var(--u));background-repeat:no-repeat;` +
-      `-webkit-background-clip:text;background-clip:text;` +
-      `-webkit-text-fill-color:transparent;color:transparent}`
+      h.clipFill(`linear-gradient(180deg,${stops.join(",")})`)
     );
   },
 
@@ -103,7 +98,7 @@ export default /** @satisfies {import("../src/types.js").Effect<{ z: number; s: 
 });
 
 /**
- * The raised wall under the face, as a binary-doubling drop-shadow chain (R06): each pass
+ * The raised wall under the face, as a binary-doubling drop-shadow chain (recipe 06): each pass
  * shadows the *result* of the previous one, so steps of d, 2d and 4d lay down a copy at
  * every multiple of d out to 7d. Three passes therefore give a solid wall where three equal
  * steps would give three visible ridges — and it stays well inside the cap of four.

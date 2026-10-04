@@ -5,7 +5,7 @@
  * Four blurred layers is the entire budget (§5.6) and this effect spends all of it. The
  * browser spike measured 2.4–7.9 ms of GPU raster *per blurred layer* at desktop size, so
  * the bloom is built from few, widely spaced radii rather than the eight of the source
- * recipe (R32). The ratios .14/.42/.75/1 crowd the outer half deliberately: a blurred layer
+ * recipe (recipe 32). The ratios .14/.42/.75/1 crowd the outer half deliberately: a blurred layer
  * drops most of its alpha in the first radius, so two wide layers close together are what
  * builds a bloom you can see, while the four together still read as one falloff rather than
  * as four rings.
@@ -30,7 +30,7 @@ export default /** @satisfies {import("../src/types.js").Effect<{ r: number; t: 
   palettes: { prefer: ["dark"] },
   // r = full bloom radius in tenths of a u (1.5u–2.5u; 2.5u is the measured cap). Note the
   // scale: a line of the name fills the block width, so 1em is roughly 25u and the cap is
-  // about .1em — a third of the `min(.3em, 56px)` outer layer R32 asks for. The cap wins,
+  // about .1em — a third of the `min(.3em, 56px)` outer layer recipe 32 asks for. The cap wins,
   // and this is the tightest, brightest bloom that fits under it rather than a soft wide one.
   // t = how much of `--a1` the tube carries, as a percentage mixed into `--fg`. It starts
   // high: below about 60% the mix pulls the tube back toward the face and the bloom reads

@@ -1,5 +1,5 @@
 /**
- * Foil: a metallic sheen clipped to the letters, with a thin raised bevel (R37).
+ * Foil: a metallic sheen clipped to the letters, with a thin raised bevel (recipe 37).
  *
  * Where the chrome horizon is one hard event, foil is a run of soft specular bands — bright,
  * deep, bright — tilted a few degrees off vertical so the sheen crosses the letters on a
@@ -29,15 +29,9 @@
 const pc = (x) => `${Math.round(x * 10) / 10}%`;
 
 /**
- * The keyline's outset, as a multiple of its own width. Geometrically 0.5 —
- * `-webkit-text-stroke` is centred — but Chrome and WebKit miter their joins, and a miter on
- * an acute serif corner runs well past the nominal half-width. Budgeting the full width
- * covers a 2x miter and costs at most 0.15u. See `glow-neon-outline`, which was measured
- * short for the same reason.
+ * The ambient blur's reach, as a multiple of its radius: more than `h.REACH` because the
+ * blur spreads from the keyline's antialiased outer edge, not from the glyph contour.
  */
-const STROKE_OUTSET = 1;
-
-/** R14's one-radius reach, plus the margin a blur spreading from a stroke edge needs. */
 const REACH = 1.3;
 
 /** The ambient pass's blur radius in u. `bleed()` and `bevel()` share it. */
@@ -54,7 +48,7 @@ export default /** @satisfies {import("../src/types.js").Effect<{ a: number; s: 
   palettes: { prefer: ["n3"] },
   // a = sheen angle, a few degrees either side of vertical. s = tint strength.
   // o = bevel step in tenths of a u. k = keyline width in hundredths of a u.
-  // R37's bevel offsets are .004–.01em and its ambient blur .03–.06em. A line of the name
+  // Recipe 37's bevel offsets are .004–.01em and its ambient blur .03–.06em. A line of the name
   // fills the block width, so 1em is about 25u: o tops out at 0.6u ≈ .024em and the ambient
   // is 1.1u ≈ .044em. The offsets sit a little above the recipe because three chained
   // passes have to read as one edge; the ambient is inside it.
@@ -67,14 +61,16 @@ export default /** @satisfies {import("../src/types.js").Effect<{ a: number; s: 
    * The first version of this effect counted the keyline as half its width and the ambient
    * blur at 1.0x its radius. `e2e/bleed.spec.js` measured 0.26u of real ink past that at
    * 1440x900 and 0.32u at 3840x2160 — u-constant, so ink rather than rounding, on the left
-   * and right where the bevel's own offsets contribute nothing. `STROKE_OUTSET` covers the
-   * mitered joins Chrome and WebKit put on a sharp serif corner; `REACH` is R14 plus the
-   * margin a blur fed by a stroke turns out to need.
+   * and right where the bevel's own offsets contribute nothing. `h.OUTSET` covers the
+   * mitered joins Chrome and WebKit put on a sharp serif corner (at most 0.3u here); `REACH`
+   * is R14 plus the margin a blur fed by a stroke turns out to need.
    * @param {{o: number, k: number}} p
+   * @param {import("../src/types.js").LineGeometry} _lines
+   * @param {typeof import('../src/helpers.js').helpers} h
    */
-  bleed: (p) => {
+  bleed: (p, _lines, h) => {
     const o = p.o / 10;
-    const side = (STROKE_OUTSET * p.k) / 100 + REACH * AMBIENT;
+    const side = (h.OUTSET * p.k) / 100 + REACH * AMBIENT;
     return { t: o + side, r: side, b: o * 2.6 + side, l: side };
   },
 
@@ -98,11 +94,7 @@ export default /** @satisfies {import("../src/types.js").Effect<{ a: number; s: 
     return (
       `.n{-webkit-text-stroke:${h.u(p.k / 100)} ${h.mix("var(--fg)", "var(--a1)", 80)};` +
       `filter:${bevel(p, h)}}` +
-      `.l{background-image:linear-gradient(${p.a}deg,${stops.join(",")});` +
-      `background-size:100% calc(var(--bh)*var(--u));` +
-      `background-position:0 calc(-1*var(--y)*var(--u));background-repeat:no-repeat;` +
-      `-webkit-background-clip:text;background-clip:text;` +
-      `-webkit-text-fill-color:transparent;color:transparent}`
+      h.clipFill(`linear-gradient(${p.a}deg,${stops.join(",")})`)
     );
   },
 

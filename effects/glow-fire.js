@@ -1,5 +1,5 @@
 /**
- * Fire: a warm multi-layer bloom rising off the letters (R58).
+ * Fire: a warm multi-layer bloom rising off the letters (recipe 58).
  *
  * Four blurred layers, each lifted further and opened wider than the last, and each mixed one
  * step further from `--fg` through `--a1` and on toward `--bg` — so the ramp goes hot at the
@@ -13,9 +13,8 @@
  *
  * Four blurred layers is the cap, and the top bleed is genuinely large — the rise plus the
  * full radius. That is real upward ink, not a declaration bought to widen the gap: `G` is
- * `max(g, bleed.t)` (§5.2) and it is what stops `Cudziło`'s flames licking the underside of
- * `Tomasz`. Nothing does the same for ink falling downward, which is why the bottom of the
- * bloom is only the radius — smaller than the 4u floor on the layout gap.
+ * `max(g, bt, bb)` (§5.2, R13) and it is what stops `Cudziło`'s flames licking the underside
+ * of `Tomasz`. The bottom of the bloom is only the radius, because nothing lifts it downward.
  */
 export default /** @satisfies {import("../src/types.js").Effect<{ r: number; l: number }>} */ ({
   id: "glow-fire",
@@ -48,7 +47,7 @@ export default /** @satisfies {import("../src/types.js").Effect<{ r: number; l: 
     const core = h.mix("var(--a1)", "var(--fg)", 15);
     const body = h.mix("var(--a1)", "var(--fg)", 45);
     const tip = h.mix("var(--a1)", "var(--bg)", 60);
-    // The small sideways offsets are the lean of R58's sketch: without them four centred
+    // The small sideways offsets are the lean of recipe 58's sketch: without them four centred
     // layers stack into a symmetrical column, which no flame has ever been.
     return (
       `.n{text-shadow:0 ${h.u(-y * 0.1)} ${h.u(r * 0.3)} ${core},` +
