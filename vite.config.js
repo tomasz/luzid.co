@@ -5,7 +5,7 @@ import { build } from "./scripts/catalog.js";
 
 // The directories scripts/catalog.js globs into build/catalog.js. Never add build/ itself:
 // rebuilding on a change to its own output would loop.
-const SOURCES = ["effects/", "presets/", "fonts/meta/", "data/"];
+const SOURCES = ["effects/", "presets/", "fonts/sources/", "fonts/meta/", "data/"];
 
 /**
  * Generates build/catalog.js before anything imports it (dev, build, preview and tests all

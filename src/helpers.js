@@ -5,7 +5,7 @@
  *
  * They exist so that effects never write a raw length or a raw colour: `u()` is the only
  * way to spell a length, and `mix()` the only way to make a colour that is not one of the
- * four role variables. The effect lint (`test/effects.test.js`) enforces both. Everything
+ * four role variables. The effect lint (`test/data/effects.test.js`) enforces both. Everything
  * here is pure, so the same pick emits the same bytes in Node, workerd and the browser.
  *
  * Trigonometry stays in CSS (`cos()` / `sin()`, Baseline since 2023). `Math.cos` is

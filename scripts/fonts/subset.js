@@ -1,11 +1,11 @@
 /**
  * hb-subset, called straight through `harfbuzzjs/dist/harfbuzz-subset.wasm`. PLAN §5.5 rule 5.
  *
- * This is the calling sequence of `subset-font` 2.9.0, minus its format conversion, plus the
- * one flag it never exposed: HB_SUBSET_FLAGS_SET_OVERLAPS_FLAG, which sets OVERLAP_SIMPLE /
- * OVERLAP_COMPOUND on every glyf glyph. Pinned variable fonts have overlapping contours and
- * Apple's rasterizer punches holes through them without that flag. Input and output are both
- * plain SFNT; every upstream is TrueType or CFF, never WOFF.
+ * This is the usual hb-subset calling sequence, with no format conversion, plus the one flag
+ * the npm wrapper around it never exposed: HB_SUBSET_FLAGS_SET_OVERLAPS_FLAG, which sets
+ * OVERLAP_SIMPLE / OVERLAP_COMPOUND on every glyf glyph. Pinned variable fonts have
+ * overlapping contours and Apple's rasterizer punches holes through them without that flag.
+ * Input and output are both plain SFNT; every upstream is TrueType or CFF, never WOFF.
  */
 import { readFile } from "node:fs/promises";
 

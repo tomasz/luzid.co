@@ -91,7 +91,7 @@ const isPaint = notGround(GROUND);
  * ink as well, and `depth-float`'s only predicted overshoot is in the hover shadow.
  */
 const WATCHLIST = [
-  { id: "retro-deboss", params: { k: 0.3, s: 1.8 }, predicted: "1.92u on r, b" },
+  { id: "retro-deboss", params: { k: 0.3, s: 1.8 }, predicted: "none" },
   // Hover throws the cast shadow 1.3x further and blurs it 1.3x more; at the shallowest
   // `k` with the softest `s` its tail comes back past the face on the top and left; at the
   // deepest `k` it is the furthest throw down and right.
@@ -158,18 +158,14 @@ const label = (params) =>
     .join(",");
 
 /**
- * Effects that paint outside the `bleed()` they declare, with the worst overshoot this
- * spec measured, in u, across all three engines and both modes.
+ * Effects allowed to paint outside the `bleed()` they declare, with the worst overshoot in
+ * u that this spec measured across all three engines and both modes. Empty: every effect
+ * the spec once budgeted here (`docs/fit.md`, F5) has since had its `bleed()` corrected.
  *
- * **None of these clips.** The run that found them had zero safe-box violations — the
- * `.985` shrink factor absorbs all of it — so each is a `bleed()` to correct in the
- * effect, not a fit failure. `effects/**` is outside this package's paths, so instead of
- * being fixed they are budgeted: the envelope assertion allows exactly the measured
- * overshoot and no more, which still catches any *growth* and any new effect that
- * under-declares, while keeping the run green on defects this package may not touch.
- *
- * Every entry is a recorded defect, not accepted behaviour. Each one drops to 0 when its
- * effect's `bleed()` is corrected. `docs/fit.md` has the per-side numbers and the analysis.
+ * The objects stay as the one place for a future exception, and only a measured one: the
+ * envelope assertion would allow exactly that overshoot and no more, which still catches
+ * any growth and any new effect that under-declares. The right fix is always the effect's
+ * `bleed()`; an entry here is a recorded defect, not accepted behaviour.
  */
 const ALLOWANCE = /** @type {Record<string, number>} */ ({});
 

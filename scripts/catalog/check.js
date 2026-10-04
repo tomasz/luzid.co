@@ -8,7 +8,7 @@
  *
  * The cheap structural and cross-file checks live here and run inside every
  * `vp dev/build/preview/test`; the heavy binary ones (woff2 decode, HarfBuzz) stay in
- * `test/fonts.test.js`.
+ * `test/fonts-pipeline.test.js`.
  */
 import { createHash } from "node:crypto";
 import { basename } from "node:path";
@@ -95,7 +95,7 @@ export const effectDefaults = (fx) => ({
 /**
  * A plausible metrics object, as `fit()` produces it for the fixture catalog. Effects may
  * read it but must not depend on exact values. It is part of the grid-hash recipe in
- * `test/effects.test.js`, so changing it moves all 30 hashes at once.
+ * `test/data/effects.test.js`, so changing it moves all 30 hashes at once.
  */
 export const METRICS = {
   fs: [29.31, 24.47],
@@ -111,7 +111,7 @@ export const METRICS = {
 /**
  * Every combination the engine can draw: per param, the values `step()` in `src/rand.js`
  * can return. Names are sorted; the last one varies fastest. The order is part of the
- * grid-hash recipe in `test/effects.test.js`.
+ * grid-hash recipe in `test/data/effects.test.js`.
  */
 export function grid(params) {
   let sets = [{}];

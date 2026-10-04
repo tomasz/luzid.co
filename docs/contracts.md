@@ -6,18 +6,19 @@ needs a PR labelled `contract`, merged by the owner.
 
 **§5** below began as the approved plan's text and has since been settled against the code
 (where the two disagreed, the text now says what the engine does). Everything under **"The
-`h32` listing"** and **"Resolutions"** is WP-10's implementation of it: the code that had to
+`h32` listing"** and **"Resolutions"** is how the engine implements it: the code that had to
 be pinned exactly, and the places where the plan text left a choice the engine had to make.
 Read the resolutions — several are things the plan implies but does not say, and a later
-work package that guesses differently will break a golden.
+change that guesses differently will break a golden.
 
-A rule marked **pending** with a row id is agreed but not yet in the code; that row of the
-refactor plan lands it, and until then the text next to it says what runs today. The accessibility policy lives in [`a11y.md`](a11y.md), the vocabulary in
-the [Glossary](#glossary) at the end.
+No rule below is pending: every one is in the code. A rule agreed before its code lands is
+marked **pending** with the PR that lands it, and until then the text next to it says what
+runs today. The accessibility policy lives in [`a11y.md`](a11y.md), the vocabulary in the
+[Glossary](#glossary) at the end.
 
 ## 5. Contracts
 
-WP-10 lands these with tests. Changing them later needs a PR labelled `contract`, merged by the owner.
+Each is pinned by tests. Changing one needs a PR labelled `contract`, merged by the owner.
 
 ### 5.1 HTML skeleton
 
@@ -86,7 +87,7 @@ Layouts in v1.0: `stack-fit` (odds 12), `stack-eq` (odds 4), plus independent ke
 
 ### 5.3 Randomization (`src/rand.js`, `src/pick.js`)
 
-- `h32(str)`: xmur3a string hash + splitmix32 finalizer, integer math only (`Math.imul`, shifts, `>>>`). No `Math.random/pow/log` in `src/`. WP-10 pastes the 12 lines and three golden vectors into `docs/contracts.md`.
+- `h32(str)`: xmur3a string hash + splitmix32 finalizer, integer math only (`Math.imul`, shifts, `>>>`). No engine-approximated maths in `src/` or `effects/` (the list is in `AGENTS.md`, enforced by `test/rand.test.js`). The 12 lines and three golden vectors are under "The `h32` listing" below, and `test/docs.test.js` keeps them equal to the code.
 - **Keyed draws:** `draw(seed, key) = h32(seed + "\x1f" + key) / 2³²`. Stateless; a new axis never reshuffles the others.
 - Weighted pick: cumulative scan over candidates sorted by id; integer `odds` 0–16 (floored, then clamped) from the item, default 4, overridden by `data/weights.json`. `0` = retired. Every key of `weights.json` is optional:
 
@@ -113,7 +114,7 @@ Layouts in v1.0: `stack-fit` (odds 12), `stack-eq` (odds 4), plus independent ke
   - Pins are fixed before any draw. Each drawn axis filters against everything already fixed, **and removes candidates that would complete a `data/deny.json` rule**. Every axis has a universal fallback (`effect: plain`), so one pass always terminates.
   - `data/deny.json` = `{"deny":[{"f":"pacifico","e":"outline-ring"},{"e":"glow-neon","p":"wada1-176"}]}`; keys `f v p r e l`; a rule matches when all its keys equal the pick's plain ids (R9). Per-font effect exclusions are `{f,e}` rules. Generated meta is never hand-edited.
   - A deny rule qualifies a variant or a role set by naming its owner in the same rule: a rule with `v` also names `f`, a rule with `r` also names `p` (`{"f":"bungee","v":"n-ss11-static","e":"glow-neon"}`). A bare `v` or `r` would match that id in every font or palette at once.
-  - **Every id must resolve.** Each id in `deny.json` and each key in `weights.json` names something in the catalog (for `v` and `r`, within the named font or palette). Today nothing checks this and a stale id is silently inert (pending B2: the catalog build rejects it with `file: /pointer: message`).
+  - **Every id must resolve.** Each id in `deny.json` and each key in `weights.json` names something in the catalog (for `v` and `r`, within the named font or palette). The catalog build rejects a stale id with `file: /pointer: message` (`scripts/catalog/check.js`), so none is ever silently inert.
 - Params are quantized `[min,max,step]`: `step > 0`, `max ≥ min`, and the grid is **exact** — `(max − min) / step` is an integer at four-decimal precision, so `max` is a grid point. A draw picks a step index `i` in `[0, round((max − min) / step)]` uniformly under key `e/<effect>/<param>`; the value is `round4(min + i·step)`, so both `min` and `max` are drawn. The quotient is rounded, never floored: an exact grid can divide to just under an integer in floating point (`(2 − 0.8) / 0.4` is `2.9999999999999996`). The catalog build rejects a grid whose quotient is not within `1e-9` of an integer, and `step()` asserts the same. Lengths are in u, angles in degrees.
 - Seeds match `/^[0-9a-hjkmnp-tv-z]{1,16}$/`.
 
@@ -121,7 +122,7 @@ Layouts in v1.0: `stack-fit` (odds 12), `stack-eq` (odds 4), plus independent ke
 
 `data/palettes/<source>.json` = `[{id, odds? (default 4; `qa-bw` has 0), names[], namesJa[]?, hex[], roles[{o, dark}]}]`. Ids namespaced by the file (`wada1-176`, `wada2-031`, `kasane-042`, `edit-07`, `era-03`). A file stores only what cannot be derived; the catalog build adds `src` = the file name and `tier` ∈ `historical | editorial | era-approx` = the `tier` of the adapter `scripts/palettes/sources/<source>.js`. A file with no adapter (the hand-written `qa.json`) has no `tier`, and a `tier` prefer token never matches it. Only combos of 2–4 colors ship in v1.0.
 
-`scripts/palettes/roles.js` (pure, ~60 lines hand-rolled WCAG + OKLab; owned by WP-12, called by `scripts/palettes.js`; output committed, so deploy never runs color math):
+`scripts/palettes/roles.js` (pure, ~60 lines hand-rolled WCAG + OKLab, called by `scripts/palettes.js`; output committed, so deploy never runs color math):
 1. Enumerate ordered `(bg, fg)` pairs; keep WCAG contrast ≥ 3:1. Remaining colors become `a1`, `a2` in both orders.
 2. No passing pair (42% of Wada vol. 1): **derived ground** `w` = washi `oklch(.97 .02 h)` or `k` = sumi `oklch(.16 .02 h)`, `h` = hue of the first color; all original colors stay untouched as fg/a1/a2. Always terminates: any color reaches ~4:1 against one of the two.
 3. Role set = `{o:"1023", dark:bool}` plus two fields derived from `o`: `o` = hex indices for bg, fg, a1, a2; `w`/`k` = derived; `-` = aliased. Pick string: `p:wada1-176.k012`.
@@ -133,8 +134,8 @@ Layouts in v1.0: `stack-fit` (odds 12), `stack-eq` (odds 4), plus independent ke
 
 ### 5.5 Fonts
 
-**Source row** (`fonts/sources/<batch>.json`, hand-written; WP-14 writes all batches up front with disjoint ids; a unit test fails on duplicates):
-`{id, family, url, sha256, licenseId, licenseUrl, copyright, archetype:[…], traits:[…], odds:0-16, stops?:[{id:"w900x", wght:900, wdth:150,…}] (≤4), features?:[…], cases?:[…]}`. `id` = kebab-case = file basename; one id per upstream file (`bungee`, `bungee-inline`, `bungee-shade` are separate fonts). `url` = raw file at an immutable VCS commit; where none exists (GUST/CTAN, foundry sites): direct file URL + sha256 **and** the original committed under `fonts/upstream/`. Never a zip. Empty `sha256` is filled on first run and committed.
+**Source row** (`fonts/sources/<id>.json`, hand-written, one row per file; the catalog build and `test/fonts-pipeline.test.js` fail when a file's basename is not its `id`):
+`{id, family, url, sha256, licenseId, licenseUrl, copyright, archetype:[…], traits:[…], odds:0-16, seed?:true, stops?:[{id:"w900x", wght:900, wdth:150,…}] (≤4), features?:[…], cases?:[…]}`. `seed: true` marks the eight fonts every e2e run sweeps (§9.2), read by `e2e/fit-lib.js`; no other row carries it. `id` = kebab-case = file basename; one id per upstream file (`bungee`, `bungee-inline`, `bungee-shade` are separate fonts). `url` = raw file at an immutable VCS commit; where none exists (GUST/CTAN, foundry sites): direct file URL + sha256 **and** the original committed under `fonts/upstream/`. Never a zip. Empty `sha256` is filled on first run and committed.
 
 **Stop and variant ids.** A stop pins every `fvar` axis and its `id` (kebab-case, unique in the row) becomes the shipped filename `fonts/files/<font>.<stop>.woff2`; a font with no axes has the one implicit stop `static`. The curator names stops; the vocabulary in use, which new rows follow:
 
@@ -159,7 +160,7 @@ A variant id is `<case>-<features>-<stop>`: case `n` / `u` / `l` (none, uppercas
 5. **Every shipped file is a fully pinned static instance.** Per stop, `scripts/fonts/subset.js` calls hb-subset directly through `harfbuzzjs/dist/harfbuzz-subset.wasm`: the code points of `'TOMASZCUDIŁ tomaszcudił'`, flags `HB_SUBSET_FLAGS_NO_HINTING | HB_SUBSET_FLAGS_SET_OVERLAPS_FLAG` (0x01 | 0x10), name IDs 13 and 14 kept on top of hb's defaults, `STAT` and `MVAR` dropped, every fvar axis pinned with `hb_subset_input_pin_axis_location`, layout features exactly `[kern liga clig calt rlig rclt curs ccmp locl mark mkmk rvrn + effective tags]`. `SET_OVERLAPS_FLAG` **sets OVERLAP_SIMPLE (0x40 on the first flag byte) / OVERLAP_COMPOUND (0x0400) on every glyf glyph** (pinned variable fonts have overlapping contours; Apple rasterizers punch holes without the flag). Then `scripts/fonts/sfnt.js`: metrics (§5.2), rebuild `name` when rule 3 says to rename (`hb-subset` cannot rewrite name IDs 1-6; it only chooses which records to keep), recompute table checksums + `head.checkSumAdjustment`; the verifier re-reads the overlap flags from the shipped file. Then `scripts/fonts/woff2.js` → `fonts/files/<id>.<stop>.woff2`.
 6. `scripts/fonts/woff2.js` (~100 lines, `node:zlib` only): 48-byte header, directory with known-tag flags, `glyf`/`loca` marked transform version 3 (null transform, which preserves the overlap flags that the 2018-era `wawoff2` encoder strips), one `brotliCompressSync` (quality 11, `BROTLI_MODE_FONT`). `decode()` is the inverse for tests. Acceptance: `decode(encode(x))` tables byte-identical; file loads in Chromium, Firefox, WebKit.
 7. Budget: **≤ 10,500 B per file hard stop**, target ≤ 8 KB. Over: drop features that never fire, then stops, then variants, then the font (list it in the PR body). The response test (§9.1, ≤ 14,000 B brotli) is the final gate.
-8. Licence file `fonts/licenses/<id>.txt` = upstream licence text (Apache: + NOTICE if any; GUST: + upstream MANIFEST; Warsaw Types, which state OFL only in a README: README copyright line + canonical OFL-1.1 text, with the evidence — the README's immutable URL and the quoted lines — in `fonts/upstream/<id>.notice.txt`, which the generator appends to the licence file; **these PRs wait for an owner yes**. An earlier draft put it in the meta as `licenseEvidence:{url,quote}`; nothing ever wrote or read that field, and the committed notice is what ships next to the font, so the notice file is the contract), prefixed by: `Modified by luzid.co: 23-glyph subset of <family> <version>; hinting removed; vertical metrics changed. Original: <url>` (satisfies Apache §4(b) and LPPL §6). Nothing is written outside `fonts/`. `THIRD_PARTY_NOTICES.md` is a static pointer file from WP-00; WP-53 may generate a readable table once at the end.
+8. Licence file `fonts/licenses/<id>.txt` = upstream licence text (Apache: + NOTICE if any; GUST: + upstream MANIFEST; Warsaw Types, which state OFL only in a README: README copyright line + canonical OFL-1.1 text, with the evidence — the README's immutable URL and the quoted lines — in `fonts/upstream/<id>.notice.txt`, which the generator appends to the licence file; **these PRs wait for an owner yes**. An earlier draft put it in the meta as `licenseEvidence:{url,quote}`; nothing ever wrote or read that field, and the committed notice is what ships next to the font, so the notice file is the contract), prefixed by: `Modified by luzid.co: 23-glyph subset of <family> <version>; hinting removed; vertical metrics changed. Original: <url>` (satisfies Apache §4(b) and LPPL §6). Nothing is written outside `fonts/`. `THIRD_PARTY_NOTICES.md` is a static pointer file.
 
 **Meta** (`fonts/meta/<id>.json`, generated): `{id, rfn:[…], measured:[…], upm, files:[{id:"w900x", axes:{…}, bytes, sha256, asc, desc, stem, crossbar, glyphs:23}], variants:[{id, file, case, css:{weight,style,feat}, w1:{W,H,X,top}, w2:{…}}]}` — measured facts only. What a curator decides stays in the source row alone, and the catalog build joins it in by id: the font record is `{id, family, src:{url,sha256}, licenseId, copyright, rfn, archetype, traits, odds, upm, files, variants}`, with `src` the row's `url` and `sha256`, and `traits` the row's plus `measured`, sorted (a row that names `capsOnly` or `unicase` keeps its word for that one measurement). So re-bucketing a font, or changing its odds or a hand-set trait, is a row edit that needs neither the font pipeline nor the network. The build fails when a built font has no row, when its row's `sha256` is still empty, or when the row declares a measured trait the meta did not measure. `rfn` is required — `[]` when nothing is reserved — because rule 3's rename is recomputed from it. `measured` lists which of the five measured traits the outlines bear out. The row's `family` is always the upstream family — what the colophon credits — whatever the shipped files are named internally. `upm` is the em grid every metric and ink measurement is in; `stem` (capital `I`) and `crossbar` (narrowest stroke in `Ł`/`ł`) are per stop, in em, for effects that add a stroke and would otherwise close a thin crossbar.
 
@@ -287,7 +288,7 @@ Where §5 left a choice, this is the choice the engine made. Each one is pinned 
 ### R1 — `h32` is xmur3a + `fmix32`, not xmur3a + the splitmix32 finalizer
 
 §5.3 says "xmur3a string hash + splitmix32 finalizer". Taken literally that does not
-reproduce the three golden vectors §5.3 itself tells WP-10 to paste here, and which the
+reproduce the three golden vectors §5.3 itself asks to be pasted here, and which the
 research measured. bryc's xmur3a *is* murmur rounds plus `fmix32`; the plan's phrasing
 conflates the two murmur-style finalizers. The vectors won: they are checkable, and every
 other package builds against them. `mix32` is exported separately, so nothing is lost.
@@ -314,8 +315,8 @@ is unaffected: `plain` is `colors: 2, bg: any`, which every role set satisfies.
 ### R4 — a derived ground's hex is appended to the row's own `hex`
 
 §5.4 defines `w` / `k` as a derived washi/sumi ground but never says where the literal
-lives, and §5.4 also forbids colour maths at render time. WP-12's convention, implemented
-here: a row that needs a ground appends both to its `hex`, **washi first, then sumi**, after
+lives, and §5.4 also forbids colour maths at render time. The palette generator's
+convention: a row that needs a ground appends both to its `hex`, **washi first, then sumi**, after
 its real colours. `names.length` is the divider, so `w` is `hex[names.length]` and `k` is
 `hex[names.length + 1]`, and `hex.length` may exceed `names.length` by up to 2. `names`
 stays the authoritative list of the row's genuine colours — the colophon credits those and
@@ -390,7 +391,7 @@ It used to read: the engine divided by `font.upm` when the meta carried one and 
 `bleed(p, m)` took an `m` containing `G`, `bleed()` was handed an `m` computed with `G = g`.
 No shipped effect's bleed ever read `m.G` or `m.R`.
 
-### R11 — a system-font fallback exists so the engine is total before WP-11 (retired by S2)
+### R11 — a system-font fallback exists so the engine is total before any font ships (retired by S2)
 
 **Retired by S2.** The catalog build rejects an empty font pool, a missing `plain` and a
 missing `qa-bw` (B2), so the engine's stand-ins — a built-in `system` font, a fallback
@@ -422,8 +423,8 @@ top bleed should drop it.
 
 `text-shadow` and `drop-shadow()` both take the blur radius as a Gaussian *diameter* hint,
 sigma = radius / 2. A Gaussian is often quoted as visible to 3 sigma, which suggested 1.5r,
-and that is what this resolution first said. It is wrong in practice, and WP-13 measured it
-rather than arguing it.
+and that is what this resolution first said. It is wrong in practice, and the fit proof
+(`docs/fit.md`, F4) measured it rather than arguing it.
 
 Reading the computed `text-shadow` back off the page and solving for the multiplier m where
 `max(offset + m * blur)` equals the measured painted edge gives **0.89-1.05** at the loosest
@@ -463,7 +464,7 @@ Four choices §5.5 did not make:
 - **After subsetting, not before.** `hb-subset` cannot rewrite name IDs 1-6; it only
   chooses which records to keep. The table has to be rebuilt either way,
   and rebuilding the subset's nine records costs less than rebuilding the upstream's
-  hundred. `sfnt.js` gained `readNames` / `writeNames` for it.
+  hundred. `sfnt.js` has `readNames` / `withNames` for it.
 - **Only when a name is reserved.** Always-renaming is simpler to reason about and was the
   research's recommendation, but it would rewrite 147 already-shipped files for no licence
   reason and throw away the one piece of provenance a font manager can show. A font with

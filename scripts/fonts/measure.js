@@ -233,7 +233,7 @@ const crosses = (a, b, c, d) => {
 /**
  * Whether any two contours of a shipped glyph cross. Read overlap flags are not a usable
  * signal here — almost no upstream sets them — so the geometry is tested directly. This is
- * only a trait for effect matching; `setOverlapFlags` is applied unconditionally regardless.
+ * only a trait for effect matching; hb-subset sets the flags on every glyph regardless.
  */
 function measureOverlap({ font }) {
   for (const ch of LETTERS) {

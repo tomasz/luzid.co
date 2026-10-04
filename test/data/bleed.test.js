@@ -39,8 +39,8 @@ const BLUR_REACH = h.REACH;
  *
  * This scan is an approximation and always reads high: it sums the worst corner of every
  * layer analytically, while ink is only ink where it is actually visible. Measured in
- * pixels by `e2e/bleed.spec.js`, `retro-deboss` overshoots by 0.32u where this scan says
- * 1.20u, and `glow-neon` is clean where this scan says 0.25u.
+ * pixels by `e2e/bleed.spec.js`, `retro-deboss` paints 0.7u *inside* its envelope where
+ * this scan reads an overshoot, and `glow-neon` is clean where this scan says 0.25u.
  *
  * So the threshold is set to catch the gross errors this is good at — an effect that
  * declares nothing, or is out by a multiple — and to leave the fine margin to the pixel

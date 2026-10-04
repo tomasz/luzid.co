@@ -1,6 +1,6 @@
 import { defineConfig, devices } from "@playwright/test";
 
-// Every agent gets its own port (8800 + WP number) so parallel worktrees never collide.
+// Every worktree gets a free port, 8800+, so parallel agents never collide.
 const port = Number(process.env.PORT ?? 8787);
 const baseURL = `http://127.0.0.1:${port}`;
 
