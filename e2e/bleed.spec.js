@@ -95,6 +95,7 @@ const WATCHLIST = [
   { id: "glow-neon", params: { r: 25, t: 60 }, predicted: "1.25u on all four" },
   { id: "glow-fire", params: { r: 25, l: 6 }, predicted: "1.25u on l, r, t" },
   { id: "depth-float", params: { y: 10, o: 18 }, hover: true, predicted: "0.09u on t (hover)" },
+  { id: "depth-drop", params: { d: 3, a: 225 }, hover: true, predicted: "none (hover)" },
   // Outline hovers that move paint, each at its widest corner. All four now budget their
   // hover ink in `bleed()`, so each predicts no overshoot.
   { id: "outline-comic", params: { d: 3.5, q: 1, sw: 2.4 }, hover: true, predicted: "none" },

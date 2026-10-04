@@ -28,35 +28,35 @@ const TAN = { 0: 0, 15: 0.27, 30: 0.58 };
 const BLUR = 0.25;
 
 /**
- * Blur radius to reserved reach. Ink stops near 1.0x the radius (`h.REACH` budgets 1.1);
- * this effect still reserves 2x, the older bound, so its bleed and goldens stay put until
- * moving it onto `h.REACH` is checked against the e2e bleed scan.
+ * Blur to reserved reach, the family's one exception to `h.REACH`. This blur is a
+ * `filter: blur()` on a generated copy, not a shadow layer: its length is the Gaussian's
+ * sigma itself, where a shadow's blur radius is twice sigma. So it paints twice as far per
+ * u as `h.REACH` budgets for a shadow, and gets twice the budget.
  */
-const SPREAD = 2;
+const SIGMA = 2;
 
 /** How much ink the floor copy carries, in percent of the ground colour. */
 const SHADE = 45;
 
 export default /** @satisfies {import("../src/types.js").Effect<{ sy: number; sk: number }>} */ ({
   id: "depth-floor",
-  family: "depth",
   shape: "B",
   colors: 2,
   bg: "any",
   odds: 3,
   fonts: { deny: ["hairline"], prefer: ["fat", "sans"] },
-  palettes: { prefer: [] },
   // `sy` is the floor copy's height as a percent of the letters; `sk` its skew in degrees.
   params: { sy: [30, 60, 10], sk: [-30, 30, 15] },
 
   /**
    * @param {{sy: number, sk: number}} p
    * @param {import("../src/types.js").LineGeometry} lines
+   * @param {typeof import('../src/helpers.js').helpers} h
    */
-  bleed: (p, lines) => {
+  bleed: (p, lines, h) => {
     const tall = Math.max(lines.H[0], lines.H[1]);
-    const lean = (TAN[Math.abs(p.sk)] ?? 0.58) * (tall / 2) + SPREAD * BLUR;
-    return { t: 0, r: lean, b: (p.sy / 100) * lines.H[1] + SPREAD * BLUR, l: lean };
+    const lean = (TAN[Math.abs(p.sk)] ?? 0.58) * (tall / 2) + SIGMA * h.REACH * BLUR;
+    return { t: 0, r: lean, b: (p.sy / 100) * lines.H[1] + SIGMA * h.REACH * BLUR, l: lean };
   },
 
   /**
@@ -75,5 +75,4 @@ export default /** @satisfies {import("../src/types.js").Effect<{ sy: number; sk
   },
 
   hover: "filter:brightness(1.05)",
-  motion: null,
 });
