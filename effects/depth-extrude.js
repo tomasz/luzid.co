@@ -9,13 +9,11 @@
  */
 export default /** @satisfies {import("../src/types.js").Effect<{ d: number; a: number }>} */ ({
   id: "depth-extrude",
-  family: "depth",
   shape: "A",
   colors: 3,
   bg: "any",
   odds: 6,
   fonts: { deny: ["script", "hairline"], prefer: ["fat"] },
-  palettes: { prefer: [] },
   params: { d: [3, 9, 1], a: [45, 315, 90] },
 
   /**
@@ -32,5 +30,4 @@ export default /** @satisfies {import("../src/types.js").Effect<{ d: number; a: 
   css: (p, h) => `.n{text-shadow:${h.stack(h.layers(8 * p.d), p.a, p.d, "var(--a1)")}}`,
 
   hover: "filter:brightness(1.07)",
-  motion: null,
 });

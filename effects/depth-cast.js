@@ -23,13 +23,6 @@
 /** sin 45°, written out so no trigonometry happens in JS. */
 const SIN45 = 0.7071;
 
-/**
- * Blur radius to reserved reach. Ink stops near 1.0x the radius (`h.REACH` budgets 1.1);
- * this effect still reserves 2x, the older bound, so its bleed and goldens stay put until
- * moving it onto `h.REACH` is checked against the e2e bleed scan.
- */
-const SPREAD = 2;
-
 /** Blur radii of the two cast layers, in u. Both inside the measured 2.5u cap. */
 const TIGHT = 0.9;
 const SOFT = 2.2;
@@ -39,13 +32,10 @@ const POOL = 2.5;
 
 export default /** @satisfies {import("../src/types.js").Effect<{ d: number; a: number; k: number }>} */ ({
   id: "depth-cast",
-  family: "depth",
   shape: "A",
   colors: 3,
   bg: "light",
-  odds: 4,
   fonts: { deny: ["hairline", "script", "shaded"], prefer: ["fat", "slab"] },
-  palettes: { prefer: [] },
   // `k` is how much ink the cast shadow carries, in percent of the ground colour.
   params: { d: [4, 10, 2], a: [45, 135, 90], k: [24, 44, 10] },
 
@@ -56,11 +46,11 @@ export default /** @satisfies {import("../src/types.js").Effect<{ d: number; a: 
    */
   bleed: (p, _lines, h) => {
     const wall = h.toward(p.a, p.d);
-    const side = SPREAD * SOFT;
+    const side = h.REACH * SOFT;
     return {
       t: 0,
       r: Math.max(wall.r, side),
-      b: Math.max(wall.b, p.d * SIN45 + POOL + SPREAD * SOFT),
+      b: Math.max(wall.b, p.d * SIN45 + POOL + side),
       l: Math.max(wall.l, side),
     };
   },
@@ -81,5 +71,4 @@ export default /** @satisfies {import("../src/types.js").Effect<{ d: number; a: 
   },
 
   hover: "filter:brightness(1.05)",
-  motion: null,
 });
