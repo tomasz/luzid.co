@@ -28,22 +28,14 @@
 /** @param {number} x */
 const pc = (x) => `${Math.round(x * 10) / 10}%`;
 
-/**
- * The ambient blur's reach, as a multiple of its radius: more than `h.REACH` because the
- * blur spreads from the keyline's antialiased outer edge, not from the glyph contour.
- */
-const REACH = 1.3;
-
 /** The ambient pass's blur radius in u. `bleed()` and `bevel()` share it. */
 const AMBIENT = 1.1;
 
 export default /** @satisfies {import("../src/types.js").Effect<{ a: number; s: number; o: number; k: number }>} */ ({
   id: "glow-foil",
-  family: "glow",
   shape: "A",
   colors: 3,
   bg: "any",
-  odds: 4,
   fonts: { deny: ["hairline", "inline", "shaded"], prefer: ["serif", "deco"] },
   palettes: { prefer: ["n3"] },
   // a = sheen angle, a few degrees either side of vertical. s = tint strength.
@@ -56,22 +48,23 @@ export default /** @satisfies {import("../src/types.js").Effect<{ a: number; s: 
 
   /**
    * The chain steps `o` up and then `o + 1.6·o` down, and the ambient blur spreads from the
-   * *keyline's* outer edge on every side — not from the glyph contour.
+   * *keyline's* outer edge on every side — not from the glyph contour — so the keyline's
+   * `h.OUTSET` adds to every pass (R14). Upward, the ambient pass sits `1.6·o` lower than the
+   * up-step it shadows, so the top is whichever reaches further: the up-step or the blur.
    *
-   * The first version of this effect counted the keyline as half its width and the ambient
-   * blur at 1.0x its radius. `e2e/bleed.spec.js` measured 0.26u of real ink past that at
-   * 1440x900 and 0.32u at 3840x2160 — u-constant, so ink rather than rounding, on the left
-   * and right where the bevel's own offsets contribute nothing. `h.OUTSET` covers the
-   * mitered joins Chrome and WebKit put on a sharp serif corner (at most 0.3u here); `REACH`
-   * is R14 plus the margin a blur fed by a stroke turns out to need.
+   * The first version counted half the keyline and the blur at 1.0x, and `e2e/bleed.spec.js`
+   * measured 0.32u of real ink past that on the left and right at `k=30`. The full keyline
+   * width and `h.REACH` add 0.26u there; the spec, not this comment, is the proof.
    * @param {{o: number, k: number}} p
    * @param {import("../src/types.js").LineGeometry} _lines
    * @param {typeof import('../src/helpers.js').helpers} h
    */
   bleed: (p, _lines, h) => {
     const o = p.o / 10;
-    const side = (h.OUTSET * p.k) / 100 + REACH * AMBIENT;
-    return { t: o + side, r: side, b: o * 2.6 + side, l: side };
+    const stroke = (h.OUTSET * p.k) / 100;
+    const blur = h.REACH * AMBIENT;
+    const side = stroke + blur;
+    return { t: stroke + Math.max(o, blur - o * 0.6), r: side, b: o * 2.6 + side, l: side };
   },
 
   /**
@@ -100,7 +93,6 @@ export default /** @satisfies {import("../src/types.js").Effect<{ a: number; s: 
 
   /** @param {{o: number}} p @param {typeof import('../src/helpers.js').helpers} h */
   hover: (p, h) => `filter:${bevel(p, h)} brightness(1.05)`,
-  motion: null,
 });
 
 /**

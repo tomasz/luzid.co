@@ -27,11 +27,9 @@ const pc = (x) => `${Math.round(x * 10) / 10}%`;
 
 export default /** @satisfies {import("../src/types.js").Effect<{ z: number; s: number; d: number; k: number }>} */ ({
   id: "glow-chrome",
-  family: "glow",
   shape: "A",
   colors: 3,
   bg: "any",
-  odds: 4,
   fonts: { deny: ["hairline", "inline", "shaded"], prefer: ["fat", "wide"] },
   palettes: { prefer: ["n3"] },
   // z = horizon, as a percentage of the *ink*, not of the block: `css()` maps it past the
@@ -42,21 +40,16 @@ export default /** @satisfies {import("../src/types.js").Effect<{ z: number; s: 
 
   /**
    * The doubling chain sinks the face by the full depth, and the keyline outsets on every
-   * side.
-   *
-   * The keyline is budgeted at 1.5x its width, not the geometric half. Chrome and WebKit
-   * miter their stroke joins, so an acute corner runs past `k/2`; that is what the pixel
-   * proof caught on the two effects in this family that compose a stroke with a blur.
-   *
-   * This one has no blurred layer, which is exactly why its allowance has to be the larger.
-   * On `glow-neon-outline` and `glow-foil` a generous blur term absorbs the miter; here the
-   * keyline is the only ink on the left and right, so the miter is the entire error budget.
-   * Measured at 3840x2160 on the sharpest faces this effect accepts, `bellefair` leaves
-   * 0.01u at 1x and 0.14u at 1.5x. The extra costs 0.3% of the block width.
+   * side by `h.OUTSET` of its width: Chrome and WebKit miter their stroke joins, so an acute
+   * corner runs well past the geometric half. With no blurred layer the keyline is the only
+   * ink on the left and right, so that miter is the whole budget there. Measured at
+   * 3840x2160 on the sharpest face this effect accepts, `bellefair` keeps 0.01u to spare.
    * @param {{d: number, k: number}} p
+   * @param {import("../src/types.js").LineGeometry} _lines
+   * @param {typeof import('../src/helpers.js').helpers} h
    */
-  bleed: (p) => {
-    const side = (1.5 * p.k) / 100;
+  bleed: (p, _lines, h) => {
+    const side = (h.OUTSET * p.k) / 100;
     return { t: side, r: side, b: p.d / 10 + side, l: side };
   },
 
@@ -94,7 +87,6 @@ export default /** @satisfies {import("../src/types.js").Effect<{ z: number; s: 
 
   /** @param {{d: number}} p @param {typeof import('../src/helpers.js').helpers} h */
   hover: (p, h) => `filter:${raise(p, h)} brightness(1.06)`,
-  motion: null,
 });
 
 /**
