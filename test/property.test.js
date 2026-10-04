@@ -125,6 +125,40 @@ test("rendering is deterministic and stays inside the byte budget", () => {
   assert.ok(worst <= 14000, `worst response ${worst} B brotli`);
 });
 
+test("the heaviest live fonts under every effect stay inside the byte budget", () => {
+  // §9.1 B8: the fixture font is a 150 B stub, so only the live catalog can test the budget.
+  // The worst case is the largest font file under the longest effect CSS, so: the three
+  // largest shipped files x every effect at both ends of its parameter grid, with a nonce of
+  // the worker's real shape (base64 of 16 bytes) and the real colophon render() writes.
+  const files = live.fonts
+    .flatMap((font) =>
+      font.files.map((file) => ({ font, file, v: font.variants.find((x) => x.file === file.id) })),
+    )
+    .filter((x) => x.v)
+    .sort((a, b) => b.file.b64.length - a.file.b64.length)
+    .slice(0, 3);
+  assert.equal(files.length, 3, "the live catalog must ship at least three font files");
+  assert.ok(live.effects.length >= 30, "expected every shipped effect");
+
+  const base = pick("a", {}, live);
+  let worst = { size: 0, pick: "" };
+  for (const { font, v } of files) {
+    for (const effect of live.effects) {
+      const spec = Object.entries(effect.params ?? {});
+      for (const end of [0, 1]) {
+        const params = Object.fromEntries(spec.map(([k, range]) => [k, range[end]]));
+        const p = { ...base, f: font.id, v: v.id, e: effect.id, params, side: true };
+        const str = pickString(p);
+        const html = render(p, live, { nonce: "q7Lp2Xv9mK3sT8wR4yN1bA==", pick: str });
+        const size = brotliCompressSync(Buffer.from(html, "utf8")).length;
+        if (size > worst.size) worst = { size, pick: str };
+      }
+    }
+  }
+  console.log(`worst live response: ${worst.size} B brotli · ${worst.pick}`);
+  assert.ok(worst.size <= 14000, `worst response ${worst.size} B brotli · ${worst.pick}`);
+});
+
 test("pick + render stay far inside the CPU budget", () => {
   // A Worker cannot time itself (Date.now does not advance during execution), so this is a
   // Node proxy: the real numbers come from Workers Logs once it is live.

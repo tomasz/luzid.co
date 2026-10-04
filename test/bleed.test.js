@@ -24,6 +24,9 @@ import { basename } from "node:path";
 import { test } from "vite-plus/test";
 import { pathToFileURL } from "node:url";
 import { helpers as h } from "../src/helpers.js";
+import { pick, resolve } from "../src/pick.js";
+import { fit } from "../src/render.js";
+import { fixtureCatalog } from "./catalog.js";
 
 /** R14: a blurred layer paints to about one radius beyond its offset. 1.1 is the safety factor. */
 const BLUR_REACH = 1.1;
@@ -43,17 +46,13 @@ const BLUR_REACH = 1.1;
  */
 const TOLERANCE = 0.5;
 
-/** Plausible metrics; the audit is about an effect's own geometry, not a particular font. */
-const M = {
-  fs: [25, 25],
-  H: [18, 18],
-  top: [14, 14],
-  asc: 0.75,
-  desc: 0.25,
-  G: 8,
-  R: 0.5,
-  layout: "stack-fit",
-};
+/**
+ * Plausible metrics; the audit is about an effect's own geometry, not a particular font.
+ * Taken from the engine itself, so their shape can never drift from what `css()` receives.
+ */
+const fixture = await fixtureCatalog();
+const seedA = pick("a", {}, fixture);
+const M = fit(seedA, resolve(seedA, fixture)).m;
 
 /** Properties whose ink a shadow-list scan cannot bound. Seeing one means we must abstain. */
 const OPAQUE = /^(transform|translate|scale|rotate|clip-path|mask|mask-image|filter|content)$/;
