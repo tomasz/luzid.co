@@ -144,22 +144,10 @@ test.describe("every layout mode fills its safe box at every viewport", () => {
  *
  * See `docs/fit.md` for the measurement and the recommended remedy.
  */
-const KNOWN_DIVERGENCE = [
-  {
-    engine: "webkit",
-    // The divergence is a property of CoreText, not of WebKit: Playwright's macOS WebKit
-    // is a Mac-port build that shapes through it, while its Linux WebKit is WPE with
-    // FreeType and HarfBuzz and no CoreText anywhere. On Linux the variant therefore
-    // renders at its declared width and passes — a true statement about that engine, not
-    // a missed failure, so the pin must not be armed there.
-    platform: "darwin",
-    f: "pacifico",
-    v: "n-fina-static",
-    l: "stack-fit",
-    vp: { w: 390, h: 844 },
-    why: "CoreText does not apply the OpenType `fina` feature to Latin, so WebKit-on-macOS paints the base glyphs (3.099 em) while the build-time harfbuzz metric says 3.039 em: +1.97% on line 1. Linux WebKit shapes with HarfBuzz and is unaffected",
-  },
-];
+// Empty: F1, the only entry, was fixed at the source by denying the joining-context
+// features in `scripts/fonts/rules.js`. An entry names `engine` and `platform`, because a
+// divergence can belong to a platform's shaper rather than the engine (`docs/fit.md`).
+const KNOWN_DIVERGENCE = [];
 
 test.describe("known engine divergences", () => {
   for (const k of KNOWN_DIVERGENCE) {
