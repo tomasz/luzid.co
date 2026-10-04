@@ -8,7 +8,7 @@
  "archetype": ["B", "X"],
  "traits": ["sans", "fat"],
  "odds": 8,
- "files": [{ "id": "w700", "axes": { "wght": 700 }, "asc": 760, "desc": 240, "glyphs": 23 }],
+ "files": [{ "id": "w700", "axes": { "wght": 700 }, "bytes": 150, "sha256": "7afcc9abd66f0d0274576501444ee544cff7d596738f5f271dfd7edddf84f794", "asc": 760, "desc": 240, "stem": 0.12, "crossbar": 0.1, "glyphs": 23 }],
  "variants": [
   {
    "id": "as",

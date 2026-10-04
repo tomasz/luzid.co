@@ -1,0 +1,8 @@
+{
+ "deny": [
+  {
+   "f": "fx-sans",
+   "v": "n-base-static"
+  }
+ ]
+}

@@ -1,0 +1,132 @@
+/**
+ * The catalog build is the validation boundary (`scripts/catalog/check.js`): every data
+ * file breaking the contract fails `vp dev/build/preview/test` with `file: /pointer: msg`.
+ *
+ * Each directory under `test/fixtures/bad/` plants one broken file at the path it would
+ * have in a catalog; `plant()` lays it over the good fixture catalog, and the build must
+ * reject the result with exactly the message listed in `BAD` below.
+ */
+import assert from "node:assert/strict";
+import { readdir } from "node:fs/promises";
+import { resolve } from "node:path";
+import { expect, test } from "vite-plus/test";
+import { catalogModule, checkCatalog, readCatalog } from "../../scripts/build.mjs";
+
+const fixtures = resolve(import.meta.dirname, "../fixtures");
+const good = await readCatalog(resolve(fixtures, "catalog"));
+
+const BAD = {
+  "effect-order": "effects/plain.js: /: keys must be in the order id, family, shape, colors,",
+  "effect-id": 'effects/plain.js: /id: must equal the file name, got "plane"',
+  "effect-shape": "effects/plain.js: /shape: must be A or B",
+  "effect-trait": 'effects/plain.js: /fonts/deny/0: "bold" is not allowed here',
+  "effect-step": "effects/plain.js: /params/d/2: step must be positive",
+  "effect-range": "effects/plain.js: /params/d/1: max must be ≥ min",
+  "effect-hook": "effects/plain.js: /css: must be a function",
+  "effect-motion": "effects/plain.js: /motion: must be null until Wave 4",
+  "effect-unknown-key": "effects/plain.js: /extra: unknown key",
+  "font-upm": "fonts/meta/fx-sans.json: /upm: must be a positive integer",
+  "font-variant-file":
+    'fonts/meta/fx-sans.json: /variants/1/file: names no entry of /files: "w900"',
+  "font-asc": "fonts/meta/fx-sans.json: /files/0/asc: must be an integer in font units",
+  "font-ink": "fonts/meta/fx-sans.json: /variants/0/w1/W: must be a finite number",
+  "font-bytes":
+    "fonts/meta/fx-sans.json: /files/0/bytes: fonts/files/fx-sans.w700.woff2 is 150 bytes, not 151",
+  "font-trait": 'fonts/meta/fx-sans.json: /traits/1: "bold" is not allowed here',
+  "palette-hex": 'data/palettes/fx.json: /0/hex/1: "#FFF" is not allowed here',
+  "palette-ground": "data/palettes/fx.json: /0/roles/0/o: w points past the end of hex (2)",
+  "palette-names": "data/palettes/fx.json: /0/names: must name 2–4 colours, got 5",
+  "palette-dark": "data/palettes/fx.json: /0/roles/0/dark: must be true or false",
+  "palette-namespace": "data/palettes/fx.json: /0/id: must be kebab-case and start with fx-",
+  "palette-tier":
+    "data/palettes/fx.json: /0/tier: must be one of historical, editorial, era-approx",
+  "deny-bare-variant": "data/deny.json: /deny/0/v: a rule naming v must also name f",
+  "deny-bare-role": "data/deny.json: /deny/0/r: a rule naming r must also name p",
+  "deny-stale-id": 'data/deny.json: /deny/0/e: "outline-rings" names nothing in the catalog',
+  "deny-foreign-variant": 'data/deny.json: /deny/0/v: "n-base-static" names nothing in the catalog',
+  "deny-key": "data/deny.json: /deny/0/font: unknown key",
+  "weights-axis": "data/weights.json: /font: unknown key",
+  "weights-range": "data/weights.json: /e/plain: must be an integer 0–16",
+  "weights-stale-role": "data/weights.json: /r/fx-ink.0123: names nothing in the catalog",
+  "weights-preset-share": "data/weights.json: /mode/preset: presets may take at most 20% of draws",
+  // Not a pointer: the file does not parse, so there is nothing to point into.
+  "weights-malformed": "data/weights.json: Expected",
+};
+
+/** The good fixture with every file under `bad/<dir>` laid over the one at its path. */
+async function plant(dir) {
+  const bad = await readCatalog(resolve(fixtures, "bad", dir));
+  const over = (list, extra) => [
+    ...list.filter((e) => !extra.some((x) => x.file === e.file)),
+    ...extra,
+  ];
+  return {
+    ...good,
+    fonts: over(good.fonts, bad.fonts),
+    palettes: over(good.palettes, bad.palettes),
+    presets: over(good.presets, bad.presets),
+    effects: over(good.effects, bad.effects),
+    deny: bad.deny ?? good.deny,
+    weights: bad.weights ?? good.weights,
+  };
+}
+
+test("the fixture catalog and the live catalog pass", async () => {
+  assert.deepEqual(checkCatalog(good), []);
+  assert.deepEqual(checkCatalog(await readCatalog(resolve(import.meta.dirname, "../.."))), []);
+});
+
+test("every planted bad fixture has an expected message, and every message a fixture", async () => {
+  assert.deepEqual((await readdir(resolve(fixtures, "bad"))).sort(), Object.keys(BAD).sort());
+});
+
+for (const [dir, message] of Object.entries(BAD)) {
+  test(`planted bad fixture ${dir} fails the build`, async () => {
+    await expect(plant(dir).then(checkCatalog)).rejects.toThrow(message);
+  });
+}
+
+test("the build rejects a catalog the engine has no fallback for", () => {
+  const without = (patch) => () => checkCatalog({ ...good, ...patch });
+  assert.throws(without({ fonts: [] }), /^Error: fonts\/meta: \/: no font metas/);
+  assert.throws(
+    without({ effects: good.effects.filter((e) => e.data.id !== "plain") }),
+    /^Error: effects: \/: plain\.js is missing/,
+  );
+  assert.throws(
+    without({ palettes: good.palettes.filter((e) => e.file !== "data/palettes/qa.json") }),
+    /^Error: data\/palettes: \/: qa-bw is missing/,
+  );
+});
+
+test("an inexact parameter grid is a warning until S3", () => {
+  const effects = good.effects.map((e) =>
+    e.data.id === "plain" ? { ...e, data: { ...e.data, params: { x: [0, 1, 0.3] } } } : e,
+  );
+  assert.deepEqual(checkCatalog({ ...good, effects }), [
+    "effects/plain.js: /params/x: [0,1,0.3] is not an exact grid; max is never drawn",
+  ]);
+});
+
+test("defaults a file may leave out are filled in the module", () => {
+  const optional = ["odds", "fonts", "palettes", "hover"];
+  const plain = good.effects.find((e) => e.data.id === "plain");
+  const bare = Object.fromEntries(
+    Object.entries(plain.data).filter(([k]) => !optional.includes(k)),
+  );
+  const effects = good.effects.map((e) => (e === plain ? { ...e, data: bare } : e));
+  const [fx, ...rest] = good.palettes;
+  const row = Object.fromEntries(Object.entries(fx.data[0]).filter(([k]) => k !== "odds"));
+  const palettes = [{ ...fx, data: [row, ...fx.data.slice(1)] }, ...rest];
+  const cat = { ...good, effects, palettes };
+  assert.deepEqual(checkCatalog(cat), []);
+
+  const source = catalogModule(cat, resolve(fixtures, "catalog/build"));
+  assert.ok(
+    source.includes(
+      '{...fx1,"odds":4,"fonts":{"deny":[],"prefer":[]},"palettes":{"prefer":[]},"hover":null}',
+    ),
+  );
+  const emitted = JSON.parse(source.match(/^ palettes: (.*),$/m)[1]);
+  assert.equal(emitted.find((x) => x.id === row.id).odds, 4);
+});
