@@ -17,16 +17,16 @@
 import { hash } from "node:crypto";
 import subsetFont from "subset-font";
 import {
-  build,
   deriveMetrics,
-  hasOverlapFlags,
-  normalizeMetrics,
+  overlapFlags,
   parse,
   readMetrics,
   readNames,
   readWeightClass,
-  setOverlapFlags,
-  writeNames,
+  serialize,
+  withMetrics,
+  withNames,
+  withOverlapFlags,
 } from "../sfnt.mjs";
 import { decode, encode } from "../woff2.mjs";
 import {
@@ -92,7 +92,8 @@ export function checkCoverage(id, { face, font }) {
 }
 
 /**
- * Subset one stop, normalize it, set the overlap flags and pack it. Returns the WOFF2.
+ * Subset one stop, set the overlap flags and rename it. Returns the parsed subset and its
+ * serialized bytes; `packStop` writes the metrics and packs it.
  *
  * `rename` is `{name, version}` for a font whose licence reserves its name and `null` for
  * one that does not — a font with no Reserved Font Name keeps its own name table untouched.
@@ -101,7 +102,7 @@ export function checkCoverage(id, { face, font }) {
  * short one costs less than rebuilding the upstream's hundred records.
  */
 async function subsetStop({ original, axes, keepFeatures, rename }) {
-  const sfnt = await subsetFont(original, TEXT, {
+  const subset = await subsetFont(original, TEXT, {
     targetFormat: "sfnt",
     noHinting: true,
     preserveNameIds: [13, 14],
@@ -109,21 +110,18 @@ async function subsetStop({ original, axes, keepFeatures, rename }) {
     ...(Object.keys(axes).length > 0 ? { variationAxes: axes } : {}),
     keepFeatures,
   });
-  const parsed = parse(sfnt);
-  setOverlapFlags(parsed.tables);
-  if (rename) writeNames(parsed.tables, renameRecords(readNames(parsed.tables), rename));
+  const flagged = withOverlapFlags(parse(subset));
+  const parsed = rename ? withNames(flagged, renameRecords(readNames(flagged), rename)) : flagged;
   // The ink has to be measured before the metrics can be derived, and the metrics have to
   // be written before the file can be weighed, so the subset is handed back in between.
-  return { parsed, sfnt: build(parsed) };
+  return { parsed, sfnt: serialize(parsed) };
 }
 
 /** Write the derived metrics into a subset, pack it, and weigh it against rule 7's budget. */
 function packStop(id, parsed, metrics) {
-  normalizeMetrics(parsed.tables, metrics);
-  const finished = build(parsed);
-  const woff2 = encode(finished);
+  const woff2 = encode(withMetrics(parsed, metrics));
   checkBudget(id, woff2.length);
-  return { sfnt: finished, woff2 };
+  return woff2;
 }
 
 /**
@@ -133,14 +131,14 @@ function packStop(id, parsed, metrics) {
  */
 function verifyFile(id, woff2, metrics, forbidden = []) {
   const sfnt = decode(woff2);
-  const { tables } = parse(sfnt);
-  const written = readMetrics(tables);
+  const shipped = parse(sfnt);
+  const written = readMetrics(shipped);
   if (written.ascender !== metrics.asc || written.descender !== -metrics.desc) {
     fail(id, "the re-parsed file does not carry the metrics that were written");
   }
-  const overlap = hasOverlapFlags(tables);
+  const overlap = overlapFlags(shipped);
   if (overlap.glyphs !== overlap.flagged) fail(id, "the re-parsed file lost its overlap flags");
-  const names = readNames(tables);
+  const names = readNames(shipped);
   lintNames(id, names, forbidden);
   const opened = openFont(sfnt);
   try {
@@ -261,7 +259,7 @@ export async function buildFont({ row, upstream, license, extras, log }) {
           file.upem = instance.upem;
           // Stroke widths are read off the shipped instance, so a pinned wght is included.
           file.stroke = { stem: measureStem(instance), crossbar: measureCrossbar(instance) };
-          file.weight = readWeightClass(file.parsed.tables);
+          file.weight = readWeightClass(file.parsed);
         } finally {
           instance.close();
         }
@@ -276,7 +274,7 @@ export async function buildFont({ row, upstream, license, extras, log }) {
           tops: mine.flatMap((m) => m.words.map((w) => w.top)),
           depths: mine.flatMap((m) => m.words.map((w) => -w.bottom)),
         });
-        file.woff2 = packStop(id, file.parsed, file.metrics).woff2;
+        file.woff2 = packStop(id, file.parsed, file.metrics);
         file.checked = verifyFile(id, file.woff2, file.metrics, forbidden);
       }
       return { variants: plan, files: built, measurements: measured };
