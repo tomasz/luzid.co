@@ -10,21 +10,25 @@
  * the tile PNGs back into a blank page as `data:` URIs and screenshotting that. The
  * browser is already here and it is better at laying out a grid than we would be.
  *
- *   node scripts/sheet.mjs [--changed] [--kind fonts|palettes|effects|slash|random]
+ *   node scripts/sheet.mjs [--changed] [--kind auto|fonts|palettes|effects|slash|random]
  *                          [--limit N] [--url http://…] [--out sheets] [--port N]
  *
+ * `--kind auto`, the default, sheets every kind; `--limit` caps the sheets per kind.
  * `--changed` sheets exactly the items that differ from `origin/main`, which is what a
  * content PR wants; with nothing changed it falls back to one random sheet.
  */
 
 import { execFileSync, spawn } from "node:child_process";
-import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
-import { argv, env, exit } from "node:process";
+import { argv, env } from "node:process";
 import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
 
 import { chromium } from "@playwright/test";
+
+import { changedPaths, seedAt } from "../e2e/fit-lib.js";
+import { loadCatalog } from "./build.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -33,55 +37,6 @@ const COLS = 6;
 const TILES = 24;
 const TILE = { w: 480, h: 300 };
 const CAPTION = 22;
-
-const SEED_ALPHABET = "0123456789abcdefghjkmnpqrstvwxyz";
-
-/** Deterministic seeds: the same branch always produces the same sheet. */
-function seedAt(i) {
-  let s = "";
-  let n = i + 1;
-  do {
-    s = SEED_ALPHABET[n % 32] + s;
-    n = Math.floor(n / 32);
-  } while (n > 0);
-  return `s${s}`;
-}
-
-// --- catalog ------------------------------------------------------------------
-
-async function catalog() {
-  const fonts = [];
-  for (const f of (await readdir(resolve(ROOT, "fonts/meta"))).sort()) {
-    if (f.endsWith(".json"))
-      fonts.push(JSON.parse(await readFile(resolve(ROOT, "fonts/meta", f), "utf8")));
-  }
-  const palettes = [];
-  for (const f of (await readdir(resolve(ROOT, "data/palettes"))).sort()) {
-    if (f.endsWith(".json"))
-      palettes.push(...JSON.parse(await readFile(resolve(ROOT, "data/palettes", f), "utf8")));
-  }
-  const effects = [];
-  for (const f of (await readdir(resolve(ROOT, "effects"))).sort()) {
-    if (f.endsWith(".js")) effects.push((await import(`../effects/${f}`)).default);
-  }
-  return { fonts, palettes, effects };
-}
-
-/** Paths differing from `origin/main`, or null when git will not say. */
-function changedPaths() {
-  for (const base of ["origin/main", "main"]) {
-    try {
-      return execFileSync("git", ["diff", "--name-only", `${base}...HEAD`], {
-        cwd: ROOT,
-        encoding: "utf8",
-        stdio: ["ignore", "pipe", "ignore"],
-      })
-        .split("\n")
-        .filter(Boolean);
-    } catch {}
-  }
-  return null;
-}
 
 // --- what to sheet ------------------------------------------------------------
 
@@ -93,7 +48,7 @@ function changedPaths() {
  * `limit` caps the sheets *per kind*, so a run with `--kind auto` still reaches the
  * effects even though the palette axis alone would fill a hundred sheets.
  *
- * @param {Awaited<ReturnType<typeof catalog>>} cat
+ * @param {Awaited<ReturnType<typeof loadCatalog>>} cat
  */
 function plan(cat, kind, changed, limit) {
   const sheets = [];
@@ -191,7 +146,6 @@ async function serve(port) {
     {
       cwd: ROOT,
       stdio: "ignore",
-      env: { ...env, WRANGLER_SEND_METRICS: "false" },
     },
   );
   const base = `http://127.0.0.1:${port}`;
@@ -266,7 +220,7 @@ async function main() {
     },
   });
 
-  const cat = await catalog();
+  const cat = await loadCatalog(ROOT);
   const changed = values.changed ? (changedPaths() ?? []) : null;
   const sheets = plan(cat, values.kind, changed, Number(values.limit));
   if (sheets.length === 0) {
@@ -295,24 +249,25 @@ async function main() {
         const seed = seedAt(n++);
         const href = tileUrl(server.base, seed, pins);
 
-        let png;
+        let png, res;
         if (sheet.crop) {
           // A crop wants the glyph as large as it gets, so it is taken off a wide viewport
           // and then clipped rather than scaled up from a tile.
           const view = { width: 1600, height: 1000 };
           await page.setViewportSize(view);
-          await page.goto(href, { waitUntil: "load" });
+          res = await page.goto(href, { waitUntil: "load" });
           await page.evaluate(() => document.fonts.ready);
           png = await page.screenshot({ clip: frame(await page.evaluate(SLASH_RECT), view) });
         } else {
           await page.setViewportSize({ width: TILE.w, height: TILE.h });
-          await page.goto(href, { waitUntil: "load" });
+          res = await page.goto(href, { waitUntil: "load" });
           await page.evaluate(() => document.fonts.ready);
           png = await page.screenshot();
         }
 
-        const res = await fetch(href);
-        const pick = res.headers.get("luzid-pick") ?? "";
+        // The pick comes off the navigation itself: one request per tile. Firefox and WebKit
+        // join a multi-value header with ", ", so normalise as fit-lib does.
+        const pick = (await res.headerValue("luzid-pick"))?.replaceAll(", ", ",") ?? "";
         shots.push(png.toString("base64"));
         rows.push({ tile: i, seed, pick, url: href.slice(server.base.length) });
       }
@@ -383,5 +338,6 @@ const escapeHtml = (s) => String(s).replace(/[&<>"]/g, (c) => HTML[c]);
 
 main().catch((err) => {
   console.error(err);
-  exit(1);
+  // Not exit(): it can cut off the error above before stderr has flushed.
+  process.exitCode = 1;
 });

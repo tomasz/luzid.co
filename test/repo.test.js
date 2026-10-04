@@ -107,6 +107,9 @@ test("wrangler config keeps the routing invariants", async () => {
   const raw = await read("wrangler.jsonc");
   const cfg = jsonc(raw);
   assert.equal(cfg.assets.directory, "public");
+  // src/ never reads env; a binding would be dead config.
+  assert.equal(cfg.assets?.binding, undefined, "no ASSETS binding");
+  assert.equal(cfg.send_metrics, false, "telemetry is off in wrangler.jsonc, nowhere else");
   assert.ok(!("not_found_handling" in cfg.assets), "not_found_handling must stay unset");
   assert.ok(
     !("run_worker_first" in cfg.assets),

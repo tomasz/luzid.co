@@ -1,0 +1,8 @@
+{
+ "deny": [
+  {
+   "f": "fx-sans",
+   "e": "outline-rings"
+  }
+ ]
+}

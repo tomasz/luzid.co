@@ -24,7 +24,6 @@ export default defineConfig({
     // --host 127.0.0.1 avoids the IPv4/IPv6 readiness flake.
     command: `pnpm exec vp build && pnpm exec vp preview --host 127.0.0.1 --port ${port} --strictPort`,
     url: `${baseURL}/`,
-    env: { WRANGLER_SEND_METRICS: "false" },
   },
   projects: [
     {

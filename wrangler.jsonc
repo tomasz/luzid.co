@@ -3,6 +3,8 @@
   "name": "luzid-co",
   "main": "src/worker.js",
   "compatibility_date": "2026-09-01",
+  // One switch for every wrangler run: CI, CD, e2e and contact sheets.
+  "send_metrics": false,
 
   // The catalog (build/catalog.js) is generated, never committed: the `catalog` plugin in
   // vite.config.js builds it and rebuilds it on data changes. build/ is never watched.
@@ -11,7 +13,8 @@
   // not_found_handling stays unset; single-page-application mode would let navigations
   // bypass the Worker entirely. run_worker_first stays unset: on the Free plan it bills
   // every asset request and returns 429 once the daily quota is gone.
-  "assets": { "directory": "public", "binding": "ASSETS" },
+  // No binding: src/ never reads env, so the assets are served only ahead of the Worker.
+  "assets": { "directory": "public" },
 
   "routes": [{ "pattern": "luzid.co", "custom_domain": true }],
   "workers_dev": false,

@@ -6,16 +6,17 @@ import * as hb from "harfbuzzjs";
 import {
   ARCHETYPES,
   BUDGET_BYTES,
+  BudgetError,
   CASES,
   changeNotice,
   checkBudget,
   checkCoverage,
-  declaresReservedFontName,
   dedupeCombos,
   effectiveFeatures,
   LETTERS,
   LICENSE_IDS,
   lintNames,
+  main,
   MAX_STOPS,
   MAX_VARIANTS,
   MEASURED_TRAITS,
@@ -43,7 +44,6 @@ import {
   parse,
   readMetrics,
   readNames,
-  unitsPerEm,
   writeNames,
 } from "../scripts/sfnt.mjs";
 import { decode } from "../scripts/woff2.mjs";
@@ -208,7 +208,7 @@ test("rule 3: the OFL body is not a false positive, and the header is where it i
   // search matches every OFL font in existence. Only the copyright block above the first
   // rule of dashes is read.
   assert.deepEqual(reservedFontNames(OFL, "Copyright 2018 The Fraunces Project Authors"), []);
-  assert.equal(declaresReservedFontName(OFL, ""), false);
+  assert.equal(reservedFontNames(OFL, "").length, 0);
 
   const reserved = OFL.replace(
     "Authors (github",
@@ -792,14 +792,8 @@ test("§5.2: the metadata records the em grid its metrics are on", async () => {
       `${meta.id}: upm must be a positive integer`,
     );
     for (const file of meta.files) {
-      const { tables } = parse(
-        decode(await readFile(url(`fonts/files/${meta.id}.${file.id}.woff2`))),
-      );
-      assert.equal(
-        unitsPerEm(tables),
-        meta.upm,
-        `${meta.id}.${file.id}: head.unitsPerEm is not meta.upm`,
-      );
+      const { upem } = await openShipped(`${meta.id}.${file.id}.woff2`);
+      assert.equal(upem, meta.upm, `${meta.id}.${file.id}: head.unitsPerEm is not meta.upm`);
       assert.ok(!("upem" in file), `${meta.id}.${file.id}: upm is recorded once, at the top level`);
     }
   }
@@ -864,7 +858,13 @@ test("rule 5: the metrics derivation refuses what it cannot write", () => {
 test("rule 7: no file is over 10,500 bytes", async () => {
   assert.equal(BUDGET_BYTES, 10_500);
   assert.equal(checkBudget("ok", BUDGET_BYTES), BUDGET_BYTES);
-  assert.throws(() => checkBudget("fat", BUDGET_BYTES + 1), /10501 B is over the 10500 B budget/);
+  assert.throws(
+    () => checkBudget("fat", BUDGET_BYTES + 1),
+    (error) =>
+      error instanceof BudgetError &&
+      error.id === "fat" &&
+      error.message === "fat: 10501 B is over the 10500 B budget",
+  );
 
   for (const meta of metas) {
     for (const file of meta.files) {
@@ -888,7 +888,8 @@ test("rule 7: the ladder sheds features, then stops, before the font is dropped"
     log: (line) => shed.push(line),
     attempt: async (state) => {
       const size = 10_000 + 400 * state.featuresByCase.none.length + 300 * (state.stops.length - 1);
-      if (overBudgetWhile(state)) throw new Error(`heavy: ${size} B is over the 10500 B budget`);
+      if (overBudgetWhile(state))
+        throw new BudgetError("heavy", `${size} B is over the 10500 B budget`);
       return state;
     },
   });
@@ -921,15 +922,18 @@ test("rule 7: the ladder sheds features, then stops, before the font is dropped"
   ({ attempt, ...state } = ladder(() => true));
   await assert.rejects(() => shedToBudget(state, attempt), /heavy: .* with nothing left to trim/);
 
-  // Anything that is not a budget failure is not the ladder's business.
+  // Anything that is not a budget failure is not the ladder's business, even when its
+  // message happens to read like one: the ladder goes by the error's type, not its words.
+  shed.length = 0;
   ({ attempt, ...state } = ladder(() => false));
   await assert.rejects(
     () =>
       shedToBudget(state, async () => {
-        throw new Error("heavy: Ł is the same glyph as L");
+        throw new Error("heavy: 99999 B is over the 10500 B budget");
       }),
-    /Ł is the same glyph as L/,
+    /99999 B/,
   );
+  assert.equal(shed.length, 0);
 });
 
 // ---------------------------------------------------------------- rule 8: licence files
@@ -1211,4 +1215,12 @@ test("the shaped letters are the 22 the site draws, plus a space", () => {
   const used = new Set(Object.values(WORDS).flat().join(""));
   for (const ch of used) assert.ok(TEXT.includes(ch), `"${ch}" is shaped but never subset in`);
   assert.equal(new Set([...TEXT]).size, 23);
+});
+
+test("the cli accepts the `--` that `pnpm run fonts -- …` forwards", async () => {
+  // Strict parseArgs used to throw on the separator itself, before any option was read.
+  await assert.rejects(
+    () => main(["node", "fonts.mjs", "--", "--check", "--batch", "seed,a", "--id", "no-such-font"]),
+    /no source rows selected/,
+  );
 });

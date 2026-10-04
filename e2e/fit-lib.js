@@ -9,10 +9,11 @@
  */
 
 import { execFileSync } from "node:child_process";
-import { readdirSync, readFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { loadCatalog } from "../scripts/build.mjs";
 import { flag, step, weighted } from "../src/rand.js";
 import { bbox, decodePng, flatten } from "./png.js";
 
@@ -20,19 +21,11 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
 // --- catalog -----------------------------------------------------------------
 
-/** Font metas, read straight off disk: the specs must not depend on `build/`. */
-export const FONTS = readdirSync(resolve(ROOT, "fonts/meta"))
-  .filter((f) => f.endsWith(".json"))
-  .sort()
-  .map((f) => JSON.parse(readFileSync(resolve(ROOT, "fonts/meta", f), "utf8")));
-
-/** Effect ids and their param specs, parsed out of the module source. */
-export const EFFECTS = await Promise.all(
-  readdirSync(resolve(ROOT, "effects"))
-    .filter((f) => f.endsWith(".js"))
-    .sort()
-    .map(async (f) => (await import(`../effects/${f}`)).default),
-);
+/**
+ * Font metas and effect modules, read and checked straight off disk as `build/catalog.js`
+ * would export them: the specs must not depend on `build/`.
+ */
+export const { fonts: FONTS, effects: EFFECTS } = await loadCatalog(ROOT);
 
 /** Every font in the catalogue; what `FIT_SCOPE=all` sweeps. */
 export const ALL_FONTS = FONTS.map((f) => f.id);
@@ -126,8 +119,13 @@ export const isTrace = notGround([255, 255, 255]);
 
 const ALPHABET = "0123456789abcdefghjkmnpqrstvwxyz";
 
-/** @param {number} i */
-function seedAt(i) {
+/**
+ * The `i`th seed of a fixed sequence, so every search and every contact sheet is
+ * reproducible. Crockford base32, the alphabet `src/worker.js` accepts.
+ *
+ * @param {number} i
+ */
+export function seedAt(i) {
   let s = "";
   let n = i;
   do {
@@ -304,7 +302,7 @@ export function url({ seed, f, v, l, p = "qa-bw", e = "plain" }) {
  * settled. `rotate` is the honest answer to "is `side` live here" — it is the engine's own
  * computed value, not our guess at the media query.
  */
-const PROBE = () => {
+const GEOMETRY = () => {
   const n = document.querySelector(".n");
   const cs = getComputedStyle(n);
   const rect = (sel) => {
@@ -336,6 +334,12 @@ const PROBE = () => {
 };
 
 /**
+ * Engines that have already reported their screenshot PNG type. `png.js` decodes only 8-bit
+ * RGB and RGBA; one line per engine (per worker) is the record that this is all they emit.
+ */
+const PNG_LOGGED = new Set();
+
+/**
  * Load one pick at one viewport and return both the engine's geometry and the pixels.
  *
  * `hover` puts the pointer on the link first. §5.6 requires `bleed()` to bound the hover
@@ -357,7 +361,7 @@ export async function shoot(page, href, vp, opts = {}) {
     await page.hover("a.n");
     await page.waitForTimeout(320);
   }
-  const probe = await page.evaluate(PROBE);
+  const geo = await page.evaluate(GEOMETRY);
   // `fonts.ready` resolves before the frame with the settled glyphs is drawn, and Chromium
   // cannot copy a surface that has no frame yet: on a fresh page it answers "Unable to
   // capture screenshot". By the second animation frame the renderer has produced one.
@@ -365,8 +369,17 @@ export async function shoot(page, href, vp, opts = {}) {
   await page.evaluate(
     () => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))),
   );
-  const img = flatten(decodePng(await page.screenshot()));
-  return { pick: res.headers()["luzid-pick"], probe, img };
+  const png = decodePng(await page.screenshot());
+  const engine = page.context().browser()?.browserType().name();
+  if (!PNG_LOGGED.has(engine)) {
+    PNG_LOGGED.add(engine);
+    console.log(`[png] ${engine}: colour type ${png.ctype}, bit depth ${png.depth}`);
+  }
+  const img = flatten(png);
+  // Firefox and WebKit hand the header back with every comma re-joined as ", ", as if it
+  // were a list; the engine never writes a space there, so undo it to get the real string.
+  const pick = res.headers()["luzid-pick"].replaceAll(", ", ",");
+  return { pick, geo, img };
 }
 
 /**
@@ -393,35 +406,18 @@ export function inkBox(img, hit, dpr) {
   };
 }
 
-/**
- * The topmost ink row inside a horizontal band, in CSS pixels, or null when the band is
- * empty. Used to ask where one line's ink sits relative to the box drawn for it, which is
- * the quantity a vertical shaping divergence moves and a width-based ratio cannot see.
- *
- * @param {{width: number, height: number, data: Uint8Array}} img
- * @param {number} dpr
- * @param {number} y0 band top, CSS px
- * @param {number} y1 band bottom, CSS px
- */
-export function bandTop(img, dpr, y0, y1) {
-  const a = Math.max(0, Math.floor(y0 * dpr));
-  const z = Math.min(img.height, Math.ceil(y1 * dpr));
-  for (let y = a; y < z; y++) {
-    for (let x = 0; x < img.width; x++) {
-      const o = (y * img.width + x) * 4;
-      if (isInk(img.data[o], img.data[o + 1], img.data[o + 2])) return y / dpr;
-    }
-  }
-  return null;
-}
-
 // --- §9.2 scope ---------------------------------------------------------------
 
 /** `changed` is the required PR check; `all` is the WP-50 sweep that `sweep.yml` runs weekly. */
 export const SCOPE = process.env.FIT_SCOPE === "all" ? "all" : "changed";
 
-/** @returns {string[]} paths differing from `origin/main`, or `null` when git cannot say. */
-function changedPaths() {
+/**
+ * Paths differing from `origin/main`, or `null` when git cannot say (a shallow clone with no
+ * base, a tarball). Callers treat `null` as "assume everything moved", never as "nothing did".
+ *
+ * @returns {string[] | null}
+ */
+export function changedPaths() {
   for (const base of ["origin/main", "main"]) {
     try {
       const out = execFileSync("git", ["diff", "--name-only", `${base}...HEAD`], {
@@ -452,13 +448,21 @@ export function scope() {
     return { variantFonts: ALL_FONTS, sweepFonts: ALL_FONTS, effects: EFFECTS.map((e) => e.id) };
   }
   const changed = changedPaths();
-  // No git answer: assume the worst and run the wide per-variant sweep.
+  // No git answer: assume the worst and run the wide per-variant sweep. Narrowing to nothing
+  // here would turn a broken checkout into a green run that proved nothing.
   if (changed === null) {
     return { variantFonts: SEED_FONTS, sweepFonts: SEED_FONTS, effects: EFFECTS.map((e) => e.id) };
   }
 
+  // A prefix, not a list of files: the font scripts are due to move under `scripts/fonts/`,
+  // and a literal list would silently stop this sweep the day they do. `sfnt.mjs` and
+  // `woff2.mjs` are spelled out until they move there too.
   const engineMoved = changed.some(
-    (p) => p.startsWith("src/") || p === "scripts/fonts.mjs" || p === "scripts/sfnt.mjs",
+    (p) =>
+      p.startsWith("src/") ||
+      p.startsWith("scripts/fonts") ||
+      p === "scripts/sfnt.mjs" ||
+      p === "scripts/woff2.mjs",
   );
   const metaMoved = changed
     .filter((p) => p.startsWith("fonts/meta/") && p.endsWith(".json"))
