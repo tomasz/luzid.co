@@ -506,7 +506,7 @@ Flagging it because it is the first thing the crop sheet makes you ask.
 
 ## The normative matrix (§9.2), as wired
 
-`FIT_SCOPE` is read by `e2e/fit-lib.js` and named in `playwright.config.js`.
+`FIT_SCOPE` is read by `e2e/fit-lib.js`.
 
 **`FIT_SCOPE=changed` — the default, and the required PR check.**
 
