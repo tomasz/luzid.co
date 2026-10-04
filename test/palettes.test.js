@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { execFileSync } from "node:child_process";
+import { execFileSync, spawnSync } from "node:child_process";
 import { access, readFile } from "node:fs/promises";
 import { test } from "vite-plus/test";
 import { fileURLToPath } from "node:url";
@@ -23,6 +23,22 @@ const sets = wada1.flatMap((r) => r.roles.map((s) => ({ ...s, id: r.id, hex: r.h
 test("the committed data is what the generator produces", () => {
   // The roles are committed so a deploy never runs colour maths; this is what keeps them honest.
   execFileSync(process.execPath, [path("scripts/palettes.mjs"), "--check"], { stdio: "pipe" });
+});
+
+test("the cli accepts the separator `pnpm run palettes -- --check` forwards", () => {
+  execFileSync(process.execPath, [path("scripts/palettes.mjs"), "--", "--check"], {
+    stdio: "pipe",
+  });
+});
+
+test("an unknown --source exits 1 and names the known sources", () => {
+  const run = spawnSync(
+    process.execPath,
+    [path("scripts/palettes.mjs"), "--check", "--source", "nope"],
+    { encoding: "utf8" },
+  );
+  assert.equal(run.status, 1);
+  assert.match(run.stderr, /unknown --source "nope"; known sources: .*wada1/);
 });
 
 test("Wada vol. 1 has 159 colours", async () => {

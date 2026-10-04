@@ -17,8 +17,8 @@ import { readFile } from "node:fs/promises";
 
 const DATA = new URL("../../data/sources/wada1/", import.meta.url);
 
-export const id = "wada1";
-export const tier = "historical";
+const id = "wada1";
+const tier = "historical";
 
 /** The 159 colours, errata applied, in book order. */
 export async function colors() {
@@ -26,7 +26,7 @@ export async function colors() {
   const errata = JSON.parse(await readFile(new URL("errata.json", DATA), "utf8"));
   expect(upstream.length === 159, `upstream has ${upstream.length} colours, expected 159`);
 
-  const rows = upstream.map((c) => ({
+  const out = upstream.map((c) => ({
     ...c,
     cmyk: [...c.cmyk],
     name: errata.names[c.name] ?? c.name,
@@ -47,22 +47,22 @@ export async function colors() {
     );
     // The hex deliberately stays as published: recomputing it needs the SWOP v2 → sRGB ICC
     // transform, whose profile is not redistributable. See errata.json → hexPolicy.
-    rows[fix.index].cmyk = [...fix.to];
+    out[fix.index].cmyk = [...fix.to];
   }
 
-  for (const c of rows) {
+  for (const c of out) {
     expect(/^#[0-9a-f]{6}$/.test(c.hex), `bad hex ${c.hex} on ${c.name}`);
     expect(
       c.cmyk.length === 4 && c.cmyk.every((v) => Number.isInteger(v) && v >= 0 && v <= 100),
       `bad CMYK ${c.cmyk} on ${c.name}`,
     );
   }
-  expect(new Set(rows.map((c) => c.name)).size === 159, "duplicate colour name after errata");
-  return rows;
+  expect(new Set(out.map((c) => c.name)).size === 159, "duplicate colour name after errata");
+  return out;
 }
 
 /** The 348 combinations as palette rows: `{id, names, hex}`, ready for role assignment. */
-export async function build() {
+async function rows() {
   const cs = await colors();
   const combos = new Map();
   cs.forEach((c, i) => {
@@ -79,7 +79,7 @@ export async function build() {
     `combination ids run ${ids[0]}–${ids.at(-1)}, expected 1–348`,
   );
 
-  const rows = ids.map((n) => {
+  const out = ids.map((n) => {
     const members = combos.get(n);
     expect(
       members.length >= 2 && members.length <= 4,
@@ -93,16 +93,16 @@ export async function build() {
   });
 
   const sizes = {};
-  for (const r of rows) sizes[r.hex.length] = (sizes[r.hex.length] ?? 0) + 1;
+  for (const r of out) sizes[r.hex.length] = (sizes[r.hex.length] ?? 0) + 1;
   expect(
     sizes[2] === 120 && sizes[3] === 120 && sizes[4] === 108,
     `combination sizes are ${JSON.stringify(sizes)}, expected 120 duos / 120 trios / 108 quads`,
   );
-  return rows;
+  return out;
 }
 
 function expect(ok, message) {
   if (!ok) throw new Error(`wada1: ${message}`);
 }
 
-export default { id, tier, build };
+export default { id, tier, rows };
