@@ -16,15 +16,14 @@
  *   node scripts/build.mjs [--root <dir>] [--out <file>]
  *
  * The counts and effective sizes it prints are informational. This script never fails a
- * build over taste; it fails only when the catalog is internally broken (a font meta whose
- * woff2 is missing or disagrees with its declared size or hash, a duplicate id, malformed
- * JSON).
+ * build over taste; it fails only when a data file breaks the contract, with
+ * `<file>: /<pointer>: <message>` (the rules are in `scripts/catalog/check.js`).
  */
-import { createHash } from "node:crypto";
 import { glob, mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, relative, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { parseArgs } from "node:util";
+import { checkCatalog, effectDefaults, PALETTE_ODDS } from "./catalog/check.js";
 
 const byId = (a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
 
@@ -50,22 +49,6 @@ async function json(file) {
 }
 
 /**
- * Like `json`, but a missing file gives `fallback`. Only a missing one: a present file
- * that fails to read or parse still throws.
- *
- * @param {string} file
- * @param {unknown} fallback
- */
-async function optional(file, fallback) {
-  try {
-    return await json(file);
-  } catch (err) {
-    if (err.cause?.code === "ENOENT") return fallback;
-    throw err;
-  }
-}
-
-/**
  * Inverse Simpson index: how many items the axis behaves like, given its odds. It is the
  * number that collapses when a weights file over-boosts one item, so it is worth printing
  * even though nothing gates on it.
@@ -79,90 +62,85 @@ function effective(odds) {
   return sum === 0 ? 0 : 1 / sum;
 }
 
-/** @param {readonly {id: string}[]} items */
-function assertUnique(items, kind) {
-  const seen = new Set();
-  for (const item of items) {
-    if (seen.has(item.id)) throw new Error(`duplicate ${kind} id: ${item.id}`);
-    seen.add(item.id);
-  }
-}
-
 /**
- * Reads every data file under `root`. I/O only: nothing here judges what it read, except
- * that a woff2 a meta names must exist and every JSON file must parse.
+ * Reads every data file under `root`, as `{file, data}` with `file` relative to the root,
+ * which is what every check message names. I/O only: nothing here judges what it read,
+ * except that every JSON file must parse. Effects are imported, so their metadata can be
+ * checked; the module still re-exports them by path.
  *
- * Fonts come back as they ship, each file with its base64 attached; `bytes` is filled from
- * the file only where the meta does not declare it (the test fixtures), and `checkCatalog`
- * holds every declared size and hash to the file. Effects come back as root-relative paths,
- * because the module re-exports them by import while `loadCatalog` imports them itself.
+ * `deny` and `weights` are `null` when the file is absent, which means "no rules". A file
+ * that is present but broken fails the build instead of silently dropping every rule in it.
  *
  * @param {string} root
  */
 export async function readCatalog(root) {
   root = resolve(root);
+  const read = async (pattern) =>
+    Promise.all(
+      (await find(root, pattern)).map(async (file) => ({
+        file,
+        data: await json(resolve(root, file)),
+      })),
+    );
+  const optional = async (file) =>
+    (await find(root, file)).length ? { file, data: await json(resolve(root, file)) } : null;
 
-  const fonts = [];
-  for (const rel of await find(root, "fonts/meta/*.json")) {
-    const meta = await json(resolve(root, rel));
-    const files = [];
-    for (const file of meta.files ?? []) {
-      const path = resolve(root, `fonts/files/${meta.id}.${file.id}.woff2`);
-      let bytes;
-      try {
-        bytes = await readFile(path);
-      } catch {
-        throw new Error(`${rel} names ${meta.id}.${file.id}, but ${path} is missing`);
-      }
-      files.push({ ...file, bytes: file.bytes ?? bytes.length, b64: bytes.toString("base64") });
-    }
-    fonts.push({ ...meta, files });
-  }
-  fonts.sort(byId);
+  const effects = await Promise.all(
+    (await find(root, "effects/*.js")).map(async (file) => ({
+      file,
+      data: (await import(pathToFileURL(resolve(root, file)).href)).default,
+    })),
+  );
+  const woff2 = new Map();
+  for (const file of await find(root, "fonts/files/*.woff2"))
+    woff2.set(file, await readFile(resolve(root, file)));
 
-  const palettes = [];
-  for (const rel of await find(root, "data/palettes/*.json"))
-    palettes.push(...(await json(resolve(root, rel))));
-  palettes.sort(byId);
-
-  const presets = [];
-  for (const rel of await find(root, "presets/*.json"))
-    presets.push(await json(resolve(root, rel)));
-  presets.sort(byId);
-
-  const effects = await find(root, "effects/*.js");
-
-  // Absent means "no rules". A file that is present but broken must fail the build, not
-  // silently drop every rule in it.
-  const deny = (await optional(resolve(root, "data/deny.json"), { deny: [] })).deny ?? [];
-  const weights = await optional(resolve(root, "data/weights.json"), {});
-
-  return { root, fonts, palettes, effects, presets, deny, weights };
+  return {
+    root,
+    fonts: await read("fonts/meta/*.json"),
+    palettes: await read("data/palettes/*.json"),
+    presets: await read("presets/*.json"),
+    effects,
+    deny: await optional("data/deny.json"),
+    weights: await optional("data/weights.json"),
+    woff2,
+  };
 }
 
+// Throws `<file>: /<pointer>: <message>` on the first broken data file and returns the
+// warnings that are not errors yet. Never over taste.
+export { checkCatalog };
+
 /**
- * Throws if the catalog is internally broken: a duplicate id, or a font file whose size or
- * hash disagrees with its meta. Never over taste.
+ * The rows `build/catalog.js` exports, with every default the contract allows a file to
+ * omit filled in, so the engine never guesses. Effects are left out: the module imports
+ * them, and `effectDefaults` fills them where they are emitted.
  *
  * @param {Awaited<ReturnType<typeof readCatalog>>} cat
  */
-export function checkCatalog(cat) {
-  assertUnique(cat.fonts, "font");
-  assertUnique(cat.palettes, "palette");
-  assertUnique(cat.presets, "preset");
-  for (const font of cat.fonts) {
-    for (const file of font.files) {
-      const bytes = Buffer.from(file.b64, "base64");
-      const name = `fonts/files/${font.id}.${file.id}.woff2`;
-      if (file.bytes !== bytes.length)
-        throw new Error(`${name} is ${bytes.length} bytes; its meta says ${file.bytes}`);
-      if (file.sha256 !== undefined) {
-        const sha = createHash("sha256").update(bytes).digest("hex");
-        if (sha !== file.sha256)
-          throw new Error(`${name} has sha256 ${sha}; its meta says ${file.sha256}`);
-      }
-    }
-  }
+function rows(cat) {
+  const fonts = cat.fonts.map(({ data: meta }) => ({
+    ...meta,
+    files: meta.files.map((f) => ({
+      ...f,
+      b64: cat.woff2.get(`fonts/files/${meta.id}.${f.id}.woff2`).toString("base64"),
+    })),
+  }));
+  const palettes = cat.palettes
+    .flatMap((e) => e.data)
+    .map((row) => ({ ...row, odds: row.odds ?? PALETTE_ODDS }));
+  return {
+    fonts: fonts.sort(byId),
+    palettes: palettes.sort(byId),
+    presets: cat.presets.map((e) => e.data).sort(byId),
+    deny: cat.deny?.data.deny ?? [],
+    weights: cat.weights?.data ?? {},
+  };
+}
+
+/** The keys an effect left out, with their defaults; `{}` when it states all of them. */
+function missing(fx) {
+  return Object.fromEntries(Object.entries(effectDefaults()).filter(([k]) => !(k in fx)));
 }
 
 /**
@@ -172,21 +150,26 @@ export function checkCatalog(cat) {
  * @param {string} outDir
  */
 export function catalogModule(cat, outDir) {
-  const imports = cat.effects.map((rel, i) => {
-    const spec = relative(outDir, resolve(cat.root, rel)).split("\\").join("/");
-    return { name: `fx${i}`, spec: spec.startsWith(".") ? spec : `./${spec}` };
+  const imports = cat.effects.map(({ file, data }, i) => {
+    const spec = relative(outDir, resolve(cat.root, file)).split("\\").join("/");
+    // An effect that states every key is exported as is; one that leaves some out gets
+    // them appended, so the module and `loadCatalog` hand the engine the same object.
+    const fill = JSON.stringify(missing(data)).slice(1, -1);
+    const value = fill ? `{...fx${i},${fill}}` : `fx${i}`;
+    return { name: `fx${i}`, spec: spec.startsWith(".") ? spec : `./${spec}`, value };
   });
+  const r = rows(cat);
   return (
     `// Generated by scripts/build.mjs from ${relative(process.cwd(), cat.root) || "."}.\n` +
     "// Do not edit; do not commit. Regenerate with: node scripts/build.mjs\n" +
     `${imports.map((i) => `import ${i.name} from '${i.spec}'`).join("\n")}\n` +
     "export default {\n" +
-    ` fonts: ${JSON.stringify(cat.fonts)},\n` +
-    ` palettes: ${JSON.stringify(cat.palettes)},\n` +
-    ` effects: [${imports.map((i) => i.name).join(", ")}],\n` +
-    ` presets: ${JSON.stringify(cat.presets)},\n` +
-    ` deny: ${JSON.stringify(cat.deny)},\n` +
-    ` weights: ${JSON.stringify(cat.weights)},\n` +
+    ` fonts: ${JSON.stringify(r.fonts)},\n` +
+    ` palettes: ${JSON.stringify(r.palettes)},\n` +
+    ` effects: [${imports.map((i) => i.value).join(", ")}],\n` +
+    ` presets: ${JSON.stringify(r.presets)},\n` +
+    ` deny: ${JSON.stringify(r.deny)},\n` +
+    ` weights: ${JSON.stringify(r.weights)},\n` +
     "}\n"
   );
 }
@@ -200,12 +183,11 @@ export function catalogModule(cat, outDir) {
 export async function loadCatalog(root = ".") {
   const cat = await readCatalog(root);
   checkCatalog(cat);
-  const effects = await Promise.all(
-    cat.effects.map(
-      async (rel) => (await import(pathToFileURL(resolve(cat.root, rel)).href)).default,
-    ),
-  );
-  const { fonts, palettes, presets, deny, weights } = cat;
+  const { fonts, palettes, presets, deny, weights } = rows(cat);
+  const effects = cat.effects.map(({ data }) => {
+    const fill = missing(data);
+    return Object.keys(fill).length ? { ...data, ...fill } : data;
+  });
   return { fonts, palettes, effects, presets, deny, weights };
 }
 
@@ -218,7 +200,7 @@ export async function loadCatalog(root = ".") {
 export async function writeCatalog(opts = {}) {
   const out = resolve(opts.out ?? "build/catalog.js");
   const cat = await readCatalog(opts.root ?? ".");
-  checkCatalog(cat);
+  const warnings = checkCatalog(cat);
 
   // The type check reads this declaration instead of the module, whose inferred type would
   // be a literal of every row and every base64 font, rebuilt on each check.
@@ -232,14 +214,14 @@ export async function writeCatalog(opts = {}) {
   await writeFile(out, catalogModule(cat, dirname(out)));
   await writeFile(`${out.replace(/\.js$/, "")}.d.ts`, declaration);
 
-  if (!opts.quiet) report(cat, out);
-  return { out, ...cat };
+  if (!opts.quiet) report({ ...rows(cat), effects: cat.effects }, out, warnings);
+  return { out, warnings };
 }
 
 export { writeCatalog as build };
 
-/** Informational only: counts and the effective size (1/Σp²) per axis. */
-function report(c, out) {
+/** Informational only: counts, the effective size (1/Σp²) per axis, and the warnings. */
+function report(c, out, warnings) {
   const w = c.weights ?? {};
   const odds = (items, table, fallback = 4) =>
     items.map((x) => Math.max(0, Math.min(16, Math.floor(table?.[x.id] ?? x.odds ?? fallback))));
@@ -270,6 +252,7 @@ function report(c, out) {
     const mean = Math.round(bytes.reduce((a, b) => a + b, 0) / bytes.length);
     console.log(`  font bytes  mean ${mean} · max ${max}`);
   }
+  for (const w of warnings) console.warn(`  warning: ${w}`);
 }
 
 if (import.meta.main) {

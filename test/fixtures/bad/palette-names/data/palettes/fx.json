@@ -1,0 +1,27 @@
+[
+ {
+  "id": "fx-ink",
+  "src": "fixture",
+  "tier": "editorial",
+  "odds": 4,
+  "names": [
+   "A",
+   "B",
+   "C",
+   "D",
+   "E"
+  ],
+  "hex": [
+   "#1d1b18",
+   "#f3efe6"
+  ],
+  "roles": [
+   {
+    "o": "10--",
+    "dark": false,
+    "n": 2,
+    "derivedBg": null
+   }
+  ]
+ }
+]
