@@ -3,6 +3,7 @@ import { expect, test } from "vite-plus/test";
 import { brotliCompressSync } from "node:zlib";
 import { helpers } from "../src/helpers.js";
 import { FALLBACK_FONT, pick, pickString, resolve } from "../src/pick.js";
+import { round4 } from "../src/rand.js";
 import { fit, render, stylesheet } from "../src/render.js";
 import { fixtureCatalog, GOLDEN_SEEDS } from "./catalog.js";
 
@@ -159,7 +160,7 @@ test("the fit literals follow §5.2", () => {
 
   const h1 = (100 * w1.H) / f.F1;
   const h2 = (100 * w2.H) / f.F2;
-  assert.equal(f.G, Math.max(p.g, f.bleed.t), "G keeps line 2 out of line 1");
+  assert.equal(f.G, Math.max(p.g, f.bleed.t, f.bleed.b), "R13: G clears ink both ways");
   assert.equal(f.R, (h1 + h2 + f.G) / 100);
   assert.equal(f.BH, 100 * f.R);
   assert.equal(f.Y2, h1 + f.G);
@@ -172,33 +173,45 @@ test("the fit literals follow §5.2", () => {
   const eq = pick("golden-005", {}, catalog);
   const feq = fit(eq, resolve(eq, catalog));
   assert.equal(feq.F1, feq.F2);
+
+  // golden-001 bleeds only upwards, so it cannot tell R13 from the old max(g, bt). s7 is
+  // depth-extrude(a=135,d=9) at g=4: all of its bleed is downwards, and G must follow it.
+  const down = pick("s7", {}, catalog);
+  const fd = fit(down, resolve(down, catalog));
+  assert.ok(fd.bleed.b > fd.bleed.t && fd.bleed.b > down.g, "s7 must bleed down past g");
+  assert.equal(fd.G, Math.max(down.g, fd.bleed.t, fd.bleed.b));
+  assert.equal(fd.G, fd.bleed.b);
 });
 
-test("the painted block including bleed fits the safe box at every aspect ratio", () => {
-  // The CSS solves bw = .985 * min(aw/K1, ah/K2). Re-solve it here and check that the
-  // painted box — block plus bleed — is inside the safe box, centred.
+test("the emitted gap is the resolved G, not the drawn g", () => {
+  // Line 1's box is h1 tall and line 2 sits margin-top:G below it, so the gap between the
+  // two boxes is exactly G·u. That is the whole of the DOM-rect check; no browser needed.
+  let widened = 0;
   for (let i = 0; i < 400; i++) {
     const p = pick(`s${i}`, {}, catalog);
     const f = fit(p, resolve(p, catalog));
-    for (const [aw, ah] of [
-      [1440, 900],
-      [390, 844],
-      [320, 568],
-      [3840, 2160],
-      [844, 390],
-    ]) {
-      const bw = 0.985 * Math.min(aw / f.K1, ah / f.K2);
-      const u = bw / 100;
-      const paintedW = bw + (f.bleed.l + f.bleed.r) * u;
-      const paintedH = f.R * bw + (f.bleed.t + f.bleed.b) * u;
-      assert.ok(paintedW <= aw + 1e-6, `s${i} ${aw}x${ah}: width ${paintedW} > ${aw}`);
-      assert.ok(paintedH <= ah + 1e-6, `s${i} ${aw}x${ah}: height ${paintedH} > ${ah}`);
-      // One of the two axes has to be the binding one, or the name is needlessly small.
-      const fill = Math.max(paintedW / aw, paintedH / ah);
-      assert.ok(fill > 0.98 && fill <= 1.0, `s${i} ${aw}x${ah}: fills only ${fill}`);
-      // Centred: the block's own translate cancels the asymmetric bleed exactly.
-      assert.equal((f.bleed.l - f.bleed.r) / 2, f.DX);
-    }
+    assert.equal(f.G, Math.max(p.g, f.bleed.t, f.bleed.b), `s${i}: G is not max(g, bt, bb)`);
+    const css = stylesheet(p, catalog);
+    const gap = css.match(/\.l2\{[^}]*margin-top:calc\((-?[\d.]+)\*var\(--u\)\)/)[1];
+    assert.equal(Number(gap), round4(f.G), `s${i}: line 2's margin is not G`);
+    if (f.G > p.g) widened++;
+  }
+  assert.ok(widened > 0, "no seed widened the gap, so the loop proved nothing");
+});
+
+test("the gap clears ink in both directions", () => {
+  // R13, on the corner that failed before it: depth-extrude at d=9 over the narrowest gap.
+  // a=45 paints only downwards and a=225 only upwards; max(g, bt) missed the first one.
+  const base = pick("s7", {}, catalog);
+  assert.equal(base.e, "depth-extrude");
+  for (const [a, side] of [
+    [45, "b"],
+    [225, "t"],
+  ]) {
+    const p = { ...base, g: 4, params: { a, d: 9 } };
+    const f = fit(p, resolve(p, catalog));
+    assert.equal(f.bleed[side], 9, `a=${a} must bleed 9u ${side}`);
+    assert.equal(f.G, 9, `a=${a}: G=${f.G} does not clear the ${side} bleed`);
   }
 });
 

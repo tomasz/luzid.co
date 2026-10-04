@@ -130,14 +130,18 @@ test("round4 kills the negative zero that would show up in a golden", () => {
   assert.equal(String(round4(-0.00001)), "0");
 });
 
-test("src/ contains no engine-dependent maths and no clock", async () => {
-  // Workers, Node, Firefox and Safari must agree bit for bit. Math.log/pow/sin/exp are
-  // "implementation-approximated" in ECMA-262; Math.random and Date are not pure.
+test("src/ and effects/ contain no engine-dependent maths and no clock", async () => {
+  // Workers, Node, Firefox and Safari must agree bit for bit. ECMA-262 leaves every Math
+  // function but a few "implementation-approximated", and `**` is Math.pow by another name.
+  // What stays allowed is exactly specified: sqrt (IEEE-754 correctly rounded), the
+  // constants, and the integer and rounding helpers. Math.random and Date are not pure.
+  // Effects run inside render(), so they are held to the same rule as the engine.
   const banned =
-    /Math\.(random|pow|log|log2|log10|exp|sin|cos|tan|atan2|hypot|cbrt)\b|\bDate\.now\b|new Date\b/;
+    /Math\.(random|pow|log|log2|log10|log1p|exp|expm1|sin|cos|tan|asin|acos|atan|atan2|sinh|cosh|tanh|asinh|acosh|atanh|hypot|cbrt)\b|\*\*|\bDate\.now\b|new Date\b/;
   const files = [];
-  for await (const f of glob("src/*.js", { cwd: root })) files.push(f);
-  assert.ok(files.length >= 5, "expected the five engine files");
+  for await (const f of glob(["src/**/*.js", "effects/*.js"], { cwd: root })) files.push(f);
+  assert.ok(files.filter((f) => f.startsWith("src")).length >= 5, "expected the engine files");
+  assert.ok(files.filter((f) => f.startsWith("effects")).length >= 30, "expected the effects");
 
   for (const f of files) {
     const src = await readFile(resolve(root, f), "utf8");
