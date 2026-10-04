@@ -192,8 +192,9 @@ that changes it: `gh api -X PUT repos/tomasz/luzid.co/rulesets/23998451 --input 
   - [ ] no `sayagata` (the interlocking-swastika fret)
   - [ ] no imperial crests (e.g. the chrysanthemum seal)
   - [ ] no faux-Asian display faces ("chop suey" lettering) — checked on font rows; an
-    effect cannot bring its own face (lint: `font-family` is off the property allowlist, and
-    `url()` other than `data:` is rejected)
+    effect cannot bring its own face or image (lint: any `font-family` other than the
+    engine's `f`, and any `url()`, `data:` included, fail the catalog build and the effect
+    lint at every grid point)
 
 ## Definition of done
 

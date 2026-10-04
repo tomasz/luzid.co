@@ -11,7 +11,6 @@ import assert from "node:assert/strict";
 import { glob } from "node:fs/promises";
 import { basename, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
-import { round4 } from "../src/rand.js";
 
 const root = resolve(import.meta.dirname, "..");
 
@@ -28,45 +27,9 @@ export const effects = await Promise.all(
   })),
 );
 
-/**
- * A plausible metrics object, as `fit()` produces it for the fixture catalog. Effects may
- * read it but must not depend on exact values. It is part of the grid-hash recipe, so
- * changing it moves all 30 hashes at once.
- */
-export const METRICS = {
-  fs: [29.31, 24.47],
-  H: [20.87, 18.06],
-  top: [20.87, 18.06],
-  asc: [22.27, 18.6],
-  desc: [7.03, 5.87],
-  G: 6,
-  R: 0.449,
-  layout: "stack-fit",
-};
-
-/**
- * Every combination the engine can draw: per param, the values `step()` in `src/rand.js`
- * can return. Names are sorted; the last one varies fastest. The order is part of the
- * grid-hash recipe in `effects.test.js`.
- */
-export function grid(params) {
-  let sets = [{}];
-  for (const name of Object.keys(params ?? {}).sort()) {
-    const [min, max, size] = params[name];
-    const n = Math.round((max - min) / size) + 1;
-    const values = Array.from({ length: n }, (_, i) => round4(min + i * size));
-    sets = sets.flatMap((s) => values.map((v) => ({ ...s, [name]: v })));
-  }
-  return sets;
-}
-
-/**
- * What an effect's `hover` emits at `p`: a string hover is the declarations themselves, a
- * function is called like `css`, and `null` emits nothing.
- */
-export function hoverOf(fx, p, h, m) {
-  return typeof fx.hover === "string" ? fx.hover : (fx.hover?.(p, h, m) ?? "");
-}
+// The catalog build checks every effect at every grid point too, so the grid, the metrics
+// and the hover call have one home there.
+export { grid, hoverOf, METRICS } from "../scripts/catalog/check.js";
 
 /** Split on `sep` at paren depth 0. */
 export function topSplit(s, sep) {

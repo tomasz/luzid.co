@@ -12,8 +12,10 @@
  */
 import { createHash } from "node:crypto";
 import { basename } from "node:path";
+import { helpers } from "../../src/helpers.js";
 import { LAYOUTS } from "../../src/layout.js";
 import { BUCKET_ODDS } from "../../src/pick.js";
+import { round4 } from "../../src/rand.js";
 
 /** §5.5: closed enum. Adding one is a `contract` PR. */
 export const TRAITS = new Set([
@@ -82,6 +84,46 @@ export const effectDefaults = () => ({
   palettes: { prefer: [] },
   hover: null,
 });
+
+/**
+ * A plausible metrics object, as `fit()` produces it for the fixture catalog. Effects may
+ * read it but must not depend on exact values. It is part of the grid-hash recipe in
+ * `test/effects.test.js`, so changing it moves all 30 hashes at once.
+ */
+export const METRICS = {
+  fs: [29.31, 24.47],
+  H: [20.87, 18.06],
+  top: [20.87, 18.06],
+  asc: [22.27, 18.6],
+  desc: [7.03, 5.87],
+  G: 6,
+  R: 0.449,
+  layout: "stack-fit",
+};
+
+/**
+ * Every combination the engine can draw: per param, the values `step()` in `src/rand.js`
+ * can return. Names are sorted; the last one varies fastest. The order is part of the
+ * grid-hash recipe in `test/effects.test.js`.
+ */
+export function grid(params) {
+  let sets = [{}];
+  for (const name of Object.keys(params ?? {}).sort()) {
+    const [min, max, size] = params[name];
+    const n = Math.round((max - min) / size) + 1;
+    const values = Array.from({ length: n }, (_, i) => round4(min + i * size));
+    sets = sets.flatMap((s) => values.map((v) => ({ ...s, [name]: v })));
+  }
+  return sets;
+}
+
+/**
+ * What an effect's `hover` emits at `p`: a string hover is the declarations themselves, a
+ * function is called like `css`, and `null` emits nothing.
+ */
+export function hoverOf(fx, p, h, m) {
+  return typeof fx.hover === "string" ? fx.hover : (fx.hover?.(p, h, m) ?? "");
+}
 
 /** The §5.4 palette default; role sets and variants carry no `odds` at all. */
 export const PALETTE_ODDS = 4;
@@ -187,6 +229,23 @@ export function checkEffect(file, fx) {
   )
     throw at(file, "/hover", "must be a function, a string or null");
   if (fx.motion !== null) throw at(file, "/motion", "must be null until Wave 4");
+
+  // The cultural guards a string can prove (AGENTS.md): an effect never brings its own face,
+  // so no faux-Asian display lettering can arrive through one, and never loads or embeds
+  // anything, `data:` included — no effect needs an image, and an image could carry a motif
+  // no lint can see. Checked at every grid point, since a param can switch a branch.
+  for (const p of grid(fx.params)) {
+    for (const [k, css] of [
+      ["css", fx.css(p, helpers, METRICS)],
+      ["hover", hoverOf(fx, p, helpers, METRICS)],
+    ]) {
+      const face = css.match(/font-family\s*:\s*([^;}]*)/i);
+      if (face && face[1].trim() !== "f")
+        throw at(file, `/${k}`, `at ${show(p)} sets font-family:${face[1]}; only the engine's f`);
+      if (/url\(/i.test(css))
+        throw at(file, `/${k}`, `at ${show(p)} emits url(); effects never do`);
+    }
+  }
   return warnings;
 }
 
