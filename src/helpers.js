@@ -23,6 +23,16 @@ export function u(x) {
 }
 
 /**
+ * One hard shadow `k` u from the glyph at `a` degrees. `k` and `a` are already rounded.
+ *
+ * @param {number} k
+ * @param {number} a
+ * @param {string} color
+ */
+const polar = (k, a, color) =>
+  `calc(${k}*cos(${a}deg)*var(--u)) calc(${k}*sin(${a}deg)*var(--u)) 0 ${color}`;
+
+/**
  * `n` hard shadow layers marching from the glyph to `dist` u at `angle` degrees: the
  * primitive behind every extrusion and long shadow. Layer 1 sits nearest the face, layer
  * `n` at the full distance, so the ramp is solid at any size.
@@ -39,8 +49,7 @@ export function stack(n, angle, dist, color) {
   const a = round4(angle);
   const out = [];
   for (let i = 1; i <= n; i++) {
-    const k = round4((dist * i) / n);
-    out.push(`calc(${k}*cos(${a}deg)*var(--u)) calc(${k}*sin(${a}deg)*var(--u)) 0 ${color}`);
+    out.push(polar(round4((dist * i) / n), a, color));
   }
   return out.join(",");
 }
@@ -61,8 +70,7 @@ export function ring(n, r, color) {
   const k = round4(r);
   const out = [];
   for (let i = 0; i < n; i++) {
-    const a = round4((360 * i) / n);
-    out.push(`calc(${k}*cos(${a}deg)*var(--u)) calc(${k}*sin(${a}deg)*var(--u)) 0 ${color}`);
+    out.push(polar(k, round4((360 * i) / n), color));
   }
   return out.join(",");
 }
@@ -79,5 +87,5 @@ export function mix(a, b, pct) {
   return `color-mix(in oklab,${a} ${round4(pct)}%,${b})`;
 }
 
-/** The object handed to effects as `h`. */
-export const helpers = { u, stack, ring, mix };
+/** The object handed to effects as `h`. Frozen: it is shared by every request. */
+export const helpers = Object.freeze({ u, stack, ring, mix });

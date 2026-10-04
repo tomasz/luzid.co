@@ -2,9 +2,11 @@ import assert from "node:assert/strict";
 import { expect, test } from "vite-plus/test";
 import { brotliCompressSync } from "node:zlib";
 import { helpers } from "../src/helpers.js";
-import { FALLBACK_FONT, pick, pickString, resolve } from "../src/pick.js";
+import { fit } from "../src/fit.js";
+import { pickString } from "../src/look.js";
+import { FALLBACK_FONT, pick, resolve } from "../src/pick.js";
 import { round4 } from "../src/rand.js";
-import { fit, render, stylesheet } from "../src/render.js";
+import { render, stylesheet } from "../src/render.js";
 import { fixtureCatalog, GOLDEN_SEEDS } from "./catalog.js";
 
 const catalog = await fixtureCatalog();
@@ -12,7 +14,13 @@ const GATE = "@media screen and (forced-colors:none) and (prefers-contrast:no-pr
 
 const page = (seed, pins = {}) => {
   const p = pick(seed, pins, catalog);
-  return { p, html: render(p, catalog, { nonce: "test", pick: pickString(p) }) };
+  return { p, html: render(resolve(catalog, p), "test") };
+};
+
+/** The stylesheet `render()` writes for this look. */
+const sheet = (cat, look) => {
+  const scene = resolve(cat, look);
+  return stylesheet(scene, fit(scene));
 };
 
 /** The character range the §5.8 gate spans, by brace matching. */
@@ -80,9 +88,9 @@ test("the accessible name is the real text, exactly once", () => {
 test("no effect selector or property appears outside the §5.8 gate", () => {
   for (const seed of GOLDEN_SEEDS) {
     const { p } = page(seed);
-    const parts = resolve(p, catalog);
-    const f = fit(p, parts);
-    const css = stylesheet(p, catalog);
+    const parts = resolve(catalog, p);
+    const f = fit(parts);
+    const css = stylesheet(parts, f);
     const [from, to] = gateRange(css);
     const inside = css.slice(from, to);
     const outside = css.slice(0, from) + css.slice(to);
@@ -111,7 +119,7 @@ test("no effect selector or property appears outside the §5.8 gate", () => {
 test("the non-screen and high-contrast fallbacks are always present", () => {
   for (const seed of GOLDEN_SEEDS) {
     const { p } = page(seed);
-    const css = stylesheet(p, catalog);
+    const css = sheet(catalog, p);
     const dark = catalog.palettes.find((x) => x.id === p.p).roles.find((r) => r.o === p.r).dark;
     assert.ok(css.includes("@media print{html,body{background:none}.n{color:#000}}"));
     assert.ok(css.includes(`@media (prefers-contrast:more){:root{--bg:${dark ? "#111" : "#fff"}`));
@@ -123,7 +131,7 @@ test("the non-screen and high-contrast fallbacks are always present", () => {
 
 test("all four role variables always resolve", () => {
   for (let i = 0; i < 500; i++) {
-    const css = stylesheet(pick(`s${i}`, {}, catalog), catalog);
+    const css = sheet(catalog, pick(`s${i}`, {}, catalog));
     const root = css.match(/^:root\{([^}]*)\}/)[1];
     for (const v of ["--bg", "--fg", "--a1", "--a2"]) {
       assert.match(root, new RegExp(`${v}:#[0-9a-f]{6}`), `${v} is not a literal in ${root}`);
@@ -136,9 +144,9 @@ test("a derived ground reads from the row hex past names.length", () => {
   const ground = catalog.palettes.find((x) => x.id === "fx-ground");
   assert.equal(ground.names.length, 2);
   assert.equal(ground.hex.length, 4);
-  const washi = stylesheet(pick("gt", {}, catalog), catalog);
+  const washi = sheet(catalog, pick("gt", {}, catalog));
   assert.ok(washi.includes(`--bg:${ground.hex[2]}`), "w must be hex[names.length]");
-  const sumi = stylesheet(pick("gs", {}, catalog), catalog);
+  const sumi = sheet(catalog, pick("gs", {}, catalog));
   assert.ok(sumi.includes(`--bg:${ground.hex[3]}`), "k must be hex[names.length + 1]");
   // The credit line names only the real colours, never a derived ground.
   const html = page("gt").html;
@@ -147,8 +155,8 @@ test("a derived ground reads from the row hex past names.length", () => {
 
 test("the fit literals follow §5.2", () => {
   const p = pick("gs", {}, catalog);
-  const parts = resolve(p, catalog);
-  const f = fit(p, parts);
+  const parts = resolve(catalog, p);
+  const f = fit(parts);
   const { w1, w2 } = parts.variant;
   const [ASC, DESC] = [parts.file.asc / parts.font.upm, parts.file.desc / parts.font.upm];
 
@@ -170,13 +178,13 @@ test("the fit literals follow §5.2", () => {
 
   // stack-eq shares one scale between the lines.
   const eq = pick("gp", {}, catalog);
-  const feq = fit(eq, resolve(eq, catalog));
+  const feq = fit(resolve(catalog, eq));
   assert.equal(feq.F1, feq.F2);
 
   // gs bleeds only upwards, so it cannot tell R13 from the old max(g, bt). s7 is
   // depth-extrude(a=135,d=9) at g=4: all of its bleed is downwards, and G must follow it.
   const down = pick("s7", {}, catalog);
-  const fd = fit(down, resolve(down, catalog));
+  const fd = fit(resolve(catalog, down));
   assert.ok(fd.bleed.b > fd.bleed.t && fd.bleed.b > down.g, "s7 must bleed down past g");
   assert.equal(fd.G, Math.max(down.g, fd.bleed.t, fd.bleed.b));
   assert.equal(fd.G, fd.bleed.b);
@@ -188,9 +196,9 @@ test("the emitted gap is the resolved G, not the drawn g", () => {
   let widened = 0;
   for (let i = 0; i < 400; i++) {
     const p = pick(`s${i}`, {}, catalog);
-    const f = fit(p, resolve(p, catalog));
+    const f = fit(resolve(catalog, p));
     assert.equal(f.G, Math.max(p.g, f.bleed.t, f.bleed.b), `s${i}: G is not max(g, bt, bb)`);
-    const css = stylesheet(p, catalog);
+    const css = sheet(catalog, p);
     const gap = css.match(/\.l2\{[^}]*margin-top:calc\((-?[\d.]+)\*var\(--u\)\)/)[1];
     assert.equal(Number(gap), round4(f.G), `s${i}: line 2's margin is not G`);
     if (f.G > p.g) widened++;
@@ -208,7 +216,7 @@ test("the gap clears ink in both directions", () => {
     [225, "t"],
   ]) {
     const p = { ...base, g: 4, params: { a, d: 9 } };
-    const f = fit(p, resolve(p, catalog));
+    const f = fit(resolve(catalog, p));
     assert.equal(f.bleed[side], 9, `a=${a} must bleed 9u ${side}`);
     assert.equal(f.G, 9, `a=${a}: G=${f.G} does not clear the ${side} bleed`);
   }
@@ -217,11 +225,11 @@ test("the gap clears ink in both directions", () => {
 test("side emits the rotated portrait block, and only then", () => {
   const on = pick("gp", {}, catalog);
   assert.equal(on.side, true);
-  assert.match(stylesheet(on, catalog), /@media \(max-aspect-ratio:4\/5\)\{\.n\{[^}]*rotate:90deg/);
+  assert.match(sheet(catalog, on), /@media \(max-aspect-ratio:4\/5\)\{\.n\{[^}]*rotate:90deg/);
 
   const off = pick("gs", {}, catalog);
   assert.equal(off.side, false);
-  assert.equal(stylesheet(off, catalog).includes("max-aspect-ratio"), false);
+  assert.equal(sheet(catalog, off).includes("max-aspect-ratio"), false);
 });
 
 test("the response fits the first flight", () => {
@@ -237,8 +245,8 @@ test("the response fits the first flight", () => {
 
 test("two renders of one seed differ only in the nonce", () => {
   const p = pick("gs", {}, catalog);
-  const a = render(p, catalog, { nonce: "AAAA", pick: pickString(p) });
-  const b = render(p, catalog, { nonce: "BBBB", pick: pickString(p) });
+  const a = render(resolve(catalog, p), "AAAA");
+  const b = render(resolve(catalog, p), "BBBB");
   assert.equal(a.replaceAll("AAAA", "N"), b.replaceAll("BBBB", "N"));
 });
 
@@ -250,7 +258,7 @@ test("the colophon can never break out of its comment", () => {
     ),
   };
   const p = pick("k3f9x2m7qa", {}, evil);
-  const html = render(p, evil, { nonce: "test", pick: pickString(p) });
+  const html = render(resolve(evil, p), "test");
   const comment = html.match(/<!-- ([\s\S]*?) -->/)[1];
   assert.equal(comment.includes("<"), false);
   assert.equal(comment.includes(">"), false);
@@ -282,7 +290,7 @@ test("a system-font render emits no @font-face and keeps the family stack", () =
     weights: {},
   };
   const p = pick("a", {}, bare);
-  const css = stylesheet(p, bare);
+  const css = sheet(bare, p);
   assert.equal(css.includes("@font-face"), false);
   assert.match(css, /font-family:Georgia,"Times New Roman",ui-serif,serif/);
 

@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { expect, test } from "vite-plus/test";
-import { BUCKET_ODDS, denied, LAYOUTS, PickError, pick, pickString } from "../src/pick.js";
+import { LAYOUTS } from "../src/layout.js";
+import { pickString } from "../src/look.js";
+import { BUCKET_ODDS, denied, PickError, pick } from "../src/pick.js";
 import { fixtureCatalog } from "./catalog.js";
 
 const catalog = await fixtureCatalog();
