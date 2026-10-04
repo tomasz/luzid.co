@@ -19,13 +19,11 @@ const LIFT = 1.35;
 
 export default /** @satisfies {import("../src/types.js").Effect<{ d: number; a: number }>} */ ({
   id: "depth-drop",
-  family: "depth",
   shape: "A",
   colors: 3,
   bg: "any",
   odds: 5,
   fonts: { deny: ["hairline", "shaded"], prefer: ["fat", "deco"] },
-  palettes: { prefer: [] },
   params: { d: [1, 3, 0.5], a: [0, 315, 45] },
 
   /**
@@ -46,5 +44,4 @@ export default /** @satisfies {import("../src/types.js").Effect<{ d: number; a: 
    * @param {typeof import('../src/helpers.js').helpers} h
    */
   hover: (p, h) => `text-shadow:${h.stack(1, p.a, p.d * LIFT, "var(--a1)")}`,
-  motion: null,
 });

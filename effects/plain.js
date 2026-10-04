@@ -8,16 +8,10 @@
  */
 export default /** @satisfies {import("../src/types.js").Effect<{}>} */ ({
   id: "plain",
-  family: "plain",
   shape: "A",
   colors: 2,
   bg: "any",
-  odds: 4,
-  fonts: { deny: [], prefer: [] },
-  palettes: { prefer: [] },
   params: {},
   bleed: () => ({ t: 0, r: 0, b: 0, l: 0 }),
   css: () => "",
-  hover: null,
-  motion: null,
 });

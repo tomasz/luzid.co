@@ -18,13 +18,11 @@
 
 export default /** @satisfies {import("../src/types.js").Effect<{ d: number; a: number }>} */ ({
   id: "depth-long",
-  family: "depth",
   shape: "A",
   colors: 3,
   bg: "any",
   odds: 3,
   fonts: { deny: ["hairline", "script", "shaded"], prefer: ["fat", "sans"] },
-  palettes: { prefer: [] },
   params: { d: [8, 20, 4], a: [45, 135, 90] },
 
   /**
@@ -50,5 +48,4 @@ export default /** @satisfies {import("../src/types.js").Effect<{ d: number; a: 
   },
 
   hover: "filter:brightness(1.05)",
-  motion: null,
 });

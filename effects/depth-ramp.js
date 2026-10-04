@@ -15,13 +15,10 @@
 
 export default /** @satisfies {import("../src/types.js").Effect<{ d: number; a: number; s: number }>} */ ({
   id: "depth-ramp",
-  family: "depth",
   shape: "A",
   colors: 3,
   bg: "any",
-  odds: 4,
   fonts: { deny: ["hairline", "script", "shaded"], prefer: ["fat", "slab"] },
-  palettes: { prefer: [] },
   // `s` is the ramp strength: how much ground colour the far end has taken on, in percent.
   params: { d: [4, 10, 2], a: [45, 315, 90], s: [20, 60, 20] },
 
@@ -44,5 +41,4 @@ export default /** @satisfies {import("../src/types.js").Effect<{ d: number; a: 
   },
 
   hover: "filter:brightness(1.06)",
-  motion: null,
 });

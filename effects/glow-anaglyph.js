@@ -16,11 +16,9 @@
  */
 export default /** @satisfies {import("../src/types.js").Effect<{ s: number; a: number }>} */ ({
   id: "glow-anaglyph",
-  family: "glow",
   shape: "A",
   colors: 4,
   bg: "any",
-  odds: 4,
   // A hairline face split in two directions stops being a letter.
   fonts: { deny: ["hairline"], prefer: ["fat", "wide"] },
   palettes: { prefer: ["n4"] },
@@ -50,7 +48,6 @@ export default /** @satisfies {import("../src/types.js").Effect<{ s: number; a: 
 
   /** @param {{s: number, a: number}} p @param {typeof import('../src/helpers.js').helpers} h */
   hover: (p, h) => `text-shadow:${split(p, h, 1.5)}`,
-  motion: null,
 });
 
 /**

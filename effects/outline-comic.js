@@ -17,24 +17,18 @@
  * bleed at every viewport. Dropped deliberately: the ink does the shouting.
  */
 
-/** Outward allowance per unit of stroke width; see `outline-hollow.js` for the derivation. */
-const MITER = 0.8;
-
 /** Hover presses the letters toward their shadow, to this fraction of the offset. */
 const PRESS = 0.45;
 
 export default /** @satisfies {import("../src/types.js").Effect<{ sw: number; d: number; q: number }>} */ ({
   id: "outline-comic",
-  family: "outline",
   shape: "A",
   colors: 3,
   bg: "any",
-  odds: 4,
   fonts: {
     deny: ["hairline", "script", "brush", "connected", "inline", "shaded", "stencil"],
     prefer: ["fat", "deco", "sans"],
   },
-  palettes: { prefer: [] },
   // Recipe 22: a .04-.1em keyline with the drop .05-.14em away, at 1em = 100/W1 u (24-33u
   // here). `sw` never goes below 1.2u because the keyline is what carries legibility.
   params: { sw: [1.2, 2.4, 0.4], d: [1.5, 3.5, 0.5], q: [0, 1, 1] },
@@ -49,7 +43,7 @@ export default /** @satisfies {import("../src/types.js").Effect<{ sw: number; d:
    */
   bleed: (p, lines, h) => {
     const [sx] = /** @type {import("../src/types.js").Pair} */ (h.QUAD[p.q]);
-    const s = MITER * p.sw;
+    const s = h.OUTSET * p.sw;
     return { t: s, r: s + (sx > 0 ? p.d : 0), b: s + p.d, l: s + (sx < 0 ? p.d : 0) };
   },
 
@@ -77,5 +71,4 @@ export default /** @satisfies {import("../src/types.js").Effect<{ sw: number; d:
     const [sx] = /** @type {import("../src/types.js").Pair} */ (h.QUAD[p.q]);
     return `text-shadow:${h.u(PRESS * sx * p.d)} ${h.u(PRESS * p.d)} 0 var(--fg)`;
   },
-  motion: null,
 });
