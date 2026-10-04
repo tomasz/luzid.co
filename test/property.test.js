@@ -3,8 +3,8 @@
  *
  * P1 resolve is total · P2 every axis is a real catalog id · P3 no deny rule matches ·
  * P5 the response stays inside the budget · P7 two renders of one seed are byte-identical.
- * It runs against the frozen fixture catalog *and* against the live one, because the live
- * catalog is the thing that actually ships and it is currently near-empty.
+ * P1–P3 run against the frozen fixture catalog *and* the live one, which is what ships.
+ * P5 runs against the live catalog only: the fixture font is a 150 B stub.
  */
 import assert from "node:assert/strict";
 import { test } from "vite-plus/test";
@@ -97,8 +97,7 @@ for (const [name, catalog, n] of [
   });
 }
 
-test("rendering is deterministic and stays inside the byte budget", () => {
-  let worst = 0;
+test("rendering is deterministic and the stylesheet is well-formed", () => {
   for (const seed of seeds(500, "r")) {
     const p = pick(seed, {}, fixture);
     const str = pickString(p);
@@ -119,10 +118,7 @@ test("rendering is deterministic and stays inside the byte budget", () => {
     }
     assert.equal(depth, 0, `${seed}: unbalanced braces`);
     assert.equal(/undefined|NaN|\[object/.test(html), false, `${seed}: a hole in the template`);
-
-    worst = Math.max(worst, brotliCompressSync(Buffer.from(html, "utf8")).length);
   }
-  assert.ok(worst <= 14000, `worst response ${worst} B brotli`);
 });
 
 test("the heaviest live fonts under every effect stay inside the byte budget", () => {
