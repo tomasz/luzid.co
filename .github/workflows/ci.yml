@@ -42,8 +42,7 @@ jobs:
     # branch changed, so it does not grow with the catalogue; FIT_SCOPE=all does, and
     # gets its own ceiling (sweep.yml): a full Chromium sweep took 20-30 min on CI (#57),
     # and Firefox has run about 2.4x Chromium on this kind of fit-heavy scope.
-    # temporary: D1 (#107) sweeps every variant; restore 25 after merge
-    timeout-minutes: 120
+    timeout-minutes: ${{ inputs.fit-scope == 'all' && 120 || 25 }}
     strategy:
       fail-fast: false # one engine's failure must not hide another's
       matrix:
