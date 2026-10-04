@@ -11,7 +11,7 @@ be pinned exactly, and the places where the plan text left a choice the engine h
 Read the resolutions — several are things the plan implies but does not say, and a later
 work package that guesses differently will break a golden.
 
-A rule marked **pending** with a row id (S2, S3, S4, B2, D1) is agreed but not yet in
+A rule marked **pending** with a row id (S4) is agreed but not yet in
 the code; that row of the refactor plan lands it, and until then the text next to it says
 what runs today. The accessibility policy lives in [`a11y.md`](a11y.md), the vocabulary in
 the [Glossary](#glossary) at the end.
@@ -115,7 +115,7 @@ Layouts in v1.0: `stack-fit` (odds 12), `stack-eq` (odds 4), plus independent ke
   - `data/deny.json` = `{"deny":[{"f":"pacifico","e":"outline-ring"},{"e":"glow-neon","p":"wada1-176"}]}`; keys `f v p r e l`; a rule matches when all its keys equal the pick's plain ids (R9). Per-font effect exclusions are `{f,e}` rules. Generated meta is never hand-edited.
   - A deny rule qualifies a variant or a role set by naming its owner in the same rule: a rule with `v` also names `f`, a rule with `r` also names `p` (`{"f":"bungee","v":"n-ss11-static","e":"glow-neon"}`). A bare `v` or `r` would match that id in every font or palette at once.
   - **Every id must resolve.** Each id in `deny.json` and each key in `weights.json` names something in the catalog (for `v` and `r`, within the named font or palette). Today nothing checks this and a stale id is silently inert (pending B2: the catalog build rejects it with `file: /pointer: message`).
-- Params are quantized `[min,max,step]`: `step > 0`, `max ≥ min`, and the grid is **exact** — `(max − min) / step` is an integer at four-decimal precision, so `max` is a grid point. The grid has `n = (max − min) / step + 1` values and a draw picks an index `i` in `[0, n)` uniformly under key `e/<effect>/<param>`; the value is `round4(min + i·step)`. Lengths are in u, angles in degrees. Today `step()` floors `(max − min) / step`, and five params whose quotient lands just under an integer in floating point (`outline-comic.sw`, `outline-misprint.o`, `outline-ring.r`, `outline-sticker.dy`, `retro-printers-shade.b`) can never draw their max (pending S3, which draws the full grid; B2 rejects an inexact grid).
+- Params are quantized `[min,max,step]`: `step > 0`, `max ≥ min`, and the grid is **exact** — `(max − min) / step` is an integer at four-decimal precision, so `max` is a grid point. A draw picks a step index `i` in `[0, round((max − min) / step)]` uniformly under key `e/<effect>/<param>`; the value is `round4(min + i·step)`, so both `min` and `max` are drawn. The quotient is rounded, never floored: an exact grid can divide to just under an integer in floating point (`(2 − 0.8) / 0.4` is `2.9999999999999996`). The catalog build rejects a grid whose quotient is not within `1e-9` of an integer, and `step()` asserts the same. Lengths are in u, angles in degrees.
 - Seeds match `/^[0-9a-hjkmnp-tv-z]{1,16}$/`.
 
 ### 5.4 Palettes

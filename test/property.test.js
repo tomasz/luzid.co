@@ -12,8 +12,10 @@ import { brotliCompressSync } from "node:zlib";
 import { LAYOUTS } from "../src/layout.js";
 import { pickString } from "../src/look.js";
 import { denied, pick, resolve } from "../src/pick.js";
+import { step } from "../src/rand.js";
 import { render } from "../src/render.js";
 import { fixtureCatalog, seeds } from "./catalog.js";
+import { grid } from "./effects-lint.js";
 
 const fixture = await fixtureCatalog();
 const live = (await import("../build/catalog.js")).default;
@@ -98,6 +100,25 @@ for (const [name, catalog, n] of [
     }
   });
 }
+
+test("every live param draws exactly its enumerated grid, both ends included", () => {
+  // The draw (`step()` under the key pick.js uses) against the enumeration that the grid
+  // hashes in effects.test.js are taken over: the two must be the same set of values.
+  const drawn = [...seeds(20000)];
+  for (const effect of live.effects) {
+    for (const [name, spec] of Object.entries(effect.params ?? {})) {
+      const want = grid({ [name]: spec }).map((p) => p[name]);
+      const seen = new Set(drawn.map((seed) => step(seed, `e/${effect.id}/${name}`, spec)));
+      const where = `${effect.id}.${name} [${spec}]`;
+      assert.ok(seen.has(spec[0]) && seen.has(spec[1]), `${where} never drew an end`);
+      assert.deepEqual(
+        [...seen].sort((a, b) => a - b),
+        want,
+        where,
+      );
+    }
+  }
+});
 
 test("rendering is deterministic and the stylesheet is well-formed", () => {
   for (const seed of seeds(500, "r")) {

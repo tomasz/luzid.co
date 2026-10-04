@@ -53,7 +53,7 @@ export function grid(params) {
   let sets = [{}];
   for (const name of Object.keys(params ?? {}).sort()) {
     const [min, max, size] = params[name];
-    const n = Math.floor((max - min) / size) + 1;
+    const n = Math.round((max - min) / size) + 1;
     const values = Array.from({ length: n }, (_, i) => round4(min + i * size));
     sets = sets.flatMap((s) => values.map((v) => ({ ...s, [name]: v })));
   }

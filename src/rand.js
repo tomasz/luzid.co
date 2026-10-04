@@ -129,7 +129,11 @@ export function weighted(seed, key, candidates, oddsOf) {
 
 /**
  * Quantized parameter: `[min, max, step]` becomes a step index, so a param can never land
- * between two authored values.
+ * between two authored values. The grid is exact (§5.3), so `max` is its last point.
+ *
+ * `(max - min) / size` is rounded, not floored: in floating point an exact grid such as
+ * `[0.8, 2, 0.4]` divides to 2.9999999999999996, and flooring it would drop `max`. The
+ * catalog build rejects an inexact grid, so the assertion only guards the contract.
  *
  * @param {string} seed
  * @param {string} key
@@ -138,7 +142,11 @@ export function weighted(seed, key, candidates, oddsOf) {
  */
 export function step(seed, key, spec) {
   const [min, max, size] = spec;
-  const n = Math.floor((max - min) / size) + 1;
+  const steps = (max - min) / size;
+  const last = Math.round(steps);
+  if (Math.abs(steps - last) >= 1e-9)
+    throw new Error(`${key}: [${spec.join(",")}] is not an exact grid`);
+  const n = last + 1;
   const i = n > 1 ? Math.floor(draw(seed, key) * n) : 0;
   return round4(min + i * size);
 }

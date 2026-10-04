@@ -158,11 +158,13 @@ export function checkEffect(file, fx) {
     const [min, max, step] = spec;
     if (!(step > 0)) throw at(file, `${ptr}/2`, "step must be positive");
     if (!(max >= min)) throw at(file, `${ptr}/1`, "max must be ≥ min");
-    // §5.3 wants an exact grid. A warning until S3 makes the engine draw the last step.
+    // §5.3: an exact grid, so `max` is a grid point and `step()` can draw it.
     const n = (max - min) / step;
-    if (Math.abs(n - Math.round(n)) > 1e-9)
-      warnings.push(
-        `${file}: ${ptr}: [${spec.join(",")}] is not an exact grid; max is never drawn`,
+    if (Math.abs(n - Math.round(n)) >= 1e-9)
+      throw at(
+        file,
+        ptr,
+        `[${spec.join(",")}] is not an exact grid; (max - min) / step must be an integer`,
       );
   }
 

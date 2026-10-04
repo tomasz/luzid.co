@@ -10,7 +10,7 @@
  * To reproduce one by hand:
  *
  *  1. The grid is every value the engine can draw (`step()` in `src/rand.js`): per param
- *     `[min, max, step]`, `n = Math.floor((max - min) / step) + 1` values
+ *     `[min, max, step]`, `n = Math.round((max - min) / step) + 1` values
  *     `round4(min + i * step)` for `i = 0 … n-1`.
  *  2. Combinations are enumerated with param names sorted by code unit; the first name is
  *     the outermost loop and the last name varies fastest. `plain` has one: `{}`.
@@ -282,11 +282,11 @@ for (const { file, id, fx } of effects) {
       const [min, max, size] = spec;
       assert.ok(spec.every(Number.isFinite), `${file}: param ${name} has a non-finite bound`);
       assert.ok(size > 0 && max >= min, `${file}: param ${name} has an empty range`);
-      // A warning until S3 makes the engine draw the last step of every grid; then an error.
       const steps = (max - min) / size;
-      if (Math.abs(steps - Math.round(steps)) > 1e-9) {
-        console.warn(`${file}: param ${name} [${spec}] is not an exact grid; max is never drawn`);
-      }
+      assert.ok(
+        Math.abs(steps - Math.round(steps)) < 1e-9,
+        `${file}: param ${name} [${spec}] is not an exact grid (§5.3)`,
+      );
     }
 
     for (const p of grid(fx.params ?? {})) {
