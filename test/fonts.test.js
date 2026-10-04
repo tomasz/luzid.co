@@ -38,7 +38,7 @@ import {
   upstreamPaths,
   validateRow,
   WORDS,
-} from "../scripts/fonts.mjs";
+} from "../scripts/fonts.js";
 import {
   deriveMetrics,
   overlapFlags,
@@ -48,9 +48,9 @@ import {
   table,
   withMetrics,
   withNames,
-} from "../scripts/sfnt.mjs";
-import { decode } from "../scripts/woff2.mjs";
-import { loadCatalog } from "../scripts/build.mjs";
+} from "../scripts/fonts/sfnt.js";
+import { decode } from "../scripts/fonts/woff2.js";
+import { loadCatalog } from "../scripts/catalog.js";
 
 const url = (p) => new URL(`../${p}`, import.meta.url);
 const readJson = async (p) => JSON.parse(await readFile(url(p), "utf8"));
@@ -1218,7 +1218,7 @@ test("the cli accepts the `--` that `pnpm run fonts -- …` forwards", async () 
     () =>
       main([
         "node",
-        "fonts.mjs",
+        "fonts.js",
         "--",
         "--check",
         "--seed",

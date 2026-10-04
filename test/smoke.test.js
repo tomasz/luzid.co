@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "vite-plus/test";
-import { check } from "../scripts/smoke.mjs";
+import { check } from "../scripts/smoke.js";
 
 // What a healthy production response looks like on each of the three probes.
 const page = '<a href="https://github.com/tomasz">Tomasz Cudziło</a>';
@@ -22,7 +22,7 @@ const probes = (overrides = {}) => ({
   plain: healthy("three", undefined),
   ...overrides,
 });
-// cd.yml rolls back exactly when smoke.mjs writes rollback=true, i.e. on worker failures.
+// cd.yml rolls back exactly when smoke.js writes rollback=true, i.e. on worker failures.
 const rollback = ({ worker }) => worker.length > 0;
 
 test("a healthy deploy passes and does not roll back", () => {

@@ -93,7 +93,7 @@ The question is whether CoreText — which shapes for WebKit and Safari and is *
 HarfBuzz — agrees with those widths.
 
 It does, exactly. Measured outside any browser with a small CoreText probe against the
-decoded subsets (`scripts/woff2.mjs` `decode()` → sfnt → `CTLineGetImageBounds`, at
+decoded subsets (`scripts/fonts/woff2.js` `decode()` → sfnt → `CTLineGetImageBounds`, at
 `size = 1000`):
 
 | font · variant | word | `fonts/meta` | host CoreText |
@@ -123,7 +123,7 @@ layout and rasterization.
 
 The probe is not checked in: it is ~40 lines of Swift against `CoreText`, and the repo has
 no Swift toolchain in CI. The numbers it produced are above, and it is reproducible from
-`scripts/woff2.mjs`'s `decode()` plus `CTFontCreateWithGraphicsFont` in a few minutes.
+`scripts/fonts/woff2.js`'s `decode()` plus `CTFontCreateWithGraphicsFont` in a few minutes.
 
 **Verdict: the metric-patch route is sound.** Not one base variant disagrees. The residual
 per-engine spread in the rendered ink is sub-pixel and is rasterization, not shaping:
@@ -310,7 +310,7 @@ It passed in the arm64 devcontainer, and in `stack-fit`, `side` and every other 
 under `stack-eq` it alone spans the block: 291.6 px at 43.99 px/em. Rasterising the shipped
 subset outside any browser (harfbuzzjs outlines, 16×16 supersampling, linear coverage)
 puts ink in columns 14–305, **292 px wide** — the declared width to the pixel. So nothing
-in `fonts/meta` or `scripts/fonts.mjs` needs to change.
+in `fonts/meta` or `scripts/fonts.js` needs to change.
 
 **The scan is what cannot resolve it.** Bungee Outline draws every letter as a 0.010 em
 hairline (`stem: 0.01`, the `hairline` trait). At 43.99 px/em that is 0.44 px, and a stroke
@@ -510,7 +510,7 @@ Flagging it because it is the first thing the crop sheet makes you ask.
 
 | sweep | scope |
 |---|---|
-| every variant fills its safe box | fonts whose `fonts/meta/*.json` differ from `origin/main`, **plus all 8 seed fonts** when `src/`, `scripts/fonts.mjs` or `scripts/sfnt.mjs` moved · every variant · `stack-fit` · {390×844, 1440×900} · 3 engines |
+| every variant fills its safe box | fonts whose `fonts/meta/*.json` differ from `origin/main`, **plus all 8 seed fonts** when `src/`, `scripts/fonts.js` or `scripts/fonts/sfnt.js` moved · every variant · `stack-fit` · {390×844, 1440×900} · 3 engines |
 | every layout mode, every viewport | the 8 seed fonts, one variant each · {`stack-fit`, `stack-eq`, `side`} · all 8 viewports (`side` only at the three portrait ones, where its media query matches) · 3 engines |
 | bleed | every shipped effect at the two ends of its parameter space, plus the named R14 watchlist corners · Fraunces · upright at {390×844, 1440×900} and `side` at 768×1024 · 3 engines. Widens to every corner for effects this branch changed. |
 

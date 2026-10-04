@@ -46,9 +46,9 @@ jobs:
 
       - name: smoke test
         id: smoke
-        run: node scripts/smoke.mjs https://luzid.co
+        run: node scripts/smoke.js https://luzid.co
 
-      # smoke.mjs writes rollback=true only for worker-level failures; zone-level ones (exit 2)
+      # smoke.js writes rollback=true only for worker-level failures; zone-level ones (exit 2)
       # fail the job without touching the Worker. With no version id, `wrangler rollback`
       # picks the most recent earlier deployment at 100%, i.e. what was live before this run.
       - name: roll back

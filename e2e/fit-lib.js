@@ -13,7 +13,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { loadCatalog } from "../scripts/build.mjs";
+import { loadCatalog } from "../scripts/catalog.js";
 import { helpers } from "../src/helpers.js";
 import { drawLayoutAxes } from "../src/pick.js";
 import { bbox, decodePng, flatten } from "./png.js";
@@ -440,16 +440,10 @@ export function scope() {
     return { variantFonts: SEED_FONTS, sweepFonts: SEED_FONTS, effects: EFFECTS.map((e) => e.id) };
   }
 
-  // A prefix, not a list of files: the font scripts are due to move under `scripts/fonts/`,
-  // and a literal list would silently stop this sweep the day they do. `sfnt.mjs` and
-  // `woff2.mjs` are spelled out until they move there too.
-  const engineMoved = changed.some(
-    (p) =>
-      p.startsWith("src/") ||
-      p.startsWith("scripts/fonts") ||
-      p === "scripts/sfnt.mjs" ||
-      p === "scripts/woff2.mjs",
-  );
+  // A prefix, not a list of files: it covers `scripts/fonts.js` and every module under
+  // `scripts/fonts/` (sfnt, woff2, subset, ...), so a new font module joins the sweep
+  // without an edit here.
+  const engineMoved = changed.some((p) => p.startsWith("src/") || p.startsWith("scripts/fonts"));
   const metaMoved = changed
     .filter((p) => p.startsWith("fonts/meta/") && p.endsWith(".json"))
     .map((p) => p.slice("fonts/meta/".length, -".json".length));

@@ -3,8 +3,8 @@ import { execFileSync, spawnSync } from "node:child_process";
 import { access, readdir, readFile } from "node:fs/promises";
 import { test } from "vite-plus/test";
 import { fileURLToPath } from "node:url";
-import { colors } from "../scripts/palette-sources/wada1.mjs";
-import { contrast, grounds, roleSets } from "../scripts/roles.mjs";
+import { colors } from "../scripts/palettes/sources/wada1.js";
+import { contrast, grounds, roleSets } from "../scripts/palettes/roles.js";
 
 const HEX = /^#[0-9a-f]{6}$/;
 const path = (p) => fileURLToPath(new URL(`../${p}`, import.meta.url));
@@ -40,11 +40,11 @@ const sets = rows.flatMap((r) =>
 
 test("the committed data is what the generator produces", () => {
   // The roles are committed so a deploy never runs colour maths; this is what keeps them honest.
-  execFileSync(process.execPath, [path("scripts/palettes.mjs"), "--check"], { stdio: "pipe" });
+  execFileSync(process.execPath, [path("scripts/palettes.js"), "--check"], { stdio: "pipe" });
 });
 
 test("the cli accepts the separator `pnpm run palettes -- --check` forwards", () => {
-  execFileSync(process.execPath, [path("scripts/palettes.mjs"), "--", "--check"], {
+  execFileSync(process.execPath, [path("scripts/palettes.js"), "--", "--check"], {
     stdio: "pipe",
   });
 });
@@ -52,7 +52,7 @@ test("the cli accepts the separator `pnpm run palettes -- --check` forwards", ()
 test("an unknown --source exits 1 and names the known sources", () => {
   const run = spawnSync(
     process.execPath,
-    [path("scripts/palettes.mjs"), "--check", "--source", "nope"],
+    [path("scripts/palettes.js"), "--check", "--source", "nope"],
     { encoding: "utf8" },
   );
   assert.equal(run.status, 1);

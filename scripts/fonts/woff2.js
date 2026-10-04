@@ -3,7 +3,7 @@
  *
  * Why not an off-the-shelf encoder: the 2018-era `wawoff2` bundled with `fontverter`
  * re-encodes `glyf` with the WOFF2 glyph transform, and that transform has no room for
- * the per-glyph OVERLAP_SIMPLE / OVERLAP_COMPOUND flags `scripts/sfnt.mjs` sets — they are
+ * the per-glyph OVERLAP_SIMPLE / OVERLAP_COMPOUND flags `scripts/fonts/sfnt.js` sets — they are
  * silently dropped, and Apple's rasterizer then punches holes through the overlapping
  * contours of every pinned variable instance. So `glyf` and `loca` are written with
  * transform version 3, the null transform, which stores the tables verbatim.
@@ -11,7 +11,7 @@
  * Brotli at quality 11 in BROTLI_MODE_FONT gets back more than the glyph transform gave up.
  */
 import { brotliCompressSync, brotliDecompressSync, constants } from "node:zlib";
-import { canonical, serialize } from "./sfnt.mjs";
+import { canonical, serialize } from "./sfnt.js";
 
 const SIGNATURE = 0x774f4632; // 'wOF2'
 
@@ -123,7 +123,7 @@ function orderTables(tables) {
 
 /**
  * Encode the tables `serialize` would write, so `decode(encode(x))` is `serialize(x)`.
- * @param {import("./sfnt.mjs").Sfnt} sfnt @returns {Buffer}
+ * @param {import("./sfnt.js").Sfnt} sfnt @returns {Buffer}
  */
 export function encode(sfnt) {
   const { flavor, tables: sorted } = canonical(sfnt);
@@ -164,7 +164,7 @@ export function encode(sfnt) {
   return Buffer.concat([header, body, compressed, padding]);
 }
 
-/** @param {Buffer} woff2 @returns {import("./sfnt.mjs").Sfnt} */
+/** @param {Buffer} woff2 @returns {import("./sfnt.js").Sfnt} */
 export function decodeTables(woff2) {
   if (woff2.length < 48 || woff2.readUInt32BE(0) !== SIGNATURE)
     throw new Error("woff2: not a WOFF2 file");

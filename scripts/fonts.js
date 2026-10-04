@@ -3,16 +3,16 @@
  * The command line of the font pipeline. `fonts/fetch.js` reads the inputs, `fonts/pipeline.js`
  * builds each row, and this file selects the rows and writes or compares what comes out.
  *
- *   node scripts/fonts.mjs                    every row in fonts/sources (one <id>.json each)
- *   node scripts/fonts.mjs --archetype A,F    rows whose `archetype` lists any of these letters
+ *   node scripts/fonts.js                     every row in fonts/sources (one <id>.json each)
+ *   node scripts/fonts.js --archetype A,F     rows whose `archetype` lists any of these letters
  *                                             (A–F, or X for the unbuilt rows; repeatable or
  *                                             comma-separated)
- *   node scripts/fonts.mjs --seed             the eight rows marked `"seed": true`
- *   node scripts/fonts.mjs --id pacifico      some fonts (repeatable or comma-separated)
- *   node scripts/fonts.mjs --check            rebuild into memory and byte-compare with disk;
+ *   node scripts/fonts.js --seed              the eight rows marked `"seed": true`
+ *   node scripts/fonts.js --id pacifico       some fonts (repeatable or comma-separated)
+ *   node scripts/fonts.js --check             rebuild into memory and byte-compare with disk;
  *                                             list what is changed, missing or stale, exit 1
- *   node scripts/fonts.mjs --traits           measure the geometric traits, build nothing
- *   node scripts/fonts.mjs --root <dir>       read and write <dir>/fonts instead of ./fonts
+ *   node scripts/fonts.js --traits            measure the geometric traits, build nothing
+ *   node scripts/fonts.js --root <dir>        read and write <dir>/fonts instead of ./fonts
  *
  * Nothing is ever written outside `fonts/`, and `--check` and `--traits` write nothing there
  * either. Upstream originals are cached in the OS temp directory, keyed by their sha256, so a

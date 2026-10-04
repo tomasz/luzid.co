@@ -1,5 +1,5 @@
 {
-  "note": "Explicit, reviewed errata applied on top of the vendored upstream colors.json by scripts/palette-sources/wada1.mjs. The upstream file is never edited. Every `from` value below is asserted against the vendored file before `to` is applied, so this patch fails loudly if the pinned source is ever changed.",
+  "note": "Explicit, reviewed errata applied on top of the vendored upstream colors.json by scripts/palettes/sources/wada1.js. The upstream file is never edited. Every `from` value below is asserted against the vendored file before `to` is applied, so this patch fails loudly if the pinned source is ever changed.",
   "sources": [
     "https://github.com/mattdesl/dictionary-of-colour-combinations/issues/1",
     "https://github.com/mattdesl/dictionary-of-colour-combinations/pull/2"

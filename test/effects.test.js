@@ -28,7 +28,7 @@ import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { resolve } from "node:path";
 import { expect, test } from "vite-plus/test";
-import { loadCatalog } from "../scripts/build.mjs";
+import { loadCatalog } from "../scripts/catalog.js";
 import { TRAITS } from "../scripts/catalog/check.js";
 import { helpers } from "../src/helpers.js";
 import { effects, grid, hoverOf, METRICS, parse, shadowLengths, topSplit } from "./effects-lint.js";

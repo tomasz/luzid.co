@@ -9,7 +9,7 @@
  * written from, so no test writes a module and no two test processes can race on one.
  */
 import { resolve } from "node:path";
-import { loadCatalog } from "../scripts/build.mjs";
+import { loadCatalog } from "../scripts/catalog.js";
 
 let cached = null;
 

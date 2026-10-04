@@ -77,9 +77,9 @@ export interface FontFile {
   id: string;
   asc: number;
   desc: number;
-  /** Byte length of the woff2; added by `scripts/build.mjs`. */
+  /** Byte length of the woff2; added by `scripts/catalog.js`. */
   bytes: number;
-  /** The woff2 as base64; added by `scripts/build.mjs`. */
+  /** The woff2 as base64; added by `scripts/catalog.js`. */
   b64: string;
 }
 
@@ -149,7 +149,7 @@ export interface Preset {
   params?: Record<string, Record<string, number>>;
 }
 
-/** `build/catalog.js`, as `scripts/build.mjs` writes it. */
+/** `build/catalog.js`, as `scripts/catalog.js` writes it. */
 export interface Catalog {
   fonts: readonly Font[];
   palettes: readonly Palette[];
