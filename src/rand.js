@@ -144,7 +144,8 @@ export function step(seed, key, spec) {
   const [min, max, size] = spec;
   const steps = (max - min) / size;
   const last = Math.round(steps);
-  if (Math.abs(steps - last) >= 1e-9) throw new Error(`${key}: [${spec}] is not an exact grid`);
+  if (Math.abs(steps - last) >= 1e-9)
+    throw new Error(`${key}: [${spec.join(",")}] is not an exact grid`);
   const n = last + 1;
   const i = n > 1 ? Math.floor(draw(seed, key) * n) : 0;
   return round4(min + i * size);
