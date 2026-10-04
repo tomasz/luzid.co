@@ -35,7 +35,6 @@ const press = (p, h, lit, shade) =>
 
 export default /** @satisfies {import("../src/types.js").Effect<{ k: number; s: number }>} */ ({
   id: "retro-deboss",
-  family: "retro",
   shape: "A",
   colors: 2,
   bg: "light",
@@ -44,7 +43,6 @@ export default /** @satisfies {import("../src/types.js").Effect<{ k: number; s: 
     deny: ["hairline", "inline", "shaded", "stencil"],
     prefer: ["fat", "slab", "sans", "wide"],
   },
-  palettes: { prefer: [] },
   // k = how deep the press is; s = how far the sheet rolls at the shaded wall. Both in u.
   params: { k: [0.3, 0.9, 0.3], s: [0.6, 1.8, 0.6] },
 
@@ -72,6 +70,4 @@ export default /** @satisfies {import("../src/types.js").Effect<{ k: number; s: 
    * Pressing harder deepens both tones without moving either, so the bleed is unchanged.
    */
   hover: (p, h) => `text-shadow:${press(p, h, 28, 54)}`,
-
-  motion: null,
 });

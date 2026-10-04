@@ -20,22 +20,22 @@
  */
 export default /** @satisfies {import("../src/types.js").Effect<{ a: number; d: number; g: number }>} */ ({
   id: "retro-relief-gap",
-  family: "retro",
   shape: "B",
   colors: 3,
   bg: "any",
   odds: 5,
   fonts: { deny: ["hairline", "inline", "shaded", "stencil"], prefer: ["fat", "slab", "deco"] },
-  palettes: { prefer: [] },
   // d = shade distance along the angle; g = channel width (half the stroke, which is
   // centred on the outline); a = the two sign-painter diagonals, both downward.
   params: { a: [45, 135, 90], d: [3, 6, 1], g: [0.3, 1.2, 0.3] },
 
   /**
-   * The only ink above the block top is the stroke ring, which is half of the stroke width
-   * — `p.g` — on every side. Everything else falls: both angles are downward, and R13 now
-   * feeds `G` from `bleed.b` as well, so the gap the shade needs is asked for where the
-   * shade actually is.
+   * The only ink above the block top is the copy's stroke ring, on every side. Its stroke is
+   * `2·g` wide and budgeted at `h.OUTSET` of that width, not the `g` a centred stroke has
+   * geometrically: Chrome and WebKit miter acute joins well past half the width. This is
+   * shape B, so the ring comes from the `::before` copy and no shadow list on `.n` shows
+   * it. Everything else falls: both angles are downward, and R13 now feeds `G` from
+   * `bleed.b` as well, so the gap the shade needs is asked for where the shade actually is.
    *
    * `h.stack()` measures its distance along the angle, so the reach on each axis is
    * `d·cos45`, not `d`. That is exact rather than conservative on purpose: `b` now sets
@@ -43,7 +43,8 @@ export default /** @satisfies {import("../src/types.js").Effect<{ a: number; d: 
    */
   bleed: (p, lines, h) => {
     const q = h.toward(p.a, Math.SQRT1_2 * p.d);
-    return { t: q.t + p.g, r: q.r + p.g, b: q.b + p.g, l: q.l + p.g };
+    const ring = h.OUTSET * 2 * p.g;
+    return { t: q.t + ring, r: q.r + ring, b: q.b + ring, l: q.l + ring };
   },
 
   css: (p, h) => {
@@ -59,5 +60,4 @@ export default /** @satisfies {import("../src/types.js").Effect<{ a: number; d: 
   },
 
   hover: "filter:brightness(1.06)",
-  motion: null,
 });

@@ -19,7 +19,6 @@
  */
 export default /** @satisfies {import("../src/types.js").Effect<{ k: number; s: number }>} */ ({
   id: "retro-carve",
-  family: "retro",
   shape: "A",
   colors: 3,
   bg: "light",
@@ -28,25 +27,22 @@ export default /** @satisfies {import("../src/types.js").Effect<{ k: number; s: 
     deny: ["hairline", "inline", "shaded", "stencil"],
     prefer: ["serif", "slab", "fat", "deco"],
   },
-  palettes: { prefer: [] },
   // k = the width of the bevel; s = how soft the shadow in the cut is. Both in u.
   params: { k: [0.3, 0.9, 0.3], s: [0.6, 1.8, 0.6] },
 
   /**
    * The shadow in the cut travels up and left, so that is where the reach is — and `t` is
-   * what keeps line 2's cut off line 1's glyphs. The `1.5·s` predates R14's correction: a
-   * blurred layer reaches about 1.0 radii, and `h.REACH` (1.1) is the budget. Moving to it
-   * shrinks the bleed and with it the fit, so it is a behaviour change for its own PR.
+   * what keeps line 2's cut off line 1's glyphs. Its blur `s` reaches `h.REACH·s` (R14).
    *
    * The bottom and the right are not just the lit bevel for the same reason as the emboss:
    * at the shallow end of `k` with the softest `s`, the shadow's tail reaches back across
    * the glyph and out the far side.
    */
-  bleed: (p) => ({
-    t: 2.4 * p.k + 1.5 * p.s,
-    r: Math.max(p.k, 1.5 * p.s - 2.2 * p.k),
-    b: Math.max(p.k, 1.5 * p.s - 2.4 * p.k),
-    l: 2.2 * p.k + 1.5 * p.s,
+  bleed: (p, lines, h) => ({
+    t: 2.4 * p.k + h.REACH * p.s,
+    r: Math.max(p.k, h.REACH * p.s - 2.2 * p.k),
+    b: Math.max(p.k, h.REACH * p.s - 2.4 * p.k),
+    l: 2.2 * p.k + h.REACH * p.s,
   }),
 
   css: (p, h) =>
@@ -55,5 +51,4 @@ export default /** @satisfies {import("../src/types.js").Effect<{ k: number; s: 
     `${h.u(-2.2 * p.k)} ${h.u(-2.4 * p.k)} ${h.u(p.s)} ${h.mix("var(--a1)", "var(--bg)", 46)}}`,
 
   hover: "filter:contrast(1.06)",
-  motion: null,
 });

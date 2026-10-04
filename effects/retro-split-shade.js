@@ -15,11 +15,9 @@
 
 export default /** @satisfies {import("../src/types.js").Effect<{ a: number; b: number; d: number }>} */ ({
   id: "retro-split-shade",
-  family: "retro",
   shape: "A",
   colors: 4,
   bg: "any",
-  odds: 4,
   fonts: { deny: ["hairline", "inline", "shaded"], prefer: ["fat", "slab", "serif", "deco"] },
   palettes: { prefer: ["n4"] },
   params: { a: [45, 135, 90], b: [2, 3, 1], d: [2, 5, 1] },
@@ -42,5 +40,4 @@ export default /** @satisfies {import("../src/types.js").Effect<{ a: number; b: 
   },
 
   hover: "filter:saturate(1.16)",
-  motion: null,
 });

@@ -21,23 +21,19 @@
  */
 export default /** @satisfies {import("../src/types.js").Effect<{ b: number; d: number }>} */ ({
   id: "retro-printers-shade",
-  family: "retro",
   shape: "A",
   colors: 3,
   bg: "any",
-  odds: 4,
   fonts: { deny: ["hairline", "inline", "shaded"], prefer: ["brush", "script", "fat", "serif"] },
-  palettes: { prefer: [] },
   // d = per-axis depth; b = the largest blur radius in the soft trio.
   params: { b: [0.2, 0.6, 0.2], d: [1.5, 4, 0.5] },
 
   /**
    * Nothing reaches above or left of the block: every soft layer sits further out than its
-   * own tail, and R13 feeds `G` from `bleed.b`. The `1.5` predates R14's correction: a
-   * blurred layer reaches about 1.0 radii, and `h.REACH` (1.1) is the budget. Moving to it
-   * shrinks the bleed and with it the fit, so it is a behaviour change for its own PR.
+   * own tail, and R13 feeds `G` from `bleed.b`. The widest soft layer (radius `b`, at
+   * `0.78·d`) reaches `h.REACH·b` past its offset (R14), so `d + h.REACH·b` bounds all three.
    */
-  bleed: (p, lines, h) => h.toward(45, p.d + 1.5 * p.b),
+  bleed: (p, lines, h) => h.toward(45, p.d + h.REACH * p.b),
 
   css: (p, h) => {
     const n = h.layers(14 * p.d, 12);
@@ -64,5 +60,4 @@ export default /** @satisfies {import("../src/types.js").Effect<{ b: number; d: 
   },
 
   hover: "filter:brightness(1.05)",
-  motion: null,
 });
