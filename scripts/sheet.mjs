@@ -191,7 +191,6 @@ async function serve(port) {
     {
       cwd: ROOT,
       stdio: "ignore",
-      env: { ...env, WRANGLER_SEND_METRICS: "false" },
     },
   );
   const base = `http://127.0.0.1:${port}`;
