@@ -28,7 +28,7 @@ const tightBlur = (y) => Math.min(MAX_BLUR, y * 0.18);
 /** @param {number} y */
 const softBlur = (y) => Math.min(MAX_BLUR, y * 0.3);
 
-export default {
+export default /** @satisfies {import("../src/types.js").Effect<{ y: number; o: number }>} */ ({
   id: "depth-float",
   family: "depth",
   shape: "A",
@@ -62,4 +62,4 @@ export default {
     `text-shadow:0 ${h.u(p.y * 0.18)} ${h.u(tightBlur(p.y) * 0.7)} ${h.mix("var(--fg)", "var(--bg)", p.o * 1.15)},` +
     `0 ${h.u(p.y * 0.5)} ${h.u(softBlur(p.y) * 0.7)} ${h.mix("var(--fg)", "var(--bg)", p.o * 0.8)}`,
   motion: null,
-};
+});

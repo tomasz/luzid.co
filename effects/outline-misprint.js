@@ -17,7 +17,10 @@
  * guaranteed 3:1 whatever the accent does. The keyline is decoration on top of that.
  */
 
-/** The four diagonals as exact ±1 pairs. No trig, so no golden can depend on `Math.cos`. */
+/**
+ * The four diagonals as exact ±1 pairs. No trig, so no golden can depend on `Math.cos`.
+ * @type {import("../src/types.js").Pair[]}
+ */
 const DIR = [
   [1, 1],
   [-1, 1],
@@ -28,7 +31,7 @@ const DIR = [
 /** Outward allowance per unit of stroke width; see `outline-hollow.js` for the derivation. */
 const MITER = 0.8;
 
-export default {
+export default /** @satisfies {import("../src/types.js").Effect<{ sw: number; o: number; q: number }>} */ ({
   id: "outline-misprint",
   family: "outline",
   shape: "B",
@@ -46,7 +49,7 @@ export default {
 
   /** @param {{sw: number, o: number, q: number}} p */
   bleed: (p) => {
-    const [sx, sy] = DIR[p.q];
+    const [sx, sy] = /** @type {import("../src/types.js").Pair} */ (DIR[p.q]);
     const s = MITER * p.sw;
     return {
       t: s + (sy < 0 ? p.o : 0),
@@ -61,7 +64,7 @@ export default {
    * @param {typeof import('../src/helpers.js').helpers} h
    */
   css: (p, h) => {
-    const [sx, sy] = DIR[p.q];
+    const [sx, sy] = /** @type {import("../src/types.js").Pair} */ (DIR[p.q]);
     return (
       `.l::after{content:attr(data-t) / "";-webkit-text-fill-color:transparent;` +
       `-webkit-text-stroke:${h.u(p.sw)} var(--a1);` +
@@ -75,8 +78,8 @@ export default {
    * it leaves the face `--fg` — a hover state must not trade away the guaranteed contrast.
    */
   hover: (p, h) => {
-    const [sx, sy] = DIR[p.q];
+    const [sx, sy] = /** @type {import("../src/types.js").Pair} */ (DIR[p.q]);
     return `text-shadow:${h.u(sx * p.o)} ${h.u(sy * p.o)} 0 ${h.mix("var(--a1)", "var(--bg)", 40)}`;
   },
   motion: null,
-};
+});

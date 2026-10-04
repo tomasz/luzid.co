@@ -6,7 +6,7 @@
  * It is also half of QA mask mode: `?p=qa-bw&e=plain` renders black on white with no
  * effect, which is what the fit pixel scan measures.
  */
-export default {
+export default /** @satisfies {import("../src/types.js").Effect<{}>} */ ({
   id: "plain",
   family: "plain",
   shape: "A",
@@ -20,4 +20,4 @@ export default {
   css: () => "",
   hover: null,
   motion: null,
-};
+});

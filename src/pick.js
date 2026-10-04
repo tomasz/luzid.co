@@ -14,6 +14,11 @@
 
 import { flag, step, weighted } from "./rand.js";
 
+/**
+ * @import { Align, AxisKey, Bucket, Catalog, Chance, DenyRule, Effect, Font, Layout, Look,
+ *   Palette, ParamSpec, Pins, Preset, Scene } from "./types.js"
+ */
+
 /** A pin naming something that does not exist, or a pin combination nothing satisfies. */
 export class PickError extends Error {
   /**
@@ -31,13 +36,19 @@ export class PickError extends Error {
 /** The pin query parameters, in axis order. They are also the `data/deny.json` rule keys. */
 export const PIN_KEYS = /** @type {const} */ (["f", "v", "p", "r", "e", "l"]);
 
-/** Layouts are engine, not data: adding one is a change to `render.js` as well. */
+/**
+ * Layouts are engine, not data: adding one is a change to `render.js` as well.
+ * @type {Layout[]}
+ */
 export const LAYOUTS = [
   { id: "stack-eq", odds: 4 },
   { id: "stack-fit", odds: 12 },
 ];
 
-/** Cross-axis alignment of the two lines. Only `stack-eq` can show a difference. */
+/**
+ * Cross-axis alignment of the two lines. Only `stack-eq` can show a difference.
+ * @type {{id: Align, odds: number}[]}
+ */
 const ALIGNS = [
   { id: "center", odds: 8 },
   { id: "flex-end", odds: 4 },
@@ -53,14 +64,15 @@ const ALIGNS = [
  *
  * They are taste buckets from the owner's reference images, not technical classes: a font
  * belongs to one because it looks like the reference, not because it measures a certain way.
+ * @type {Record<Bucket, number>}
  */
 export const BUCKET_ODDS = { A: 3, B: 3, C: 3, D: 3, E: 3, F: 3, X: 2 };
 
-/** Gap between the two lines, in u. */
-const G_SPEC = /** @type {const} */ ([4, 10, 2]);
+/** @type {ParamSpec} Gap between the two lines, in u. */
+const G_SPEC = [4, 10, 2];
 
-/** D8: about a quarter of seeds add the rotated portrait variant. */
-const SIDE_ODDS = /** @type {const} */ ([1, 4]);
+/** @type {Chance} D8: about a quarter of seeds add the rotated portrait variant. */
+const SIDE_ODDS = [1, 4];
 
 const DEFAULT_ODDS = 4;
 
@@ -75,6 +87,7 @@ const DEFAULT_ODDS = 4;
  * name for the guarantee that the ink never runs past the edge — under-fill is benign,
  * overflow is not. The pixel scan (§9.2) gates real fonts only, and this row disappears
  * the moment one font meta lands.
+ * @type {Font}
  */
 export const FALLBACK_FONT = {
   id: "system",
@@ -97,7 +110,10 @@ export const FALLBACK_FONT = {
   ],
 };
 
-/** Stand-in used only if `data/palettes/` is empty. `data/palettes/qa.json` ships, so it is not. */
+/**
+ * Stand-in used only if `data/palettes/` is empty. `data/palettes/qa.json` ships, so it is not.
+ * @type {Palette}
+ */
 export const FALLBACK_PALETTE = {
   id: "qa-bw",
   src: "qa",
@@ -108,7 +124,10 @@ export const FALLBACK_PALETTE = {
   roles: [{ o: "10--", dark: false, n: 2, derivedBg: null }],
 };
 
-/** Stand-in used only if `effects/` is empty. `effects/plain.js` ships, so it is not. */
+/**
+ * Stand-in used only if `effects/` is empty. `effects/plain.js` ships, so it is not.
+ * @type {Effect}
+ */
 const NULL_EFFECT = {
   id: "plain",
   family: "plain",
@@ -134,12 +153,14 @@ const odds16 = (n) => {
  * Does `rule` hold for a finished pick? A rule matches when every key it names equals the
  * pick's value on that axis.
  *
- * @param {readonly Record<string, string>[]} deny
- * @param {Record<string, string>} p
+ * @param {readonly DenyRule[]} deny
+ * @param {Readonly<Partial<Record<AxisKey, string>>>} p a Look, or anything with axis ids
  */
 export function denied(deny, p) {
   return deny.some((rule) => {
-    const keys = Object.keys(rule).filter((k) => PIN_KEYS.includes(/** @type {never} */ (k)));
+    const keys = /** @type {AxisKey[]} */ (
+      Object.keys(rule).filter((k) => PIN_KEYS.includes(/** @type {never} */ (k)))
+    );
     return keys.length > 0 && keys.every((k) => p[k] === rule[k]);
   });
 }
@@ -149,15 +170,16 @@ export function denied(deny, p) {
  * rule that also names an axis nobody has drawn yet is not completed — it will be checked
  * again when that axis comes up.
  *
- * @param {readonly Record<string, string>[]} deny
- * @param {string} axis
+ * @param {readonly DenyRule[]} deny
+ * @param {AxisKey} axis
  * @param {string} id
- * @param {Record<string, string>} fixed
+ * @param {Pins} fixed
  */
 function completes(deny, axis, id, fixed) {
   return deny.some((rule) => {
     if (rule[axis] !== id) return false;
-    return Object.keys(rule).every((k) => k === axis || fixed[k] === rule[k]);
+    const keys = /** @type {AxisKey[]} */ (Object.keys(rule));
+    return keys.every((k) => k === axis || fixed[k] === rule[k]);
   });
 }
 
@@ -168,12 +190,12 @@ function completes(deny, axis, id, fixed) {
  * @template {{id: string}} T
  * @param {object} a
  * @param {string} a.seed
- * @param {string} a.axis
+ * @param {AxisKey} a.axis
  * @param {readonly T[]} a.pool every item the axis could ever produce
  * @param {(item: T) => boolean} [a.compatible]
  * @param {(item: T) => number} a.oddsOf
- * @param {readonly Record<string, string>[]} a.deny
- * @param {Record<string, string>} a.fixed
+ * @param {readonly DenyRule[]} a.deny
+ * @param {Pins} a.fixed
  * @param {string | null | undefined} a.pinned
  * @param {(items: readonly T[]) => readonly T[]} [a.fallback]
  * @returns {T}
@@ -231,29 +253,10 @@ const roleFits = (effect, role) =>
   role.n >= effect.colors && (effect.bg === "any" || (effect.bg === "dark") === role.dark);
 
 /**
- * @typedef {object} Pick
- * @property {string} seed
- * @property {'free' | 'preset'} mode
- * @property {string | null} preset
- * @property {string} bucket
- * @property {string} f font id
- * @property {string} v variant id
- * @property {string} p palette id
- * @property {string} r role-set id (its `o` string)
- * @property {string} e effect id
- * @property {string} l layout id
- * @property {Record<string, number>} params effect params, quantized
- * @property {boolean} side
- * @property {number} g line gap in u
- * @property {string} align
- * @property {string[]} pinned axes the request froze
- */
-
-/**
  * @param {string} seed
- * @param {Partial<Record<'f' | 'v' | 'p' | 'r' | 'e' | 'l', string>>} pins
- * @param {object} catalog
- * @returns {Pick}
+ * @param {Pins} pins
+ * @param {Catalog} catalog
+ * @returns {Look}
  */
 export function pick(seed, pins, catalog) {
   const weights = catalog.weights ?? {};
@@ -264,6 +267,7 @@ export function pick(seed, pins, catalog) {
   const presets = catalog.presets ?? [];
 
   // Unknown ids are rejected before anything is drawn, so a typo never renders a page.
+  /** @type {Record<AxisKey, Set<string>>} */
   const universe = {
     f: new Set(fonts.map((x) => x.id)),
     v: new Set(fonts.flatMap((x) => x.variants.map((y) => y.id))),
@@ -272,6 +276,7 @@ export function pick(seed, pins, catalog) {
     e: new Set(effects.map((x) => x.id)),
     l: new Set(LAYOUTS.map((x) => x.id)),
   };
+  /** @type {AxisKey[]} */
   const pinned = [];
   for (const k of PIN_KEYS) {
     const v = pins?.[k];
@@ -280,43 +285,49 @@ export function pick(seed, pins, catalog) {
     pinned.push(k);
   }
 
-  /** @type {Record<string, string>} */
+  /** @type {Pins} */
   const fixed = {};
   for (const k of pinned) fixed[k] = pins[k];
 
   // --- mode -----------------------------------------------------------------
   /** @type {'free' | 'preset'} */
   let mode = "free";
+  /** @type {Preset | null} */
   let preset = null;
   if (presets.length > 0) {
     const share = weights.mode ?? { free: 8, preset: 2 };
+    /** @type {{id: 'free' | 'preset', odds: number}[]} */
     const modes = [
       { id: "free", odds: odds16(share.free ?? 8) },
       { id: "preset", odds: odds16(share.preset ?? 2) },
     ];
-    mode = /** @type {'free' | 'preset'} */ (weighted(seed, "mode", modes, (m) => m.odds).id);
+    // Never null: `weighted` returns null only for an empty list.
+    mode = /** @type {(typeof modes)[number]} */ (weighted(seed, "mode", modes, (m) => m.odds)).id;
     if (mode === "preset") {
       preset = weighted(seed, "preset", presets, (x) =>
         odds16(weights.preset?.[x.id] ?? x.odds ?? DEFAULT_ODDS),
       );
     }
   }
+  /** @type {Partial<Preset>} */
   const pre = preset ?? {};
   // A preset's pins are data, not a request: an id that has been retired out of the catalog
   // must not turn a random visit into a 400. Unknown ones are dropped and the axis draws
   // normally. A request's own pins are never dropped — they were validated above.
-  /** @type {Record<string, string>} */
+  /** @type {Pins} */
   const soft = { ...pins };
-  for (const [k, v] of Object.entries(pre.pins ?? {})) {
+  for (const [k, v] of /** @type {[AxisKey, string][]} */ (Object.entries(pre.pins ?? {}))) {
     if (soft[k] == null && universe[k]?.has(v)) soft[k] = v;
   }
 
   // --- bucket ---------------------------------------------------------------
-  const buckets = Object.keys(BUCKET_ODDS).map((id) => ({
+  const buckets = /** @type {Bucket[]} */ (Object.keys(BUCKET_ODDS)).map((id) => ({
     id,
     odds: odds16(weights.bucket?.[id] ?? BUCKET_ODDS[id]),
   }));
-  const bucket = weighted(seed, "b", buckets, (b) => b.odds).id;
+  const bucket = /** @type {(typeof buckets)[number]} */ (
+    weighted(seed, "b", buckets, (b) => b.odds)
+  ).id;
 
   // --- font -----------------------------------------------------------------
   const presetFonts = pre.fonts ?? {};
@@ -384,11 +395,14 @@ export function pick(seed, pins, catalog) {
   const params = {};
   for (const name of Object.keys(effect.params ?? {}).sort()) {
     const forced = pre.params?.[effect.id]?.[name];
-    params[name] = forced ?? step(seed, `e/${effect.id}/${name}`, effect.params[name]);
+    params[name] =
+      forced ??
+      step(seed, `e/${effect.id}/${name}`, /** @type {ParamSpec} */ (effect.params[name]));
   }
 
   // --- palette --------------------------------------------------------------
   const preferTokens = [...(effect.palettes?.prefer ?? []), ...(pre.palettes?.prefer ?? [])];
+  /** @param {Palette} x */
   const setsOf = (x) => x.roles.filter((r) => roleFits(effect, r));
   const palette = axis({
     seed,
@@ -433,7 +447,9 @@ export function pick(seed, pins, catalog) {
 
   const side = flag(seed, "l/side", SIDE_ODDS[0], SIDE_ODDS[1]);
   const g = step(seed, "l/g", G_SPEC);
-  const align = weighted(seed, "l/a", ALIGNS, (x) => x.odds).id;
+  const align = /** @type {(typeof ALIGNS)[number]} */ (
+    weighted(seed, "l/a", ALIGNS, (x) => x.odds)
+  ).id;
 
   return {
     seed,
@@ -460,7 +476,7 @@ export function pick(seed, pins, catalog) {
  *
  *   f:<id>.<variant> p:<id>.<roles> e:<id>(k=v,…) l:<id>(g=…,a=…[,side])
  *
- * @param {Pick} p
+ * @param {Look} p
  * @returns {string}
  */
 export function pickString(p) {
@@ -475,8 +491,9 @@ export function pickString(p) {
 /**
  * Resolve a Pick's ids back to the catalog rows the renderer needs.
  *
- * @param {Pick} p
- * @param {object} catalog
+ * @param {Look} p
+ * @param {Catalog} catalog
+ * @returns {Scene}
  */
 export function resolve(p, catalog) {
   const fonts = catalog.fonts?.length ? catalog.fonts : [FALLBACK_FONT];

@@ -41,7 +41,7 @@ const REACH = 1.3;
 const RADII = [0.12, 0.42, 1];
 const SUM_R = RADII.reduce((a, b) => a + b, 0);
 
-export default {
+export default /** @satisfies {import("../src/types.js").Effect<{ w: number; r: number; t: number }>} */ ({
   id: "glow-neon-outline",
   family: "glow",
   shape: "A",
@@ -82,7 +82,7 @@ export default {
   /** @param {{w: number, r: number, t: number}} p @param {typeof import('../src/helpers.js').helpers} h */
   hover: (p, h) => `filter:${bloom(p, h)} brightness(1.16)`,
   motion: null,
-};
+});
 
 /**
  * The bloom chain, shared by `css` and `hover`: hover must re-state it, because a bare

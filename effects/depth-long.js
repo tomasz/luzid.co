@@ -42,7 +42,7 @@ const dir = (a, d) => ({
 /** The measured cap. The ramp always spends all of it: the step size is the artefact. */
 const LAYERS = 64;
 
-export default {
+export default /** @satisfies {import("../src/types.js").Effect<{ d: number; a: number }>} */ ({
   id: "depth-long",
   family: "depth",
   shape: "A",
@@ -65,10 +65,11 @@ export default {
     // over the outer third. A linear fade spends most of the reserved bleed on ink too
     // close to the ground to see, which leaves the name sitting off-centre in its own box.
     // `t * t` is exact in binary floating point, so the emitted CSS stays byte-stable.
+    /** @param {number} t */
     const tint = (t) => (t === 0 ? "var(--a1)" : h.mix("var(--bg)", "var(--a1)", 100 * t * t));
     return `.n{text-shadow:${ramp(h, LAYERS, p.a, p.d, tint)}}`;
   },
 
   hover: () => "filter:brightness(1.05)",
   motion: null,
-};
+});

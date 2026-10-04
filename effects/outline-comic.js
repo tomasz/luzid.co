@@ -26,7 +26,7 @@ const MITER = 0.8;
 /** Hover presses the letters toward their shadow, to this fraction of the offset. */
 const PRESS = 0.45;
 
-export default {
+export default /** @satisfies {import("../src/types.js").Effect<{ sw: number; d: number; q: number }>} */ ({
   id: "outline-comic",
   family: "outline",
   shape: "A",
@@ -44,7 +44,7 @@ export default {
 
   /** @param {{sw: number, d: number, q: number}} p */
   bleed: (p) => {
-    const sx = DIR[p.q];
+    const sx = /** @type {number} */ (DIR[p.q]);
     const s = MITER * p.sw;
     return { t: s, r: s + (sx > 0 ? p.d : 0), b: s + p.d, l: s + (sx < 0 ? p.d : 0) };
   },
@@ -54,7 +54,7 @@ export default {
    * @param {typeof import('../src/helpers.js').helpers} h
    */
   css: (p, h) => {
-    const sx = DIR[p.q];
+    const sx = /** @type {number} */ (DIR[p.q]);
     return (
       `.n{color:var(--a1);-webkit-text-stroke:${h.u(p.sw)} var(--fg);paint-order:stroke fill;` +
       `text-shadow:${h.u(sx * p.d)} ${h.u(p.d)} 0 var(--fg)}`
@@ -70,8 +70,8 @@ export default {
    * @param {typeof import('../src/helpers.js').helpers} h
    */
   hover: (p, h) => {
-    const sx = DIR[p.q];
+    const sx = /** @type {number} */ (DIR[p.q]);
     return `text-shadow:${h.u(PRESS * sx * p.d)} ${h.u(PRESS * p.d)} 0 var(--fg)`;
   },
   motion: null,
-};
+});

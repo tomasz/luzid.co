@@ -18,7 +18,10 @@
  * outright.
  */
 
-/** The four diagonals as exact ±1 pairs. No trig, so no golden can depend on `Math.cos`. */
+/**
+ * The four diagonals as exact ±1 pairs. No trig, so no golden can depend on `Math.cos`.
+ * @type {import("../src/types.js").Pair[]}
+ */
 const DIR = [
   [1, 1],
   [-1, 1],
@@ -34,7 +37,7 @@ const DIR = [
  */
 const MITER = 0.8;
 
-export default {
+export default /** @satisfies {import("../src/types.js").Effect<{ sw: number; d: number; q: number }>} */ ({
   id: "outline-hollow",
   family: "outline",
   shape: "A",
@@ -53,7 +56,7 @@ export default {
 
   /** @param {{sw: number, d: number, q: number}} p */
   bleed: (p) => {
-    const [sx, sy] = DIR[p.q];
+    const [sx, sy] = /** @type {import("../src/types.js").Pair} */ (DIR[p.q]);
     const s = MITER * p.sw;
     return {
       t: s + (sy < 0 ? p.d : 0),
@@ -68,7 +71,7 @@ export default {
    * @param {typeof import('../src/helpers.js').helpers} h
    */
   css: (p, h) => {
-    const [sx, sy] = DIR[p.q];
+    const [sx, sy] = /** @type {import("../src/types.js").Pair} */ (DIR[p.q]);
     return (
       `.n{color:var(--bg);-webkit-text-stroke:${h.u(p.sw)} var(--fg);paint-order:stroke fill;` +
       `text-shadow:${h.u(sx * p.d)} ${h.u(sy * p.d)} 0 var(--a1)}`
@@ -78,4 +81,4 @@ export default {
   /** The hole fills with ink: face and keyline become one solid letter over the shadow. */
   hover: () => "color:var(--fg)",
   motion: null,
-};
+});

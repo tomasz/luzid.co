@@ -28,6 +28,9 @@ function catalog() {
 }
 
 export default defineConfig({
+  // `vp check` type-checks src/ and effects/ (tsconfig.json) through tsgolint, which ships
+  // with vite-plus: JSDoc types, no TypeScript dependency, no build step.
+  lint: { options: { typeAware: true, typeCheck: true } },
   fmt: {
     // Code only. Data is generated (fonts/meta, data/palettes), upstream-verbatim
     // (data/sources) or hand-kept one row per line (fonts/sources); snapshots and fixtures
@@ -41,6 +44,6 @@ export default defineConfig({
     dir: "test",
     // node:test had no limit. The brotli-heavy property and woff2 tests take ~5 s when all
     // files run in parallel, right at Vitest's default; this is a ceiling, not a wait.
-    testTimeout: 60_000,
+    testTimeout: 15_000,
   },
 });

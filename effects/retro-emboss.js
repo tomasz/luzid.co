@@ -25,7 +25,7 @@ const raise = (p, h, lift) =>
   `${h.u(2.4 * p.k * lift)} ${h.u(2.8 * p.k * lift)} ${h.u(p.s * lift)} ` +
   `${h.mix("var(--fg)", "var(--bg)", 36)}`;
 
-export default {
+export default /** @satisfies {import("../src/types.js").Effect<{ k: number; s: number }>} */ ({
   id: "retro-emboss",
   family: "retro",
   shape: "A",
@@ -76,4 +76,4 @@ export default {
   hover: (p, h) => `text-shadow:${raise(p, h, 1.3)}`,
 
   motion: null,
-};
+});

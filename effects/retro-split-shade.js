@@ -14,9 +14,10 @@
  */
 
 /** Horizontal sign per angle. CSS shadow axes are y-down, so both of these fall. */
+/** @type {Record<number, number>} */
 const SX = { 45: 1, 135: -1 };
 
-export default {
+export default /** @satisfies {import("../src/types.js").Effect<{ a: number; b: number; d: number }>} */ ({
   id: "retro-split-shade",
   family: "retro",
   shape: "A",
@@ -61,4 +62,4 @@ export default {
 
   hover: () => "filter:saturate(1.16)",
   motion: null,
-};
+});

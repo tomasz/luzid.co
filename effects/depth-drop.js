@@ -29,7 +29,7 @@ const dir = (a, d) => ({
   l: a > 90 && a < 270 ? d : 0,
 });
 
-export default {
+export default /** @satisfies {import("../src/types.js").Effect<{ d: number; a: number }>} */ ({
   id: "depth-drop",
   family: "depth",
   shape: "A",
@@ -55,4 +55,4 @@ export default {
    */
   hover: (p, h) => `text-shadow:${h.stack(1, p.a, p.d * LIFT, "var(--a1)")}`,
   motion: null,
-};
+});

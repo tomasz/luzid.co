@@ -18,6 +18,8 @@ import { helpers } from "./helpers.js";
 import { resolve } from "./pick.js";
 import { round4 } from "./rand.js";
 
+/** @import { Catalog, Fit, Look, Metrics, Scene } from "./types.js" */
+
 const NAME = "Tomasz Cudziło";
 const WORD1 = "Tomasz";
 const WORD2 = "Cudziło";
@@ -30,7 +32,8 @@ const SAFETY = 0.985;
 
 const ESCAPES = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
 /** @param {string} s */
-const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ESCAPES[c]);
+const esc = (s) =>
+  String(s).replace(/[&<>"']/g, (c) => ESCAPES[/** @type {keyof typeof ESCAPES} */ (c)]);
 
 /**
  * Comment-safe text. A comment ends at `-->`, so stripping every `<` and `>` makes the
@@ -68,12 +71,13 @@ const HEX = /^#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i;
  * maths, and `names` stays the authoritative list for the credit line — a derived ground
  * is not a dictionary colour and is never credited as one.
  *
- * @param {{hex?: string[], names?: string[]}} palette
+ * @param {{hex?: readonly string[], names?: readonly string[]}} palette
  * @param {{o: string}} role
  */
 function roleColors(palette, role) {
   const hex = palette.hex ?? [];
   const n = (palette.names ?? []).length;
+  /** @param {string | undefined} ch */
   const at = (ch) => (ch === "w" ? hex[n] : ch === "k" ? hex[n + 1] : hex[Number(ch)]);
   const o = String(role.o ?? "");
   const bg = at(o[0]) ?? "#ffffff";
@@ -87,8 +91,9 @@ function roleColors(palette, role) {
  * The §5.2 literals. `1u` = 1% of the fitted block width; `F_i` is the font-size divisor;
  * `L_i` is the line-height that puts each line's ink top exactly on its block top.
  *
- * @param {import('./pick.js').Pick} p
- * @param {object} parts from `resolve()`
+ * @param {Look} p
+ * @param {Scene} parts from `resolve()`
+ * @returns {Fit}
  */
 export function fit(p, parts) {
   const { variant, file, effect } = parts;
@@ -113,6 +118,11 @@ export function fit(p, parts) {
 
   // The effect's bleed may depend on the metrics, and G depends on the bleed's top. Two
   // passes: bleed() sees G = g (the layout gap), css() sees the final G and R.
+  /**
+   * @param {number} G
+   * @param {number} R
+   * @returns {Metrics}
+   */
   const metrics = (G, R) => ({
     fs: [100 / F1, 100 / F2],
     H: [h1, h2],
@@ -161,9 +171,9 @@ export function fit(p, parts) {
 }
 
 /**
- * @param {import('./pick.js').Pick} p
- * @param {object} parts
- * @param {ReturnType<typeof fit>} f
+ * @param {Look} p
+ * @param {Scene} parts
+ * @param {Fit} f
  */
 function baseCss(p, parts, f) {
   const { font, variant, file, palette, role } = parts;
@@ -209,9 +219,9 @@ a.n:focus-visible{outline:max(3px,.35vmin) solid var(--fg);outline-offset:max(4p
  * §5.8. Effects are gated, never reset: outside the gate they simply do not exist, so
  * forced-colors, prefers-contrast and print all fall back to the plain fitted name.
  *
- * @param {object} parts
- * @param {import('./pick.js').Pick} p
- * @param {ReturnType<typeof fit>} f
+ * @param {Scene} parts
+ * @param {Look} p
+ * @param {Fit} f
  */
 function gatedCss(parts, p, f) {
   const { effect } = parts;
@@ -237,8 +247,8 @@ function gatedCss(parts, p, f) {
 /**
  * The whole stylesheet, in one nonce'd `<style>`.
  *
- * @param {import('./pick.js').Pick} p
- * @param {object} catalog
+ * @param {Look} p
+ * @param {Catalog} catalog
  */
 export function stylesheet(p, catalog) {
   const parts = resolve(p, catalog);
@@ -264,13 +274,16 @@ function favicon(bg, fg) {
   const svg =
     `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>` +
     `<rect width='16' height='16' fill='${bg}'/><rect x='3' y='3' width='10' height='10' fill='${fg}'/></svg>`;
-  const uri = svg.replace(/[<>#]/g, (c) => ({ "<": "%3C", ">": "%3E", "#": "%23" })[c]);
+  const uri = svg.replace(
+    /[<>#]/g,
+    (c) => ({ "<": "%3C", ">": "%3E", "#": "%23" })[/** @type {"<" | ">" | "#"} */ (c)],
+  );
   return `<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,${uri}">`;
 }
 
 /**
- * @param {import('./pick.js').Pick} p
- * @param {object} catalog
+ * @param {Look} p
+ * @param {Catalog} catalog
  * @param {{nonce: string, pick: string}} ctx
  * @returns {string}
  */

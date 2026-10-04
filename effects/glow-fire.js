@@ -17,7 +17,7 @@
  * `Tomasz`. Nothing does the same for ink falling downward, which is why the bottom of the
  * bloom is only the radius — smaller than the 4u floor on the layout gap.
  */
-export default {
+export default /** @satisfies {import("../src/types.js").Effect<{ r: number; l: number }>} */ ({
   id: "glow-fire",
   family: "glow",
   shape: "A",
@@ -60,4 +60,4 @@ export default {
 
   hover: () => "filter:brightness(1.14)",
   motion: null,
-};
+});

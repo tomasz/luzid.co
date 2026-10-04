@@ -13,9 +13,10 @@
  */
 
 /** Horizontal sign per angle. Both fall, so nothing reaches up into the line above. */
+/** @type {Record<number, number>} */
 const SX = { 45: 1, 135: -1 };
 
-export default {
+export default /** @satisfies {import("../src/types.js").Effect<{ a: number; c: number; e: number; w: number }>} */ ({
   id: "retro-echo-lines",
   family: "retro",
   shape: "A",
@@ -52,7 +53,7 @@ export default {
     for (let i = 0; i < p.e; i++) {
       const start = i * (p.c + p.w) + p.c;
       const back = 100 - i * 15;
-      const color = i === 0 ? cycle[0] : h.mix(cycle[i], "var(--bg)", back);
+      const color = i === 0 ? cycle[0] : h.mix(/** @type {string} */ (cycle[i]), "var(--bg)", back);
       for (let j = 1; j <= nb; j++) {
         const k = start + (p.w * j) / nb;
         out.push(`${h.u(sx * k)} ${h.u(k)} 0 ${color}`);
@@ -63,4 +64,4 @@ export default {
 
   hover: () => "filter:saturate(1.2)",
   motion: null,
-};
+});

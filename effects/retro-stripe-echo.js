@@ -11,9 +11,10 @@
  */
 
 /** Horizontal sign per angle. Both fall, so nothing reaches up into the line above. */
+/** @type {Record<number, number>} */
 const SX = { 45: 1, 135: -1 };
 
-export default {
+export default /** @satisfies {import("../src/types.js").Effect<{ a: number; k: number; s: number }>} */ ({
   id: "retro-stripe-echo",
   family: "retro",
   shape: "A",
@@ -60,4 +61,4 @@ export default {
 
   hover: () => "filter:brightness(1.07)",
   motion: null,
-};
+});

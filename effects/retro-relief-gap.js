@@ -18,7 +18,7 @@
  * face's stroked silhouette exactly and the channel comes out uniform on every side. Both
  * fixes only read as carved on a flat ground the colour of `--bg`, which v1.0 always has.
  */
-export default {
+export default /** @satisfies {import("../src/types.js").Effect<{ a: number; d: number; g: number }>} */ ({
   id: "retro-relief-gap",
   family: "retro",
   shape: "B",
@@ -69,4 +69,4 @@ export default {
 
   hover: () => "filter:brightness(1.06)",
   motion: null,
-};
+});

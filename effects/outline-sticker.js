@@ -33,7 +33,7 @@ const LIFT = 1.5;
  */
 const TAIL = 1.5;
 
-export default {
+export default /** @satisfies {import("../src/types.js").Effect<{ sw: number; dy: number }>} */ ({
   id: "outline-sticker",
   family: "outline",
   shape: "A",
@@ -82,4 +82,4 @@ export default {
     return `filter:drop-shadow(0 ${h.u(LIFT * p.dy)} ${h.u(LIFT * p.dy)} ${shade})`;
   },
   motion: null,
-};
+});

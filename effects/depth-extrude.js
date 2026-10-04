@@ -7,7 +7,7 @@
  * The bleed is the conservative full depth on each axis the angle points along, which is
  * what keeps the extrusion inside the safe box at every viewport.
  */
-export default {
+export default /** @satisfies {import("../src/types.js").Effect<{ d: number; a: number }>} */ ({
   id: "depth-extrude",
   family: "depth",
   shape: "A",
@@ -35,4 +35,4 @@ export default {
 
   hover: () => "filter:brightness(1.07)",
   motion: null,
-};
+});

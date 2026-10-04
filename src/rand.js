@@ -89,7 +89,8 @@ export function round4(n) {
  * caller supplies them already clamped (item odds are 0–16, a `prefer` bonus doubles).
  *
  * Sorting by id — not by array order — is what makes the result independent of how the
- * catalog happened to be globbed.
+ * catalog happened to be globbed. The `@type {T}` casts inside only tell the type checker
+ * that an in-bounds index is defined.
  *
  * @template {{id: string}} T
  * @param {string} seed
@@ -105,19 +106,19 @@ export function weighted(seed, key, candidates, oddsOf) {
   const odds = new Array(items.length);
   let total = 0;
   for (let i = 0; i < items.length; i++) {
-    const o = Math.floor(oddsOf(items[i]));
+    const o = Math.floor(oddsOf(/** @type {T} */ (items[i])));
     odds[i] = o > 0 ? o : 0;
     total += odds[i];
   }
   // Every odds is 0 (a catalog of retired items only). Stay total: return the first.
-  if (total === 0) return items[0];
+  if (total === 0) return /** @type {T} */ (items[0]);
 
   let x = Math.floor(draw(seed, key) * total);
   for (let i = 0; i < items.length; i++) {
     x -= odds[i];
-    if (x < 0) return items[i];
+    if (x < 0) return /** @type {T} */ (items[i]);
   }
-  return items[items.length - 1];
+  return /** @type {T} */ (items[items.length - 1]);
 }
 
 /**
