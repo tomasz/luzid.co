@@ -1,6 +1,6 @@
 /**
- * Die-cut sticker (R20): a thick paper border around the letters, lifted off the page by
- * one soft drop.
+ * Die-cut sticker (recipe 20): a thick paper border around the letters, lifted off the page
+ * by one soft drop.
  *
  * There is no white role to cut the paper from — §5.4 hands out a ground, an ink and up to
  * two accents, and any of them can be the dark one. So the paper is mixed: the ground
@@ -27,9 +27,10 @@ const MITER = 0.8;
 const LIFT = 1.5;
 
 /**
- * How far a blurred shadow actually paints past its offset. CSS gives `drop-shadow()` a
- * Gaussian of σ = radius/2, which reaches ~3σ, so the budget is 1.5× the radius — not the
- * radius itself, or the faint tail clips against the viewport edge at the widest settings.
+ * How far the blurred drop is budgeted past its offset, as a multiple of its radius. R14
+ * (contracts) measured a blurred shadow painting ~1.0× its radius, and `h.REACH` (1.1) is
+ * that with its safety factor. This predates the measurement and over-reserves; narrowing
+ * it shrinks the bleed and so changes the fit, which is its own change.
  */
 const TAIL = 1.5;
 
@@ -45,7 +46,7 @@ export default /** @satisfies {import("../src/types.js").Effect<{ sw: number; dy
     prefer: ["fat", "rounded", "soft"],
   },
   palettes: { prefer: [] },
-  // R20: a .08-.2em paper border over a .02-.06em drop, at 1em = 100/W1 u (24-33u here).
+  // Recipe 20: a .08-.2em paper border over a .02-.06em drop, at 1em = 100/W1 u (24-33u).
   params: { sw: [3, 5, 0.5], dy: [0.6, 1.4, 0.4] },
 
   /**
