@@ -5,7 +5,7 @@
  *   node scripts/palettes.js [--source <id>] [--check]
  *
  * `--check` writes nothing and fails if a file on disk differs from what this run produces,
- * which is what `test/palettes.test.js` and CI rely on. The roles are committed inside each
+ * which is what `test/data/palettes.test.js` and CI rely on. The roles are committed inside each
  * row on purpose (PLAN §5.4): a deploy never runs colour maths.
  *
  * Row shape:

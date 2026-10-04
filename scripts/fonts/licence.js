@@ -128,8 +128,8 @@ export function neutralName(id, forbidden = []) {
  *
  * What survives: 0, 13 and 14 verbatim (attribution), and the six records an engine needs
  * to identify a face at all — 1 family, 2 subfamily, 3 unique id, 4 full name, 5 version,
- * 6 PostScript name. Everything else goes, which on a `subset-font` output is nothing:
- * hb-subset keeps name IDs 0-6 plus whatever `preserveNameIds` adds, so 16/17/21/22/25 and
+ * 6 PostScript name. Everything else goes, which on an hb-subset output is nothing:
+ * `subset.js` keeps name IDs 0-6 plus whatever `preserveNameIds` adds, so 16/17/21/22/25 and
  * the `ssNN` feature names above 255 are already gone by the time this runs.
  *
  * The version keeps only its number. Upstream version strings routinely embed the family
@@ -149,7 +149,7 @@ export function renameRecords(records, { name, version }) {
   ]);
   const out = [];
   for (const record of records) {
-    // A language-tag record belongs to a format 1 table, which `writeNames` does not emit.
+    // A language-tag record belongs to a format 1 table, which `withNames` does not emit.
     if (record.languageID >= 0x8000) continue;
     if (ATTRIBUTION_NAME_IDS.includes(record.nameID)) out.push(record);
     else if (written.has(record.nameID)) out.push({ ...record, text: written.get(record.nameID) });

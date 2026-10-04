@@ -1,9 +1,9 @@
 /**
  * WOFF2 encoder and decoder, `node:zlib` only (PLAN §5.5 rule 6).
  *
- * Why not an off-the-shelf encoder: the 2018-era `wawoff2` bundled with `fontverter`
- * re-encodes `glyf` with the WOFF2 glyph transform, and that transform has no room for
- * the per-glyph OVERLAP_SIMPLE / OVERLAP_COMPOUND flags `scripts/fonts/sfnt.js` sets — they are
+ * Why not an off-the-shelf encoder: the 2018-era `wawoff2` encoder re-encodes `glyf` with
+ * the WOFF2 glyph transform, and that transform has no room for the per-glyph
+ * OVERLAP_SIMPLE / OVERLAP_COMPOUND flags `scripts/fonts/subset.js` sets — they are
  * silently dropped, and Apple's rasterizer then punches holes through the overlapping
  * contours of every pinned variable instance. So `glyf` and `loca` are written with
  * transform version 3, the null transform, which stores the tables verbatim.

@@ -110,7 +110,7 @@ decoded subsets (`scripts/fonts/woff2.js` `decode()` → sfnt → `CTLineGetImag
 
 ### Why this counts as a host-Safari answer
 
-The risk register asks for "a host WebKit run in WP-13", against the possibility that
+The risk register asked for a host WebKit run, against the possibility that
 Playwright ships a WebKit whose shaping is not the one Safari does. On macOS, Playwright's
 WebKit is a Mac-port build and shapes through the host's CoreText — which is why F1 below
 shows up there and not in the other two engines. Real Safari cannot be driven from a
@@ -177,9 +177,9 @@ with HarfBuzz, so they agree with the build metric by construction. At landscape
 the height binds and the overrun is invisible in the fill ratio, but the ink is still wider
 than declared.
 
-**`pacifico.l-fina-static` is the canary**: +1.39 % declared-vs-CoreText on line 1,
-+1.53 % measured in the browser, which lands the fill ratio at ≈ 1.0000. It passes today by
-about one part in ten thousand.
+**`pacifico.l-fina-static` was the canary**: +1.39 % declared-vs-CoreText on line 1,
++1.53 % measured in the browser, which landed the fill ratio at ≈ 1.0000. It passed by
+about one part in ten thousand, and went with the rest of the `fina` family (below).
 
 **Not a clipping bug.** The name is never cut: at 390×844 the 12 px margin shrinks to 8 px.
 It is the safety margin that is consumed, which is exactly the margin that exists to absorb
@@ -396,7 +396,7 @@ factor is wanted, 1.1r covers every measurement taken here. Budgeting at 1.5r co
 size — it is 0.5r of block width per side thrown away on ink nobody can see, and for
 `glow-neon-outline(r=25)` that is 2.1 u of the 100 u block on each axis.
 
-### F5 — two effects under-declare their bleed; none of them clips
+### F5 — two effects under-declared their bleed; none of them clipped (fixed)
 
 **The test that separates ink from rounding.** An overshoot measured in pixels can be real
 ink or it can be the glyph's own edge against a box drawn at a fractional coordinate. The
@@ -445,13 +445,15 @@ violations, and a dedicated sweep of the worst effect over eight viewports × th
 × both modes × three engines never dropped below **3.0 px** of headroom. The `.985` shrink
 factor absorbs all of it. These are `bleed()` declarations to correct, not fit failures.
 
-`effects/**` is outside this package's paths, so each is recorded as a budget in
+`effects/**` was outside this package's paths, so each was first recorded as a budget in
 `ALLOWANCE` in `e2e/bleed.spec.js`, permitting exactly the measured overshoot and no more.
-`glow-foil`'s 0.26 u is below the quantisation floor at the sweep's own viewports, so a
-budget there would be inert — `recorded overshoots hold their budget at full resolution`
-re-measures every recorded entry and the R14 watchlist at 3840×2160, where
-`ENVELOPE_SLACK` is 0.12 u instead of 0.3 u and the same overshoot is ten pixels rather
-than four.
+**Both are fixed since.** The two effects now budget the full stroke width and the shared
+blur reach, and the glow family's budget PR emptied `ALLOWANCE` and `BAND_ALLOWANCE`; the
+objects stay as the place for a future measured exception. `glow-foil`'s 0.26 u was below
+the quantisation floor at the sweep's own viewports, so a budget there would have been
+inert — `recorded overshoots hold their budget at full resolution` re-measures both effects
+and the R14 watchlist at 3840×2160, where `ENVELOPE_SLACK` is 0.12 u instead of 0.3 u and
+the same overshoot is ten pixels rather than four, now against a zero allowance.
 
 ### A measurement cannot assert what it cannot resolve
 
@@ -510,7 +512,7 @@ Flagging it because it is the first thing the crop sheet makes you ask.
 
 | sweep | scope |
 |---|---|
-| every variant fills its safe box | fonts whose `fonts/meta/*.json` differ from `origin/main`, **plus all 8 seed fonts** when `src/`, `scripts/fonts.js` or `scripts/fonts/sfnt.js` moved · every variant · `stack-fit` · {390×844, 1440×900} · 3 engines |
+| every variant fills its safe box | fonts whose `fonts/meta/*.json` differ from `origin/main`, **plus all 8 seed fonts** (the source rows marked `"seed": true`) when `src/`, `scripts/fonts.js` or anything under `scripts/fonts/` moved · every variant · `stack-fit` · {390×844, 1440×900} · 3 engines |
 | every layout mode, every viewport | the 8 seed fonts, one variant each · {`stack-fit`, `stack-eq`, `side`} · all 8 viewports (`side` only at the three portrait ones, where its media query matches) · 3 engines |
 | bleed | every shipped effect at the two ends of its parameter space, plus the named R14 watchlist corners · Fraunces · upright at {390×844, 1440×900} and `side` at 768×1024 · 3 engines. Widens to every corner for effects this branch changed. |
 
@@ -518,14 +520,13 @@ When git cannot name a base the per-variant sweep widens to all 8 fonts rather t
 narrowing to none.
 
 **`FIT_SCOPE=all`** (`FIT_SCOPE=all pnpm run e2e`) crosses every font and variant in the catalogue, not
-just the seed set, with all three layout modes and all eight viewports. It is the WP-50
-sweep. `.github/workflows/sweep.yml` runs it on Mondays and on demand (`workflow_dispatch`),
+just the seed set, with all three layout modes and all eight viewports. `.github/workflows/sweep.yml` runs it on Mondays and on demand (`workflow_dispatch`),
 through `ci.yml` with `fit-scope: all`; it is **not** a required check.
 
-Result when the catalogue was the 8 seed fonts: **765 passed, 4 failed, 3.0 minutes**. All four failures are
-`pacifico.n-fina-static` on WebKit — F1, once in the per-variant sweep and once in each of
-the three layout modes. Nothing else in the catalog fails anywhere, in any engine, at any
-viewport (both `fina` variants have since been removed). `pacifico.l-fina-static` passes the full sweep, which is the whole margin it has.
+Result when the catalogue was the 8 seed fonts: **765 passed, 4 failed, 3.0 minutes**. All
+four failures were `pacifico.n-fina-static` on WebKit — F1, once in the per-variant sweep
+and once in each of the three layout modes. Nothing else failed anywhere, in any engine, at
+any viewport. Neither `fina` variant ships any more (F1, remedy taken).
 
 Two deliberate departures from §9.2, both cheap and both safe:
 
@@ -539,19 +540,20 @@ Two deliberate departures from §9.2, both cheap and both safe:
 The full 463-corner cross is left to `FIT_SCOPE=all`; at three viewports and three engines
 it would not fit the per-PR budget.
 
-**Cost.** `pnpm run e2e` at the default scope, the 8 seed fonts and 30 effects: **9.3 min**
-wall clock, 609 tests, three engines, in the devcontainer (4 CPUs) on an M-series Mac. CI
-splits the same run into one job per engine.
+**Cost.** `pnpm run e2e` at the default scope, the 8 seed fonts and 30 effects: about
+**7–8 min** wall clock, about 700 tests, three engines, in the devcontainer (4 CPUs) on an
+M-series Mac. `FIT_SCOPE=all` on `e2e/bleed.spec.js` alone is about 25 min and 3,050 tests.
+CI splits the same run into one job per engine.
 
-**A static audit belongs in `test/`, with a caveat.** An analytical check that parses each
+**A static audit belongs in `test/`, with a caveat** — and it now exists, as
+`test/data/bleed.test.js`, built on both lessons below. An analytical check that parses each
 effect's emitted lengths and compares them to its declared bleed runs in milliseconds
 without a browser, and for 200-odd effects that is obviously worth having as the first
 gate — it would have caught `retro-deboss` and `glow-neon-outline` at authoring time. Two
 things to build in, both learned here: use **1.0r** for blur reach, not 1.5r (F4), and make
 it **fail loudly on anything it cannot parse** rather than scoring it clean — shape-B
 geometry, `transform`, `clip-path` and `mask` are all invisible to a shadow-list scan, and
-a silent zero there reads as a pass. `test/**` is outside this package's paths, so this is
-a recommendation rather than a deliverable.
+a silent zero there reads as a pass.
 
 ## Reproducing anything here
 

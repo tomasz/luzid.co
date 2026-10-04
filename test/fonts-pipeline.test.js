@@ -399,8 +399,8 @@ test("rule 3: a name record that still carries a reserved word fails the lint", 
 });
 
 test("rule 3: the name table survives a rebuild", () => {
-  // `withNames` is what makes renaming possible at all: neither subset-font nor hb-subset
-  // can rewrite name IDs 1-6, they can only choose which records to keep.
+  // `withNames` is what makes renaming possible at all: hb-subset cannot
+  // rewrite name IDs 1-6, it can only choose which records to keep.
   const records = [
     { platformID: 3, encodingID: 1, languageID: 0x409, nameID: 1, text: "LZ A2E1C4" },
     { platformID: 3, encodingID: 1, languageID: 0x409, nameID: 4, text: "LZ A2E1C4" },
