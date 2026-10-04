@@ -81,6 +81,8 @@ devcontainer exec --workspace-folder . codex --sandbox danger-full-access
 devcontainer exec --workspace-folder . cursor-agent
 ```
 
+Cursor's installer now exposes its binary as both `cursor-agent` and `agent`; either works.
+
 - **Logins persist:** each CLI's login and settings, and `gh`'s, live in the `luzid-agents`
   volume through `CLAUDE_CONFIG_DIR`, `CODEX_HOME`, `CURSOR_CONFIG_DIR` and
   `GH_CONFIG_DIR`, so they survive rebuilds. `docker volume rm luzid-agents` logs all out.
@@ -100,7 +102,9 @@ devcontainer exec --workspace-folder . cursor-agent
   deploy.
 - **No egress firewall**, on purpose: an iptables allowlist does not stop exfiltration
   through DNS or an allowed host, and it needs extra capabilities. Keep secrets out instead.
-- **Updating the CLIs:** they are unpinned. Rebuild the container to update them.
+- **Updating the CLIs:** they are unpinned, and the build fails if any installer does.
+  To refresh them, `docker build --no-cache .devcontainer`, then
+  `devcontainer up --workspace-folder . --remove-existing-container`.
 
 ## Commands
 

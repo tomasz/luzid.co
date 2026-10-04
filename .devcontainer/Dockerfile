@@ -9,11 +9,16 @@ FROM ghcr.io/voidzero-dev/vite-plus:1.0.0@sha256:8d788678fb9783ba8994c4fe5652af3
 # The ~/.agents subdirectories are created here because a named volume mounted over
 # ~/.agents (devcontainer.json) starts as a copy of them, owned by `vp`; Codex refuses to
 # start when CODEX_HOME does not exist.
+# pipefail: without it `curl … | bash` exits 0 when the download fails, and the image
+# builds without that CLI. PATH is set first so the installers find ~/.local/bin on it and
+# the closing `--version` calls prove every CLI landed.
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+ENV PATH="/home/vp/.local/bin:${PATH}"
 RUN curl -fsSL https://claude.ai/install.sh | bash \
  && curl -fsSL https://chatgpt.com/codex/install.sh | sh \
  && curl -fsSL https://cursor.com/install | bash \
- && mkdir -p "$HOME/.agents/claude" "$HOME/.agents/codex" "$HOME/.agents/cursor" "$HOME/.agents/gh"
-ENV PATH="/home/vp/.local/bin:${PATH}"
+ && mkdir -p "$HOME/.agents/claude" "$HOME/.agents/codex" "$HOME/.agents/cursor" "$HOME/.agents/gh" \
+ && claude --version && codex --version && cursor-agent --version
 
 # Git signs every commit with the key the forwarded ssh-agent holds, so neither a key nor
 # the host's git config enters the container. Name and email are repo-scoped, in the

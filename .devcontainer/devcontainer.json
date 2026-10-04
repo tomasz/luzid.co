@@ -14,6 +14,5 @@
     "source=/run/host-services/ssh-auth.sock,target=/ssh-agent,type=bind"
   ],
   "postCreateCommand": "vp install --frozen-lockfile && pnpm exec playwright install --with-deps",
-  "postStartCommand": "mkdir -p ~/.config/git && keys=$(ssh-add -L) && echo \"$keys\" | sed 's/^/* /' > ~/.config/git/allowed_signers",
-  "forwardPorts": [5173]
+  "postStartCommand": "mkdir -p ~/.config/git && keys=$(ssh-add -L) && echo \"$keys\" | sed 's/^/* /' > ~/.config/git/allowed_signers"
 }
