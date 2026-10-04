@@ -16,32 +16,6 @@
  * pulls the name apart for no gain.
  */
 
-/**
- * @param {typeof import('../src/helpers.js').helpers} h
- * @param {number} n
- * @param {number} a
- * @param {number} d
- * @param {(t: number) => string} tint
- */
-const ramp = (h, n, a, d, tint) =>
-  Array.from({ length: n }, (_, i) => h.stack(1, a, (d * (i + 1)) / n, tint((i + 1) / n))).join(
-    ",",
-  );
-
-/**
- * @param {number} a
- * @param {number} d
- */
-const dir = (a, d) => ({
-  t: a > 180 ? d : 0,
-  r: a < 90 || a > 270 ? d : 0,
-  b: a > 0 && a < 180 ? d : 0,
-  l: a > 90 && a < 270 ? d : 0,
-});
-
-/** The measured cap. The ramp always spends all of it: the step size is the artefact. */
-const LAYERS = 64;
-
 export default /** @satisfies {import("../src/types.js").Effect<{ d: number; a: number }>} */ ({
   id: "depth-long",
   family: "depth",
@@ -53,8 +27,12 @@ export default /** @satisfies {import("../src/types.js").Effect<{ d: number; a: 
   palettes: { prefer: [] },
   params: { d: [8, 20, 4], a: [45, 135, 90] },
 
-  /** @param {{d: number, a: number}} p */
-  bleed: (p) => dir(p.a, p.d),
+  /**
+   * @param {{d: number, a: number}} p
+   * @param {import("../src/types.js").LineGeometry} _lines
+   * @param {typeof import('../src/helpers.js').helpers} h
+   */
+  bleed: (p, _lines, h) => h.toward(p.a, p.d),
 
   /**
    * @param {{d: number, a: number}} p
@@ -67,9 +45,10 @@ export default /** @satisfies {import("../src/types.js").Effect<{ d: number; a: 
     // `t * t` is exact in binary floating point, so the emitted CSS stays byte-stable.
     /** @param {number} t */
     const tint = (t) => (t === 0 ? "var(--a1)" : h.mix("var(--bg)", "var(--a1)", 100 * t * t));
-    return `.n{text-shadow:${ramp(h, LAYERS, p.a, p.d, tint)}}`;
+    // The ramp always spends the whole layer cap: the step size is the artefact.
+    return `.n{text-shadow:${h.ramp(h.CAP, p.a, p.d, tint)}}`;
   },
 
-  hover: () => "filter:brightness(1.05)",
+  hover: "filter:brightness(1.05)",
   motion: null,
 });

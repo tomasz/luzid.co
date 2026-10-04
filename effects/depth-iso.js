@@ -21,17 +21,6 @@ const DENSITY = 12;
 /** Half the measured 64-layer cap: this effect emits two layers per step. */
 const STEPS = 32;
 
-/**
- * @param {number} a
- * @param {number} d
- */
-const dir = (a, d) => ({
-  t: a > 180 ? d : 0,
-  r: a < 90 || a > 270 ? d : 0,
-  b: a > 0 && a < 180 ? d : 0,
-  l: a > 90 && a < 270 ? d : 0,
-});
-
 export default /** @satisfies {import("../src/types.js").Effect<{ d: number; a: number }>} */ ({
   id: "depth-iso",
   family: "depth",
@@ -43,8 +32,12 @@ export default /** @satisfies {import("../src/types.js").Effect<{ d: number; a: 
   palettes: { prefer: [] },
   params: { d: [1, 2.5, 0.5], a: [45, 315, 90] },
 
-  /** @param {{d: number, a: number}} p */
-  bleed: (p) => dir(p.a, p.d),
+  /**
+   * @param {{d: number, a: number}} p
+   * @param {import("../src/types.js").LineGeometry} _lines
+   * @param {typeof import('../src/helpers.js').helpers} h
+   */
+  bleed: (p, _lines, h) => h.toward(p.a, p.d),
 
   /**
    * @param {{d: number, a: number}} p
@@ -53,7 +46,7 @@ export default /** @satisfies {import("../src/types.js").Effect<{ d: number; a: 
   css: (p, h) => {
     const sx = p.a === 45 || p.a === 315 ? 1 : -1;
     const sy = p.a === 45 || p.a === 135 ? 1 : -1;
-    const n = Math.min(STEPS, Math.max(4, Math.round(DENSITY * p.d)));
+    const n = Math.min(STEPS, h.layers(DENSITY * p.d, 4));
     const s = p.d / n;
     const out = [];
     for (let i = 1; i <= n; i++) {
@@ -63,6 +56,6 @@ export default /** @satisfies {import("../src/types.js").Effect<{ d: number; a: 
     return `.n{text-shadow:${out.join(",")}}`;
   },
 
-  hover: () => "filter:brightness(1.06)",
+  hover: "filter:brightness(1.06)",
   motion: null,
 });

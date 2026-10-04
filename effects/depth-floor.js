@@ -27,7 +27,11 @@ const TAN = { 0: 0, 15: 0.27, 30: 0.58 };
 /** Blur on the copy, in u. Small: the mask does the softening. */
 const BLUR = 0.25;
 
-/** Blur radius to painted reach: sigma is r/2, so 2r is a conservative bound. */
+/**
+ * Blur radius to reserved reach. Ink stops near 1.0x the radius (`h.REACH` budgets 1.1);
+ * this effect still reserves 2x, the older bound, so its bleed and goldens stay put until
+ * moving it onto `h.REACH` is checked against the e2e bleed scan.
+ */
 const SPREAD = 2;
 
 /** How much ink the floor copy carries, in percent of the ground colour. */
@@ -62,13 +66,14 @@ export default /** @satisfies {import("../src/types.js").Effect<{ sy: number; sk
   css: (p, h) => {
     const s = p.sy / 100;
     const drop = 50 * (1 + s);
-    return (
-      `.l::after{content:attr(data-t) / "";color:${h.mix("var(--fg)", "var(--bg)", SHADE)};z-index:-1;` +
-      `transform:translateY(${drop}%) scaleY(${-s}) skewX(${p.sk}deg);` +
-      `filter:blur(${h.u(BLUR)});mask-image:linear-gradient(transparent,var(--fg) 88%)}`
+    return h.copy(
+      "after",
+      `color:${h.mix("var(--fg)", "var(--bg)", SHADE)};z-index:-1;` +
+        `transform:translateY(${drop}%) scaleY(${-s}) skewX(${p.sk}deg);` +
+        `filter:blur(${h.u(BLUR)});mask-image:linear-gradient(transparent,var(--fg) 88%)`,
     );
   },
 
-  hover: () => "filter:brightness(1.05)",
+  hover: "filter:brightness(1.05)",
   motion: null,
 });

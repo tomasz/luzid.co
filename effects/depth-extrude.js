@@ -18,21 +18,19 @@ export default /** @satisfies {import("../src/types.js").Effect<{ d: number; a: 
   palettes: { prefer: [] },
   params: { d: [3, 9, 1], a: [45, 315, 90] },
 
-  /** @param {{d: number, a: number}} p */
-  bleed: (p) => ({
-    t: p.a > 180 ? p.d : 0,
-    r: p.a < 90 || p.a > 270 ? p.d : 0,
-    b: p.a > 0 && p.a < 180 ? p.d : 0,
-    l: p.a > 90 && p.a < 270 ? p.d : 0,
-  }),
+  /**
+   * @param {{d: number, a: number}} p
+   * @param {import("../src/types.js").LineGeometry} _lines
+   * @param {typeof import('../src/helpers.js').helpers} h
+   */
+  bleed: (p, _lines, h) => h.toward(p.a, p.d),
 
   /**
    * @param {{d: number, a: number}} p
    * @param {typeof import('../src/helpers.js').helpers} h
    */
-  css: (p, h) =>
-    `.n{text-shadow:${h.stack(Math.min(64, Math.round(8 * p.d)), p.a, p.d, "var(--a1)")}}`,
+  css: (p, h) => `.n{text-shadow:${h.stack(h.layers(8 * p.d), p.a, p.d, "var(--a1)")}}`,
 
-  hover: () => "filter:brightness(1.07)",
+  hover: "filter:brightness(1.07)",
   motion: null,
 });

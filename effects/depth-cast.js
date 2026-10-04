@@ -24,8 +24,9 @@
 const SIN45 = 0.7071;
 
 /**
- * Blur radius to painted reach. A radius r blurs with sigma r/2, so the tail is gone by
- * 3 sigma = 1.5r; 2r is the conservative bound the bleed is declared against.
+ * Blur radius to reserved reach. Ink stops near 1.0x the radius (`h.REACH` budgets 1.1);
+ * this effect still reserves 2x, the older bound, so its bleed and goldens stay put until
+ * moving it onto `h.REACH` is checked against the e2e bleed scan.
  */
 const SPREAD = 2;
 
@@ -35,17 +36,6 @@ const SOFT = 2.2;
 
 /** How far past the end of the wall the soft layer pools, in u. */
 const POOL = 2.5;
-
-/**
- * @param {number} a
- * @param {number} d
- */
-const dir = (a, d) => ({
-  t: a > 180 ? d : 0,
-  r: a < 90 || a > 270 ? d : 0,
-  b: a > 0 && a < 180 ? d : 0,
-  l: a > 90 && a < 270 ? d : 0,
-});
 
 export default /** @satisfies {import("../src/types.js").Effect<{ d: number; a: number; k: number }>} */ ({
   id: "depth-cast",
@@ -59,9 +49,13 @@ export default /** @satisfies {import("../src/types.js").Effect<{ d: number; a: 
   // `k` is how much ink the cast shadow carries, in percent of the ground colour.
   params: { d: [4, 10, 2], a: [45, 135, 90], k: [24, 44, 10] },
 
-  /** @param {{d: number, a: number, k: number}} p */
-  bleed: (p) => {
-    const wall = dir(p.a, p.d);
+  /**
+   * @param {{d: number, a: number, k: number}} p
+   * @param {import("../src/types.js").LineGeometry} _lines
+   * @param {typeof import('../src/helpers.js').helpers} h
+   */
+  bleed: (p, _lines, h) => {
+    const wall = h.toward(p.a, p.d);
     const side = SPREAD * SOFT;
     return {
       t: 0,
@@ -76,7 +70,7 @@ export default /** @satisfies {import("../src/types.js").Effect<{ d: number; a: 
    * @param {typeof import('../src/helpers.js').helpers} h
    */
   css: (p, h) => {
-    const n = Math.min(64, Math.round(8 * p.d));
+    const n = h.layers(8 * p.d);
     const wall = h.stack(n, p.a, p.d, "var(--a1)");
     // Listed last, so the soft ground pools behind the wall and behind the face.
     const cast = [
@@ -86,6 +80,6 @@ export default /** @satisfies {import("../src/types.js").Effect<{ d: number; a: 
     return `.n{text-shadow:${wall},${cast}}`;
   },
 
-  hover: () => "filter:brightness(1.05)",
+  hover: "filter:brightness(1.05)",
   motion: null,
 });

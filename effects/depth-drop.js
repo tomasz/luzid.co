@@ -17,18 +17,6 @@
 /** How far the shade travels on hover, as a multiple of `d`. */
 const LIFT = 1.35;
 
-/**
- * Axis-aligned bound for a shadow of length `d` at `a` degrees (0 = right, 90 = down).
- * @param {number} a
- * @param {number} d
- */
-const dir = (a, d) => ({
-  t: a > 180 ? d : 0,
-  r: a < 90 || a > 270 ? d : 0,
-  b: a > 0 && a < 180 ? d : 0,
-  l: a > 90 && a < 270 ? d : 0,
-});
-
 export default /** @satisfies {import("../src/types.js").Effect<{ d: number; a: number }>} */ ({
   id: "depth-drop",
   family: "depth",
@@ -40,8 +28,12 @@ export default /** @satisfies {import("../src/types.js").Effect<{ d: number; a: 
   palettes: { prefer: [] },
   params: { d: [1, 3, 0.5], a: [0, 315, 45] },
 
-  /** @param {{d: number, a: number}} p */
-  bleed: (p) => dir(p.a, p.d * LIFT),
+  /**
+   * @param {{d: number, a: number}} p
+   * @param {import("../src/types.js").LineGeometry} _lines
+   * @param {typeof import('../src/helpers.js').helpers} h
+   */
+  bleed: (p, _lines, h) => h.toward(p.a, p.d * LIFT),
 
   /**
    * @param {{d: number, a: number}} p
