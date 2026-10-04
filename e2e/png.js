@@ -5,16 +5,16 @@
  * has to decode it. There are no image dependencies in this repo and there will not be
  * one: `node:zlib` already ships the only hard part.
  *
- * Scope is deliberately narrow — non-interlaced, no APNG, no colour management — but it
- * covers every colour type and bit depth the three engines were observed to emit, plus
- * palette and 16-bit, because an encoder is free to change its mind between versions and a
- * silent mis-decode would look like a fit bug.
+ * Scope is deliberately narrow: non-interlaced 8-bit RGB or RGBA, which is what the three
+ * engines emit (`shoot()` in `fit-lib.js` logs the type once per engine). Anything else
+ * throws rather than being guessed at, because an encoder is free to change its mind between
+ * versions and a silent mis-decode would look like a fit bug.
  */
 
 import { inflateSync } from "node:zlib";
 
-/** Samples per pixel, by PNG colour type. Type 3 stores one palette index. */
-const CHANNELS = { 0: 1, 2: 3, 3: 1, 4: 2, 6: 4 };
+/** Bytes per pixel, by the two PNG colour types this decoder accepts: RGB and RGBA. */
+const CHANNELS = { 2: 3, 6: 4 };
 
 /** @param {number} a left @param {number} b up @param {number} c up-left */
 function paeth(a, b, c) {
@@ -27,7 +27,7 @@ function paeth(a, b, c) {
 
 /**
  * Reverse the per-scanline filters. Each row is one filter byte followed by `stride`
- * bytes; `bpp` is the filter's idea of a pixel, in whole bytes, minimum 1.
+ * bytes; `bpp` is the filter's idea of a pixel, in whole bytes.
  *
  * @param {Buffer} raw
  * @param {number} h
@@ -66,7 +66,7 @@ function unfilter(raw, h, stride, bpp) {
  * Decode a PNG buffer to straight (non-premultiplied) 8-bit RGBA.
  *
  * @param {Buffer} buf
- * @returns {{width: number, height: number, data: Uint8Array}}
+ * @returns {{width: number, height: number, data: Uint8Array, ctype: number, depth: number}}
  */
 export function decodePng(buf) {
   if (buf.readUInt32BE(0) !== 0x89504e47) throw new Error("not a PNG");
@@ -75,8 +75,6 @@ export function decodePng(buf) {
   let height = 0;
   let depth = 0;
   let ctype = 0;
-  /** @type {Buffer | null} */
-  let plte = null;
   /** @type {Buffer[]} */
   const idat = [];
 
@@ -90,58 +88,33 @@ export function decodePng(buf) {
       depth = data[8];
       ctype = data[9];
       if (data[12] !== 0) throw new Error("interlaced PNG is not supported");
-    } else if (type === "PLTE") plte = Buffer.from(data);
-    else if (type === "IDAT") idat.push(data);
+    } else if (type === "IDAT") idat.push(data);
     else if (type === "IEND") break;
     pos += 12 + len;
   }
 
   const ch = CHANNELS[ctype];
-  if (ch === undefined) throw new Error(`unsupported PNG colour type ${ctype}`);
-  if (![1, 2, 4, 8, 16].includes(depth)) throw new Error(`unsupported PNG bit depth ${depth}`);
-  if (depth < 8 && ctype !== 0 && ctype !== 3)
-    throw new Error(`bit depth ${depth} on type ${ctype}`);
+  if (ch === undefined || depth !== 8) {
+    throw new Error(
+      `unsupported PNG: colour type ${ctype}, bit depth ${depth} (want 8-bit 2 or 6)`,
+    );
+  }
 
-  const stride = Math.ceil((width * ch * depth) / 8);
-  const bpp = Math.max(1, Math.ceil((ch * depth) / 8));
-  const rows = unfilter(inflateSync(Buffer.concat(idat)), height, stride, bpp);
-
-  // One sample as a 0-255 byte. 16-bit keeps the high byte; sub-byte depths are unpacked
-  // and scaled, except palette indices, which are looked up rather than scaled.
-  const max = (1 << depth) - 1;
-  const read = (row, i) => {
-    if (depth === 16) return rows[row + i * 2];
-    if (depth === 8) return rows[row + i];
-    const bit = i * depth;
-    return (rows[row + (bit >> 3)] >> (8 - depth - (bit & 7))) & max;
-  };
+  const stride = width * ch;
+  const rows = unfilter(inflateSync(Buffer.concat(idat)), height, stride, ch);
 
   const data = new Uint8Array(width * height * 4);
   for (let y = 0; y < height; y++) {
-    const row = y * stride;
     for (let x = 0; x < width; x++) {
+      const i = y * stride + x * ch;
       const o = (y * width + x) * 4;
-      if (ctype === 3) {
-        const i = read(row, x) * 3;
-        data[o] = plte[i];
-        data[o + 1] = plte[i + 1];
-        data[o + 2] = plte[i + 2];
-        data[o + 3] = 255;
-      } else if (ctype === 0 || ctype === 4) {
-        const g = depth < 8 ? Math.round((read(row, x * ch) * 255) / max) : read(row, x * ch);
-        data[o] = g;
-        data[o + 1] = g;
-        data[o + 2] = g;
-        data[o + 3] = ctype === 4 ? read(row, x * ch + 1) : 255;
-      } else {
-        data[o] = read(row, x * ch);
-        data[o + 1] = read(row, x * ch + 1);
-        data[o + 2] = read(row, x * ch + 2);
-        data[o + 3] = ctype === 6 ? read(row, x * ch + 3) : 255;
-      }
+      data[o] = rows[i];
+      data[o + 1] = rows[i + 1];
+      data[o + 2] = rows[i + 2];
+      data[o + 3] = ch === 4 ? rows[i + 3] : 255;
     }
   }
-  return { width, height, data };
+  return { width, height, data, ctype, depth };
 }
 
 /**

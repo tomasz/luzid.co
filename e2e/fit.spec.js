@@ -18,7 +18,6 @@
 import { expect, test } from "@playwright/test";
 
 import {
-  bandTop,
   CENTRE_TOL,
   FILL_MAX,
   FILL_MIN,
@@ -58,18 +57,18 @@ const MODES = [
  * @param {{w: number, h: number}} vp
  */
 async function measure(page, href, vp) {
-  const { pick, probe, img } = await shoot(page, href, vp);
+  const { pick, geo, img } = await shoot(page, href, vp);
   const where = `${vp.w}x${vp.h} ${href} [${pick}]`;
 
   // A fallback face would make every number below meaningless.
-  expect(probe.fonts, `font not loaded · ${where}`).toContain("=loaded");
-  expect(probe.scroll, `scrollbars change the viewport · ${where}`).toEqual([0, 0]);
+  expect(geo.fonts, `font not loaded · ${where}`).toContain("=loaded");
+  expect(geo.scroll, `scrollbars change the viewport · ${where}`).toEqual([0, 0]);
 
   // The engine's own computed value, not our guess at whether the media query matched.
-  const side = probe.rotate !== "none";
+  const side = geo.rotate !== "none";
   const { aw, ah } = safeBox(vp.w, vp.h, side);
 
-  const ink = inkBox(img, isInk, probe.dpr);
+  const ink = inkBox(img, isInk, geo.dpr);
   expect(ink, `no ink at all · ${where}`).not.toBeNull();
 
   // Screen space to block space: under `rotate:90deg` the block's width runs down the
@@ -82,7 +81,7 @@ async function measure(page, href, vp) {
   // The lower bound asks whether any ink reaches the edge, so it is measured on any visible
   // ink: half coverage cannot see a stroke thinner than half a pixel (F7). The upper
   // bounds stay on `isInk`, which never counts the antialiased fringe.
-  const trace = inkBox(img, isTrace, probe.dpr);
+  const trace = inkBox(img, isTrace, geo.dpr);
   const reach = Math.max((side ? trace.h : trace.w) / aw, (side ? trace.w : trace.h) / ah);
   const detail = `fill=${fill.toFixed(4)} reach=${reach.toFixed(4)} ink=${inkW.toFixed(1)}x${inkH.toFixed(1)} safe=${aw.toFixed(1)}x${ah.toFixed(1)} · ${where}`;
 
@@ -162,49 +161,11 @@ const KNOWN_DIVERGENCE = [
   },
 ];
 
-/**
- * Where the ink actually lands inside the boxes the fit maths drew. §5.2's whole claim is
- * that the patched metrics put each line's ink top exactly on its block top, so this is
- * the quantity a vertical divergence moves — and the one a `fill` ratio cannot see,
- * because a vertical shift leaves every width alone.
- */
-const INK_VS_BOX = () => {
-  const px = (sel) => {
-    const r = document.querySelector(sel).getBoundingClientRect();
-    return { top: r.top, bottom: r.bottom };
-  };
-  return {
-    l1: px(".l1"),
-    l2: px(".l2"),
-    fs1: getComputedStyle(document.querySelector(".l1")).fontSize,
-  };
-};
-
 test.describe("known engine divergences", () => {
   for (const k of KNOWN_DIVERGENCE) {
     test(`${k.f}.${k.v} on ${k.engine}/${k.platform} — ${k.why}`, async ({ page, browserName }) => {
       test.fail(browserName === k.engine && process.platform === k.platform);
       const href = url({ seed: SEEDS.flat, f: k.f, v: k.v, l: k.l });
-
-      // A pinned divergence that only ever reports "expected failure" tells the next
-      // reader nothing about how big it got. For the vertical ones the number is the
-      // whole diagnosis, so it is logged on every engine and platform, pass or fail.
-      if (k.probe) {
-        const { probe, img } = await shoot(page, href, k.vp);
-        const boxes = await page.evaluate(INK_VS_BOX);
-        const fs1 = Number.parseFloat(boxes.fs1);
-        const split = (boxes.l1.bottom + boxes.l2.top) / 2;
-        const ink = inkBox(img, isInk, probe.dpr);
-        const top1 = bandTop(img, probe.dpr, 0, split);
-        const d = top1 === null ? Number.NaN : top1 - boxes.l1.top;
-        console.log(
-          `[divergence probe] ${k.f}.${k.v} ${browserName}/${process.platform} ${k.vp.w}x${k.vp.h}: ` +
-            `line-1 ink top − box top = ${d.toFixed(2)}px (${(d / fs1).toFixed(4)} em), ` +
-            `ink height ${ink.h.toFixed(1)}px vs block ${probe.n.height.toFixed(1)}px, ` +
-            `dcy ${(ink.cy - k.vp.h / 2).toFixed(2)}px ` +
-            `(${(((ink.cy - k.vp.h / 2) / k.vp.h) * 100).toFixed(3)}%)`,
-        );
-      }
 
       await measure(page, href, k.vp);
     });

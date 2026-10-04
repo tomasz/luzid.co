@@ -284,10 +284,11 @@ engine and platform, pass or fail. macOS prints −0.11 px / −0.0017 em; if th
 above is right, the Linux leg will print about **−13.4 px / −0.208 em**. If it prints
 something else, the hypothesis is wrong and the number will say so.
 
-Pinned in `KNOWN_DIVERGENCE` gated to `webkit` **and** `linux`, the mirror of F1's `darwin`
-gate. Remedy, if it is confirmed and the owner wants it gone rather than carried: `ss12`
-is a duplicate of `ss01` in every dimension except a vertical offset no engine agrees on,
-so dropping it from bungee's `features` costs one variant and nothing else.
+**Resolved by removal, not by a pin.** The Linux leg printed −27.11 px: Linux WebKit
+applies the placement with the opposite sign rather than dropping it, so the mechanism
+above was wrong in detail and right in kind. `ss12` duplicates `ss01` in every dimension
+except that offset, so #32 made the font build reject any variant that differs only in
+glyph placement. Bungee ships no `ss12`, and the pin and its probe have left `fit.spec.js`.
 
 **On `CENTRE_TOL`: it is not tight, and it should not move.** 1 % of 844 px is 8.4 px. On
 this host the entire library renders inside **0.47 %**, and all eight bungee variants
@@ -541,9 +542,9 @@ Two deliberate departures from §9.2, both cheap and both safe:
 The full 463-corner cross is left to `FIT_SCOPE=all`; at three viewports and three engines
 it would not fit the per-PR budget.
 
-**Cost.** `pnpm run e2e` at the default scope, 91 fonts and 30 effects: **4.4 min** wall
-clock, 1 360 tests, three engines, on a 10-core M1 Pro. On CI at `workers: 3` the whole
-job is 13.8 min against a 30-minute ceiling.
+**Cost.** `pnpm run e2e` at the default scope, the 8 seed fonts and 30 effects: **9.3 min**
+wall clock, 609 tests, three engines, in the devcontainer (4 CPUs) on an M-series Mac. CI
+splits the same run into one job per engine.
 
 **A static audit belongs in `test/`, with a caveat.** An analytical check that parses each
 effect's emitted lengths and compares them to its declared bleed runs in milliseconds

@@ -26,6 +26,8 @@ import { parseArgs } from "node:util";
 
 import { chromium } from "@playwright/test";
 
+import { changedPaths, seedAt } from "../e2e/fit-lib.js";
+
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
 /** 24 tiles, six across: 2880 px of sheet, which is still readable scaled to a PR width. */
@@ -33,19 +35,6 @@ const COLS = 6;
 const TILES = 24;
 const TILE = { w: 480, h: 300 };
 const CAPTION = 22;
-
-const SEED_ALPHABET = "0123456789abcdefghjkmnpqrstvwxyz";
-
-/** Deterministic seeds: the same branch always produces the same sheet. */
-function seedAt(i) {
-  let s = "";
-  let n = i + 1;
-  do {
-    s = SEED_ALPHABET[n % 32] + s;
-    n = Math.floor(n / 32);
-  } while (n > 0);
-  return `s${s}`;
-}
 
 // --- catalog ------------------------------------------------------------------
 
@@ -65,22 +54,6 @@ async function catalog() {
     if (f.endsWith(".js")) effects.push((await import(`../effects/${f}`)).default);
   }
   return { fonts, palettes, effects };
-}
-
-/** Paths differing from `origin/main`, or null when git will not say. */
-function changedPaths() {
-  for (const base of ["origin/main", "main"]) {
-    try {
-      return execFileSync("git", ["diff", "--name-only", `${base}...HEAD`], {
-        cwd: ROOT,
-        encoding: "utf8",
-        stdio: ["ignore", "pipe", "ignore"],
-      })
-        .split("\n")
-        .filter(Boolean);
-    } catch {}
-  }
-  return null;
 }
 
 // --- what to sheet ------------------------------------------------------------
