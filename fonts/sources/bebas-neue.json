@@ -1,0 +1,21 @@
+{
+  "id": "bebas-neue",
+  "family": "Bebas Neue",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bebasneue/BebasNeue-Regular.ttf",
+  "sha256": "",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bebasneue/OFL.txt",
+  "copyright": "Copyright © 2010 by Dharma Type.",
+  "archetype": [
+    "X"
+  ],
+  "traits": [
+    "sans",
+    "condensed",
+    "capsOnly"
+  ],
+  "odds": 9,
+  "cases": [
+    "none"
+  ]
+}

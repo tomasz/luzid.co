@@ -1,0 +1,22 @@
+{
+  "id": "modak",
+  "family": "Modak",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/modak/Modak-Regular.ttf",
+  "sha256": "9a96ba056ddcbb7d0c937c52f744ff5d71004a97689b1fd2cdbd678f314db245",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/modak/OFL.txt",
+  "copyright": "Copyright (c) 2015 Ek Type (www.ektype.in)",
+  "archetype": [
+    "D"
+  ],
+  "traits": [
+    "sans",
+    "fat",
+    "rounded",
+    "groovy"
+  ],
+  "odds": 10,
+  "features": [
+    "ss01"
+  ]
+}

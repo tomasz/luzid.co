@@ -1,0 +1,20 @@
+{
+  "id": "manufacturing-consent",
+  "family": "Manufacturing Consent",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/manufacturingconsent/ManufacturingConsent-Regular.ttf",
+  "sha256": "",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/manufacturingconsent/OFL.txt",
+  "copyright": "Copyright 2019 The Manufacturing Consent Project Authors (https://github.com/googlefonts/manufacturing-consent-font)",
+  "archetype": [
+    "X"
+  ],
+  "traits": [
+    "blackletter",
+    "condensed"
+  ],
+  "odds": 6,
+  "features": [
+    "salt"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "id": "damion",
+  "family": "Damion",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/damion/Damion-Regular.ttf",
+  "sha256": "a51fd6c3c517feb9924b98139c2e902a7317caee52c22a2ec9682973969562bf",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/damion/OFL.txt",
+  "copyright": "Copyright 2014 The Damion Project Authors (https://github.com/googlefonts/damionFont)",
+  "archetype": [
+    "C"
+  ],
+  "traits": [
+    "script",
+    "brush",
+    "connected"
+  ],
+  "odds": 9,
+  "cases": [
+    "none",
+    "lowercase"
+  ]
+}

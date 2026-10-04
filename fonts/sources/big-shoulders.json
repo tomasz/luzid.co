@@ -1,0 +1,29 @@
+{
+  "id": "big-shoulders",
+  "family": "Big Shoulders",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bigshoulders/BigShoulders[opsz,wght].ttf",
+  "sha256": "",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bigshoulders/OFL.txt",
+  "copyright": "Copyright 2019 The Big Shoulders Project Authors (https://github.com/xotypeco/big_shoulders)",
+  "archetype": [
+    "X"
+  ],
+  "traits": [
+    "sans",
+    "condensed"
+  ],
+  "odds": 7,
+  "stops": [
+    {
+      "id": "w900",
+      "wght": 900,
+      "opsz": 72
+    }
+  ],
+  "features": [
+    "ss01",
+    "salt",
+    "smcp"
+  ]
+}

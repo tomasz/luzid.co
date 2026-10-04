@@ -1,0 +1,18 @@
+{
+  "id": "bangers",
+  "family": "Bangers",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bangers/Bangers-Regular.ttf",
+  "sha256": "4160a7311de9342674cce9160cde9fcbb30f48190397d86ff1b70b455af65824",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bangers/OFL.txt",
+  "copyright": "Copyright 2010 The Bangers Project Authors (https://github.com/googlefonts/bangers)",
+  "archetype": [
+    "D"
+  ],
+  "traits": [
+    "sans",
+    "fat",
+    "condensed"
+  ],
+  "odds": 8
+}

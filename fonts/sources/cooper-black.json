@@ -1,0 +1,21 @@
+{
+  "id": "cooper-black",
+  "family": "Cooper*",
+  "url": "https://raw.githubusercontent.com/indestructible-type/Cooper/062a60572254535634569ab23b993a5745bab4ac/fonts/ttf/Cooper-Black.ttf",
+  "sha256": "9e2c6c7effb731d0adef633d55c488c7a501777980911f8d3603ee05b5076491",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/indestructible-type/Cooper/062a60572254535634569ab23b993a5745bab4ac/OFL.txt",
+  "copyright": "Copyright 2024 The Cooper* Project Authors (https://github.com/indestructibletype/Cooper)",
+  "archetype": [
+    "A"
+  ],
+  "traits": [
+    "serif",
+    "fat",
+    "soft"
+  ],
+  "odds": 10,
+  "features": [
+    "swsh"
+  ]
+}

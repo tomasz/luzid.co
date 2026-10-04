@@ -1,0 +1,21 @@
+{
+  "id": "grechen-fuemen",
+  "family": "Grechen Fuemen",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/grechenfuemen/GrechenFuemen-Regular.ttf",
+  "sha256": "0048d2ccb3f58ce8994804be5764e074771977f4add2f3dd12dfe9a658f1adc0",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/grechenfuemen/OFL.txt",
+  "copyright": "Copyright 2003-2021 The Grechen Fuemen Project Authors (https://github.com/googlefonts/grechen-fuemen)",
+  "archetype": [
+    "C"
+  ],
+  "traits": [
+    "script",
+    "brush"
+  ],
+  "odds": 6,
+  "cases": [
+    "none",
+    "lowercase"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "gloock",
+  "family": "Gloock",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/gloock/Gloock-Regular.ttf",
+  "sha256": "c3a67e0212f7da01764796ae721cb9bab3e122d142354f97cf9c63fb763e6d77",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/gloock/OFL.txt",
+  "copyright": "Copyright 2022 The Gloock Project Authors (https://github.com/duartp/gloock)",
+  "archetype": [
+    "A"
+  ],
+  "traits": [
+    "serif",
+    "fat",
+    "soft"
+  ],
+  "odds": 9
+}

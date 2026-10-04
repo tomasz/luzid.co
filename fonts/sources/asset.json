@@ -1,0 +1,19 @@
+{
+  "id": "asset",
+  "family": "Asset",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/asset/Asset-Regular.ttf",
+  "sha256": "",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/asset/OFL.txt",
+  "copyright": "Copyright 2023 The Asset Project Authors (https://github.com/SorkinType/Asset)",
+  "archetype": [
+    "X"
+  ],
+  "traits": [
+    "serif",
+    "slab",
+    "deco",
+    "inline"
+  ],
+  "odds": 6
+}

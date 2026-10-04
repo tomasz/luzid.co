@@ -1,0 +1,19 @@
+{
+  "id": "gruppo",
+  "family": "Gruppo",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/gruppo/Gruppo-Regular.ttf",
+  "sha256": "b14da5eb049a6dd097c79b0a7d55450542ad0ff213cdfea492815a79c58244a7",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/gruppo/OFL.txt",
+  "copyright": "Copyright 2010 The Gruppo Project Authors (https://github.com/googlefonts/GruppoFont)",
+  "archetype": [
+    "E",
+    "F"
+  ],
+  "traits": [
+    "sans",
+    "hairline",
+    "deco"
+  ],
+  "odds": 6
+}

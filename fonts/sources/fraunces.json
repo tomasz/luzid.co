@@ -1,0 +1,34 @@
+{
+  "id": "fraunces",
+  "family": "Fraunces",
+  "url": "https://raw.githubusercontent.com/google/fonts/ac502d8eff76ef4d9477cdcc8ef7d0c84fde5372/ofl/fraunces/Fraunces%5BSOFT,WONK,opsz,wght%5D.ttf",
+  "sha256": "177ff6c0f14e5550a3c624247cd1189611d4eb65d000b14944c63d967958abbb",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/ac502d8eff76ef4d9477cdcc8ef7d0c84fde5372/ofl/fraunces/OFL.txt",
+  "copyright": "Copyright 2020 The Fraunces Project Authors (github.com/undercasetype/Fraunces)",
+  "archetype": [
+    "A"
+  ],
+  "traits": [
+    "serif",
+    "soft"
+  ],
+  "odds": 4,
+  "stops": [
+    {
+      "id": "w600",
+      "opsz": 144,
+      "wght": 600,
+      "SOFT": 100,
+      "WONK": 1
+    },
+    {
+      "id": "w900",
+      "opsz": 144,
+      "wght": 900,
+      "SOFT": 100,
+      "WONK": 1
+    }
+  ],
+  "seed": true
+}

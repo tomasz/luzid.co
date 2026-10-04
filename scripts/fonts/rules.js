@@ -95,6 +95,7 @@ const ROW_KEYS = new Set([
   "stops",
   "features",
   "cases",
+  "seed",
 ]);
 
 export const BUDGET_BYTES = 10_500;
@@ -155,6 +156,8 @@ export function validateRow(row) {
   if (new Set(row.traits).size !== row.traits.length) fail(id, "duplicate traits");
   if (!Number.isInteger(row.odds) || row.odds < 0 || row.odds > 16)
     fail(id, "odds must be an integer 0-16");
+  // The eight fonts that prove each risky branch of the pipeline; e2e sweeps them on every PR.
+  if (row.seed !== undefined && typeof row.seed !== "boolean") fail(id, "seed must be a boolean");
   if (row.stops !== undefined) {
     if (!Array.isArray(row.stops) || row.stops.length === 0)
       fail(id, "stops must be a non-empty array");

@@ -1,0 +1,28 @@
+{
+  "id": "sofia-sans-extra-condensed",
+  "family": "Sofia Sans Extra Condensed",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sofiasansextracondensed/SofiaSansExtraCondensed[wght].ttf",
+  "sha256": "",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sofiasansextracondensed/OFL.txt",
+  "copyright": "Copyright 2019 The Sofia Sans Project Authors (https://github.com/lettersoup/Sofia-Sans)",
+  "archetype": [
+    "X"
+  ],
+  "traits": [
+    "sans",
+    "condensed"
+  ],
+  "odds": 7,
+  "stops": [
+    {
+      "id": "w900",
+      "wght": 900
+    }
+  ],
+  "features": [
+    "ss01",
+    "ss02",
+    "smcp"
+  ]
+}

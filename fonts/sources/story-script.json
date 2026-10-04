@@ -1,0 +1,26 @@
+{
+  "id": "story-script",
+  "family": "Story Script",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/storyscript/StoryScript-Regular.ttf",
+  "sha256": "2988808654b44c902f0e3a1a0b31fc67398ea5a093888da30c014bc3329f7731",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/storyscript/OFL.txt",
+  "copyright": "Copyright 2022 The Story Script Project Authors (https://github.com/lroulh/story-script)",
+  "archetype": [
+    "C"
+  ],
+  "traits": [
+    "script",
+    "brush",
+    "connected"
+  ],
+  "odds": 7,
+  "features": [
+    "ss01",
+    "ss02"
+  ],
+  "cases": [
+    "none",
+    "lowercase"
+  ]
+}

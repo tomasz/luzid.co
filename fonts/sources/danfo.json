@@ -1,0 +1,32 @@
+{
+  "id": "danfo",
+  "family": "Danfo",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/danfo/Danfo[ELSH].ttf",
+  "sha256": "7e88c371ac63b0e4d0140812e703a3e021d37147a0df4f167ac324255a39d42f",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/danfo/OFL.txt",
+  "copyright": "Copyright 2023 The Danfo Project Authors (https://github.com/Afrotype/danfo)",
+  "archetype": [
+    "B"
+  ],
+  "traits": [
+    "sans",
+    "fat"
+  ],
+  "odds": 7,
+  "stops": [
+    {
+      "id": "e0",
+      "ELSH": 0
+    },
+    {
+      "id": "e100",
+      "ELSH": 100
+    }
+  ],
+  "features": [
+    "ss01",
+    "ss02",
+    "ss03"
+  ]
+}

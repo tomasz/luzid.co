@@ -1,0 +1,32 @@
+{
+  "id": "museo-moderno",
+  "family": "MuseoModerno",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/museomoderno/MuseoModerno[wght].ttf",
+  "sha256": "d03b027cf5cf72d014c8a405a8ceb83ea1d5d8ae2c64a7f602b131d9973e3503",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/museomoderno/OFL.txt",
+  "copyright": "Copyright 2020 The MuseoModerno Project Authors (https://github.com/Omnibus-Type/MuseoModerno)",
+  "archetype": [
+    "E"
+  ],
+  "traits": [
+    "sans",
+    "rounded"
+  ],
+  "odds": 9,
+  "stops": [
+    {
+      "id": "w900",
+      "wght": 900
+    },
+    {
+      "id": "w400",
+      "wght": 400
+    }
+  ],
+  "features": [
+    "ss01",
+    "ss02",
+    "ss03"
+  ]
+}

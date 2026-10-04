@@ -1,0 +1,18 @@
+{
+  "id": "protest-riot",
+  "family": "Protest Riot",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/protestriot/ProtestRiot-Regular.ttf",
+  "sha256": "",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/protestriot/OFL.txt",
+  "copyright": "Copyright 2013 The Protest Project Authors (https://github.com/octaviopardo/Protest)",
+  "archetype": [
+    "X"
+  ],
+  "traits": [
+    "sans",
+    "brush",
+    "condensed"
+  ],
+  "odds": 7
+}

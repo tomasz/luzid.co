@@ -1,0 +1,24 @@
+{
+  "id": "birthstone-bounce",
+  "family": "Birthstone Bounce",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/birthstonebounce/BirthstoneBounce-Regular.ttf",
+  "sha256": "a03b6146597d467e794fdd4d61178d72f083eb93e9e86040a10530aaa1307ef9",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/birthstonebounce/OFL.txt",
+  "copyright": "Copyright 2019 The Birthstone Bounce Project Authors (https://github.com/googlefonts/birthstone-bounce)",
+  "archetype": [
+    "C"
+  ],
+  "traits": [
+    "script",
+    "connected"
+  ],
+  "odds": 5,
+  "features": [
+    "ss02"
+  ],
+  "cases": [
+    "none",
+    "lowercase"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "id": "olympic-light",
+  "family": "Olympic",
+  "url": "https://raw.githubusercontent.com/warszawskie-kroje/olympic/16653295b28b8b9e6cfe73360d4487ca37bd0c70/Olympic-Light/Olympic-Light.ttf",
+  "sha256": "2e22d1edf504cd89389e4ad7d141988015040aa0bbb48e8a135048db6c94d256",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/warszawskie-kroje/olympic/16653295b28b8b9e6cfe73360d4487ca37bd0c70/README.md",
+  "copyright": "Copyright © 2016 Stowarzyszenie Kulturotwórcze Miastodwa",
+  "archetype": [
+    "F"
+  ],
+  "traits": [
+    "serif",
+    "deco"
+  ],
+  "odds": 10
+}

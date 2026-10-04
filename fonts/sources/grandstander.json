@@ -1,0 +1,28 @@
+{
+  "id": "grandstander",
+  "family": "Grandstander",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/grandstander/Grandstander[wght].ttf",
+  "sha256": "fbc7d1d934e6aa7842f7e8420cd833eca9eb123d61880075eec68751369e2f13",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/grandstander/OFL.txt",
+  "copyright": "Copyright 2020 The Grandstander Project Authors (https://github.com/Etcetera-Type-Co/Grandstander)",
+  "archetype": [
+    "E"
+  ],
+  "traits": [
+    "sans",
+    "rounded",
+    "fat"
+  ],
+  "odds": 8,
+  "stops": [
+    {
+      "id": "w900",
+      "wght": 900
+    }
+  ],
+  "features": [
+    "ss01",
+    "salt"
+  ]
+}

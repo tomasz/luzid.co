@@ -1,0 +1,18 @@
+{
+  "id": "unica-one",
+  "family": "Unica One",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/unicaone/UnicaOne-Regular.ttf",
+  "sha256": "5d5861ae199cb69049e77e7cd08a8ffd6c14e90da19c8db8df0f4004ca93bd8f",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/unicaone/OFL.txt",
+  "copyright": "Copyright 2012 The Unica One Project Authors (https://github.com/etunni/unica)",
+  "archetype": [
+    "E"
+  ],
+  "traits": [
+    "sans",
+    "unicase",
+    "condensed"
+  ],
+  "odds": 9
+}

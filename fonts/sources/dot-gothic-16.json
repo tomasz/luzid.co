@@ -1,0 +1,18 @@
+{
+  "id": "dot-gothic-16",
+  "family": "DotGothic16",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/dotgothic16/DotGothic16-Regular.ttf",
+  "sha256": "",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/dotgothic16/OFL.txt",
+  "copyright": "Copyright 2020 The DotGothic16 Project Authors (https://github.com/fontworks-fonts/DotGothic16)",
+  "archetype": [
+    "X"
+  ],
+  "traits": [
+    "sans",
+    "mono",
+    "jp"
+  ],
+  "odds": 6
+}

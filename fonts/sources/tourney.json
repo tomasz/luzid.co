@@ -1,0 +1,33 @@
+{
+  "id": "tourney",
+  "family": "Tourney",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/tourney/Tourney[wdth,wght].ttf",
+  "sha256": "ee686a1a657ca9397d4d1e9ba3ada1c10a5d9b6da53aeb94411cd62b1b793377",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/tourney/OFL.txt",
+  "copyright": "Copyright 2020 The Tourney Project Authors (https://github.com/Etcetera-Type-Co/Tourney)",
+  "archetype": [
+    "B"
+  ],
+  "traits": [
+    "sans",
+    "fat",
+    "wide"
+  ],
+  "odds": 7,
+  "stops": [
+    {
+      "id": "w900x",
+      "wght": 900,
+      "wdth": 125
+    },
+    {
+      "id": "w900n",
+      "wght": 900,
+      "wdth": 100
+    }
+  ],
+  "features": [
+    "ss01"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "id": "unbounded",
+  "family": "Unbounded",
+  "url": "https://raw.githubusercontent.com/google/fonts/8b80d4f3f73cfe02b69a6f0dc71da5a1cc574bd3/ofl/unbounded/Unbounded%5Bwght%5D.ttf",
+  "sha256": "323b511be380c8d474ef030686b71aedde501f8d9cd46da558b7c40454372c3f",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/8b80d4f3f73cfe02b69a6f0dc71da5a1cc574bd3/ofl/unbounded/OFL.txt",
+  "copyright": "Copyright 2022 The Unbounded Project Authors (https://github.com/googlefonts/unbounded)",
+  "archetype": [
+    "B"
+  ],
+  "traits": [
+    "sans",
+    "fat"
+  ],
+  "odds": 4,
+  "stops": [
+    {
+      "id": "w400",
+      "wght": 400
+    },
+    {
+      "id": "w900",
+      "wght": 900
+    }
+  ],
+  "seed": true
+}

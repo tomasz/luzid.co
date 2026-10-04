@@ -1,0 +1,32 @@
+{
+  "id": "sansita-swashed",
+  "family": "Sansita Swashed",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sansitaswashed/SansitaSwashed[wght].ttf",
+  "sha256": "a6ff6619f22d01eb9582fb00a38052d7afba404ff5868be9bddf37e2888a1c6a",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sansitaswashed/OFL.txt",
+  "copyright": "Copyright 2020 The Sansita Swashed Project Authors (https://github.com/Omnibus-Type/Sansita-Swashed)",
+  "archetype": [
+    "A"
+  ],
+  "traits": [
+    "serif",
+    "soft"
+  ],
+  "odds": 9,
+  "stops": [
+    {
+      "id": "w700",
+      "wght": 700
+    },
+    {
+      "id": "w900",
+      "wght": 900
+    }
+  ],
+  "features": [
+    "ss01",
+    "salt",
+    "swsh"
+  ]
+}

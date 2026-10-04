@@ -1,0 +1,17 @@
+{
+  "id": "bellefair",
+  "family": "Bellefair",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bellefair/Bellefair-Regular.ttf",
+  "sha256": "5c0cd4d526e6dfcb189106af6b5e6ec99a54efb6d458dfd61626ce6dc0f03026",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bellefair/OFL.txt",
+  "copyright": "Copyright 2015 The Bellefair Project Authors (https://github.com/shinntype/bellefair)",
+  "archetype": [
+    "F"
+  ],
+  "traits": [
+    "serif",
+    "deco"
+  ],
+  "odds": 6
+}

@@ -1,0 +1,18 @@
+{
+  "id": "pacifico",
+  "family": "Pacifico",
+  "url": "https://raw.githubusercontent.com/google/fonts/34ce35e2b6d7a1467c0ecfd9cd13082a87ffd23e/ofl/pacifico/Pacifico-Regular.ttf",
+  "sha256": "5b6c0d5334a7bf77dea52b975c5a0c408878c0f7115ed5b6fb151f634b7bf701",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/34ce35e2b6d7a1467c0ecfd9cd13082a87ffd23e/ofl/pacifico/OFL.txt",
+  "copyright": "Copyright 2018 The Pacifico Project Authors (https://github.com/googlefonts/Pacifico)",
+  "archetype": [
+    "C"
+  ],
+  "traits": [
+    "script",
+    "brush"
+  ],
+  "odds": 4,
+  "seed": true
+}

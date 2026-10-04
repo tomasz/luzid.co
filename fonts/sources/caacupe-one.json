@@ -1,0 +1,21 @@
+{
+  "id": "caacupe-one",
+  "family": "Caacupe One",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/caacupeone/CaacupeOne-Regular.ttf",
+  "sha256": "",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/caacupeone/OFL.txt",
+  "copyright": "Copyright 2014-2026 The Caacupe One Project Authors (https://github.com/googlefonts/caacupe)",
+  "archetype": [
+    "X"
+  ],
+  "traits": [
+    "sans",
+    "condensed",
+    "fat"
+  ],
+  "odds": 7,
+  "features": [
+    "ss01"
+  ]
+}

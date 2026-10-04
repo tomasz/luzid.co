@@ -1,0 +1,26 @@
+{
+  "id": "style-script",
+  "family": "Style Script",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/stylescript/StyleScript-Regular.ttf",
+  "sha256": "4f285aa7b2e87de9ea8fc3d3a571cc428257c42ac77b5f786d99d9949ac4ed9a",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/stylescript/OFL.txt",
+  "copyright": "Copyright 2013 The Style Script Project Authors (https://github.com/googlefonts/style-script)",
+  "archetype": [
+    "C"
+  ],
+  "traits": [
+    "script",
+    "brush",
+    "connected"
+  ],
+  "odds": 7,
+  "features": [
+    "ss01",
+    "ss02"
+  ],
+  "cases": [
+    "none",
+    "lowercase"
+  ]
+}

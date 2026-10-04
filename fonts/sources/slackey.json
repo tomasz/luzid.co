@@ -1,0 +1,18 @@
+{
+  "id": "slackey",
+  "family": "Slackey",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/slackey/Slackey-Regular.ttf",
+  "sha256": "0be253cdeadcd1ea90ff5954e86641b3ccbef27152608e266af91619cd308eb2",
+  "licenseId": "Apache-2.0",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/slackey/LICENSE.txt",
+  "copyright": "Copyright (c) 2011 by Sideshow. All rights reserved.",
+  "archetype": [
+    "D"
+  ],
+  "traits": [
+    "sans",
+    "fat",
+    "groovy"
+  ],
+  "odds": 7
+}

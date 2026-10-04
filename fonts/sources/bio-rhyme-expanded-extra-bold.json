@@ -1,0 +1,24 @@
+{
+  "id": "bio-rhyme-expanded-extra-bold",
+  "family": "BioRhyme Expanded",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/biorhymeexpanded/BioRhymeExpanded-ExtraBold.ttf",
+  "sha256": "",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/biorhymeexpanded/OFL.txt",
+  "copyright": "Copyright 2016 Aoife Mooney (aoifemooney@gmail.com www.aoifemooney.org)",
+  "archetype": [
+    "X"
+  ],
+  "traits": [
+    "serif",
+    "slab",
+    "fat",
+    "wide"
+  ],
+  "odds": 8,
+  "features": [
+    "ss01",
+    "ss02",
+    "swsh"
+  ]
+}

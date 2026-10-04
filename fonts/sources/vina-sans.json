@@ -1,0 +1,22 @@
+{
+  "id": "vina-sans",
+  "family": "Vina Sans",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/vinasans/VinaSans-Regular.ttf",
+  "sha256": "",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/vinasans/OFL.txt",
+  "copyright": "Copyright 2023 The Vina Sans Project Authors (https://github.com/nguyentype/vinasans)",
+  "archetype": [
+    "X"
+  ],
+  "traits": [
+    "sans",
+    "condensed",
+    "fat",
+    "capsOnly"
+  ],
+  "odds": 8,
+  "cases": [
+    "none"
+  ]
+}

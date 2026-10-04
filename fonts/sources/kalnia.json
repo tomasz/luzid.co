@@ -1,0 +1,30 @@
+{
+  "id": "kalnia",
+  "family": "Kalnia",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/kalnia/Kalnia[wdth,wght].ttf",
+  "sha256": "33685d0ec4abcca2736a51a10a6d4ee1aab2e608e6598c6926af9550b86731a4",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/kalnia/OFL.txt",
+  "copyright": "Copyright 2022 The Kalnia Project Authors (https://github.com/fridamedrano/Kalnia-Typeface.git)",
+  "archetype": [
+    "F",
+    "A"
+  ],
+  "traits": [
+    "serif",
+    "deco"
+  ],
+  "odds": 8,
+  "stops": [
+    {
+      "id": "w700",
+      "wght": 700,
+      "wdth": 100
+    },
+    {
+      "id": "w400",
+      "wght": 400,
+      "wdth": 100
+    }
+  ]
+}

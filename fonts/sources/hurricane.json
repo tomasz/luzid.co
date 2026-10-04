@@ -1,0 +1,26 @@
+{
+  "id": "hurricane",
+  "family": "Hurricane",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/hurricane/Hurricane-Regular.ttf",
+  "sha256": "5ea86b562ca5c2b1893c233367cde1aee0d677bb6d30af9c3f699c270880da13",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/hurricane/OFL.txt",
+  "copyright": "Copyright 2016-2021 The Hurricane Project Authors (https://github.com/googlefonts/hurricane)",
+  "archetype": [
+    "C"
+  ],
+  "traits": [
+    "script",
+    "connected"
+  ],
+  "odds": 5,
+  "features": [
+    "ss02",
+    "ss03",
+    "ss04"
+  ],
+  "cases": [
+    "none",
+    "lowercase"
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "id": "playfair",
+  "family": "Playfair",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/playfair/Playfair[opsz,wdth,wght].ttf",
+  "sha256": "33cfecbc9948cf9eafe54dc9f36d19a03b393cf12221b20be235926d1ca1db61",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/playfair/OFL.txt",
+  "copyright": "Copyright 2005 The Playfair Project Authors (https://github.com/googlefonts/Playfair)",
+  "archetype": [
+    "F",
+    "A"
+  ],
+  "traits": [
+    "serif",
+    "deco"
+  ],
+  "odds": 9,
+  "stops": [
+    {
+      "id": "w900n",
+      "wght": 900,
+      "opsz": 30,
+      "wdth": 87.5
+    },
+    {
+      "id": "w900w",
+      "wght": 900,
+      "opsz": 30,
+      "wdth": 112.5
+    }
+  ],
+  "features": [
+    "ss05",
+    "ss10",
+    "ss11",
+    "smcp"
+  ]
+}

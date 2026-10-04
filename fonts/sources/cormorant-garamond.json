@@ -1,0 +1,33 @@
+{
+  "id": "cormorant-garamond",
+  "family": "Cormorant Garamond",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/cormorantgaramond/CormorantGaramond[wght].ttf",
+  "sha256": "b20b7d9626dd956b2c5e558692ad328b1f19e3275e2782db4fa07670d83f35e0",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/cormorantgaramond/OFL.txt",
+  "copyright": "Copyright 2015 the Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)",
+  "archetype": [
+    "F"
+  ],
+  "traits": [
+    "serif",
+    "deco"
+  ],
+  "odds": 8,
+  "stops": [
+    {
+      "id": "w700",
+      "wght": 700
+    },
+    {
+      "id": "w300",
+      "wght": 300
+    }
+  ],
+  "features": [
+    "ss01",
+    "ss03",
+    "ss04",
+    "smcp"
+  ]
+}

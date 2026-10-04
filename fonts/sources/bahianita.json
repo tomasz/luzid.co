@@ -1,0 +1,21 @@
+{
+  "id": "bahianita",
+  "family": "Bahianita",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bahianita/Bahianita-Regular.ttf",
+  "sha256": "",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bahianita/OFL.txt",
+  "copyright": "Copyright 2018 The Bahianita Project Authors (https://github.com/Omnibus-Type/Bahiana/Bahianita)",
+  "archetype": [
+    "X"
+  ],
+  "traits": [
+    "sans",
+    "condensed"
+  ],
+  "odds": 6,
+  "features": [
+    "ss01",
+    "salt"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "id": "paprika",
+  "family": "Paprika",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/paprika/Paprika-Regular.ttf",
+  "sha256": "",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/paprika/OFL.txt",
+  "copyright": "Copyright 2012 The Paprika Project Authors (https://github.com/etunni/paprika)",
+  "archetype": [
+    "X"
+  ],
+  "traits": [
+    "serif",
+    "deco"
+  ],
+  "odds": 5
+}

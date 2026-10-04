@@ -1,0 +1,24 @@
+{
+  "id": "staatliches",
+  "family": "Staatliches",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/staatliches/Staatliches-Regular.ttf",
+  "sha256": "",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/staatliches/OFL.txt",
+  "copyright": "Copyright 2018 The Staatliches Authors (https://github.com/googlefonts/staatliches)",
+  "archetype": [
+    "X"
+  ],
+  "traits": [
+    "sans",
+    "condensed",
+    "capsOnly"
+  ],
+  "odds": 8,
+  "features": [
+    "salt"
+  ],
+  "cases": [
+    "none"
+  ]
+}

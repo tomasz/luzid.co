@@ -1,0 +1,22 @@
+{
+  "id": "freeman",
+  "family": "Freeman",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/freeman/Freeman-Regular.ttf",
+  "sha256": "",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/freeman/OFL.txt",
+  "copyright": "Copyright 2023 The Freeman Project Authors (https://github.com/rfuenzalida/Freeman)",
+  "archetype": [
+    "X"
+  ],
+  "traits": [
+    "sans",
+    "condensed",
+    "fat"
+  ],
+  "odds": 7,
+  "features": [
+    "smcp",
+    "c2sc"
+  ]
+}

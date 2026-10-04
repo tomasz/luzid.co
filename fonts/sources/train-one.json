@@ -1,0 +1,19 @@
+{
+  "id": "train-one",
+  "family": "Train One",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/trainone/TrainOne-Regular.ttf",
+  "sha256": "07d67ad14231a4a41f0ee501b14bd6f9c7a9beada5ee6af2924114863a034623",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/trainone/OFL.txt",
+  "copyright": "Copyright 2020 The Train Project Authors (https://github.com/fontworks-fonts/Train)",
+  "archetype": [
+    "B"
+  ],
+  "traits": [
+    "sans",
+    "fat",
+    "inline",
+    "jp"
+  ],
+  "odds": 8
+}

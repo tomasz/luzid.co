@@ -1,0 +1,24 @@
+{
+  "id": "alumni-sans-inline-one",
+  "family": "Alumni Sans Inline One",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/alumnisansinlineone/AlumniSansInlineOne-Regular.ttf",
+  "sha256": "e77a9db5e63f9316840cab59d1364cd40334d6cd441c0b43fe2a18b2521e0e7e",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/alumnisansinlineone/OFL.txt",
+  "copyright": "Copyright 2014 The Alumni Sans Inline Project Authors (https://github.com/googlefonts/alumni-sans-inline)",
+  "archetype": [
+    "B"
+  ],
+  "traits": [
+    "sans",
+    "condensed",
+    "inline"
+  ],
+  "odds": 7,
+  "features": [
+    "ss01",
+    "ss02",
+    "ss03",
+    "salt"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "tac-one",
+  "family": "Tac One",
+  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/tacone/TacOne-Regular.ttf",
+  "sha256": "",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/tacone/OFL.txt",
+  "copyright": "Copyright 2023 The Tac One Project Authors (https://github.com/Afrotype/tac)",
+  "archetype": [
+    "X"
+  ],
+  "traits": [
+    "sans",
+    "fat",
+    "jp"
+  ],
+  "odds": 7,
+  "features": [
+    "ss01",
+    "ss02",
+    "ss03"
+  ]
+}
