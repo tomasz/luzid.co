@@ -1,4 +1,5 @@
 .research/
+.plans/
 .claude/worktrees/
 build/
 node_modules/

@@ -6,16 +6,11 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "dev": "vp dev",
-    "build": "vp build",
-    "test": "vp test",
     "check": "vp check && vp test",
     "e2e": "playwright test",
-    "e2e:all": "FIT_SCOPE=all playwright test",
     "fonts": "node scripts/fonts.mjs",
     "palettes": "node scripts/palettes.mjs",
-    "sheet": "node scripts/sheet.mjs",
-    "assets": "node scripts/assets.mjs"
+    "sheet": "node scripts/sheet.mjs"
   },
   "devDependencies": {
     "@cloudflare/vite-plugin": "1.62.3",

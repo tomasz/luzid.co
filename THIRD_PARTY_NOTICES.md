@@ -13,4 +13,3 @@ next to the original data it came from.
 
 This file is a pointer and is written once. It is deliberately not a generated table: a
 shared file appended by every font and palette pull request would conflict on every merge.
-`pnpm run build -- --notices` regenerates a readable table on demand.

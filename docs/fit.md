@@ -519,7 +519,7 @@ Flagging it because it is the first thing the crop sheet makes you ask.
 When git cannot name a base the per-variant sweep widens to all 8 fonts rather than
 narrowing to none.
 
-**`FIT_SCOPE=all`** (`pnpm run e2e:all`) crosses every font and variant in the catalogue, not
+**`FIT_SCOPE=all`** (`FIT_SCOPE=all pnpm run e2e`) crosses every font and variant in the catalogue, not
 just the seed set, with all three layout modes and all eight viewports. It is the WP-50
 sweep. `.github/workflows/sweep.yml` runs it on Mondays and on demand (`workflow_dispatch`),
 through `ci.yml` with `fit-scope: all`; it is **not** a required check.

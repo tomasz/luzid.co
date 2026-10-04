@@ -76,7 +76,7 @@ jobs:
           if-no-files-found: ignore
           retention-days: 90 # the window scripts/flaky.mjs --runs can look back over
       - name: render sheets
-        if: ${{ matrix.project == 'chromium' && hashFiles('scripts/sheet.mjs') != '' }}
+        if: matrix.project == 'chromium'
         run: pnpm run sheet -- --changed
         continue-on-error: true
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1

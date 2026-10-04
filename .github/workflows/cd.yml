@@ -50,7 +50,7 @@ jobs:
 
       # `vp build` writes dist/ and .wrangler/deploy/config.json, which `wrangler deploy`
       # follows to dist/luzid_co/wrangler.json. Deploying without it ships nothing new.
-      - run: pnpm run build
+      - run: pnpm exec vp build
 
       - name: deploy
         id: deploy
