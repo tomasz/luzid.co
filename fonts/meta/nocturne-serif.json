@@ -1,21 +1,7 @@
 {
  "id": "nocturne-serif",
- "family": "Nocturne Serif",
- "src": {
-  "url": "https://raw.githubusercontent.com/warszawskie-kroje/nocturne/4dfa961f2eed74e486f4959aca07337fd70debfe/Nocturne%20Serif/NocturneSerif-Regular.ttf",
-  "sha256": "ec981b3d8412fead7dee2fd59df2d19e2616f6f4019f6f340ad8bc7df6914b8a"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright © 2016 Stowarzyszenie Kulturotwórcze Miastodwa",
  "rfn": [],
- "archetype": [
-  "F"
- ],
- "traits": [
-  "deco",
-  "serif"
- ],
- "odds": 10,
+ "measured": [],
  "upm": 1000,
  "files": [
   {

@@ -1,22 +1,9 @@
 {
  "id": "museo-moderno",
- "family": "MuseoModerno",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/museomoderno/MuseoModerno[wght].ttf",
-  "sha256": "d03b027cf5cf72d014c8a405a8ceb83ea1d5d8ae2c64a7f602b131d9973e3503"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2020 The MuseoModerno Project Authors (https://github.com/Omnibus-Type/MuseoModerno)",
  "rfn": [],
- "archetype": [
-  "E"
+ "measured": [
+  "overlap"
  ],
- "traits": [
-  "overlap",
-  "rounded",
-  "sans"
- ],
- "odds": 9,
  "upm": 1000,
  "files": [
   {

@@ -1,23 +1,9 @@
 {
  "id": "imbue",
- "family": "Imbue",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/imbue/Imbue[opsz,wght].ttf",
-  "sha256": "bf45ff1dc01974acedf4f11bcbfa7365053d97f4d598ddafe189d238ac80a534"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2020 The Imbue Project Authors (https://github.com/Etcetera-Type-Co/Imbue)",
  "rfn": [],
- "archetype": [
-  "F"
+ "measured": [
+  "overlap"
  ],
- "traits": [
-  "condensed",
-  "deco",
-  "overlap",
-  "serif"
- ],
- "odds": 7,
  "upm": 2000,
  "files": [
   {

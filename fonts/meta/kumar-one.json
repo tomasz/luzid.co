@@ -1,21 +1,7 @@
 {
  "id": "kumar-one",
- "family": "Kumar One",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/kumarone/KumarOne-Regular.ttf",
-  "sha256": "04d6479721639f0d00aa34cfaa18d940eacf84060b427433edb70100b6d01100"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright (c) 2015 Indian Type Foundry (info@indiantypefoundry.com)",
  "rfn": [],
- "archetype": [
-  "D"
- ],
- "traits": [
-  "fat",
-  "sans"
- ],
- "odds": 7,
+ "measured": [],
  "upm": 1000,
  "files": [
   {

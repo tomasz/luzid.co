@@ -1,23 +1,7 @@
 {
  "id": "cherry-bomb-one",
- "family": "Cherry Bomb One",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/cherrybombone/CherryBombOne-Regular.ttf",
-  "sha256": "9596c6793eb0335057d655b13751ce7ccb50ef0cd15cb52c58465fb62de2bb8f"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2019 The Cherry Bomb Project Authors (https://github.com/satsuyako/CherryBomb)",
  "rfn": [],
- "archetype": [
-  "D",
-  "E"
- ],
- "traits": [
-  "fat",
-  "rounded",
-  "sans"
- ],
- "odds": 8,
+ "measured": [],
  "upm": 1000,
  "files": [
   {

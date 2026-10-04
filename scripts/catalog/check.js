@@ -42,6 +42,15 @@ export const TRAITS = new Set([
   "jp",
 ]);
 
+/**
+ * Traits the font pipeline measures from the outlines; the meta records which of them it
+ * found as `measured`. A source row may still declare one, but the two have to agree.
+ */
+export const MEASURED_TRAITS = ["capsOnly", "unicase", "connected", "hairline", "overlap"];
+
+/** The two labels for one measurement: the lowercase letters are the capitals. */
+export const CASE_TRAITS = ["capsOnly", "unicase"];
+
 export const ARCHETYPES = new Set(Object.keys(BUCKET_ODDS));
 export const LICENSE_IDS = new Set(["OFL-1.1", "Apache-2.0", "GUST"]);
 export const CASES = new Set(["none", "uppercase", "lowercase"]);
@@ -177,49 +186,18 @@ export function checkEffect(file, fx) {
 }
 
 /**
- * `fonts/meta/<id>.json`. The woff2 files themselves are held to it in `checkCatalog`.
+ * `fonts/meta/<id>.json`: what the font pipeline measured, and nothing a curator decides.
+ * The woff2 files themselves are held to it in `checkCatalog`.
  *
  * @param {string} file
  * @param {any} meta
  */
 export function checkFontMeta(file, meta) {
-  const all = [
-    "id",
-    "family",
-    "src",
-    "licenseId",
-    "copyright",
-    "rfn",
-    "archetype",
-    "traits",
-    "odds",
-    "upm",
-    "files",
-    "variants",
-  ];
-  // `rfn` is required by §5.5 but optional until D1 regenerates the metas that predate it.
-  keys(
-    file,
-    "",
-    meta,
-    all,
-    all.filter((k) => k !== "rfn"),
-  );
+  keys(file, "", meta, ["id", "rfn", "measured", "upm", "files", "variants"]);
   if (meta.id !== stem(file))
     throw at(file, "/id", `must equal the file name, got ${show(meta.id)}`);
-  for (const k of ["family", "copyright"])
-    if (typeof meta[k] !== "string" || !meta[k])
-      throw at(file, `/${k}`, "must be a non-empty string");
-  keys(file, "/src", meta.src, ["url", "sha256"]);
-  if (typeof meta.src.url !== "string") throw at(file, "/src/url", "must be a string");
-  if (typeof meta.src.sha256 !== "string") throw at(file, "/src/sha256", "must be a string");
-  if (!LICENSE_IDS.has(meta.licenseId))
-    throw at(file, "/licenseId", `must be one of ${[...LICENSE_IDS].join(", ")}`);
-  if ("rfn" in meta) strings(file, "/rfn", meta.rfn);
-  strings(file, "/archetype", meta.archetype, (a) => ARCHETYPES.has(a));
-  if (meta.archetype.length === 0) throw at(file, "/archetype", "must name at least one bucket");
-  strings(file, "/traits", meta.traits, (t) => TRAITS.has(t));
-  if (!isOdds(meta.odds)) throw at(file, "/odds", "must be an integer 0–16");
+  strings(file, "/rfn", meta.rfn);
+  strings(file, "/measured", meta.measured, (t) => MEASURED_TRAITS.includes(t));
   if (!Number.isInteger(meta.upm) || meta.upm <= 0)
     throw at(file, "/upm", "must be a positive integer");
 
@@ -265,6 +243,40 @@ export function checkFontMeta(file, meta) {
       if (typeof v.css[k] !== "string") throw at(file, `${ptr}/css/${k}`, "must be a string");
     for (const w of ["w1", "w2"]) finite(file, `${ptr}/${w}`, v[w], ["W", "H", "X", "top"]);
   });
+}
+
+/**
+ * `fonts/sources/<id>.json`, for the curated facts the catalog takes from it: the family
+ * and licence the colophon credits, the buckets, the traits and the odds. The rest of the
+ * row is the pipeline's input and `validateRow` in `scripts/fonts/rules.js` holds it.
+ * A trait the pipeline measures must agree with what `meta` found, so a row edited after
+ * its font was built cannot claim a measurement the outlines do not bear out.
+ *
+ * @param {string} file
+ * @param {any} row
+ * @param {any} meta the font's `fonts/meta/<id>.json`, already checked
+ */
+export function checkFontRow(file, row, meta) {
+  if (!isObject(row)) throw at(file, "", `must be an object, got ${show(row)}`);
+  if (row.id !== stem(file)) throw at(file, "/id", `must equal the file name, got ${show(row.id)}`);
+  for (const k of ["family", "url", "copyright"])
+    if (typeof row[k] !== "string" || !row[k])
+      throw at(file, `/${k}`, "must be a non-empty string");
+  if (typeof row.sha256 !== "string" || !SHA256.test(row.sha256))
+    throw at(file, "/sha256", "must be the upstream's sha256, as `pnpm run fonts` prints it");
+  if (!LICENSE_IDS.has(row.licenseId))
+    throw at(file, "/licenseId", `must be one of ${[...LICENSE_IDS].join(", ")}`);
+  strings(file, "/archetype", row.archetype, (a) => ARCHETYPES.has(a));
+  if (row.archetype.length === 0) throw at(file, "/archetype", "must name at least one bucket");
+  strings(file, "/traits", row.traits, (t) => TRAITS.has(t));
+  row.traits.forEach((t, i) => {
+    if (!MEASURED_TRAITS.includes(t)) return;
+    // `capsOnly` and `unicase` are one measurement under two names.
+    const accepts = CASE_TRAITS.includes(t) ? CASE_TRAITS : [t];
+    if (!accepts.some((m) => meta.measured.includes(m)))
+      throw at(file, `/traits/${i}`, `fonts/meta/${meta.id}.json did not measure ${t}`);
+  });
+  if (!isOdds(row.odds)) throw at(file, "/odds", "must be an integer 0–16");
 }
 
 /**
@@ -389,8 +401,8 @@ export function checkWeights(file, data, ids) {
 /**
  * @typedef {{has: (axis: string, id: string, owner: string | null) => boolean}} Index
  * @typedef {{file: string, data: any}} Entry
- * @typedef {{fonts: Entry[], palettes: Entry[], presets: Entry[], effects: Entry[],
- *   deny: Entry | null, weights: Entry | null, woff2: Map<string, Buffer>}} Files
+ * @typedef {{fonts: Entry[], sources: Entry[], palettes: Entry[], presets: Entry[],
+ *   effects: Entry[], deny: Entry | null, weights: Entry | null, woff2: Map<string, Buffer>}} Files
  */
 
 /** @param {Entry[]} entries @param {string} kind */
@@ -414,7 +426,13 @@ function unique(entries, kind, idOf = (e) => [e.data.id]) {
 export function checkCatalog(cat) {
   const warnings = [];
   for (const { file, data } of cat.effects) warnings.push(...checkEffect(file, data));
-  for (const { file, data } of cat.fonts) checkFontMeta(file, data);
+  const sources = new Map(cat.sources.map((e) => [stem(e.file), e]));
+  for (const { file, data } of cat.fonts) {
+    checkFontMeta(file, data);
+    const row = sources.get(data.id);
+    if (!row) throw at(file, "/id", `fonts/sources/${data.id}.json is missing`);
+    checkFontRow(row.file, row.data, data);
+  }
   for (const { file, data } of cat.palettes) checkPalette(file, data);
   for (const { file, data } of cat.presets) {
     if (!isObject(data) || data.id !== stem(file))

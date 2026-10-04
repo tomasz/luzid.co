@@ -1,22 +1,7 @@
 {
  "id": "mogra",
- "family": "Mogra",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/mogra/Mogra-Regular.ttf",
-  "sha256": "1d7133f5926cf5e7042b587b838bc5c5bcfe6c86b19157afd544c71a630159d8"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2015 The Mogra Project Authors (https://github.com/lipiraval/mogra)",
  "rfn": [],
- "archetype": [
-  "D"
- ],
- "traits": [
-  "fat",
-  "groovy",
-  "sans"
- ],
- "odds": 8,
+ "measured": [],
  "upm": 1000,
  "files": [
   {

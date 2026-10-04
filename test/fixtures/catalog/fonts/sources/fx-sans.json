@@ -1,0 +1,12 @@
+{
+  "id": "fx-sans",
+  "family": "FX Sans",
+  "url": "https://example.invalid/fx-sans.ttf",
+  "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "licenseId": "OFL-1.1",
+  "licenseUrl": "https://example.invalid/OFL.txt",
+  "copyright": "2026 The FX Sans Project Authors",
+  "archetype": ["B", "X"],
+  "traits": ["sans", "fat"],
+  "odds": 8
+}

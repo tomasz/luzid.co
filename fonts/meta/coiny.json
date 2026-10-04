@@ -1,23 +1,7 @@
 {
  "id": "coiny",
- "family": "Coiny",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/coiny/Coiny-Regular.ttf",
-  "sha256": "ef02d723a54abe4819bea54ea8b2ecf72d77d258010bb336cd4862a37705eac7"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2015 Marcelo Magalhaes (marcelommp@gmail.com @marcelommp)",
  "rfn": [],
- "archetype": [
-  "D",
-  "E"
- ],
- "traits": [
-  "fat",
-  "rounded",
-  "sans"
- ],
- "odds": 7,
+ "measured": [],
  "upm": 1000,
  "files": [
   {

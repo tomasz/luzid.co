@@ -1,22 +1,9 @@
 {
  "id": "norican",
- "family": "Norican",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/norican/Norican-Regular.ttf",
-  "sha256": "71ee99002e70bb69f8f613bd29d646d6044aaf34612efcff689a11afa4291d04"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2011 The Norican Project Authors (https://github.com/googlefonts/NoricanFont)",
  "rfn": [],
- "archetype": [
-  "C"
+ "measured": [
+  "connected"
  ],
- "traits": [
-  "brush",
-  "connected",
-  "script"
- ],
- "odds": 8,
  "upm": 2048,
  "files": [
   {

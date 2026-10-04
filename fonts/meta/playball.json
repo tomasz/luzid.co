@@ -1,21 +1,9 @@
 {
  "id": "playball",
- "family": "Playball",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/playball/Playball-Regular.ttf",
-  "sha256": "130654dd192f4ccd1c4fa2dc516d03cca93dc8ecdaf30d458283e54dcaef8f40"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2011 The Playball Project Authors (https://github.com/googlefonts/play-ball)",
  "rfn": [],
- "archetype": [
-  "C"
+ "measured": [
+  "connected"
  ],
- "traits": [
-  "connected",
-  "script"
- ],
- "odds": 8,
  "upm": 1000,
  "files": [
   {

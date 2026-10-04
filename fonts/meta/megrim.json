@@ -1,22 +1,9 @@
 {
  "id": "megrim",
- "family": "Megrim",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/megrim/Megrim.ttf",
-  "sha256": "88d30544a63121ab021f4cf60f57257c81caaeddeeb2eb4d6ec1a600ae779cfd"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright (c) 2009, 2010, 2011 Daniel Johnson (<il.basso.buffo@gmail.com>).",
  "rfn": [],
- "archetype": [
-  "E"
+ "measured": [
+  "hairline"
  ],
- "traits": [
-  "deco",
-  "hairline",
-  "sans"
- ],
- "odds": 6,
  "upm": 1000,
  "files": [
   {

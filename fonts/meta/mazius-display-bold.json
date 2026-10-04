@@ -1,22 +1,7 @@
 {
  "id": "mazius-display-bold",
- "family": "Mazius Display",
- "src": {
-  "url": "https://raw.githubusercontent.com/collletttivo/mazius-display/5798d69b14f0b7c1691f031f2ecb98ebdb709b54/fonts/MaziusDisplay-Bold.otf",
-  "sha256": "1b7d88a4d6347a5904741f9e35e333d77e0039f4278f674d6e369e6cb8d2f7f3"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright © 2023, Collletttivo (https://www.collletttivo.it/)",
  "rfn": [],
- "archetype": [
-  "A",
-  "F"
- ],
- "traits": [
-  "fat",
-  "serif"
- ],
- "odds": 8,
+ "measured": [],
  "upm": 1000,
  "files": [
   {

@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readdir, readFile } from "node:fs/promises";
+import { resolve } from "node:path";
 import { test } from "vite-plus/test";
 import * as hb from "harfbuzzjs";
 import {
@@ -49,6 +50,7 @@ import {
   withNames,
 } from "../scripts/sfnt.mjs";
 import { decode } from "../scripts/woff2.mjs";
+import { loadCatalog } from "../scripts/build.mjs";
 
 const url = (p) => new URL(`../${p}`, import.meta.url);
 const readJson = async (p) => JSON.parse(await readFile(url(p), "utf8"));
@@ -60,10 +62,8 @@ const sources = [];
 for (const name of sourceFiles) sources.push(await readJson(`fonts/sources/${name}`));
 /** A known-good row for the negative cases below, found by id rather than by position. */
 const seedRow = sources.find((r) => r.id === "boldonse");
-const metas = [];
-for (const name of (await readdir(url("fonts/meta"))).filter((f) => f.endsWith(".json")).sort()) {
-  metas.push(await readJson(`fonts/meta/${name}`));
-}
+// Every shipped font as the catalog sees it: the meta's measurements joined with its row.
+const metas = (await loadCatalog(resolve(import.meta.dirname, ".."))).fonts;
 
 /** A font stand-in, so every branch of the coverage gate gets its own failing fixture. */
 function stub(overrides = {}) {

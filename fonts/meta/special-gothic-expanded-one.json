@@ -1,22 +1,7 @@
 {
  "id": "special-gothic-expanded-one",
- "family": "Special Gothic Expanded One",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/specialgothicexpandedone/SpecialGothicExpandedOne-Regular.ttf",
-  "sha256": "b6c347c00c607f9ca562e6054cadf87fb3ea20dbe2cc482bad3086fa4de48027"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2023 The Special Gothic Project Authors (https://github.com/AlistairMcCready/Special-Gothic/)",
  "rfn": [],
- "archetype": [
-  "B"
- ],
- "traits": [
-  "fat",
-  "sans",
-  "wide"
- ],
- "odds": 9,
+ "measured": [],
  "upm": 1000,
  "files": [
   {

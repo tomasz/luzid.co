@@ -1,22 +1,7 @@
 {
  "id": "matemasie",
- "family": "Matemasie",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/matemasie/Matemasie-Regular.ttf",
-  "sha256": "5ad4d54e1216448e4acf6044bf3a2a1d36e955cd8dea61e9146e8dfc8f1f5cc7"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2024 The Matemasie-Font Project Authors (https://github.com/YADAMSS/Matemasie-Font)",
  "rfn": [],
- "archetype": [
-  "D"
- ],
- "traits": [
-  "fat",
-  "groovy",
-  "sans"
- ],
- "odds": 9,
+ "measured": [],
  "upm": 1000,
  "files": [
   {

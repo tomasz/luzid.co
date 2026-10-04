@@ -1,23 +1,9 @@
 {
  "id": "anybody-w900",
- "family": "Anybody",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/anybody/Anybody[wdth,wght].ttf",
-  "sha256": "b184bd7e6ca8348bbaecec98951565729d7e89b7872d4898a1f9981342b5b64c"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2020 The Anybody Project Authors (https://github.com/Etcetera-Type-Co/Anybody)",
  "rfn": [],
- "archetype": [
-  "B"
+ "measured": [
+  "overlap"
  ],
- "traits": [
-  "fat",
-  "overlap",
-  "sans",
-  "wide"
- ],
- "odds": 8,
  "upm": 2000,
  "files": [
   {

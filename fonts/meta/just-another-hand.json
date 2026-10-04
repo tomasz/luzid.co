@@ -1,22 +1,7 @@
 {
  "id": "just-another-hand",
- "family": "Just Another Hand",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/justanotherhand/JustAnotherHand-Regular.ttf",
-  "sha256": "f1cd102ebacdb6388c879c9d481d63908ee0d5939a301415a78cdfdc752f79ea"
- },
- "licenseId": "Apache-2.0",
- "copyright": "Copyright License. Subject to the terms and conditions of",
  "rfn": [],
- "archetype": [
-  "C"
- ],
- "traits": [
-  "brush",
-  "condensed",
-  "script"
- ],
- "odds": 6,
+ "measured": [],
  "upm": 2048,
  "files": [
   {

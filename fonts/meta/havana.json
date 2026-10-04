@@ -1,21 +1,9 @@
 {
  "id": "havana",
- "family": "Havana",
- "src": {
-  "url": "https://raw.githubusercontent.com/warszawskie-kroje/havana/931bb3a781bd4cae6873a9e7ff5b422ea967b73a/Havana-Regular/Havana-Regular.ttf",
-  "sha256": "f7f537584838b560ae4b30add7cf9fbc85537b74217349774f0369b477a5b416"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright © 2016 Stowarzyszenie Kulturotwórcze Miastodwa",
  "rfn": [],
- "archetype": [
-  "C"
+ "measured": [
+  "connected"
  ],
- "traits": [
-  "connected",
-  "script"
- ],
- "odds": 7,
  "upm": 1000,
  "files": [
   {

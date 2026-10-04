@@ -1,22 +1,7 @@
 {
  "id": "black-ops-one",
- "family": "Black Ops One",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/blackopsone/BlackOpsOne-Regular.ttf",
-  "sha256": "282a825b5f294377387e3969f765408157dbea8da0f5d0aae68c6bc704b145b3"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2022 The Black-Ops Project Authors (https://github.com/googlefonts/googlefonts-project-template)",
  "rfn": [],
- "archetype": [
-  "B"
- ],
- "traits": [
-  "fat",
-  "sans",
-  "stencil"
- ],
- "odds": 7,
+ "measured": [],
  "upm": 2048,
  "files": [
   {

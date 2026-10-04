@@ -1,21 +1,7 @@
 {
  "id": "viaoda-libre",
- "family": "Viaoda Libre",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/viaodalibre/ViaodaLibre-Regular.ttf",
-  "sha256": "adb53ede25107c5ed4c45f993fd014a21ef82ac82b2327a564fe8e994e228942"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2020 The Viaodalibre Project Authors (https://github.com/bettergui/ViaodaLibre)",
  "rfn": [],
- "archetype": [
-  "F"
- ],
- "traits": [
-  "deco",
-  "serif"
- ],
- "odds": 8,
+ "measured": [],
  "upm": 1000,
  "files": [
   {

@@ -1,21 +1,7 @@
 {
  "id": "libre-caslon-display",
- "family": "Libre Caslon Display",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/librecaslondisplay/LibreCaslonDisplay-Regular.ttf",
-  "sha256": "2340c497181e9446fcbb235e1c3780558dc62879ffe0ef47906d3f7f35cf5f35"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2012 The Libre Caslon Display Authors (https://github.com/impallari/Libre-Caslon-Display)",
  "rfn": [],
- "archetype": [
-  "A",
-  "F"
- ],
- "traits": [
-  "serif"
- ],
- "odds": 6,
+ "measured": [],
  "upm": 1000,
  "files": [
   {

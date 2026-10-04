@@ -1,22 +1,7 @@
 {
  "id": "science-gothic",
- "family": "Science Gothic",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sciencegothic/ScienceGothic[CTRS,slnt,wdth,wght].ttf",
-  "sha256": "246e4d33a6fcb3846094e5c4c034616f83e9ae10100316df32e2436362deab3d"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2024 Font Detective LLC <https://github.com/googlefonts/science-gothic/OFL.txt>",
  "rfn": [],
- "archetype": [
-  "B"
- ],
- "traits": [
-  "fat",
-  "sans",
-  "wide"
- ],
- "odds": 8,
+ "measured": [],
  "upm": 2000,
  "files": [
   {

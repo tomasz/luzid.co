@@ -1,22 +1,9 @@
 {
  "id": "sedgwick-ave-display",
- "family": "Sedgwick Ave Display",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sedgwickavedisplay/SedgwickAveDisplay-Regular.ttf",
-  "sha256": "3b9c295a146bafb93c8a12c1dde38a2fe47512777daf1458825e291752469a38"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2017 The Sedgwick Ave Project Authors (https://github.com/googlefonts/sedgwickave)",
  "rfn": [],
- "archetype": [
-  "C"
+ "measured": [
+  "overlap"
  ],
- "traits": [
-  "brush",
-  "overlap",
-  "script"
- ],
- "odds": 8,
  "upm": 1000,
  "files": [
   {

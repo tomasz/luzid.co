@@ -1,22 +1,7 @@
 {
  "id": "instrument-serif-italic",
- "family": "Instrument Serif Italic",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/instrumentserif/InstrumentSerif-Italic.ttf",
-  "sha256": "08939b8bdf534afec24ae0ef5e03f948940cd9a8fe08e7fecbad040e62327385"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2022 The Instrument Serif Project Authors (https://github.com/Instrument/instrument-serif)",
  "rfn": [],
- "archetype": [
-  "A",
-  "F"
- ],
- "traits": [
-  "condensed",
-  "serif"
- ],
- "odds": 7,
+ "measured": [],
  "upm": 1000,
  "files": [
   {

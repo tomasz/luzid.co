@@ -1,21 +1,7 @@
 {
  "id": "suez-one",
- "family": "Suez One",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/suezone/SuezOne-Regular.ttf",
-  "sha256": "3ef86844aad0cf9db7dcbda326f3d2f54cc4ccfe56db949e9e0c60a17031bd41"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2016 Michal Sahar. All rights reserved.",
  "rfn": [],
- "archetype": [
-  "A"
- ],
- "traits": [
-  "fat",
-  "serif"
- ],
- "odds": 8,
+ "measured": [],
  "upm": 1000,
  "files": [
   {

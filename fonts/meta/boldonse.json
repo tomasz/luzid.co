@@ -1,21 +1,7 @@
 {
  "id": "boldonse",
- "family": "Boldonse",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/5bf2c8330ab94bf00b354e40e5675f11ac819d4a/ofl/boldonse/Boldonse-Regular.ttf",
-  "sha256": "f566c572a85fee25b41ccab1a8d18ef8039a30e3ca44f310ee162899ea6d5fc7"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2024 The Boldonse Project Authors (https://github.com/googlefonts/boldonse)",
  "rfn": [],
- "archetype": [
-  "B"
- ],
- "traits": [
-  "fat",
-  "sans"
- ],
- "odds": 4,
+ "measured": [],
  "upm": 1000,
  "files": [
   {

@@ -1,21 +1,7 @@
 {
  "id": "saira-stencil-one",
- "family": "Saira Stencil One",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sairastencilone/SairaStencilOne-Regular.ttf",
-  "sha256": "781496fdaf8e04cf6741b31025f6b4ba84f66021b097a8e0d85cbea2180cf223"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2019 The Saira Stencil Project Authors (https://github.com/Omnibus-Type/Saira/SairaStencil)",
  "rfn": [],
- "archetype": [
-  "B"
- ],
- "traits": [
-  "sans",
-  "stencil"
- ],
- "odds": 7,
+ "measured": [],
  "upm": 1000,
  "files": [
   {

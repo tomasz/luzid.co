@@ -1,23 +1,9 @@
 {
  "id": "strichpunkt-sans",
- "family": "Strichpunkt Sans",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/strichpunktsans/StrichpunktSans[wdth,wght].ttf",
-  "sha256": "fe0d16855fd52eb54300f69ebcbfd0bd0323faf0abd8e112d7e42cee2d2804ea"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2026 The Strichpunkt Sans Project Authors (https://github.com/solmatas/Strichpunkt_Sans)",
  "rfn": [],
- "archetype": [
-  "B"
+ "measured": [
+  "overlap"
  ],
- "traits": [
-  "fat",
-  "overlap",
-  "sans",
-  "wide"
- ],
- "odds": 7,
  "upm": 1000,
  "files": [
   {

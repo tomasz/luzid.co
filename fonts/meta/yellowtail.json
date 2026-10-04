@@ -1,22 +1,9 @@
 {
  "id": "yellowtail",
- "family": "Yellowtail",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/yellowtail/Yellowtail-Regular.ttf",
-  "sha256": "3e06841b13000975f3cc38aa84e326e601a4378a4c52d50b5e9fee3598c5d236"
- },
- "licenseId": "Apache-2.0",
- "copyright": "Copyright (c) 2011 by Brian J. Bonislawsky DBA Astigmatic (AOETI). All rights reserved.",
  "rfn": [],
- "archetype": [
-  "C"
+ "measured": [
+  "connected"
  ],
- "traits": [
-  "brush",
-  "connected",
-  "script"
- ],
- "odds": 9,
  "upm": 2048,
  "files": [
   {

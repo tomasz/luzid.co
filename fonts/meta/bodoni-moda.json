@@ -1,22 +1,9 @@
 {
  "id": "bodoni-moda",
- "family": "Bodoni Moda",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bodonimoda/BodoniModa[opsz,wght].ttf",
-  "sha256": "550f5e34ee0a828d7941b1fe9bc58b34e5260d3f33a61532e6d0a0114e79a5cf"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2020 The Bodoni Moda Project Authors (https://github.com/indestructible-type/Bodoni)",
  "rfn": [],
- "archetype": [
-  "F"
+ "measured": [
+  "overlap"
  ],
- "traits": [
-  "deco",
-  "overlap",
-  "serif"
- ],
- "odds": 9,
  "upm": 2000,
  "files": [
   {

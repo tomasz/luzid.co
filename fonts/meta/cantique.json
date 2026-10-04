@@ -1,21 +1,7 @@
 {
  "id": "cantique",
- "family": "Cantique",
- "src": {
-  "url": "https://gitlab.com/velvetyne/cantique/-/raw/ff74dccdf7af6c3c4d1af70f44732ef87d75ce61/fonts/Cantique-Normal.otf",
-  "sha256": "13d7caef17187d1e74001d21cc042048b36e6d63a5bf97165602ab449179d831"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright Sébastien Hayez, 2018 (Velvetyne Type Foundry).",
  "rfn": [],
- "archetype": [
-  "F"
- ],
- "traits": [
-  "deco",
-  "serif"
- ],
- "odds": 8,
+ "measured": [],
  "upm": 1000,
  "files": [
   {

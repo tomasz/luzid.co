@@ -1,24 +1,9 @@
 {
  "id": "baloo-bhaijaan-2",
- "family": "Baloo Bhaijaan 2",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/baloobhaijaan2/BalooBhaijaan2[wght].ttf",
-  "sha256": "3e9f07fbc796c0ddcb3e6e0aa26f9c86741d9f5b7f5cb72f4ed3c06e55a19336"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2019 The Baloo 2 Project Authors (https://github.com/EkType/Baloo2)",
  "rfn": [],
- "archetype": [
-  "D",
-  "E"
+ "measured": [
+  "overlap"
  ],
- "traits": [
-  "fat",
-  "overlap",
-  "rounded",
-  "sans"
- ],
- "odds": 7,
  "upm": 1000,
  "files": [
   {

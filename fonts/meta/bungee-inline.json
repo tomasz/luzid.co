@@ -1,23 +1,9 @@
 {
  "id": "bungee-inline",
- "family": "Bungee Inline",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/bungeeinline/BungeeInline-Regular.ttf",
-  "sha256": "5a07361627376971fa195e8500ec0fc5e0daf7df2f94ba8eb30d1b10ed7e0375"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2023 The Bungee Project Authors (https://github.com/djrrb/Bungee)",
  "rfn": [],
- "archetype": [
-  "B"
+ "measured": [
+  "capsOnly"
  ],
- "traits": [
-  "capsOnly",
-  "fat",
-  "inline",
-  "sans"
- ],
- "odds": 10,
  "upm": 1000,
  "files": [
   {

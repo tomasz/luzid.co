@@ -1,23 +1,9 @@
 {
  "id": "rakkas",
- "family": "Rakkas",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/rakkas/Rakkas-Regular.ttf",
-  "sha256": "54278882e4774c14d50c3b555f127d0fe586366d5b787316ebbcbd8108829e60"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2016 Zeynep Akay",
  "rfn": [],
- "archetype": [
-  "D"
+ "measured": [
+  "overlap"
  ],
- "traits": [
-  "fat",
-  "groovy",
-  "overlap",
-  "sans"
- ],
- "odds": 7,
  "upm": 1000,
  "files": [
   {

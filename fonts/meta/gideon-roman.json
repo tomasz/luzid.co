@@ -1,22 +1,9 @@
 {
  "id": "gideon-roman",
- "family": "Gideon Roman",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/gideonroman/GideonRoman-Regular.ttf",
-  "sha256": "8edd923657529e420382016e8f0a395d2d526c391328fc97cf4d42ed2d18bdce"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2009-2021 The Gideon Roman Project Authors (https://github.com/googlefonts/gideon)",
  "rfn": [],
- "archetype": [
-  "F"
+ "measured": [
+  "overlap"
  ],
- "traits": [
-  "deco",
-  "overlap",
-  "serif"
- ],
- "odds": 6,
  "upm": 1000,
  "files": [
   {

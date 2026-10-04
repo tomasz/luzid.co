@@ -21,6 +21,7 @@
  * The rules themselves, and the choices behind them, are documented in `fonts/pipeline.js`
  * (rules 2–8) and `fonts/fetch.js` (rule 1).
  */
+import { hash } from "node:crypto";
 import { mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, relative, resolve } from "node:path";
@@ -184,6 +185,8 @@ export async function main(argv) {
   const log = (line) => console.log(line);
   if (values.traits) return await auditTraits(rows, sources, log);
   const writeRepo = !values.check;
+  // The upstream's digest lives in the row alone, and the catalog build refuses a built font
+  // whose row still has none, so a first run prints what to commit.
   const filled = new Map();
   // A row that cannot be built is still a hard failure — nothing is written for it and the
   // run exits non-zero — but the rest of the batch is built anyway. A curator needs the
@@ -192,8 +195,9 @@ export async function main(argv) {
   const drift = [];
   for (const row of rows) {
     let out;
+    let upstream;
     try {
-      const upstream = await readUpstream(row, { ...sources, writeRepo });
+      upstream = await readUpstream(row, { ...sources, writeRepo });
       const { license, extras } = await readLicense(row, sources);
       out = await buildFont({ row, upstream, license, extras, log });
     } catch (error) {
@@ -201,7 +205,7 @@ export async function main(argv) {
       log(`${error.message}`);
       continue;
     }
-    if (!row.sha256) filled.set(row.id, out.meta.src.sha256);
+    if (!row.sha256) filled.set(row.id, hash("sha256", upstream));
     const sizes = out.meta.files.map((f) => `${f.id} ${f.bytes} B`).join(" · ");
     log(
       `${row.id}: ${out.meta.files.length} file(s), ${out.meta.variants.length} variants — ${sizes}`,

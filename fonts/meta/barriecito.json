@@ -1,22 +1,7 @@
 {
  "id": "barriecito",
- "family": "Barriecito",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/barriecito/Barriecito-Regular.ttf",
-  "sha256": "ff32a099b68e0eb5e236adcb9a58141d00fbdf196586e421d1c6a0d1859f75b8"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2018 The Barriecito Project Authors (https://github.com/Omnibus-Type/Barrio/Barriecito)",
  "rfn": [],
- "archetype": [
-  "D"
- ],
- "traits": [
-  "fat",
-  "groovy",
-  "sans"
- ],
- "odds": 7,
+ "measured": [],
  "upm": 1000,
  "files": [
   {

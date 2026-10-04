@@ -1,22 +1,7 @@
 {
  "id": "calistoga",
- "family": "Calistoga",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/calistoga/Calistoga-Regular.ttf",
-  "sha256": "85a5accb2453368357d432fd0edf4701545cac7551946711c06085677fd1399f"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2019 The Calistoga Project Authors (https://github.com/SorkinType/Calistoga)",
  "rfn": [],
- "archetype": [
-  "A"
- ],
- "traits": [
-  "fat",
-  "serif",
-  "soft"
- ],
- "odds": 9,
+ "measured": [],
  "upm": 1000,
  "files": [
   {

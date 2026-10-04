@@ -1,22 +1,7 @@
 {
  "id": "sigmar",
- "family": "Sigmar",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/sigmar/Sigmar-Regular.ttf",
-  "sha256": "0597d733ed4722af36157f1e72d2415e123a9052655d67410c9ab8a0b223f54d"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2011 The Sigmar One Project Authors (https://github.com/googlefonts/sigmarone)",
  "rfn": [],
- "archetype": [
-  "D"
- ],
- "traits": [
-  "fat",
-  "groovy",
-  "sans"
- ],
- "odds": 9,
+ "measured": [],
  "upm": 1000,
  "files": [
   {

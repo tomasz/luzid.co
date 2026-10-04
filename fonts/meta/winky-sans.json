@@ -1,22 +1,9 @@
 {
  "id": "winky-sans",
- "family": "Winky Sans",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/winkysans/WinkySans[wght].ttf",
-  "sha256": "0df4bec6a75fc35f363d0163edd0e660365301dbc0d4bcd71cd916d38ea96135"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2024 The Winky Sans Project Authors (https://github.com/typofactur/winkysans)",
  "rfn": [],
- "archetype": [
-  "E"
+ "measured": [
+  "overlap"
  ],
- "traits": [
-  "overlap",
-  "rounded",
-  "sans"
- ],
- "odds": 7,
  "upm": 1000,
  "files": [
   {

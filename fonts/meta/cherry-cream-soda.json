@@ -1,23 +1,7 @@
 {
  "id": "cherry-cream-soda",
- "family": "Cherry Cream Soda",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/apache/cherrycreamsoda/CherryCreamSoda-Regular.ttf",
-  "sha256": "158577b383ce9798384580bd41c35cd0fb4ed550a32fe4a2e41f4f2594337385"
- },
- "licenseId": "Apache-2.0",
- "copyright": "Copyright (c) 2010 by Font Diner, Inc. All rights reserved.",
  "rfn": [],
- "archetype": [
-  "D"
- ],
- "traits": [
-  "fat",
-  "groovy",
-  "rounded",
-  "sans"
- ],
- "odds": 7,
+ "measured": [],
  "upm": 1024,
  "files": [
   {

@@ -1,22 +1,8 @@
 {
  "id": "fx-sans",
- "family": "FX Sans",
+ "rfn": [],
+ "measured": [],
  "upm": 0,
- "src": {
-  "url": "https://example.invalid/fx-sans.ttf",
-  "sha256": ""
- },
- "licenseId": "OFL-1.1",
- "copyright": "2026 The FX Sans Project Authors",
- "archetype": [
-  "B",
-  "X"
- ],
- "traits": [
-  "sans",
-  "fat"
- ],
- "odds": 8,
  "files": [
   {
    "id": "w700",

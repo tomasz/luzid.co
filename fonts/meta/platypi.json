@@ -1,22 +1,9 @@
 {
  "id": "platypi",
- "family": "Platypi",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/platypi/Platypi[wght].ttf",
-  "sha256": "c4a2f2525bd0deaed25ccca4e0be42d5dcbf2a4739e2cc32fe3e7603333b7d53"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright 2024 The Platypi Project Authors (https://github.com/d-sargent/platypi)",
  "rfn": [],
- "archetype": [
-  "A"
+ "measured": [
+  "overlap"
  ],
- "traits": [
-  "overlap",
-  "serif",
-  "soft"
- ],
- "odds": 7,
  "upm": 1000,
  "files": [
   {

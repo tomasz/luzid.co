@@ -1,21 +1,7 @@
 {
  "id": "cherry-swash-bold",
- "family": "Cherry Swash",
- "src": {
-  "url": "https://raw.githubusercontent.com/google/fonts/e44c4b011a820c2cbe2fd2cfa8052037d7edb571/ofl/cherryswash/CherrySwash-Bold.ttf",
-  "sha256": "5cca323c29a80e19400a06be7c0c46e19db8ff2966cbbff7e05eac33354124ba"
- },
- "licenseId": "OFL-1.1",
- "copyright": "Copyright (c) 2012, Natalia Kasatkina (kasatkinanataliya@gmail.com)",
  "rfn": [],
- "archetype": [
-  "A"
- ],
- "traits": [
-  "serif",
-  "soft"
- ],
- "odds": 7,
+ "measured": [],
  "upm": 1000,
  "files": [
   {
