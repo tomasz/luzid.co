@@ -33,6 +33,9 @@ jobs:
       - uses: voidzero-dev/setup-vp@3754dd7dbdb32bd8f6d28b6043de13ad3a75f21f # v1.21.1
         with:
           cache: true # vp version from package.json, Node from engines.node; runs vp install
+          # Only main writes the ~190 MB dependency cache. An entry saved on a PR ref is
+          # readable by that PR alone, and PRs restore main's anyway.
+          cache-save: ${{ github.ref == 'refs/heads/main' }}
       - run: pnpm run check
 
   e2e:
@@ -55,24 +58,23 @@ jobs:
       - uses: voidzero-dev/setup-vp@3754dd7dbdb32bd8f6d28b6043de13ad3a75f21f # v1.21.1
         with:
           cache: true # vp version from package.json, Node from engines.node; runs vp install
+          # Only main writes the ~190 MB dependency cache. An entry saved on a PR ref is
+          # readable by that PR alone, and PRs restore main's anyway.
+          cache-save: ${{ github.ref == 'refs/heads/main' }}
       # Only the engine this job runs; installing all three costs minutes per job.
       - run: pnpm exec playwright install --with-deps ${{ matrix.project }}
       # The webServer in playwright.config.js builds the Worker and serves it with vp preview.
       - run: pnpm exec playwright test --project=${{ matrix.project }}
-      - name: render sheets
-        if: matrix.project == 'chromium'
-        run: pnpm run sheet -- --changed
-        continue-on-error: true
+      # Stored only when a test failed: a green run's report says nothing the check does not.
+      # The HTML report already carries every failed test's trace and screenshots, so
+      # test-results/ would only upload them twice. Contact sheets are reviewed locally.
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        if: always()
+        if: failure()
         with:
           name: e2e-${{ matrix.project }}
-          path: |
-            sheets/
-            playwright-report/
-            test-results/
+          path: playwright-report/
           if-no-files-found: ignore
-          retention-days: 14
+          retention-days: 2
 
   # The single required check. It aggregates everything above, so a green `ci` is the
   # whole signal and the ruleset never needs updating when a job is added.
