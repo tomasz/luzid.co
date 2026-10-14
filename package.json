@@ -13,11 +13,11 @@
     "sheet": "node scripts/sheet.js"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "1.62.3",
+    "@cloudflare/vite-plugin": "1.63.0",
     "@playwright/test": "1.63.0",
-    "harfbuzzjs": "1.6.2",
-    "vite-plus": "1.0.0",
-    "wrangler": "4.145.0"
+    "harfbuzzjs": "1.6.3",
+    "vite-plus": "1.1.0",
+    "wrangler": "4.148.0"
   },
   "devEngines": {
     "packageManager": {
