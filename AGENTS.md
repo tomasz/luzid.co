@@ -240,7 +240,8 @@ that changes it: `gh api -X PUT repos/tomasz/luzid.co/rulesets/23998451 --input 
 
 - `pnpm run check` is green, and so is the task's e2e run in all three engines.
 - The response budget still holds (≤ 14,000 B brotli, asserted in `test/`).
-- Contact sheets are attached as a CI artifact and you have written your own verdict on them.
+- You have reviewed your contact sheets locally and written your own verdict on them in the
+  PR body. CI stores an artifact only when a test fails (the Playwright report, kept 2 days).
 - Nothing outside the task's Paths changed.
 - New data items carry their licence and provenance.
 
