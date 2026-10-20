@@ -30,7 +30,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: voidzero-dev/setup-vp@3754dd7dbdb32bd8f6d28b6043de13ad3a75f21f # v1.21.1
+      - uses: voidzero-dev/setup-vp@68f39c78aaf39be468cabd2afb09c162574c84af # v1.21.2
         with:
           cache: true # vp version from package.json, Node from engines.node; runs vp install
       - run: pnpm run check
@@ -52,7 +52,7 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0 # --changed scopes need the base branch
-      - uses: voidzero-dev/setup-vp@3754dd7dbdb32bd8f6d28b6043de13ad3a75f21f # v1.21.1
+      - uses: voidzero-dev/setup-vp@68f39c78aaf39be468cabd2afb09c162574c84af # v1.21.2
         with:
           cache: true # vp version from package.json, Node from engines.node; runs vp install
       # Only the engine this job runs; installing all three costs minutes per job.
@@ -63,7 +63,7 @@ jobs:
         if: matrix.project == 'chromium'
         run: pnpm run sheet -- --changed
         continue-on-error: true
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
           name: e2e-${{ matrix.project }}
